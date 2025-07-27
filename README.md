@@ -1,8 +1,4 @@
-diff --git a/README.md b/README.md
---- a/README.md
-+++ b/README.md
-@@ -1,1 +1,433 @@
--# wp-wa-migration
+
 +# Waboot Theme - WordPress Bootscore to Webasyst Migration
 +
 +<div align="center">
@@ -434,5 +430,3 @@ diff --git a/README.md b/README.md
 +**Made with ❤️ for the Webasyst community**
 +
 +[⭐ Star this repo](https://github.com/your-repo/waboot-theme) | [🐛 Report Bug](https://github.com/your-repo/waboot-theme/issues) | [💡 Request Feature](https://github.com/your-repo/waboot-theme/discussions)
-+
-+</div>
