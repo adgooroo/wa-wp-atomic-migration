@@ -1,0 +1,149 @@
+{*
+/**
+ * Textarea Atom Component
+ * Flexible textarea component with validation and accessibility
+ *
+ * @param {string} $name - Textarea name attribute
+ * @param {string} $id - Unique ID for textarea
+ * @param {string} $label - Label text
+ * @param {string} $placeholder - Placeholder text
+ * @param {string} $value - Textarea value
+ * @param {string} $class - Additional CSS classes
+ * @param {boolean} $required - Required field
+ * @param {boolean} $disabled - Disable textarea
+ * @param {boolean} $readonly - Read-only textarea
+ * @param {string} $size - Textarea size (sm, md, lg)
+ * @param {string} $help_text - Help text description
+ * @param {string} $error_message - Error message
+ * @param {number} $rows - Number of rows
+ * @param {number} $cols - Number of columns
+ * @param {string} $minlength - Minimum length
+ * @param {string} $maxlength - Maximum length
+ * @param {boolean} $show_count - Show character count
+ * @param {string} $alpine_model - Alpine.js x-model binding
+ * @param {string} $alpine_validation - Alpine.js validation
+ * @param {boolean} $floating_label - Use floating label
+ * @param {boolean} $auto_resize - Auto resize height
+ */
+*}
+
+{$name = $name|default:''}
+{$id = $id|default:''}
+{$label = $label|default:''}
+{$placeholder = $placeholder|default:''}
+{$value = $value|default:''}
+{$class = $class|default:''}
+{$required = $required|default:false}
+{$disabled = $disabled|default:false}
+{$readonly = $readonly|default:false}
+{$size = $size|default:'md'}
+{$help_text = $help_text|default:''}
+{$error_message = $error_message|default:''}
+{$rows = $rows|default:3}
+{$cols = $cols|default:''}
+{$minlength = $minlength|default:''}
+{$maxlength = $maxlength|default:''}
+{$show_count = $show_count|default:false}
+{$alpine_model = $alpine_model|default:''}
+{$alpine_validation = $alpine_validation|default:''}
+{$floating_label = $floating_label|default:false}
+{$auto_resize = $auto_resize|default:false}
+
+{* Generate unique ID if not provided *}
+{if !$id && $name}
+    {$id = "textarea-{$name}-{rand(1000, 9999)}"}
+{/if}
+
+{* Build CSS classes with BEM methodology *}
+{$textarea_classes = "site__textarea form-control"}
+{if $size == 'sm'}
+    {$textarea_classes = "{$textarea_classes} form-control-sm"}
+{elseif $size == 'lg'}
+    {$textarea_classes = "{$textarea_classes} form-control-lg"}
+{/if}
+{if $error_message}
+    {$textarea_classes = "{$textarea_classes} is-invalid"}
+{/if}
+{if $auto_resize}
+    {$textarea_classes = "{$textarea_classes} site__textarea--auto-resize"}
+{/if}
+{if $class}
+    {$textarea_classes = "{$textarea_classes} {$class}"}
+{/if}
+
+{* Build Alpine.js attributes *}
+{$alpine_attrs = ''}
+{if $alpine_model}
+    {$alpine_attrs = "{$alpine_attrs} x-model=\"{$alpine_model}\""}
+{/if}
+{if $alpine_validation}
+    {$alpine_attrs = "{$alpine_attrs} x-bind:class=\"{$alpine_validation}\""}
+{/if}
+{if $auto_resize}
+    {$alpine_attrs = "{$alpine_attrs} x-data=\"{ resize() { this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'; } }\" @input=\"resize\""}
+{/if}
+{if $show_count && $maxlength}
+    {$alpine_attrs = "{$alpine_attrs} x-data=\"{ count: 0 }\" x-init=\"count = $el.value.length\" @input=\"count = $el.value.length\""}
+{/if}
+
+{* Container classes *}
+{$container_classes = "site__textarea-group"}
+{if $floating_label}
+    {$container_classes = "{$container_classes} form-floating"}
+{/if}
+
+<div class="{$container_classes}">
+    {* Label (above textarea for non-floating) *}
+    {if $label && !$floating_label}
+        <label for="{$id}" class="form-label site__textarea__label">
+            {$label|escape}
+            {if $required}<span class="text-danger" aria-label="required">*</span>{/if}
+        </label>
+    {/if}
+    
+    {* Textarea field *}
+    <textarea {if $name}name="{$name}"{/if}
+              {if $id}id="{$id}"{/if}
+              class="{$textarea_classes}"
+              {if $placeholder}placeholder="{$placeholder|escape}"{/if}
+              {if $required}required aria-required="true"{/if}
+              {if $disabled}disabled{/if}
+              {if $readonly}readonly{/if}
+              {if $rows}rows="{$rows}"{/if}
+              {if $cols}cols="{$cols}"{/if}
+              {if $minlength}minlength="{$minlength}"{/if}
+              {if $maxlength}maxlength="{$maxlength}"{/if}
+              {if $help_text}aria-describedby="{$id}-help"{/if}
+              {if $error_message}aria-describedby="{$id}-error" aria-invalid="true"{/if}
+              {$alpine_attrs}>{$value|escape}</textarea>
+    
+    {* Label (floating label) *}
+    {if $label && $floating_label}
+        <label for="{$id}" class="form-label site__textarea__label">
+            {$label|escape}
+            {if $required}<span class="text-danger" aria-label="required">*</span>{/if}
+        </label>
+    {/if}
+    
+    {* Character count *}
+    {if $show_count && $maxlength}
+        <div class="form-text site__textarea__count text-end">
+            <span x-text="count"></span>/{$maxlength}
+        </div>
+    {/if}
+    
+    {* Help text *}
+    {if $help_text}
+        <div id="{$id}-help" class="form-text site__textarea__help">
+            {$help_text|escape}
+        </div>
+    {/if}
+    
+    {* Error message *}
+    {if $error_message}
+        <div id="{$id}-error" class="invalid-feedback site__textarea__error">
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+            {$error_message|escape}
+        </div>
+    {/if}
+</div>

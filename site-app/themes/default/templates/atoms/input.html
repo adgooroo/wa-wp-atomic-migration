@@ -1,0 +1,171 @@
+{*
+/**
+ * Input Atom Component
+ * Flexible input component with validation and accessibility
+ *
+ * @param {string} $type - Input type (text, email, password, number, tel, url, search, etc.)
+ * @param {string} $name - Input name attribute
+ * @param {string} $id - Unique ID for input
+ * @param {string} $label - Label text
+ * @param {string} $placeholder - Placeholder text
+ * @param {string} $value - Input value
+ * @param {string} $class - Additional CSS classes
+ * @param {boolean} $required - Required field
+ * @param {boolean} $disabled - Disable input
+ * @param {boolean} $readonly - Read-only input
+ * @param {string} $size - Input size (sm, md, lg)
+ * @param {string} $help_text - Help text description
+ * @param {string} $error_message - Error message
+ * @param {string} $pattern - Validation pattern
+ * @param {string} $min - Minimum value/length
+ * @param {string} $max - Maximum value/length
+ * @param {string} $step - Step value for number inputs
+ * @param {string} $autocomplete - Autocomplete attribute
+ * @param {string} $alpine_model - Alpine.js x-model binding
+ * @param {string} $alpine_validation - Alpine.js validation
+ * @param {boolean} $floating_label - Use floating label
+ * @param {string} $icon - Icon class for input group
+ * @param {string} $icon_position - Icon position (left, right)
+ */
+*}
+
+{$type = $type|default:'text'}
+{$name = $name|default:''}
+{$id = $id|default:''}
+{$label = $label|default:''}
+{$placeholder = $placeholder|default:''}
+{$value = $value|default:''}
+{$class = $class|default:''}
+{$required = $required|default:false}
+{$disabled = $disabled|default:false}
+{$readonly = $readonly|default:false}
+{$size = $size|default:'md'}
+{$help_text = $help_text|default:''}
+{$error_message = $error_message|default:''}
+{$pattern = $pattern|default:''}
+{$min = $min|default:''}
+{$max = $max|default:''}
+{$step = $step|default:''}
+{$autocomplete = $autocomplete|default:''}
+{$alpine_model = $alpine_model|default:''}
+{$alpine_validation = $alpine_validation|default:''}
+{$floating_label = $floating_label|default:false}
+{$icon = $icon|default:''}
+{$icon_position = $icon_position|default:'left'}
+
+{* Generate unique ID if not provided *}
+{if !$id && $name}
+    {$id = "input-{$name}-{rand(1000, 9999)}"}
+{/if}
+
+{* Build CSS classes with BEM methodology *}
+{$input_classes = "site__input form-control"}
+{if $size == 'sm'}
+    {$input_classes = "{$input_classes} form-control-sm"}
+{elseif $size == 'lg'}
+    {$input_classes = "{$input_classes} form-control-lg"}
+{/if}
+{if $error_message}
+    {$input_classes = "{$input_classes} is-invalid"}
+{/if}
+{if $class}
+    {$input_classes = "{$input_classes} {$class}"}
+{/if}
+
+{* Build Alpine.js attributes *}
+{$alpine_attrs = ''}
+{if $alpine_model}
+    {$alpine_attrs = "{$alpine_attrs} x-model=\"{$alpine_model}\""}
+{/if}
+{if $alpine_validation}
+    {$alpine_attrs = "{$alpine_attrs} x-bind:class=\"{$alpine_validation}\""}
+{/if}
+
+{* Container classes *}
+{$container_classes = "site__input-group"}
+{if $floating_label}
+    {$container_classes = "{$container_classes} form-floating"}
+{/if}
+
+<div class="{$container_classes}">
+    {* Input group with icon *}
+    {if $icon}
+        <div class="input-group{if $size == 'sm'} input-group-sm{elseif $size == 'lg'} input-group-lg{/if}">
+            
+            {* Left icon *}
+            {if $icon_position == 'left'}
+                <span class="input-group-text site__input__icon site__input__icon--left">
+                    <i class="{$icon}" aria-hidden="true"></i>
+                </span>
+            {/if}
+            
+            {* Input field *}
+            <input type="{$type}"
+                   {if $name}name="{$name}"{/if}
+                   {if $id}id="{$id}"{/if}
+                   class="{$input_classes}"
+                   {if $placeholder && !$floating_label}placeholder="{$placeholder|escape}"{/if}
+                   {if $value}value="{$value|escape}"{/if}
+                   {if $required}required aria-required="true"{/if}
+                   {if $disabled}disabled{/if}
+                   {if $readonly}readonly{/if}
+                   {if $pattern}pattern="{$pattern}"{/if}
+                   {if $min}min="{$min}"{/if}
+                   {if $max}max="{$max}"{/if}
+                   {if $step}step="{$step}"{/if}
+                   {if $autocomplete}autocomplete="{$autocomplete}"{/if}
+                   {if $help_text}aria-describedby="{$id}-help"{/if}
+                   {if $error_message}aria-describedby="{$id}-error" aria-invalid="true"{/if}
+                   {$alpine_attrs}>
+            
+            {* Right icon *}
+            {if $icon_position == 'right'}
+                <span class="input-group-text site__input__icon site__input__icon--right">
+                    <i class="{$icon}" aria-hidden="true"></i>
+                </span>
+            {/if}
+        </div>
+    {else}
+        {* Regular input without icon *}
+        <input type="{$type}"
+               {if $name}name="{$name}"{/if}
+               {if $id}id="{$id}"{/if}
+               class="{$input_classes}"
+               {if $placeholder && !$floating_label}placeholder="{$placeholder|escape}"{/if}
+               {if $value}value="{$value|escape}"{/if}
+               {if $required}required aria-required="true"{/if}
+               {if $disabled}disabled{/if}
+               {if $readonly}readonly{/if}
+               {if $pattern}pattern="{$pattern}"{/if}
+               {if $min}min="{$min}"{/if}
+               {if $max}max="{$max}"{/if}
+               {if $step}step="{$step}"{/if}
+               {if $autocomplete}autocomplete="{$autocomplete}"{/if}
+               {if $help_text}aria-describedby="{$id}-help"{/if}
+               {if $error_message}aria-describedby="{$id}-error" aria-invalid="true"{/if}
+               {$alpine_attrs}>
+    {/if}
+    
+    {* Label *}
+    {if $label}
+        <label for="{$id}" class="site__input__label {if $floating_label}form-label{else}form-label{/if}">
+            {$label|escape}
+            {if $required}<span class="text-danger" aria-label="required">*</span>{/if}
+        </label>
+    {/if}
+    
+    {* Help text *}
+    {if $help_text}
+        <div id="{$id}-help" class="form-text site__input__help">
+            {$help_text|escape}
+        </div>
+    {/if}
+    
+    {* Error message *}
+    {if $error_message}
+        <div id="{$id}-error" class="invalid-feedback site__input__error">
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+            {$error_message|escape}
+        </div>
+    {/if}
+</div>
