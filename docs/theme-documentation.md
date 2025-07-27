@@ -1,7 +1,3 @@
-diff --git a/docs/theme-documentation.md b/docs/theme-documentation.md
---- a/docs/theme-documentation.md
- b/docs/theme-documentation.md
-@@ -0,0 1,715 @@
 # Waboot Theme Documentation
 
 ## Table of Contents
