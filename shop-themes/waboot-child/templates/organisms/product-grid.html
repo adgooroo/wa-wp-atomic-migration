@@ -1,0 +1,564 @@
+{*
+ * Product Grid Organism Template with JSON-LD ItemList Schema
+ * Responsive product grid with filtering, sorting, and pagination
+ * Includes comprehensive structured data and accessibility features
+ * @param products - Array of products
+ * @param view_mode - Grid view mode (grid-2, grid-3, grid-4, list)
+ * @param total_count - Total number of products
+ * @param current_page - Current page number
+ * @param total_pages - Total number of pages
+ *}
+
+{$view_mode = $view_mode|default:'grid-3'}
+{$products = $products|default:array()}
+{$total_count = $total_count|default:0}
+{$current_page = $current_page|default:1}
+{$total_pages = $total_pages|default:1}
+
+<section class="waboot-shop__product-grid-container" 
+         x-data="productGrid" 
+         x-init="initGrid()"
+         itemscope itemtype="https://schema.org/ItemList">
+    
+    {* Grid Header with Sorting and View Options *}
+    <header class="waboot-shop__product-grid__header mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="waboot-shop__sorting">
+                    <label for="sort-select" class="waboot-shop__sorting__label me-3">
+                        Sort by:
+                    </label>
+                    <select id="sort-select" 
+                            class="form-select waboot-shop__sorting__select"
+                            x-model="sortBy"
+                            x-on:change="updateGrid()">
+                        <option value="default">Default</option>
+                        <option value="name_asc">Name (A-Z)</option>
+                        <option value="name_desc">Name (Z-A)</option>
+                        <option value="price_asc">Price (Low to High)</option>
+                        <option value="price_desc">Price (High to Low)</option>
+                        <option value="rating_desc">Highest Rated</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="waboot-shop__sorting__view-toggle ms-auto d-flex">
+                    <button type="button" 
+                            class="waboot-shop__sorting__view-button"
+                            x-bind:class="{ 'waboot-shop__sorting__view-button--active': viewMode === 'grid-2' }"
+                            x-on:click="setViewMode('grid-2')"
+                            aria-label="2 columns grid view">
+                        <i class="fas fa-th-large" aria-hidden="true"></i>
+                    </button>
+                    
+                    <button type="button" 
+                            class="waboot-shop__sorting__view-button"
+                            x-bind:class="{ 'waboot-shop__sorting__view-button--active': viewMode === 'grid-3' }"
+                            x-on:click="setViewMode('grid-3')"
+                            aria-label="3 columns grid view">
+                        <i class="fas fa-th" aria-hidden="true"></i>
+                    </button>
+                    
+                    <button type="button" 
+                            class="waboot-shop__sorting__view-button"
+                            x-bind:class="{ 'waboot-shop__sorting__view-button--active': viewMode === 'grid-4' }"
+                            x-on:click="setViewMode('grid-4')"
+                            aria-label="4 columns grid view">
+                        <i class="fas fa-border-all" aria-hidden="true"></i>
+                    </button>
+                    
+                    <button type="button" 
+                            class="waboot-shop__sorting__view-button"
+                            x-bind:class="{ 'waboot-shop__sorting__view-button--active': viewMode === 'list' }"
+                            x-on:click="setViewMode('list')"
+                            aria-label="List view">
+                        <i class="fas fa-list" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        {* Results Count *}
+        <div class="waboot-shop__product-grid__results-info mt-3">
+            <span x-show="!loading" x-text="`Showing ${products.length} of ${totalCount} products`"></span>
+            <span x-show="loading">Loading products...</span>
+        </div>
+    </header>
+    
+    {* Product Grid *}
+    <div class="waboot-shop__product-grid" 
+         x-bind:class="`waboot-shop__product-grid--${viewMode}`"
+         x-bind:class="{ 'waboot-shop__product-grid--loading': loading }"
+         role="grid"
+         aria-label="Product listings"
+         itemprop="itemListElement">
+        
+        {* Loading State *}
+        <template x-if="loading">
+            <div class="waboot-shop__product-grid__loading">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="spinner-border text-primary me-2" role="status" aria-hidden="true"></div>
+                    <span>Loading products...</span>
+                </div>
+            </div>
+        </template>
+        
+        {* Product Items *}
+        <template x-for="(product, index) in products" x-key="product.id">
+            <div class="waboot-shop__product-grid__item" 
+                 role="gridcell"
+                 itemscope itemtype="https://schema.org/Product"
+                 x-data="{ 
+                     product: product,
+                     position: index + 1 + ((currentPage - 1) * productsPerPage)
+                 }">
+                
+                {* Use Product Card Molecule *}
+                <div x-html="renderProductCard(product, viewMode, position)"></div>
+            </div>
+        </template>
+        
+        {* Empty State *}
+        <template x-if="!loading && products.length === 0">
+            <div class="waboot-shop__product-grid__empty">
+                <i class="fas fa-search waboot-shop__product-grid__empty-icon" aria-hidden="true"></i>
+                <h3 class="waboot-shop__product-grid__empty-title">No products found</h3>
+                <p class="waboot-shop__product-grid__empty-text">
+                    Try adjusting your search criteria or browse our categories.
+                </p>
+                <a href="{$wa->shop->url()}" class="btn btn-primary">Browse All Products</a>
+            </div>
+        </template>
+    </div>
+    
+    {* Pagination *}
+    <nav class="waboot-shop__pagination" 
+         aria-label="Product pagination"
+         x-show="!loading && totalPages > 1">
+        
+        <ul class="waboot-shop__pagination__list">
+            {* Previous Page *}
+            <li class="waboot-shop__pagination__item">
+                <a href="#" 
+                   class="waboot-shop__pagination__link"
+                   x-bind:class="{ 'waboot-shop__pagination__disabled': currentPage <= 1 }"
+                   x-on:click.prevent="goToPage(currentPage - 1)"
+                   x-bind:aria-disabled="currentPage <= 1"
+                   aria-label="Previous page">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                </a>
+            </li>
+            
+            {* Page Numbers *}
+            <template x-for="page in getVisiblePages()" x-key="page">
+                <li class="waboot-shop__pagination__item">
+                    <template x-if="page === currentPage">
+                        <span class="waboot-shop__pagination__current" 
+                              x-text="page"
+                              x-bind:aria-label="`Current page ${page}`"></span>
+                    </template>
+                    
+                    <template x-if="page !== currentPage && page !== '...'">
+                        <a href="#" 
+                           class="waboot-shop__pagination__link"
+                           x-text="page"
+                           x-on:click.prevent="goToPage(page)"
+                           x-bind:aria-label="`Go to page ${page}`"></a>
+                    </template>
+                    
+                    <template x-if="page === '...'">
+                        <span class="waboot-shop__pagination__ellipsis">...</span>
+                    </template>
+                </li>
+            </template>
+            
+            {* Next Page *}
+            <li class="waboot-shop__pagination__item">
+                <a href="#" 
+                   class="waboot-shop__pagination__link"
+                   x-bind:class="{ 'waboot-shop__pagination__disabled': currentPage >= totalPages }"
+                   x-on:click.prevent="goToPage(currentPage + 1)"
+                   x-bind:aria-disabled="currentPage >= totalPages"
+                   aria-label="Next page">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</section>
+
+{* JSON-LD Structured Data for Product List *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "url": "{$wa->currentUrl()}",
+    "numberOfItems": {$total_count},
+    "itemListElement": [
+        {foreach $products as $index => $product}
+        {
+            "@type": "ListItem",
+            "position": {$index + 1 + (($current_page - 1) * $products_per_page|default:24)},
+            "item": {
+                "@type": "Product",
+                "@id": "{$product.url}",
+                "name": "{$product.name|escape}",
+                "description": "{$product.summary|escape}",
+                "image": "{$product.image_url}",
+                "url": "{$product.url}",
+                "sku": "{$product.sku}",
+                {if $product.brand}
+                "brand": {
+                    "@type": "Brand",
+                    "name": "{$product.brand|escape}"
+                },
+                {/if}
+                "offers": {
+                    "@type": "Offer",
+                    "price": "{$product.price}",
+                    "priceCurrency": "{$wa->shop->currency()}",
+                    "availability": "{if $product.available}https://schema.org/InStock{else}https://schema.org/OutOfStock{/if}",
+                    "seller": {
+                        "@type": "Organization",
+                        "name": "{$wa->accountName()}"
+                    }
+                }
+                {if $product.rating && $product.rating > 0}
+                ,
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "{$product.rating}",
+                    "reviewCount": "{$product.reviews_count}",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                }
+                {/if}
+            }
+        }{if !$product@last},{/if}
+        {/foreach}
+    ]
+}
+</script>
+
+{* Alpine.js Product Grid Component *}
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('productGrid', () => ({
+        products: {$products|@json_encode},
+        viewMode: '{$view_mode}',
+        sortBy: 'default',
+        loading: false,
+        currentPage: {$current_page},
+        totalPages: {$total_pages},
+        totalCount: {$total_count},
+        productsPerPage: 24,
+        
+        initGrid() {
+            // Initialize from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            this.sortBy = urlParams.get('sort') || 'default';
+            this.viewMode = urlParams.get('view') || this.viewMode;
+            
+            // Load stored view preference
+            const storedView = localStorage.getItem('waboot-shop-view-mode');
+            if (storedView) {
+                this.viewMode = storedView;
+            }
+        },
+        
+        setViewMode(mode) {
+            this.viewMode = mode;
+            localStorage.setItem('waboot-shop-view-mode', mode);
+            this.updateUrl();
+        },
+        
+        async updateGrid() {
+            this.loading = true;
+            this.updateUrl();
+            
+            try {
+                const params = new URLSearchParams(window.location.search);
+                params.set('sort', this.sortBy);
+                params.set('view', this.viewMode);
+                params.set('ajax', '1');
+                
+                const response = await fetch(`${window.location.pathname}?${params.toString()}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    this.products = data.products || [];
+                    this.totalCount = data.total_count || 0;
+                    this.totalPages = data.total_pages || 1;
+                    this.updateStructuredData();
+                } else {
+                    console.error('Failed to load products:', data.errors);
+                }
+            } catch (error) {
+                console.error('Grid update error:', error);
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        async goToPage(page) {
+            if (page < 1 || page > this.totalPages || page === this.currentPage) {
+                return;
+            }
+            
+            this.currentPage = page;
+            this.loading = true;
+            
+            const params = new URLSearchParams(window.location.search);
+            params.set('page', page);
+            
+            // Update URL without reloading page
+            const newUrl = `${window.location.pathname}?${params.toString()}`;
+            window.history.pushState({ page }, '', newUrl);
+            
+            await this.updateGrid();
+        },
+        
+        getVisiblePages() {
+            const pages = [];
+            const delta = 2; // Show 2 pages before and after current page
+            
+            if (this.totalPages <= 7) {
+                // Show all pages if total is small
+                for (let i = 1; i <= this.totalPages; i++) {
+                    pages.push(i);
+                }
+            } else {
+                // Show first page
+                pages.push(1);
+                
+                if (this.currentPage > delta + 2) {
+                    pages.push('...');
+                }
+                
+                // Show pages around current page
+                const start = Math.max(2, this.currentPage - delta);
+                const end = Math.min(this.totalPages - 1, this.currentPage + delta);
+                
+                for (let i = start; i <= end; i++) {
+                    pages.push(i);
+                }
+                
+                if (this.currentPage < this.totalPages - delta - 1) {
+                    pages.push('...');
+                }
+                
+                // Show last page
+                if (this.totalPages > 1) {
+                    pages.push(this.totalPages);
+                }
+            }
+            
+            return pages;
+        },
+        
+        renderProductCard(product, viewMode, position) {
+            // This would typically include the product card template
+            // For now, we'll return a basic card structure
+            return `
+                <article class="waboot-shop__product-card ${viewMode === 'list' ? 'waboot-shop__product-card--list' : ''}"
+                         itemscope itemtype="https://schema.org/Product">
+                    <meta itemprop="position" content="${position}">
+                    
+                    <div class="waboot-shop__product-card__image-wrapper">
+                        <img src="${product.image_url}" 
+                             alt="${product.name}" 
+                             class="waboot-shop__product-card__image"
+                             itemprop="image"
+                             loading="lazy">
+                    </div>
+                    
+                    <div class="waboot-shop__product-card__content">
+                        <h3 class="waboot-shop__product-card__title" itemprop="name">
+                            <a href="${product.url}" class="waboot-shop__product-card__link">
+                                ${product.name}
+                            </a>
+                        </h3>
+                        
+                        <div class="waboot-shop__product-card__price" 
+                             itemprop="offers" 
+                             itemscope itemtype="https://schema.org/Offer">
+                            <span class="waboot-shop__product-card__price-current" 
+                                  itemprop="price" 
+                                  content="${product.price}">
+                                ${product.price_formatted}
+                            </span>
+                            <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
+                            <meta itemprop="availability" content="${product.available ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'}">
+                        </div>
+                        
+                        ${product.rating ? `
+                        <div class="waboot-shop__product-card__rating" 
+                             itemprop="aggregateRating" 
+                             itemscope itemtype="https://schema.org/AggregateRating">
+                            <div class="waboot-shop__product-card__stars">
+                                ${this.renderStars(product.rating)}
+                            </div>
+                            <meta itemprop="ratingValue" content="${product.rating}">
+                            <meta itemprop="reviewCount" content="${product.reviews_count || 0}">
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="waboot-shop__product-card__actions">
+                        <button type="button" 
+                                class="btn btn-primary w-100"
+                                onclick="addToCart(${product.id})">
+                            Add to Cart
+                        </button>
+                    </div>
+                </article>
+            `;
+        },
+        
+        renderStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            let stars = '';
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        },
+        
+        updateUrl() {
+            const params = new URLSearchParams(window.location.search);
+            
+            if (this.sortBy !== 'default') {
+                params.set('sort', this.sortBy);
+            } else {
+                params.delete('sort');
+            }
+            
+            if (this.viewMode !== 'grid-3') {
+                params.set('view', this.viewMode);
+            } else {
+                params.delete('view');
+            }
+            
+            const newUrl = `${window.location.pathname}?${params.toString()}`;
+            window.history.replaceState(null, '', newUrl);
+        },
+        
+        updateStructuredData() {
+            // Update the JSON-LD structured data dynamically
+            const script = document.querySelector('script[type="application/ld+json"]');
+            if (script && this.products) {
+                const structuredData = {
+                    "@context": "https://schema.org",
+                    "@type": "ItemList",
+                    "url": window.location.href,
+                    "numberOfItems": this.totalCount,
+                    "itemListElement": this.products.map((product, index) => ({
+                        "@type": "ListItem",
+                        "position": index + 1 + ((this.currentPage - 1) * this.productsPerPage),
+                        "item": {
+                            "@type": "Product",
+                            "@id": product.url,
+                            "name": product.name,
+                            "description": product.summary || product.description,
+                            "image": product.image_url,
+                            "url": product.url,
+                            "sku": product.sku,
+                            "offers": {
+                                "@type": "Offer",
+                                "price": product.price.toString(),
+                                "priceCurrency": "{$wa->shop->currency()}",
+                                "availability": product.available ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+                            }
+                        }
+                    }))
+                };
+                
+                script.textContent = JSON.stringify(structuredData, null, 2);
+            }
+        }
+    }));
+});
+
+// Global function for adding to cart (can be used by product cards)
+async function addToCart(productId, quantity = 1) {
+    try {
+        const response = await fetch('/shop/cart/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new URLSearchParams({
+                product_id: productId,
+                quantity: quantity
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'ok') {
+            // Trigger cart update event
+            window.dispatchEvent(new CustomEvent('cart:updated', {
+                detail: { product_id: productId, quantity: quantity }
+            }));
+            
+            if (window.waShowNotification) {
+                window.waShowNotification('Product added to cart', 'success');
+            }
+        } else {
+            if (window.waShowNotification) {
+                window.waShowNotification(data.errors ? data.errors.join(', ') : 'Failed to add product', 'error');
+            }
+        }
+    } catch (error) {
+        console.error('Add to cart error:', error);
+        if (window.waShowNotification) {
+            window.waShowNotification('Failed to add product to cart', 'error');
+        }
+    }
+}
+</script>
+
+{* Accessibility and Performance Enhancements *}
+<style>
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .waboot-shop__product-grid,
+    .waboot-shop__product-grid__item {
+        transition: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .waboot-shop__product-grid__item {
+        border: 2px solid;
+    }
+}
+
+/* Focus improvements */
+.waboot-shop__sorting__view-button:focus-visible,
+.waboot-shop__pagination__link:focus-visible {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+</style>

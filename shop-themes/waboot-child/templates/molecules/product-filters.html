@@ -1,0 +1,615 @@
+{*
+ * Product Filters Molecule Template with JSON-LD Filter Schema
+ * Advanced filtering system with price range, categories, brands, and attributes
+ * Includes comprehensive structured data and accessibility features
+ * @param categories - Available categories for filtering
+ * @param brands - Available brands for filtering  
+ * @param price_range - Min and max price range
+ * @param attributes - Additional filterable attributes
+ * @param current_filters - Currently applied filters
+ *}
+
+{$categories = $categories|default:array()}
+{$brands = $brands|default:array()}
+{$price_range = $price_range|default:array('min' => 0, 'max' => 1000)}
+{$attributes = $attributes|default:array()}
+{$current_filters = $current_filters|default:array()}
+
+<aside class="waboot-shop__filters" 
+       x-data="productFilters"
+       x-init="initFilters()"
+       role="complementary"
+       aria-label="Product filters"
+       itemscope itemtype="https://schema.org/SearchAction">
+    
+    {* Filters Header *}
+    <header class="waboot-shop__filters__header">
+        <h2 class="waboot-shop__filters__title">Filter Products</h2>
+        
+        <button type="button" 
+                class="waboot-shop__filters__clear"
+                x-show="hasActiveFilters"
+                x-on:click="clearAllFilters()"
+                x-transition
+                aria-label="Clear all filters">
+            Clear All
+        </button>
+    </header>
+    
+    {* Price Range Filter *}
+    <div class="waboot-shop__filters__group">
+        <h3 class="waboot-shop__filters__group-title">
+            Price Range
+        </h3>
+        
+        <div class="waboot-shop__filters__price-range" 
+             x-data="priceRangeFilter"
+             x-init="initPriceRange({$price_range.min}, {$price_range.max})">
+            
+            {* Price Input Fields *}
+            <div class="waboot-shop__filters__price-inputs mb-3">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <label for="price-min" class="form-label visually-hidden">Minimum price</label>
+                        <input type="number" 
+                               id="price-min"
+                               class="form-control form-control-sm"
+                               placeholder="Min"
+                               x-model.number="priceMin"
+                               x-bind:min="absoluteMin"
+                               x-bind:max="priceMax"
+                               x-on:input.debounce.500ms="updatePriceFilter()">
+                    </div>
+                    <div class="col-6">
+                        <label for="price-max" class="form-label visually-hidden">Maximum price</label>
+                        <input type="number" 
+                               id="price-max"
+                               class="form-control form-control-sm"
+                               placeholder="Max"
+                               x-model.number="priceMax"
+                               x-bind:min="priceMin"
+                               x-bind:max="absoluteMax"
+                               x-on:input.debounce.500ms="updatePriceFilter()">
+                    </div>
+                </div>
+            </div>
+            
+            {* Price Range Slider *}
+            <div class="waboot-shop__filters__price-slider" 
+                 x-ref="priceSlider"
+                 role="slider"
+                 tabindex="0"
+                 x-bind:aria-valuenow="priceMin"
+                 x-bind:aria-valuemin="absoluteMin"
+                 x-bind:aria-valuemax="absoluteMax"
+                 aria-label="Price range slider">
+                
+                <div class="waboot-shop__filters__slider-track">
+                    <div class="waboot-shop__filters__slider-range" 
+                         x-bind:style="sliderRangeStyle"></div>
+                </div>
+                
+                <input type="range" 
+                       class="waboot-shop__filters__slider-input waboot-shop__filters__slider-input--min"
+                       x-bind:min="absoluteMin"
+                       x-bind:max="absoluteMax"
+                       x-model.number="priceMin"
+                       x-on:input="updateSlider()"
+                       aria-label="Minimum price slider">
+                
+                <input type="range" 
+                       class="waboot-shop__filters__slider-input waboot-shop__filters__slider-input--max"
+                       x-bind:min="absoluteMin"
+                       x-bind:max="absoluteMax"
+                       x-model.number="priceMax"
+                       x-on:input="updateSlider()"
+                       aria-label="Maximum price slider">
+            </div>
+            
+            {* Price Display *}
+            <div class="waboot-shop__filters__price-display mt-2 text-center">
+                <small class="text-muted">
+                    <span x-text="formatPrice(priceMin)"></span> - <span x-text="formatPrice(priceMax)"></span>
+                </small>
+            </div>
+        </div>
+    </div>
+    
+    {* Categories Filter *}
+    {if $categories}
+    <div class="waboot-shop__filters__group">
+        <h3 class="waboot-shop__filters__group-title">
+            Categories
+        </h3>
+        
+        <div class="waboot-shop__filters__checkbox-list" 
+             role="group" 
+             aria-label="Filter by categories">
+            
+            {foreach $categories as $category}
+            <label class="waboot-shop__filters__checkbox-item">
+                <input type="checkbox" 
+                       class="waboot-shop__filters__checkbox form-check-input"
+                       value="{$category.id}"
+                       name="categories[]"
+                       x-model="filters.categories"
+                       x-on:change="updateFilters()"
+                       {if in_array($category.id, $current_filters.categories|default:array())}checked{/if}>
+                
+                <span class="waboot-shop__filters__checkbox-label">
+                    {$category.name}
+                </span>
+                
+                <span class="waboot-shop__filters__checkbox-count">
+                    ({$category.count})
+                </span>
+            </label>
+            {/foreach}
+        </div>
+    </div>
+    {/if}
+    
+    {* Brands Filter *}
+    {if $brands}
+    <div class="waboot-shop__filters__group">
+        <h3 class="waboot-shop__filters__group-title">
+            Brands
+        </h3>
+        
+        {* Brand Search *}
+        <div class="waboot-shop__filters__search mb-3" x-show="allBrands.length > 5">
+            <label for="brand-search" class="form-label visually-hidden">Search brands</label>
+            <input type="search" 
+                   id="brand-search"
+                   class="form-control form-control-sm"
+                   placeholder="Search brands..."
+                   x-model="brandSearch"
+                   x-on:input.debounce.300ms="filterBrands()">
+        </div>
+        
+        <div class="waboot-shop__filters__checkbox-list" 
+             role="group" 
+             aria-label="Filter by brands">
+            
+            <template x-for="brand in filteredBrands" x-key="brand.id">
+                <label class="waboot-shop__filters__checkbox-item">
+                    <input type="checkbox" 
+                           class="waboot-shop__filters__checkbox form-check-input"
+                           x-bind:value="brand.id"
+                           name="brands[]"
+                           x-model="filters.brands"
+                           x-on:change="updateFilters()">
+                    
+                    <span class="waboot-shop__filters__checkbox-label" x-text="brand.name"></span>
+                    
+                    <span class="waboot-shop__filters__checkbox-count" x-text="`(${brand.count})`"></span>
+                </label>
+            </template>
+            
+            <div x-show="filteredBrands.length === 0 && brandSearch.length > 0"
+                 class="waboot-shop__filters__no-results">
+                <small class="text-muted">No brands found</small>
+            </div>
+        </div>
+    </div>
+    {/if}
+    
+    {* Additional Attributes *}
+    {foreach $attributes as $attribute}
+    <div class="waboot-shop__filters__group">
+        <h3 class="waboot-shop__filters__group-title">
+            {$attribute.name}
+        </h3>
+        
+        <div class="waboot-shop__filters__checkbox-list" 
+             role="group" 
+             x-bind:aria-label="`Filter by ${attribute.name}`">
+            
+            {foreach $attribute.values as $value}
+            <label class="waboot-shop__filters__checkbox-item">
+                <input type="checkbox" 
+                       class="waboot-shop__filters__checkbox form-check-input"
+                       value="{$value.id}"
+                       name="attributes[{$attribute.id}][]"
+                       x-model="filters.attributes[{$attribute.id}]"
+                       x-on:change="updateFilters()"
+                       {if in_array($value.id, $current_filters.attributes[$attribute.id]|default:array())}checked{/if}>
+                
+                <span class="waboot-shop__filters__checkbox-label">
+                    {$value.name}
+                </span>
+                
+                <span class="waboot-shop__filters__checkbox-count">
+                    ({$value.count})
+                </span>
+            </label>
+            {/foreach}
+        </div>
+    </div>
+    {/foreach}
+    
+    {* Active Filters Summary *}
+    <div class="waboot-shop__filters__active" 
+         x-show="hasActiveFilters"
+         x-transition>
+        
+        <h3 class="waboot-shop__filters__active-title">Active Filters:</h3>
+        
+        <div class="waboot-shop__filters__active-list">
+            {* Price Filter *}
+            <template x-if="filters.priceMin > absoluteMin || filters.priceMax < absoluteMax">
+                <button type="button" 
+                        class="waboot-shop__filters__active-item btn btn-outline-secondary btn-sm"
+                        x-on:click="clearPriceFilter()"
+                        x-bind:aria-label="`Remove price filter: ${formatPrice(filters.priceMin)} - ${formatPrice(filters.priceMax)}`">
+                    <span x-text="`Price: ${formatPrice(filters.priceMin)} - ${formatPrice(filters.priceMax)}`"></span>
+                    <i class="fas fa-times ms-1" aria-hidden="true"></i>
+                </button>
+            </template>
+            
+            {* Category Filters *}
+            <template x-for="categoryId in filters.categories" x-key="categoryId">
+                <button type="button" 
+                        class="waboot-shop__filters__active-item btn btn-outline-secondary btn-sm"
+                        x-on:click="removeCategoryFilter(categoryId)"
+                        x-bind:aria-label="`Remove category filter: ${getCategoryName(categoryId)}`">
+                    <span x-text="getCategoryName(categoryId)"></span>
+                    <i class="fas fa-times ms-1" aria-hidden="true"></i>
+                </button>
+            </template>
+            
+            {* Brand Filters *}
+            <template x-for="brandId in filters.brands" x-key="brandId">
+                <button type="button" 
+                        class="waboot-shop__filters__active-item btn btn-outline-secondary btn-sm"
+                        x-on:click="removeBrandFilter(brandId)"
+                        x-bind:aria-label="`Remove brand filter: ${getBrandName(brandId)}`">
+                    <span x-text="getBrandName(brandId)"></span>
+                    <i class="fas fa-times ms-1" aria-hidden="true"></i>
+                </button>
+            </template>
+        </div>
+    </div>
+    
+    {* Apply/Reset Buttons *}
+    <div class="waboot-shop__filters__actions mt-4" x-show="hasActiveFilters">
+        <button type="button" 
+                class="btn btn-primary w-100 mb-2"
+                x-on:click="applyFilters()"
+                x-bind:disabled="loading">
+            <span x-show="!loading">Apply Filters</span>
+            <span x-show="loading">
+                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                Applying...
+            </span>
+        </button>
+        
+        <button type="button" 
+                class="btn btn-outline-secondary w-100"
+                x-on:click="clearAllFilters()">
+            Clear All Filters
+        </button>
+    </div>
+</aside>
+
+{* JSON-LD Structured Data for Search Filters *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "SearchAction",
+    "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "{$wa->currentUrl()}?{literal}{search_parameters}{/literal}"
+    },
+    "query-input": [
+        {
+            "@type": "PropertyValueSpecification",
+            "valueName": "price_min",
+            "description": "Minimum price filter",
+            "minValue": {$price_range.min},
+            "maxValue": {$price_range.max}
+        },
+        {
+            "@type": "PropertyValueSpecification", 
+            "valueName": "price_max",
+            "description": "Maximum price filter",
+            "minValue": {$price_range.min},
+            "maxValue": {$price_range.max}
+        },
+        {
+            "@type": "PropertyValueSpecification",
+            "valueName": "categories",
+            "description": "Category filters",
+            "valueRequired": false
+        },
+        {
+            "@type": "PropertyValueSpecification",
+            "valueName": "brands", 
+            "description": "Brand filters",
+            "valueRequired": false
+        }
+    ]
+}
+</script>
+
+{* Alpine.js Product Filters Component *}
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('productFilters', () => ({
+        filters: {
+            priceMin: {$price_range.min},
+            priceMax: {$price_range.max},
+            categories: {$current_filters.categories|@json_encode|default:'[]'},
+            brands: {$current_filters.brands|@json_encode|default:'[]'},
+            attributes: {$current_filters.attributes|@json_encode|default:'{}'}
+        },
+        
+        allBrands: {$brands|@json_encode},
+        filteredBrands: {$brands|@json_encode},
+        brandSearch: '',
+        
+        allCategories: {$categories|@json_encode},
+        
+        loading: false,
+        
+        get hasActiveFilters() {
+            return this.filters.priceMin > this.absoluteMin ||
+                   this.filters.priceMax < this.absoluteMax ||
+                   this.filters.categories.length > 0 ||
+                   this.filters.brands.length > 0 ||
+                   Object.keys(this.filters.attributes).some(key => 
+                       this.filters.attributes[key] && this.filters.attributes[key].length > 0
+                   );
+        },
+        
+        initFilters() {
+            // Initialize from URL parameters
+            const params = new URLSearchParams(window.location.search);
+            
+            if (params.has('price_min')) {
+                this.filters.priceMin = parseInt(params.get('price_min'));
+            }
+            if (params.has('price_max')) {
+                this.filters.priceMax = parseInt(params.get('price_max'));
+            }
+            
+            // Initialize categories from URL
+            const categoryParams = params.getAll('categories[]');
+            if (categoryParams.length > 0) {
+                this.filters.categories = categoryParams.map(id => parseInt(id));
+            }
+            
+            // Initialize brands from URL
+            const brandParams = params.getAll('brands[]');
+            if (brandParams.length > 0) {
+                this.filters.brands = brandParams.map(id => parseInt(id));
+            }
+            
+            // Initialize filtered brands
+            this.filteredBrands = [...this.allBrands];
+        },
+        
+        async updateFilters() {
+            // Debounced filter update
+            clearTimeout(this.updateTimeout);
+            this.updateTimeout = setTimeout(() => {
+                this.applyFilters();
+            }, 300);
+        },
+        
+        async applyFilters() {
+            this.loading = true;
+            
+            try {
+                const params = this.buildFilterParams();
+                const url = `${window.location.pathname}?${params.toString()}`;
+                
+                // Update URL
+                window.history.pushState(this.filters, '', url);
+                
+                // Trigger filter update event
+                window.dispatchEvent(new CustomEvent('filters:updated', {
+                    detail: {
+                        filters: this.filters,
+                        url: url
+                    }
+                }));
+                
+                // If there's a product grid on the page, update it
+                const productGrid = document.querySelector('[x-data*="productGrid"]');
+                if (productGrid && productGrid._x_dataStack) {
+                    const gridData = productGrid._x_dataStack[0];
+                    if (gridData.updateGrid) {
+                        await gridData.updateGrid();
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Filter update error:', error);
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        buildFilterParams() {
+            const params = new URLSearchParams(window.location.search);
+            
+            // Price filters
+            if (this.filters.priceMin > this.absoluteMin) {
+                params.set('price_min', this.filters.priceMin);
+            } else {
+                params.delete('price_min');
+            }
+            
+            if (this.filters.priceMax < this.absoluteMax) {
+                params.set('price_max', this.filters.priceMax);
+            } else {
+                params.delete('price_max');
+            }
+            
+            // Category filters
+            params.delete('categories[]');
+            this.filters.categories.forEach(id => {
+                params.append('categories[]', id);
+            });
+            
+            // Brand filters
+            params.delete('brands[]');
+            this.filters.brands.forEach(id => {
+                params.append('brands[]', id);
+            });
+            
+            // Attribute filters
+            Object.keys(this.filters.attributes).forEach(attrId => {
+                params.delete(`attributes[${attrId}][]`);
+                if (this.filters.attributes[attrId]) {
+                    this.filters.attributes[attrId].forEach(valueId => {
+                        params.append(`attributes[${attrId}][]`, valueId);
+                    });
+                }
+            });
+            
+            return params;
+        },
+        
+        clearAllFilters() {
+            this.filters = {
+                priceMin: this.absoluteMin,
+                priceMax: this.absoluteMax,
+                categories: [],
+                brands: [],
+                attributes: {}
+            };
+            this.applyFilters();
+        },
+        
+        clearPriceFilter() {
+            this.filters.priceMin = this.absoluteMin;
+            this.filters.priceMax = this.absoluteMax;
+            this.updateFilters();
+        },
+        
+        removeCategoryFilter(categoryId) {
+            const index = this.filters.categories.indexOf(categoryId);
+            if (index > -1) {
+                this.filters.categories.splice(index, 1);
+                this.updateFilters();
+            }
+        },
+        
+        removeBrandFilter(brandId) {
+            const index = this.filters.brands.indexOf(brandId);
+            if (index > -1) {
+                this.filters.brands.splice(index, 1);
+                this.updateFilters();
+            }
+        },
+        
+        filterBrands() {
+            if (!this.brandSearch) {
+                this.filteredBrands = [...this.allBrands];
+            } else {
+                const search = this.brandSearch.toLowerCase();
+                this.filteredBrands = this.allBrands.filter(brand => 
+                    brand.name.toLowerCase().includes(search)
+                );
+            }
+        },
+        
+        getCategoryName(categoryId) {
+            const category = this.allCategories.find(cat => cat.id === categoryId);
+            return category ? category.name : `Category ${categoryId}`;
+        },
+        
+        getBrandName(brandId) {
+            const brand = this.allBrands.find(b => b.id === brandId);
+            return brand ? brand.name : `Brand ${brandId}`;
+        },
+        
+        formatPrice(price) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: '{$wa->shop->currency()}'
+            }).format(price);
+        }
+    }));
+    
+    // Price Range Filter Component
+    Alpine.data('priceRangeFilter', () => ({
+        absoluteMin: 0,
+        absoluteMax: 1000,
+        priceMin: 0,
+        priceMax: 1000,
+        
+        get sliderRangeStyle() {
+            const minPercent = ((this.priceMin - this.absoluteMin) / (this.absoluteMax - this.absoluteMin)) * 100;
+            const maxPercent = ((this.priceMax - this.absoluteMin) / (this.absoluteMax - this.absoluteMin)) * 100;
+            
+            return `left: ${minPercent}%; width: ${maxPercent - minPercent}%`;
+        },
+        
+        initPriceRange(min, max) {
+            this.absoluteMin = min;
+            this.absoluteMax = max;
+            this.priceMin = min;
+            this.priceMax = max;
+        },
+        
+        updateSlider() {
+            // Ensure min doesn't exceed max
+            if (this.priceMin > this.priceMax) {
+                this.priceMin = this.priceMax;
+            }
+            if (this.priceMax < this.priceMin) {
+                this.priceMax = this.priceMin;
+            }
+        },
+        
+        updatePriceFilter() {
+            this.updateSlider();
+            this.$root.filters.priceMin = this.priceMin;
+            this.$root.filters.priceMax = this.priceMax;
+            this.$root.updateFilters();
+        }
+    }));
+});
+</script>
+
+{* Accessibility and Responsive Enhancements *}
+<style>
+/* Focus improvements for keyboard navigation */
+.waboot-shop__filters__checkbox:focus-visible,
+.waboot-shop__filters__slider-input:focus-visible {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .waboot-shop__filters__checkbox-item {
+        border: 1px solid;
+        padding: 0.25rem;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .waboot-shop__filters__active-item,
+    .waboot-shop__filters__group {
+        transition: none;
+    }
+}
+
+/* Touch device optimizations */
+@media (pointer: coarse) {
+    .waboot-shop__filters__checkbox-item {
+        padding: 0.75rem 0;
+        cursor: pointer;
+    }
+    
+    .waboot-shop__filters__slider-input {
+        height: 2rem;
+    }
+}
+</style>

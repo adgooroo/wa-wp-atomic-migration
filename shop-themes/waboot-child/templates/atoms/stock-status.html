@@ -1,0 +1,115 @@
+{*
+ * Stock Status Atom Template with JSON-LD Offer Schema
+ * Displays product availability status with structured data
+ * @param stock_count - Number of items in stock
+ * @param show_count - Whether to show exact stock count
+ * @param low_stock_threshold - Threshold for low stock warning
+ * @param product_name - Product name for accessibility
+ *}
+
+{$stock_count = $stock_count|default:0}
+{$show_count = $show_count|default:false}
+{$low_stock_threshold = $low_stock_threshold|default:5}
+{$product_name = $product_name|default:'product'}
+
+<div class="waboot-shop__stock-status" 
+     itemprop="offers" 
+     itemscope itemtype="https://schema.org/Offer"
+     x-data="{ stockCount: {$stock_count} }">
+    
+    {* Stock Availability Schema *}
+    <meta itemprop="availability" 
+          content="{if $stock_count > 0}https://schema.org/InStock{else}https://schema.org/OutOfStock{/if}">
+    
+    {* Out of Stock *}
+    {if $stock_count <= 0}
+        <span class="waboot-shop__stock-status__indicator waboot-shop__stock-status__indicator--out-of-stock"
+              role="status"
+              aria-label="{$product_name} is out of stock">
+            <i class="fas fa-times-circle waboot-shop__stock-status__icon" aria-hidden="true"></i>
+            <span class="waboot-shop__stock-status__text">Out of Stock</span>
+        </span>
+    
+    {* Low Stock *}
+    {elseif $stock_count <= $low_stock_threshold}
+        <span class="waboot-shop__stock-status__indicator waboot-shop__stock-status__indicator--low-stock"
+              role="status"
+              aria-label="{$product_name} has low stock">
+            <i class="fas fa-exclamation-triangle waboot-shop__stock-status__icon" aria-hidden="true"></i>
+            <span class="waboot-shop__stock-status__text">
+                Low Stock
+                {if $show_count}
+                    <span class="waboot-shop__stock-status__count">({$stock_count} left)</span>
+                {/if}
+            </span>
+        </span>
+    
+    {* In Stock *}
+    {else}
+        <span class="waboot-shop__stock-status__indicator waboot-shop__stock-status__indicator--in-stock"
+              role="status"
+              aria-label="{$product_name} is in stock">
+            <i class="fas fa-check-circle waboot-shop__stock-status__icon" aria-hidden="true"></i>
+            <span class="waboot-shop__stock-status__text">
+                In Stock
+                {if $show_count}
+                    <span class="waboot-shop__stock-status__count">({$stock_count} available)</span>
+                {/if}
+            </span>
+        </span>
+    {/if}
+    
+    {* Inventory Level for Schema *}
+    <meta itemprop="inventoryLevel" content="{$stock_count}">
+</div>
+
+{* CSS Styles for Stock Status *}
+<style>
+.waboot-shop__stock-status {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.waboot-shop__stock-status__indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.waboot-shop__stock-status__icon {
+    font-size: 1rem;
+}
+
+.waboot-shop__stock-status__indicator--in-stock {
+    color: var(--bs-success);
+}
+
+.waboot-shop__stock-status__indicator--low-stock {
+    color: var(--bs-warning);
+}
+
+.waboot-shop__stock-status__indicator--out-of-stock {
+    color: var(--bs-danger);
+}
+
+.waboot-shop__stock-status__count {
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .waboot-shop__stock-status__icon {
+        animation: none;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .waboot-shop__stock-status__indicator {
+        font-weight: 700;
+    }
+}
+</style>
