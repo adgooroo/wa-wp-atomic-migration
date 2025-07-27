@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<theme id="waboot" app="shop">
+    <name>Waboot</name>
+    <description>A modern, fully-local Webasyst theme ported from WordPress Bootscore. Built with Bootstrap 5, Alpine.js, and BEM methodology for outstanding e-commerce performance.</description>
+    <version>1.0.0</version>
+    <vendor>Waboot Team</vendor>
+    <author>WordPress to Webasyst Migration Project</author>
+    <url>https://github.com/wp-wa-migration/waboot</url>
+    
+    <!-- Theme Settings -->
+    <settings>
+        <!-- Layout Options -->
+        <setting var="layout_type" control_type="select" name="Layout Type">
+            <option value="wide">Wide Layout</option>
+            <option value="boxed">Boxed Layout</option>
+        </setting>
+        
+        <!-- Color Scheme -->
+        <setting var="color_scheme" control_type="select" name="Color Scheme">
+            <option value="light">Light Theme</option>
+            <option value="dark">Dark Theme</option>
+            <option value="auto">Auto (System Preference)</option>
+        </setting>
+        
+        <!-- Logo Upload -->
+        <setting var="logo" control_type="file" name="Custom Logo">
+            <description>Upload your custom logo. Recommended size: 200x60px</description>
+        </setting>
+        
+        <!-- Header Options -->
+        <setting var="header_style" control_type="select" name="Header Style">
+            <option value="default">Default Header</option>
+            <option value="minimal">Minimal Header</option>
+            <option value="centered">Centered Header</option>
+        </setting>
+        
+        <!-- Footer Options -->
+        <setting var="footer_text" control_type="textarea" name="Footer Text">
+            <description>Custom footer text or copyright information</description>
+        </setting>
+        
+        <!-- Bootstrap Options -->
+        <setting var="bootstrap_grid" control_type="checkbox" name="Use Bootstrap Grid">
+            <description>Enable Bootstrap 5 grid system</description>
+        </setting>
+        
+        <!-- Alpine.js Options -->
+        <setting var="alpine_reactive" control_type="checkbox" name="Enable Alpine.js Reactivity">
+            <description>Enable Alpine.js for micro-interactions and reactivity</description>
+        </setting>
+        
+        <!-- Performance Options -->
+        <setting var="preload_assets" control_type="checkbox" name="Preload Critical Assets">
+            <description>Preload CSS and JavaScript for better performance</description>
+        </setting>
+    </settings>
+    
+    <!-- Supported Features -->
+    <features>
+        <feature id="responsive">Fully responsive design</feature>
+        <feature id="bootstrap5">Bootstrap 5 framework</feature>
+        <feature id="alpinejs">Alpine.js micro-reactivity</feature>
+        <feature id="bem">BEM CSS methodology</feature>
+        <feature id="local_assets">No CDN dependencies</feature>
+        <feature id="woocommerce_compatible">E-commerce optimized</feature>
+        <feature id="rtl">RTL language support</feature>
+        <feature id="accessibility">WCAG 2.1 compliant</feature>
+    </features>
+    
+    <!-- Required Webasyst Version -->
+    <requirements>
+        <app id="shop" version="9.0.0"/>
+        <php version="7.4.0"/>
+    </requirements>
+    
+    <!-- Theme Files Structure -->
+    <files>
+        <file path="css/bootstrap.min.css" type="stylesheet"/>
+        <file path="css/waboot.css" type="stylesheet"/>
+        <file path="css/utilities.css" type="stylesheet"/>
+        <file path="js/bootstrap.bundle.min.js" type="javascript"/>
+        <file path="js/alpine.min.js" type="javascript"/>
+        <file path="js/waboot.js" type="javascript"/>
+        <file path="templates/layout.html" type="template"/>
+        <file path="templates/header.html" type="template"/>
+        <file path="templates/footer.html" type="template"/>
+        <file path="templates/home.html" type="template"/>
+        <file path="templates/product.html" type="template"/>
+    </files>
+    
+    <!-- Theme Compatibility -->
+    <compatibility>
+        <app id="shop" version="9.0.0"/>
+        <app id="site" version="2.0.0"/>
+        <app id="blog" version="2.0.0"/>
+        <app id="photos" version="2.0.0"/>
+    </compatibility>
+    
+    <!-- Theme Preview Screenshots -->
+    <screenshots>
+        <screenshot path="img/screenshots/homepage.png">Homepage</screenshot>
+        <screenshot path="img/screenshots/product.png">Product Page</screenshot>
+        <screenshot path="img/screenshots/checkout.png">Checkout Process</screenshot>
+        <screenshot path="img/screenshots/mobile.png">Mobile View</screenshot>
+    </screenshots>
+    
+    <!-- Theme Categories -->
+    <categories>
+        <category>E-commerce</category>
+        <category>Bootstrap</category>
+        <category>Responsive</category>
+        <category>Modern</category>
+    </categories>
+    
+    <!-- License Information -->
+    <license>MIT</license>
+    
+    <!-- Theme Changelog -->
+    <changelog>
+        <version number="1.0.0" date="2025-01-16">
+            <change>Initial release</change>
+            <change>WordPress Bootscore theme port completed</change>
+            <change>Bootstrap 5 integration</change>
+            <change>Alpine.js integration</change>
+            <change>BEM methodology implementation</change>
+            <change>Full local asset support</change>
+        </version>
+    </changelog>
+</theme>
