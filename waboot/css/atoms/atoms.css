@@ -1,0 +1,540 @@
+/*!
+ * Waboot Atoms CSS
+ * Basic building blocks following BEM methodology
+ * Version: 1.0.0
+ */
+
+/* ==========================================================================
+   Button Atom
+   ========================================================================== */
+
+.waboot__btn {
+  --btn-padding-y: 0.5rem;
+  --btn-padding-x: 1rem;
+  --btn-font-size: 0.875rem;
+  --btn-font-weight: 600;
+  --btn-line-height: 1.5;
+  --btn-border-width: 1px;
+  --btn-border-radius: var(--waboot-border-radius);
+  --btn-transition: var(--waboot-transition);
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  font-family: inherit;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: var(--btn-line-height);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: var(--btn-border-width) solid transparent;
+  border-radius: var(--btn-border-radius);
+  transition: var(--btn-transition);
+  cursor: pointer;
+  background: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.waboot__btn:focus-visible {
+  outline: 2px solid var(--waboot-primary);
+  outline-offset: 2px;
+}
+
+.waboot__btn:disabled,
+.waboot__btn.waboot__btn--loading {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+/* Button Variants */
+.waboot__btn--primary {
+  --btn-color: #fff;
+  --btn-bg: var(--waboot-primary);
+  --btn-border-color: var(--waboot-primary);
+  --btn-hover-color: #fff;
+  --btn-hover-bg: color-mix(in srgb, var(--waboot-primary) 85%, black);
+  --btn-hover-border-color: color-mix(in srgb, var(--waboot-primary) 85%, black);
+  
+  color: var(--btn-color);
+  background-color: var(--btn-bg);
+  border-color: var(--btn-border-color);
+}
+
+.waboot__btn--primary:hover,
+.waboot__btn--primary:focus {
+  color: var(--btn-hover-color);
+  background-color: var(--btn-hover-bg);
+  border-color: var(--btn-hover-border-color);
+}
+
+.waboot__btn--secondary {
+  --btn-color: var(--waboot-secondary);
+  --btn-bg: transparent;
+  --btn-border-color: var(--waboot-secondary);
+  --btn-hover-color: #fff;
+  --btn-hover-bg: var(--waboot-secondary);
+  --btn-hover-border-color: var(--waboot-secondary);
+  
+  color: var(--btn-color);
+  background-color: var(--btn-bg);
+  border-color: var(--btn-border-color);
+}
+
+.waboot__btn--secondary:hover,
+.waboot__btn--secondary:focus {
+  color: var(--btn-hover-color);
+  background-color: var(--btn-hover-bg);
+  border-color: var(--btn-hover-border-color);
+}
+
+.waboot__btn--ghost {
+  --btn-color: var(--waboot-dark);
+  --btn-bg: transparent;
+  --btn-border-color: transparent;
+  --btn-hover-color: var(--waboot-primary);
+  --btn-hover-bg: rgba(13, 110, 253, 0.1);
+  --btn-hover-border-color: transparent;
+  
+  color: var(--btn-color);
+  background-color: var(--btn-bg);
+  border-color: var(--btn-border-color);
+}
+
+.waboot__btn--ghost:hover,
+.waboot__btn--ghost:focus {
+  color: var(--btn-hover-color);
+  background-color: var(--btn-hover-bg);
+  border-color: var(--btn-hover-border-color);
+}
+
+/* Button Sizes */
+.waboot__btn--sm {
+  --btn-padding-y: 0.25rem;
+  --btn-padding-x: 0.75rem;
+  --btn-font-size: 0.75rem;
+  --btn-border-radius: var(--waboot-border-radius-sm);
+}
+
+.waboot__btn--lg {
+  --btn-padding-y: 0.75rem;
+  --btn-padding-x: 1.5rem;
+  --btn-font-size: 1rem;
+  --btn-border-radius: var(--waboot-border-radius-lg);
+}
+
+/* Button Elements */
+.waboot__btn__text {
+  display: inline-block;
+}
+
+.waboot__btn__icon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.875em;
+}
+
+.waboot__btn__icon--before {
+  margin-right: 0.5rem;
+}
+
+.waboot__btn__icon--after {
+  margin-left: 0.5rem;
+}
+
+.waboot__btn__spinner {
+  display: inline-flex;
+  align-items: center;
+}
+
+.waboot__btn--loading .waboot__btn__text {
+  opacity: 0;
+}
+
+.waboot__btn--loading .waboot__btn__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ==========================================================================
+   Input Atom
+   ========================================================================== */
+
+.waboot__input-group {
+  --input-padding-y: 0.5rem;
+  --input-padding-x: 0.75rem;
+  --input-font-size: 0.875rem;
+  --input-font-weight: 400;
+  --input-line-height: 1.5;
+  --input-color: var(--waboot-dark);
+  --input-bg: #fff;
+  --input-border-width: 1px;
+  --input-border-color: var(--waboot-border-color);
+  --input-border-radius: var(--waboot-border-radius);
+  --input-focus-border-color: var(--waboot-primary);
+  --input-focus-box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.waboot__input-label {
+  display: block;
+  font-size: var(--input-font-size);
+  font-weight: 600;
+  color: var(--input-color);
+  margin-bottom: 0.25rem;
+}
+
+.waboot__input-required {
+  color: var(--waboot-danger);
+  margin-left: 0.25rem;
+}
+
+.waboot__input-wrapper {
+  position: relative;
+}
+
+.waboot__input {
+  display: block;
+  width: 100%;
+  padding: var(--input-padding-y) var(--input-padding-x);
+  font-family: inherit;
+  font-size: var(--input-font-size);
+  font-weight: var(--input-font-weight);
+  line-height: var(--input-line-height);
+  color: var(--input-color);
+  background-color: var(--input-bg);
+  background-image: none;
+  border: var(--input-border-width) solid var(--input-border-color);
+  border-radius: var(--input-border-radius);
+  appearance: none;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.waboot__input:focus {
+  border-color: var(--input-focus-border-color);
+  outline: 0;
+  box-shadow: var(--input-focus-box-shadow);
+}
+
+.waboot__input::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.waboot__input:disabled,
+.waboot__input[readonly] {
+  background-color: #e9ecef;
+  opacity: 1;
+}
+
+.waboot__input:disabled {
+  cursor: not-allowed;
+}
+
+/* Input Sizes */
+.waboot__input--sm {
+  --input-padding-y: 0.25rem;
+  --input-padding-x: 0.5rem;
+  --input-font-size: 0.75rem;
+  --input-border-radius: var(--waboot-border-radius-sm);
+}
+
+.waboot__input--lg {
+  --input-padding-y: 0.75rem;
+  --input-padding-x: 1rem;
+  --input-font-size: 1rem;
+  --input-border-radius: var(--waboot-border-radius-lg);
+}
+
+/* Input States */
+.waboot__input--invalid {
+  border-color: var(--waboot-danger);
+}
+
+.waboot__input--invalid:focus {
+  border-color: var(--waboot-danger);
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.waboot__input-group--error .waboot__input-label {
+  color: var(--waboot-danger);
+}
+
+.waboot__input-group--disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.waboot__input-help {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}
+
+.waboot__input-error {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--waboot-danger);
+  margin-top: 0.25rem;
+}
+
+.waboot__input-error-icon::before {
+  content: "⚠";
+  font-size: 0.875em;
+}
+
+/* ==========================================================================
+   Typography Atoms
+   ========================================================================== */
+
+.waboot__heading {
+  font-family: var(--waboot-font-family-sans-serif);
+  font-weight: var(--waboot-font-weight-bold);
+  line-height: 1.2;
+  color: var(--waboot-dark);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.waboot__heading--h1 {
+  font-size: 2.5rem;
+}
+
+.waboot__heading--h2 {
+  font-size: 2rem;
+}
+
+.waboot__heading--h3 {
+  font-size: 1.75rem;
+}
+
+.waboot__heading--h4 {
+  font-size: 1.5rem;
+}
+
+.waboot__heading--h5 {
+  font-size: 1.25rem;
+}
+
+.waboot__heading--h6 {
+  font-size: 1rem;
+}
+
+.waboot__text {
+  font-family: var(--waboot-font-family-sans-serif);
+  font-size: var(--waboot-font-size-base);
+  font-weight: var(--waboot-font-weight-normal);
+  line-height: var(--waboot-line-height-base);
+  color: var(--waboot-dark);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.waboot__text--lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.waboot__text--small {
+  font-size: 0.875rem;
+}
+
+.waboot__text--muted {
+  color: var(--waboot-secondary);
+}
+
+/* ==========================================================================
+   Link Atoms
+   ========================================================================== */
+
+.waboot__link {
+  color: var(--waboot-primary);
+  text-decoration: underline;
+  transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+}
+
+.waboot__link:hover,
+.waboot__link:focus {
+  color: color-mix(in srgb, var(--waboot-primary) 85%, black);
+  text-decoration: underline;
+}
+
+.waboot__link:focus-visible {
+  outline: 2px solid var(--waboot-primary);
+  outline-offset: 2px;
+}
+
+.waboot__link--no-underline {
+  text-decoration: none;
+}
+
+.waboot__link--no-underline:hover,
+.waboot__link--no-underline:focus {
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Icon Atoms
+   ========================================================================== */
+
+.waboot__icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  fill: currentColor;
+}
+
+.waboot__icon--sm {
+  width: 0.875em;
+  height: 0.875em;
+}
+
+.waboot__icon--lg {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+.waboot__icon--xl {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+/* ==========================================================================
+   Badge Atoms
+   ========================================================================== */
+
+.waboot__badge {
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  font-size: 0.75em;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--waboot-border-radius-sm);
+  background-color: var(--waboot-primary);
+}
+
+.waboot__badge--secondary {
+  background-color: var(--waboot-secondary);
+}
+
+.waboot__badge--success {
+  background-color: var(--waboot-success);
+}
+
+.waboot__badge--danger {
+  background-color: var(--waboot-danger);
+}
+
+.waboot__badge--warning {
+  background-color: var(--waboot-warning);
+  color: var(--waboot-dark);
+}
+
+.waboot__badge--info {
+  background-color: var(--waboot-info);
+  color: var(--waboot-dark);
+}
+
+.waboot__badge--light {
+  background-color: var(--waboot-light);
+  color: var(--waboot-dark);
+}
+
+.waboot__badge--dark {
+  background-color: var(--waboot-dark);
+}
+
+/* ==========================================================================
+   Spinner Atoms
+   ========================================================================== */
+
+.waboot__spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 0.125em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: waboot-spin 0.75s linear infinite;
+}
+
+.waboot__spinner--sm {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-width: 0.1em;
+}
+
+.waboot__spinner--lg {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 0.15em;
+}
+
+@keyframes waboot-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   Accessibility Helpers
+   ========================================================================== */
+
+.waboot__skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  z-index: 1030;
+  color: #fff;
+  background-color: var(--waboot-primary);
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 0 0 var(--waboot-border-radius) var(--waboot-border-radius);
+  transition: top 0.3s;
+}
+
+.waboot__skip-link:focus {
+  top: 0;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

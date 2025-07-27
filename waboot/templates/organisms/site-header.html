@@ -1,0 +1,314 @@
+{*
+ * Site Header Organism Component
+ * Complete site header with navigation, search, and branding
+ * 
+ * Parameters:
+ * - logo_image: logo image URL [optional]
+ * - logo_text: logo text [default: site name]
+ * - navigation_items: array of navigation items [optional]
+ * - show_search: display search form [default: true]
+ * - show_cart: display cart icon (for e-commerce) [default: false]
+ * - cart_count: number of items in cart [optional]
+ * - header_style: header style variant [default: default]
+ * - sticky: sticky header [default: true]
+ * - transparent: transparent header [default: false]
+ *}
+
+{$site_logo_image = $logo_image|default:''}
+{$site_logo_text = $logo_text|default:$wa->shop->settings('name')}
+{$nav_items = $navigation_items|default:array()}
+{$show_search_form = $show_search|default:true}
+{$show_cart_icon = $show_cart|default:false}
+{$cart_items_count = $cart_count|default:0}
+{$header_style_variant = $header_style|default:'default'}
+{$header_sticky = $sticky|default:true}
+{$header_transparent = $transparent|default:false}
+
+<header class="waboot__site-header waboot__site-header--{$header_style_variant}{if $header_sticky} waboot__site-header--sticky{/if}{if $header_transparent} waboot__site-header--transparent{/if}"
+        role="banner"
+        x-data="siteHeader"
+        x-init="init()">
+    
+    {* Skip to content link for accessibility *}
+    <a class="waboot__skip-link" href="#main-content">Skip to main content</a>
+    
+    <div class="waboot__site-header__container container-fluid">
+        
+        {* Mobile menu toggle (visible on mobile only) *}
+        <div class="waboot__site-header__mobile-toggle d-lg-none">
+            {include file="atoms/button.html"
+                variant="ghost"
+                icon="fas fa-bars"
+                text="Menu"
+                class="waboot__site-header__menu-toggle"
+                aria_label="Toggle navigation menu"
+                data_attributes=array("bs-toggle"=>"offcanvas", "bs-target"=>"#mobile-navigation")}
+        </div>
+        
+        {* Logo/Brand section *}
+        <div class="waboot__site-header__brand">
+            <a href="{$wa_url}" 
+               class="waboot__site-header__logo-link"
+               aria-label="Go to homepage">
+                {if $site_logo_image}
+                    <img src="{$site_logo_image}" 
+                         alt="{$site_logo_text|escape}"
+                         class="waboot__site-header__logo-image"
+                         loading="eager">
+                {else}
+                    <span class="waboot__site-header__logo-text">{$site_logo_text|escape}</span>
+                {/if}
+            </a>
+        </div>
+        
+        {* Main Navigation (desktop) *}
+        <nav class="waboot__site-header__nav d-none d-lg-flex" 
+             role="navigation" 
+             aria-label="Main navigation">
+            {if $nav_items}
+            <ul class="waboot__site-header__nav-list">
+                {foreach $nav_items as $item}
+                <li class="waboot__site-header__nav-item{if $item.children} waboot__site-header__nav-item--has-dropdown{/if}">
+                    <a href="{$item.url}" 
+                       class="waboot__site-header__nav-link{if $item.active} waboot__site-header__nav-link--active{/if}"
+                       {if $item.active}aria-current="page"{/if}
+                       {if $item.children}
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       x-on:click.prevent="toggleDropdown($event)"
+                       x-on:mouseenter="showDropdown($event)"
+                       x-on:mouseleave="hideDropdown($event)"
+                       {/if}>
+                        {$item.name|escape}
+                        {if $item.children}
+                        <i class="waboot__site-header__nav-arrow fas fa-chevron-down" aria-hidden="true"></i>
+                        {/if}
+                    </a>
+                    
+                    {* Dropdown menu for navigation items with children *}
+                    {if $item.children}
+                    <ul class="waboot__site-header__dropdown"
+                        x-show="dropdownOpen === '{$item@index}'"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-95"
+                        role="menu">
+                        {foreach $item.children as $child}
+                        <li class="waboot__site-header__dropdown-item" role="none">
+                            <a href="{$child.url}" 
+                               class="waboot__site-header__dropdown-link{if $child.active} waboot__site-header__dropdown-link--active{/if}"
+                               role="menuitem"
+                               {if $child.active}aria-current="page"{/if}>
+                                {$child.name|escape}
+                            </a>
+                        </li>
+                        {/foreach}
+                    </ul>
+                    {/if}
+                </li>
+                {/foreach}
+            </ul>
+            {/if}
+        </nav>
+        
+        {* Header utilities (search, cart, etc.) *}
+        <div class="waboot__site-header__utilities">
+            
+            {* Search form *}
+            {if $show_search_form}
+            <div class="waboot__site-header__search d-none d-md-block">
+                {include file="molecules/search-form.html"
+                    placeholder="Search..."
+                    size="sm"
+                    suggestions=true
+                    class="waboot__site-header__search-form"}
+            </div>
+            
+            {* Mobile search toggle *}
+            <div class="waboot__site-header__search-toggle d-md-none">
+                {include file="atoms/button.html"
+                    variant="ghost"
+                    icon="fas fa-search"
+                    text="Search"
+                    class="waboot__site-header__search-toggle-btn"
+                    aria_label="Toggle search"}
+            </div>
+            {/if}
+            
+            {* Shopping cart (for e-commerce sites) *}
+            {if $show_cart_icon}
+            <div class="waboot__site-header__cart">
+                <a href="{$wa_app_url}cart/" 
+                   class="waboot__site-header__cart-link"
+                   aria-label="Shopping cart ({$cart_items_count} items)">
+                    <i class="waboot__site-header__cart-icon fas fa-shopping-cart" aria-hidden="true"></i>
+                    {if $cart_items_count > 0}
+                    <span class="waboot__site-header__cart-count">{$cart_items_count}</span>
+                    {/if}
+                </a>
+            </div>
+            {/if}
+            
+            {* User account menu *}
+            <div class="waboot__site-header__account">
+                {if $wa->getUser()->isAuth()}
+                    <div class="waboot__site-header__user-menu" x-data="{ open: false }">
+                        <button type="button"
+                                class="waboot__site-header__user-toggle"
+                                x-on:click="open = !open"
+                                aria-haspopup="true"
+                                x-bind:aria-expanded="open">
+                            <i class="waboot__site-header__user-icon fas fa-user" aria-hidden="true"></i>
+                            <span class="waboot__site-header__user-name d-none d-sm-inline">{$wa->getUser()->getName()|escape}</span>
+                            <i class="waboot__site-header__user-arrow fas fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                        
+                        <div class="waboot__site-header__user-dropdown"
+                             x-show="open"
+                             x-transition
+                             x-on:click.outside="open = false">
+                            <a href="{$wa_backend_url}" class="waboot__site-header__user-link">Dashboard</a>
+                            <a href="{$wa_backend_url}?action=logout" class="waboot__site-header__user-link">Logout</a>
+                        </div>
+                    </div>
+                {else}
+                    <a href="{$wa_backend_url}" 
+                       class="waboot__site-header__login-link">
+                        <i class="waboot__site-header__login-icon fas fa-sign-in-alt" aria-hidden="true"></i>
+                        <span class="d-none d-sm-inline">Login</span>
+                    </a>
+                {/if}
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    {* Mobile search form (toggleable) *}
+    {if $show_search_form}
+    <div class="waboot__site-header__mobile-search d-md-none"
+         x-show="mobileSearchOpen"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 -translate-y-4"
+         x-transition:enter-end="opacity-100 translate-y-0">
+        <div class="container-fluid">
+            {include file="molecules/search-form.html"
+                placeholder="Search..."
+                class="waboot__site-header__mobile-search-form"}
+        </div>
+    </div>
+    {/if}
+    
+</header>
+
+{* Mobile navigation offcanvas *}
+<div class="offcanvas offcanvas-start waboot__mobile-nav" 
+     tabindex="-1" 
+     id="mobile-navigation"
+     aria-labelledby="mobile-nav-title">
+    
+    <div class="offcanvas-header waboot__mobile-nav__header">
+        <h5 class="offcanvas-title waboot__mobile-nav__title" id="mobile-nav-title">
+            Navigation
+        </h5>
+        <button type="button" 
+                class="btn-close" 
+                data-bs-dismiss="offcanvas" 
+                aria-label="Close navigation"></button>
+    </div>
+    
+    <div class="offcanvas-body waboot__mobile-nav__body">
+        {if $nav_items}
+        <ul class="waboot__mobile-nav__list">
+            {foreach $nav_items as $item}
+            <li class="waboot__mobile-nav__item">
+                <a href="{$item.url}" 
+                   class="waboot__mobile-nav__link{if $item.active} waboot__mobile-nav__link--active{/if}"
+                   {if $item.active}aria-current="page"{/if}>
+                    {$item.name|escape}
+                </a>
+                
+                {if $item.children}
+                <ul class="waboot__mobile-nav__submenu">
+                    {foreach $item.children as $child}
+                    <li class="waboot__mobile-nav__submenu-item">
+                        <a href="{$child.url}" 
+                           class="waboot__mobile-nav__submenu-link{if $child.active} waboot__mobile-nav__submenu-link--active{/if}"
+                           {if $child.active}aria-current="page"{/if}>
+                            {$child.name|escape}
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+                {/if}
+            </li>
+            {/foreach}
+        </ul>
+        {/if}
+    </div>
+    
+</div>
+
+{* Alpine.js component for header functionality *}
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('siteHeader', () => ({
+        dropdownOpen: null,
+        mobileSearchOpen: false,
+        scrolled: false,
+        
+        init() {
+            // Handle scroll for sticky header effects
+            window.addEventListener('scroll', () => {
+                this.scrolled = window.scrollY > 50;
+                if (this.scrolled) {
+                    this.$el.classList.add('waboot__site-header--scrolled');
+                } else {
+                    this.$el.classList.remove('waboot__site-header--scrolled');
+                }
+            });
+            
+            // Close dropdowns when pressing Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    this.dropdownOpen = null;
+                    this.mobileSearchOpen = false;
+                }
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!this.$el.contains(e.target)) {
+                    this.dropdownOpen = null;
+                }
+            });
+        },
+        
+        toggleDropdown(event) {
+            const index = event.currentTarget.closest('.waboot__site-header__nav-item').dataset.index;
+            this.dropdownOpen = this.dropdownOpen === index ? null : index;
+        },
+        
+        showDropdown(event) {
+            const index = event.currentTarget.closest('.waboot__site-header__nav-item').dataset.index;
+            this.dropdownOpen = index;
+        },
+        
+        hideDropdown(event) {
+            // Delay hiding to allow moving to dropdown
+            setTimeout(() => {
+                if (!event.currentTarget.closest('.waboot__site-header__nav-item').matches(':hover')) {
+                    this.dropdownOpen = null;
+                }
+            }, 100);
+        },
+        
+        toggleMobileSearch() {
+            this.mobileSearchOpen = !this.mobileSearchOpen;
+        }
+    }));
+});
+</script>

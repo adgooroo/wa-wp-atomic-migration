@@ -9,7 +9,7 @@
 
 **A modern, fully-local Webasyst e-commerce theme ported from WordPress Bootscore**
 
-[Best Stack](docs/stack-bootstrap-5-alpine.js-BEM-atomic-design.md) | [Documentation](docs/theme-documentation.md) | [Migration Guide](docs/migration-guide.md) | [Support](#support)
+[📋 Project Status](docs/project-completion-status.md) | [📚 Documentation](docs/theme-documentation.md) | [🔄 Migration Guide](docs/migration-guide.md) | [🏗️ Site App Plan](docs/site-app-migration-plan.md) | [⚡ Tech Stack](docs/stack-bootstrap-5-alpine.js-BEM-atomic-design.md)
 
 </div>
 
@@ -75,9 +75,12 @@
 ## 📁 Project Structure
 
 ```
-waboot/
+waboot/                       # Waboot Theme (Shop-Script)
 ├── 📄 theme.xml              # Theme configuration
 ├── 📁 templates/             # Smarty templates
+│   ├── atoms/                # Atomic design atoms
+│   ├── molecules/            # Atomic design molecules
+│   ├── organisms/            # Atomic design organisms
 │   ├── layout.html           # Main layout
 │   ├── header.html           # Header template  
 │   ├── footer.html           # Footer template
@@ -85,16 +88,45 @@ waboot/
 │   ├── category.html         # Product listing
 │   └── product.html          # Product detail
 ├── 📁 css/                   # Stylesheets
+│   ├── atoms/                # Atomic design CSS
+│   ├── molecules/            # Molecular component CSS
+│   ├── organisms/            # Organism component CSS
+│   ├── utilities/            # Utility classes
 │   ├── waboot.css           # Main theme styles
 │   └── vendor/              # Bootstrap, AOS CSS
 ├── 📁 js/                    # JavaScript files
 │   ├── waboot.js            # Main theme script
 │   └── vendor/              # Alpine.js, Bootstrap, AOS
 ├── 📁 images/                # Theme images
-├── 📁 fonts/                 # Local fonts
-└── 📁 docs/                  # Documentation
-    ├── migration-guide.md    # WordPress → Webasyst guide
-    └── theme-documentation.md # Complete theme docs
+└── 📁 fonts/                 # Local fonts
+
+site-app/                     # Site Application (Bootstrap 5 + Alpine.js)
+├── 📁 lib/                   # Application logic
+│   ├── config/               # Enhanced configuration
+│   └── controllers/          # Modern controllers
+├── 📁 themes/default/        # Default Site theme
+│   ├── 📁 templates/         # Atomic design templates
+│   │   ├── atoms/            # Basic elements (buttons, inputs)
+│   │   ├── molecules/        # Simple components (forms, nav)
+│   │   ├── organisms/        # Complex components (header, footer)
+│   │   ├── templates/        # Page layouts
+│   │   └── pages/            # Specific page instances
+│   ├── 📁 css/               # BEM-organized CSS
+│   │   ├── atoms/            # Atomic component styles
+│   │   ├── molecules/        # Molecular component styles
+│   │   ├── organisms/        # Organism component styles
+│   │   ├── utilities/        # Utility classes
+│   │   └── vendor/           # Bootstrap, AOS
+│   └── 📁 js/                # Alpine.js components
+│       ├── components/       # Site components
+│       └── vendor/           # Alpine.js, Bootstrap
+└── 📁 docs/                  # Site app documentation
+
+docs/                         # Project documentation
+├── migration-guide.md        # WordPress → Webasyst guide
+├── theme-documentation.md    # Complete theme docs
+├── site-app-migration-plan.md # Site app migration plan
+└── stack-bootstrap-5-alpine.js-BEM-atomic-design.md # Technical methodology
 ```
 
 ## 🔄 Migration Approach
@@ -118,11 +150,17 @@ The migration was completed in structured stages with individual commits:
 - **Shopping Features**: Wishlist, compare, social sharing
 - **Advanced Interactions**: Alpine.js-powered components
 
-### Stage 4: Documentation & Optimization ✅
+### Stage 4: Site Application Migration 🔄
+- **Site App Structure**: Enhanced controllers and configuration
+- **Atomic Design System**: Atoms, molecules, organisms implementation
+- **Component Library**: Reusable BEM-based components
+- **Migration Plan**: Comprehensive Site app modernization guide
+
+### Stage 5: Documentation & Optimization ✅
 - **Migration Guide**: WordPress to Webasyst function mapping
 - **Theme Documentation**: Complete usage and customization guide
+- **Site App Migration Plan**: Bootstrap 5 + Alpine.js + BEM + Atomic Design
 - **Performance Optimization**: Asset optimization and best practices
-- **Final README**: Project summary and quick start guide
 
 ## 🎨 Template Features
 
