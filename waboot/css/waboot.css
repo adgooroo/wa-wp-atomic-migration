@@ -1,0 +1,757 @@
+diff --git a/waboot/css/waboot.css b/waboot/css/waboot.css
+--- a/waboot/css/waboot.css
+ b/waboot/css/waboot.css
+@@ -0,0 1,753 @@
+/*!
+ * Waboot Theme CSS
+ * WordPress Bootscore to Webasyst Migration
+ * Built with Bootstrap 5, BEM methodology, and local assets
+ * Version: 1.0.0
+ */
+
+/* ==========================================================================
+   CSS Custom Properties (CSS Variables)
+   Based on Bootstrap 5 and Bootscore color scheme
+   ========================================================================== */
+
+:root {
+  /* Primary Brand Colors */
+  --waboot-primary: #0d6efd;
+  --waboot-secondary: #6c757d;
+  --waboot-success: #198754;
+  --waboot-info: #0dcaf0;
+  --waboot-warning: #ffc107;
+  --waboot-danger: #dc3545;
+  --waboot-light: #f8f9fa;
+  --waboot-dark: #212529;
+
+  /* Typography */
+  --waboot-font-family-sans-serif: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --waboot-font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --waboot-font-size-base: 1rem;
+  --waboot-font-weight-light: 300;
+  --waboot-font-weight-normal: 400;
+  --waboot-font-weight-bold: 700;
+  --waboot-line-height-base: 1.5;
+
+  /* Spacing */
+  --waboot-spacer: 1rem;
+  --waboot-grid-gutter-width: 1.5rem;
+
+  /* Borders */
+  --waboot-border-width: 1px;
+  --waboot-border-color: #dee2e6;
+  --waboot-border-radius: 0.375rem;
+  --waboot-border-radius-sm: 0.25rem;
+  --waboot-border-radius-lg: 0.5rem;
+
+  /* Shadows */
+  --waboot-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --waboot-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --waboot-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+
+  /* Transitions */
+  --waboot-transition: all 0.15s ease-in-out;
+}
+
+/* ==========================================================================
+   Base Styles & Typography
+   ========================================================================== */
+
+body {
+  font-family: var(--waboot-font-family-sans-serif);
+  font-size: var(--waboot-font-size-base);
+  font-weight: var(--waboot-font-weight-normal);
+  line-height: var(--waboot-line-height-base);
+  color: var(--waboot-dark);
+  background-color: #ffffff;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: var(--waboot-font-weight-bold);
+  line-height: 1.2;
+  color: var(--waboot-dark);
+}
+
+/* Links */
+a {
+  color: var(--waboot-primary);
+  text-decoration: none;
+  transition: var(--waboot-transition);
+}
+
+a:hover {
+  color: var(--waboot-primary);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Layout Components (BEM Methodology)
+   ========================================================================== */
+
+/* Top Bar */
+.waboot__top-bar {
+  font-size: 0.875rem;
+  border-bottom: var(--waboot-border-width) solid rgba(255, 255, 255, 0.1);
+}
+
+.waboot__top-bar__text {
+  margin: 0;
+}
+
+.waboot__top-bar__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+.waboot__top-bar__link {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--waboot-transition);
+}
+
+.waboot__top-bar__link:hover {
+  color: inherit;
+  opacity: 0.8;
+}
+
+/* Header */
+.waboot__header {
+  background-color: #ffffff;
+  box-shadow: var(--waboot-box-shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+.waboot__header--minimal {
+  box-shadow: none;
+  border-bottom: var(--waboot-border-width) solid var(--waboot-border-color);
+}
+
+.waboot__header--centered .navbar-nav {
+  justify-content: center;
+}
+
+/* Logo */
+.waboot__logo {
+  max-height: 50px;
+  width: auto;
+  transition: var(--waboot-transition);
+}
+
+.waboot__logo:hover {
+  opacity: 0.9;
+}
+
+/* Navigation */
+.waboot__nav {
+  padding: 0.75rem 0;
+}
+
+.waboot__nav-link {
+  color: var(--waboot-dark);
+  font-weight: var(--waboot-font-weight-normal);
+  padding: 0.5rem 1rem;
+  transition: var(--waboot-transition);
+  position: relative;
+}
+
+.waboot__nav-link:hover,
+.waboot__nav-link--active {
+  color: var(--waboot-primary);
+}
+
+.waboot__nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--waboot-primary);
+  transition: var(--waboot-transition);
+  transform: translateX(-50%);
+}
+
+.waboot__nav-link:hover::after,
+.waboot__nav-link--active::after {
+  width: 80%;
+}
+
+/* Dropdown Menu */
+.waboot__dropdown-menu {
+  border: none;
+  box-shadow: var(--waboot-box-shadow);
+  border-radius: var(--waboot-border-radius);
+  padding: 0.5rem 0;
+}
+
+.waboot__dropdown-item {
+  padding: 0.5rem 1.5rem;
+  transition: var(--waboot-transition);
+}
+
+.waboot__dropdown-item:hover {
+  background-color: var(--waboot-light);
+  color: var(--waboot-primary);
+}
+
+/* Cart Icon */
+.waboot__cart-icon {
+  position: relative;
+  color: var(--waboot-dark);
+  font-size: 1.25rem;
+  transition: var(--waboot-transition);
+}
+
+.waboot__cart-icon:hover {
+  color: var(--waboot-primary);
+}
+
+.waboot__cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--waboot-danger);
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--waboot-font-weight-bold);
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+
+.waboot__hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.waboot__hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.9) 0%, rgba(108, 117, 125, 0.8) 100%);
+  z-index: 1;
+}
+
+.waboot__hero > .container,
+.waboot__hero > .container-fluid {
+  position: relative;
+  z-index: 2;
+}
+
+.waboot__hero-content {
+  padding: 2rem 0;
+}
+
+.waboot__hero-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.waboot__hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: var(--waboot-font-weight-light);
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.waboot__hero-cta {
+  padding: 0.75rem 2rem;
+  font-size: 1.125rem;
+  font-weight: var(--waboot-font-weight-bold);
+  border-radius: var(--waboot-border-radius-lg);
+  transition: var(--waboot-transition);
+  transform: translateY(0);
+}
+
+.waboot__hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--waboot-box-shadow-lg);
+}
+
+.waboot__hero-image {
+  text-align: center;
+}
+
+.waboot__hero-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--waboot-border-radius-lg);
+  box-shadow: var(--waboot-box-shadow-lg);
+}
+
+/* ==========================================================================
+   Product Components
+   ========================================================================== */
+
+.waboot__products-section {
+  padding: 4rem 0;
+}
+
+.waboot__section-title {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--waboot-dark);
+}
+
+.waboot__section-subtitle {
+  text-align: center;
+  margin-bottom: 4rem;
+  font-size: 1.125rem;
+  color: var(--waboot-secondary);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Product Card */
+.waboot__product-card {
+  background: white;
+  border-radius: var(--waboot-border-radius-lg);
+  box-shadow: var(--waboot-box-shadow-sm);
+  transition: var(--waboot-transition);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.waboot__product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--waboot-box-shadow);
+}
+
+.waboot__product-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+
+.waboot__product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--waboot-transition);
+}
+
+.waboot__product-card:hover .waboot__product-image img {
+  transform: scale(1.05);
+}
+
+.waboot__product-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: var(--waboot-danger);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--waboot-border-radius);
+  font-size: 0.875rem;
+  font-weight: var(--waboot-font-weight-bold);
+  z-index: 10;
+}
+
+.waboot__product-badge--sale {
+  background-color: var(--waboot-danger);
+}
+
+.waboot__product-badge--new {
+  background-color: var(--waboot-success);
+}
+
+.waboot__product-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.waboot__product-title {
+  font-size: 1.125rem;
+  font-weight: var(--waboot-font-weight-bold);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+  flex-grow: 1;
+}
+
+.waboot__product-title a {
+  color: var(--waboot-dark);
+  text-decoration: none;
+  transition: var(--waboot-transition);
+}
+
+.waboot__product-title a:hover {
+  color: var(--waboot-primary);
+}
+
+.waboot__product-price {
+  font-size: 1.25rem;
+  font-weight: var(--waboot-font-weight-bold);
+  color: var(--waboot-primary);
+  margin-bottom: 1rem;
+}
+
+.waboot__product-price__old {
+  text-decoration: line-through;
+  color: var(--waboot-secondary);
+  font-weight: var(--waboot-font-weight-normal);
+  margin-right: 0.5rem;
+}
+
+.waboot__product-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.waboot__btn-add-to-cart {
+  flex: 1;
+  padding: 0.75rem;
+  background-color: var(--waboot-primary);
+  color: white;
+  border: none;
+  border-radius: var(--waboot-border-radius);
+  font-weight: var(--waboot-font-weight-bold);
+  transition: var(--waboot-transition);
+  cursor: pointer;
+}
+
+.waboot__btn-add-to-cart:hover {
+  background-color: var(--waboot-primary);
+  transform: translateY(-1px);
+}
+
+.waboot__btn-wishlist {
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid var(--waboot-border-color);
+  background: white;
+  border-radius: var(--waboot-border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--waboot-transition);
+  cursor: pointer;
+}
+
+.waboot__btn-wishlist:hover {
+  border-color: var(--waboot-primary);
+  color: var(--waboot-primary);
+}
+
+/* ==========================================================================
+   Footer Components
+   ========================================================================== */
+
+.waboot__footer-main {
+  background-color: var(--waboot-dark);
+  color: white;
+}
+
+.waboot__footer-about {
+  margin-bottom: 2rem;
+}
+
+.waboot__footer-logo {
+  max-height: 40px;
+  margin-bottom: 1rem;
+}
+
+.waboot__footer-description {
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.waboot__footer-title {
+  font-size: 1.25rem;
+  font-weight: var(--waboot-font-weight-bold);
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.waboot__footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.waboot__footer-link {
+  display: block;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  padding: 0.25rem 0;
+  transition: var(--waboot-transition);
+}
+
+.waboot__footer-link:hover {
+  color: white;
+  padding-left: 0.5rem;
+}
+
+.waboot__social-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.waboot__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: var(--waboot-transition);
+}
+
+.waboot__social-link:hover {
+  background-color: var(--waboot-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.waboot__newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.waboot__newsletter-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: var(--waboot-border-radius);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: var(--waboot-transition);
+}
+
+.waboot__newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.waboot__newsletter-input:focus {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.waboot__newsletter-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--waboot-primary);
+  color: white;
+  border: none;
+  border-radius: var(--waboot-border-radius);
+  font-weight: var(--waboot-font-weight-bold);
+  transition: var(--waboot-transition);
+  cursor: pointer;
+}
+
+.waboot__newsletter-btn:hover {
+  background-color: var(--waboot-primary);
+  transform: translateY(-1px);
+}
+
+.waboot__footer-bottom {
+  background-color: #000;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 1.5rem 0;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.waboot__footer-bottom a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+}
+
+.waboot__footer-bottom a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Testimonials Section
+   ========================================================================== */
+
+.waboot__testimonials {
+  background-color: var(--waboot-light);
+  padding: 4rem 0;
+}
+
+.waboot__testimonial-card {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--waboot-border-radius-lg);
+  box-shadow: var(--waboot-box-shadow-sm);
+  text-align: center;
+  height: 100%;
+  transition: var(--waboot-transition);
+}
+
+.waboot__testimonial-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--waboot-box-shadow);
+}
+
+.waboot__testimonial-quote {
+  font-style: italic;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: var(--waboot-secondary);
+}
+
+.waboot__testimonial-author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.waboot__testimonial-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.waboot__testimonial-info {
+  text-align: left;
+}
+
+.waboot__testimonial-name {
+  font-weight: var(--waboot-font-weight-bold);
+  color: var(--waboot-dark);
+  margin-bottom: 0.25rem;
+}
+
+.waboot__testimonial-title {
+  font-size: 0.875rem;
+  color: var(--waboot-secondary);
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.waboot__text-gradient {
+  background: linear-gradient(135deg, var(--waboot-primary) 0%, var(--waboot-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.waboot__min-vh-50 {
+  min-height: 50vh;
+}
+
+.waboot__min-vh-75 {
+  min-height: 75vh;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+/* Mobile First Approach */
+@media (max-width: 767.98px) {
+  .waboot__hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .waboot__section-title {
+    font-size: 2rem;
+  }
+  
+  .waboot__hero-content {
+    text-align: center;
+    padding: 1rem 0;
+  }
+  
+  .waboot__nav-link::after {
+    display: none;
+  }
+  
+  .waboot__testimonial-author {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .waboot__testimonial-info {
+    text-align: center;
+  }
+  
+  .waboot__newsletter-form {
+    flex-direction: column;
+  }
+  
+  .waboot__social-links {
+    justify-content: center;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .waboot__hero-title {
+    font-size: 3rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1200px) {
+  .waboot__hero-title {
+    font-size: 4rem;
+  }
+  
+  .waboot__section-title {
+    font-size: 3rem;
+  }
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+  .waboot__top-bar,
+  .waboot__header,
+  .waboot__footer-main,
+  .waboot__footer-bottom {
+    display: none;
+  }
+  
+  .waboot__hero {
+    background: none !important;
+    color: black !important;
+  }
+  
+  .waboot__product-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
