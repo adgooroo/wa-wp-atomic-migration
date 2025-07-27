@@ -1,0 +1,513 @@
+/*!
+ * Shop Atomic Components
+ * E-commerce specific atomic elements extending parent theme atoms
+ * BEM Methodology: .waboot-shop__atom__element--modifier
+ */
+
+/* ============================================
+   PRICE ATOM
+   ============================================ */
+
+.waboot-shop__price {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--shop-price-color);
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.waboot-shop__price__amount {
+    font-weight: inherit;
+    color: inherit;
+}
+
+.waboot-shop__price__currency {
+    font-size: 0.875em;
+    font-weight: 500;
+    color: inherit;
+}
+
+.waboot-shop__price__original {
+    text-decoration: line-through;
+    color: var(--bs-gray-500);
+    font-weight: 400;
+    font-size: 0.875em;
+}
+
+/* Price modifiers */
+.waboot-shop__price--large {
+    font-size: 1.5rem;
+}
+
+.waboot-shop__price--small {
+    font-size: 0.875rem;
+}
+
+.waboot-shop__price--sale {
+    color: var(--shop-sale-color);
+}
+
+.waboot-shop__price--free {
+    color: var(--shop-price-color);
+}
+
+/* ============================================
+   QUANTITY SELECTOR ATOM
+   ============================================ */
+
+.waboot-shop__quantity {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    background-color: var(--bs-body-bg);
+    overflow: hidden;
+}
+
+.waboot-shop__quantity__button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bs-gray-600);
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.waboot-shop__quantity__button:hover {
+    background-color: var(--bs-gray-100);
+    color: var(--bs-gray-800);
+}
+
+.waboot-shop__quantity__button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.waboot-shop__quantity__input {
+    border: none;
+    background: none;
+    text-align: center;
+    width: 3rem;
+    height: 2.5rem;
+    padding: 0;
+    font-weight: 500;
+    color: var(--bs-body-color);
+}
+
+.waboot-shop__quantity__input:focus {
+    outline: none;
+    background-color: var(--bs-gray-50);
+}
+
+/* ============================================
+   RATING STARS ATOM
+   ============================================ */
+
+.waboot-shop__rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 1rem;
+}
+
+.waboot-shop__rating__stars {
+    display: flex;
+    color: var(--shop-rating-color);
+    gap: 0.125rem;
+}
+
+.waboot-shop__rating__star {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    position: relative;
+}
+
+.waboot-shop__rating__star::before {
+    content: '★';
+    position: absolute;
+    color: var(--bs-gray-300);
+}
+
+.waboot-shop__rating__star--filled::before {
+    color: var(--shop-rating-color);
+}
+
+.waboot-shop__rating__star--half::before {
+    background: linear-gradient(90deg, var(--shop-rating-color) 50%, var(--bs-gray-300) 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.waboot-shop__rating__count {
+    font-size: 0.875em;
+    color: var(--bs-gray-600);
+    margin-left: 0.25rem;
+}
+
+/* Rating size modifiers */
+.waboot-shop__rating--small {
+    font-size: 0.875rem;
+}
+
+.waboot-shop__rating--large {
+    font-size: 1.25rem;
+}
+
+/* ============================================
+   STOCK STATUS ATOM
+   ============================================ */
+
+.waboot-shop__stock {
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.waboot-shop__stock__indicator {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.waboot-shop__stock__text {
+    color: inherit;
+}
+
+/* Stock status modifiers */
+.waboot-shop__stock--in-stock {
+    color: var(--shop-price-color);
+}
+
+.waboot-shop__stock--in-stock .waboot-shop__stock__indicator {
+    background-color: var(--shop-price-color);
+}
+
+.waboot-shop__stock--out-of-stock {
+    color: var(--shop-out-of-stock-color);
+}
+
+.waboot-shop__stock--out-of-stock .waboot-shop__stock__indicator {
+    background-color: var(--shop-out-of-stock-color);
+}
+
+.waboot-shop__stock--low-stock {
+    color: var(--shop-sale-color);
+}
+
+.waboot-shop__stock--low-stock .waboot-shop__stock__indicator {
+    background-color: var(--shop-sale-color);
+}
+
+/* ============================================
+   SALE BADGE ATOM
+   ============================================ */
+
+.waboot-shop__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: var(--bs-border-radius-sm);
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.waboot-shop__badge--sale {
+    background-color: var(--shop-sale-color);
+    color: white;
+}
+
+.waboot-shop__badge--new {
+    background-color: var(--bs-info);
+    color: white;
+}
+
+.waboot-shop__badge--featured {
+    background-color: var(--bs-warning);
+    color: var(--bs-dark);
+}
+
+.waboot-shop__badge--bestseller {
+    background-color: var(--shop-price-color);
+    color: white;
+}
+
+.waboot-shop__badge--out-of-stock {
+    background-color: var(--bs-gray-500);
+    color: white;
+}
+
+/* Badge position modifiers for absolute positioning */
+.waboot-shop__badge--top-left {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 1;
+}
+
+.waboot-shop__badge--top-right {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+}
+
+/* ============================================
+   ADD TO CART BUTTON ATOM
+   ============================================ */
+
+.waboot-shop__add-to-cart {
+    /* Extend parent button styles */
+    background-color: var(--shop-add-to-cart-bg);
+    border-color: var(--shop-add-to-cart-bg);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--bs-border-radius);
+    transition: all 0.15s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.waboot-shop__add-to-cart:hover {
+    background-color: var(--shop-add-to-cart-hover-bg);
+    border-color: var(--shop-add-to-cart-hover-bg);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.waboot-shop__add-to-cart:focus {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+
+.waboot-shop__add-to-cart:active {
+    transform: translateY(0);
+}
+
+.waboot-shop__add-to-cart__icon {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
+
+.waboot-shop__add-to-cart__text {
+    color: inherit;
+}
+
+/* Add to cart button states */
+.waboot-shop__add-to-cart--loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.waboot-shop__add-to-cart--loading .waboot-shop__add-to-cart__text {
+    opacity: 0;
+}
+
+.waboot-shop__add-to-cart--loading::after {
+    content: '';
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.waboot-shop__add-to-cart--disabled {
+    background-color: var(--bs-gray-400);
+    border-color: var(--bs-gray-400);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Button size modifiers */
+.waboot-shop__add-to-cart--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.waboot-shop__add-to-cart--lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+}
+
+/* ============================================
+   WISHLIST BUTTON ATOM
+   ============================================ */
+
+.waboot-shop__wishlist {
+    background: none;
+    border: 1px solid var(--bs-border-color);
+    color: var(--bs-gray-600);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--bs-border-radius);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+    position: relative;
+}
+
+.waboot-shop__wishlist:hover {
+    border-color: var(--shop-wishlist-color);
+    color: var(--shop-wishlist-color);
+    transform: scale(1.05);
+}
+
+.waboot-shop__wishlist:focus {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+
+.waboot-shop__wishlist__icon {
+    width: 1.125em;
+    height: 1.125em;
+    fill: currentColor;
+    transition: all 0.15s ease-in-out;
+}
+
+.waboot-shop__wishlist--active {
+    background-color: var(--shop-wishlist-color);
+    border-color: var(--shop-wishlist-color);
+    color: white;
+}
+
+.waboot-shop__wishlist--active .waboot-shop__wishlist__icon {
+    fill: currentColor;
+}
+
+/* ============================================
+   CURRENCY SELECTOR ATOM
+   ============================================ */
+
+.waboot-shop__currency {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--bs-border-radius-sm);
+    transition: all 0.15s ease-in-out;
+}
+
+.waboot-shop__currency:hover {
+    background-color: var(--bs-gray-100);
+    color: var(--bs-gray-800);
+    text-decoration: none;
+}
+
+.waboot-shop__currency__symbol {
+    font-weight: 600;
+}
+
+.waboot-shop__currency__code {
+    text-transform: uppercase;
+    font-size: 0.75em;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 576px) {
+    .waboot-shop__add-to-cart {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.875rem;
+    }
+    
+    .waboot-shop__quantity {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .waboot-shop__rating {
+        font-size: 0.875rem;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* Screen reader text for complex components */
+.waboot-shop__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus indicators */
+.waboot-shop__quantity__button:focus,
+.waboot-shop__quantity__input:focus {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 1px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .waboot-shop__badge {
+        border: 2px solid currentColor;
+    }
+    
+    .waboot-shop__rating__star--filled::before {
+        text-shadow: 0 0 2px currentColor;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .waboot-shop__add-to-cart,
+    .waboot-shop__wishlist,
+    .waboot-shop__quantity__button {
+        transition: none;
+    }
+    
+    .waboot-shop__add-to-cart:hover {
+        transform: none;
+    }
+    
+    .waboot-shop__wishlist:hover {
+        transform: none;
+    }
+    
+    .waboot-shop__add-to-cart--loading::after {
+        animation: none;
+    }
+}
