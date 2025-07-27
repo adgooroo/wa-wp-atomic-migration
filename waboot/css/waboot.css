@@ -1,7 +1,3 @@
-diff --git a/waboot/css/waboot.css b/waboot/css/waboot.css
---- a/waboot/css/waboot.css
- b/waboot/css/waboot.css
-@@ -0,0 1,753 @@
 /*!
  * Waboot Theme CSS
  * WordPress Bootscore to Webasyst Migration
@@ -754,4 +750,3 @@ a:hover {
     box-shadow: none;
     border: 1px solid #ddd;
   }
-}
