@@ -118,7 +118,7 @@ Webasyst Theme Structure:
 ## Template Structure
 
 ### Layout Template (layout.html)
-**WordPress equivalent**: header.php  footer.php combination
+**WordPress equivalent**: header.php + footer.php combination
 
 ```smarty
 {* Waboot layout.html structure *}
@@ -192,7 +192,7 @@ waboot/
 ### Performance Considerations
 - All vendor assets are minified
 - CSS uses modern features (CSS Grid, Flexbox, Custom Properties)
-- JavaScript uses modern ES6 features with Alpine.js for reactivity
+- JavaScript uses modern ES6+ features with Alpine.js for reactivity
 - Images use lazy loading and responsive srcset when possible
 
 ## JavaScript Framework Transition
