@@ -37,19 +37,19 @@
 - **Build Tools**: None required (pure CSS/JS)
 
 ### Browser Support
-- Chrome 90
-- Firefox 88
-- Safari 14
-- Edge 90
-- iOS Safari 14
-- Android Chrome 90
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+- iOS Safari 14+
+- Android Chrome 90+
 
 ## Installation
 
 ### Prerequisites
 - Webasyst Framework installed
 - Webasyst Shop app installed and configured
-- PHP 7.4 (recommended 8.0)
+- PHP 7.4+ (recommended 8.0+)
 - Modern web browser for administration
 
 ### Step 1: Download and Install
