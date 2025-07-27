@@ -1,7 +1,3 @@
-diff --git a/docs/migration-guide.md b/docs/migration-guide.md
---- a/docs/migration-guide.md
- b/docs/migration-guide.md
-@@ -0,0 1,462 @@
 # WordPress Bootscore to Webasyst Waboot Migration Guide
 
 ## Table of Contents
