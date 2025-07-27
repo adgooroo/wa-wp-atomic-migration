@@ -1,0 +1,90 @@
+{*
+ * Input Atom Component
+ * Reusable form input with accessibility and validation
+ * 
+ * Parameters:
+ * - type: input type (text, email, password, number, etc.) [default: text]
+ * - name: input name attribute [required]
+ * - id: input ID [required]
+ * - label: input label text [optional]
+ * - placeholder: placeholder text [optional]
+ * - value: input value [optional]
+ * - required: required field [optional]
+ * - disabled: disabled state [optional]
+ * - readonly: readonly state [optional]
+ * - class: additional CSS classes [optional]
+ * - help_text: help text [optional]
+ * - error: error message [optional]
+ * - autocomplete: autocomplete attribute [optional]
+ * - min: minimum value for number inputs [optional]
+ * - max: maximum value for number inputs [optional]
+ * - minlength: minimum length [optional]
+ * - maxlength: maximum length [optional]
+ * - pattern: validation pattern [optional]
+ * - size: input size (sm, lg) [optional]
+ *}
+
+{$input_type = $type|default:'text'}
+{$input_name = $name|default:''}
+{$input_id = $id|default:''}
+{$input_label = $label|default:''}
+{$input_placeholder = $placeholder|default:''}
+{$input_value = $value|default:''}
+{$input_required = $required|default:false}
+{$input_disabled = $disabled|default:false}
+{$input_readonly = $readonly|default:false}
+{$input_class = $class|default:''}
+{$input_help_text = $help_text|default:''}
+{$input_error = $error|default:''}
+{$input_autocomplete = $autocomplete|default:''}
+{$input_size = $size|default:''}
+
+<div class="waboot__input-group{if $input_error} waboot__input-group--error{/if}{if $input_disabled} waboot__input-group--disabled{/if}">
+    
+    {* Label *}
+    {if $input_label}
+    <label for="{$input_id}" class="waboot__input-label">
+        {$input_label|escape}
+        {if $input_required}
+        <span class="waboot__input-required" aria-label="required field">*</span>
+        {/if}
+    </label>
+    {/if}
+    
+    {* Input wrapper for styling *}
+    <div class="waboot__input-wrapper">
+        <input type="{$input_type}"
+               id="{$input_id}"
+               name="{$input_name}"
+               class="waboot__input{if $input_size} waboot__input--{$input_size}{/if}{if $input_class} {$input_class}{/if}{if $input_error} waboot__input--invalid{/if}"
+               {if $input_placeholder}placeholder="{$input_placeholder|escape}"{/if}
+               {if $input_value}value="{$input_value|escape}"{/if}
+               {if $input_required}required{/if}
+               {if $input_disabled}disabled{/if}
+               {if $input_readonly}readonly{/if}
+               {if $input_autocomplete}autocomplete="{$input_autocomplete}"{/if}
+               {if $min}min="{$min}"{/if}
+               {if $max}max="{$max}"{/if}
+               {if $minlength}minlength="{$minlength}"{/if}
+               {if $maxlength}maxlength="{$maxlength}"{/if}
+               {if $pattern}pattern="{$pattern}"{/if}
+               {if $input_help_text || $input_error}aria-describedby="{$input_id}-help{if $input_error} {$input_id}-error{/if}"{/if}
+               {if $input_error}aria-invalid="true"{/if}>
+    </div>
+    
+    {* Help text *}
+    {if $input_help_text}
+    <div id="{$input_id}-help" class="waboot__input-help">
+        {$input_help_text|escape}
+    </div>
+    {/if}
+    
+    {* Error message *}
+    {if $input_error}
+    <div id="{$input_id}-error" class="waboot__input-error" role="alert" aria-live="polite">
+        <i class="waboot__input-error-icon" aria-hidden="true"></i>
+        {$input_error|escape}
+    </div>
+    {/if}
+    
+</div>

@@ -1,0 +1,68 @@
+{*
+ * Button Atom Component
+ * Reusable button with BEM methodology and accessibility
+ * 
+ * Parameters:
+ * - type: button type (button, submit, reset) [default: button]
+ * - variant: button style (primary, secondary, success, danger, etc.) [default: primary]
+ * - size: button size (sm, lg) [optional]
+ * - icon: icon class [optional]
+ * - icon_position: before|after [default: before]
+ * - text: button text [required]
+ * - class: additional CSS classes [optional]
+ * - disabled: disabled state [optional]
+ * - loading: loading state [optional]
+ * - id: button ID [optional]
+ * - aria_label: accessibility label [optional]
+ * - data_attributes: array of data attributes [optional]
+ *}
+
+{$btn_type = $type|default:'button'}
+{$btn_variant = $variant|default:'primary'}
+{$btn_size = $size|default:''}
+{$btn_icon = $icon|default:''}
+{$btn_icon_position = $icon_position|default:'before'}
+{$btn_text = $text|default:'Button'}
+{$btn_class = $class|default:''}
+{$btn_disabled = $disabled|default:false}
+{$btn_loading = $loading|default:false}
+{$btn_id = $id|default:''}
+{$btn_aria_label = $aria_label|default:''}
+
+<button type="{$btn_type}"
+        class="waboot__btn waboot__btn--{$btn_variant}{if $btn_size} waboot__btn--{$btn_size}{/if}{if $btn_class} {$btn_class}{/if}{if $btn_loading} waboot__btn--loading{/if}"
+        {if $btn_id}id="{$btn_id}"{/if}
+        {if $btn_disabled || $btn_loading}disabled{/if}
+        {if $btn_aria_label}aria-label="{$btn_aria_label|escape}"{/if}
+        {if $btn_loading}aria-busy="true"{/if}
+        {if $data_attributes}
+            {foreach $data_attributes as $attr_name => $attr_value}
+                data-{$attr_name}="{$attr_value|escape}"
+            {/foreach}
+        {/if}>
+    
+    {* Loading spinner *}
+    {if $btn_loading}
+    <span class="waboot__btn__spinner" aria-hidden="true">
+        <span class="spinner-border spinner-border-sm" role="status"></span>
+    </span>
+    {/if}
+    
+    {* Icon before text *}
+    {if $btn_icon && $btn_icon_position == 'before' && !$btn_loading}
+    <i class="waboot__btn__icon waboot__btn__icon--before {$btn_icon}" aria-hidden="true"></i>
+    {/if}
+    
+    {* Button text *}
+    <span class="waboot__btn__text">{$btn_text|escape}</span>
+    
+    {* Icon after text *}
+    {if $btn_icon && $btn_icon_position == 'after' && !$btn_loading}
+    <i class="waboot__btn__icon waboot__btn__icon--after {$btn_icon}" aria-hidden="true"></i>
+    {/if}
+    
+    {* Screen reader loading text *}
+    {if $btn_loading}
+    <span class="visually-hidden">Loading...</span>
+    {/if}
+</button>
