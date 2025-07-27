@@ -45,7 +45,7 @@
 
 - Webasyst Framework (latest version)
 - Webasyst Shop app installed
-- PHP 7.4 (PHP 8.0 recommended)
+- PHP 7.4+ (PHP 8.0+ recommended)
 - Modern web browser
 
 ### Installation
@@ -289,12 +289,12 @@ All documentation includes practical code examples for:
 
 | Browser | Version |
 |---------|---------|
-| Chrome | 90 |
-| Firefox | 88 |
-| Safari | 14 |
-| Edge | 90 |
-| iOS Safari | 14 |
-| Android Chrome | 90 |
+| Chrome | 90+ |
+| Firefox | 88+ |
+| Safari | 14+ |
+| Edge | 90+ |
+| iOS Safari | 14+ |
+| Android Chrome | 90+ |
 
 ## 🔍 SEO Features
 
@@ -318,7 +318,7 @@ All documentation includes practical code examples for:
 
 ## 🚀 Performance Metrics
 
-- **PageSpeed Score**: 95 (mobile & desktop)
+- **PageSpeed Score**: 95+ (mobile & desktop)
 - **First Contentful Paint**: < 1.5s
 - **Largest Contentful Paint**: < 2.5s
 - **Cumulative Layout Shift**: < 0.1
@@ -415,10 +415,10 @@ For custom development or enterprise support:
 
 ## 📊 Project Stats
 
-- **Lines of Code**: 15,000
+- **Lines of Code**: 15,000+
 - **Templates**: 6 main templates
-- **CSS Classes**: 200 BEM components
-- **JavaScript Functions**: 50 interactive features
+- **CSS Classes**: 200+ BEM components
+- **JavaScript Functions**: 50+ interactive features
 - **Migration Time**: 4 development stages
 - **Documentation**: 2 comprehensive guides
 
@@ -428,4 +428,6 @@ For custom development or enterprise support:
 
 **Made with ❤️ for the Webasyst community**
 
-[⭐ Star this repo](https://github.com/your-repo/waboot-theme) | [🐛 Report Bug](https://github.com/your-repo/waboot-theme/issues) | [💡 Request Feature](https://github.com/your-repo/waboot-theme/discussions)
+[⭐ Star this repo](https://github.com/adgooroo/wp-wa-migration) | [🐛 Report Bug](https://github.com/adgooroo/wp-wa-migration/issues) | [💡 Request Feature](https://github.com/adgooroo/wp-wa-migration/issues)
+
+</div>
