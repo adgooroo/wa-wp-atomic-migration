@@ -1,0 +1,301 @@
+{*
+/**
+ * Homepage Template
+ * Demonstrates the complete atomic design system
+ * Uses Bootstrap 5 + Alpine.js + BEM + Atomic Design
+ */
+*}
+
+{* Hero Section *}
+{include file="organisms/hero-section.html" 
+    title="Modern Web Development"
+    subtitle="Bootstrap 5 + Alpine.js"
+    description="Experience the power of atomic design with our modern tech stack. Built for performance, accessibility, and scalability."
+    background_image="/images/hero-bg.jpg"
+    animated=true
+    buttons=[
+        {
+            text: "Get Started",
+            url: "/contact/",
+            variant: "primary"
+        },
+        {
+            text: "View Portfolio",
+            url: "/portfolio/",
+            variant: "outline-light"
+        }
+    ]
+}
+
+{* Main Content *}
+<div class="site__home-content">
+    {* Features Section *}
+    <section class="py-5 bg-light" data-aos="fade-up">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center">
+                    {include file="atoms/heading.html" 
+                        level="h2"
+                        text="Why Choose Our Platform?"
+                        class="mb-3"
+                    }
+                    <p class="lead text-muted">
+                        Built with modern technologies and best practices for exceptional user experiences.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-center h-100 p-4">
+                        <div class="mb-3">
+                            {include file="atoms/icon.html" 
+                                name="lightning-charge-fill"
+                                type="bootstrap"
+                                size="xl"
+                                color="primary"
+                                class="fs-1"
+                            }
+                        </div>
+                        {include file="atoms/heading.html" 
+                            level="h4"
+                            text="Lightning Fast"
+                            class="mb-3"
+                        }
+                        <p class="text-muted">
+                            Optimized performance with local assets, lazy loading, and efficient code splitting.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-center h-100 p-4">
+                        <div class="mb-3">
+                            {include file="atoms/icon.html" 
+                                name="shield-check-fill"
+                                type="bootstrap"
+                                size="xl"
+                                color="success"
+                                class="fs-1"
+                            }
+                        </div>
+                        {include file="atoms/heading.html" 
+                            level="h4"
+                            text="Fully Accessible"
+                            class="mb-3"
+                        }
+                        <p class="text-muted">
+                            WCAG 2.2 AA compliant with comprehensive keyboard navigation and screen reader support.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-center h-100 p-4">
+                        <div class="mb-3">
+                            {include file="atoms/icon.html" 
+                                name="phone-fill"
+                                type="bootstrap"
+                                size="xl"
+                                color="info"
+                                class="fs-1"
+                            }
+                        </div>
+                        {include file="atoms/heading.html" 
+                            level="h4"
+                            text="Mobile First"
+                            class="mb-3"
+                        }
+                        <p class="text-muted">
+                            Responsive design that works perfectly on all devices, from mobile to desktop.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    {* Technology Stack Section *}
+    <section class="py-5" data-aos="fade-up">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center">
+                    {include file="atoms/heading.html" 
+                        level="h2"
+                        text="Modern Technology Stack"
+                        class="mb-3"
+                    }
+                    <p class="lead text-muted">
+                        Built with the latest web technologies for optimal performance and developer experience.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="p-4">
+                        {include file="atoms/heading.html" 
+                            level="h3"
+                            text="Bootstrap 5 + Alpine.js"
+                            class="mb-4"
+                        }
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            {include file="atoms/icon.html" 
+                                name="check-circle-fill"
+                                type="bootstrap"
+                                color="success"
+                                class="me-2"
+                            }
+                            <span>Atomic Design methodology</span>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            {include file="atoms/icon.html" 
+                                name="check-circle-fill"
+                                type="bootstrap"
+                                color="success"
+                                class="me-2"
+                            }
+                            <span>BEM CSS naming convention</span>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            {include file="atoms/icon.html" 
+                                name="check-circle-fill"
+                                type="bootstrap"
+                                color="success"
+                                class="me-2"
+                            }
+                            <span>Local assets (no CDN dependencies)</span>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-4">
+                            {include file="atoms/icon.html" 
+                                name="check-circle-fill"
+                                type="bootstrap"
+                                color="success"
+                                class="me-2"
+                            }
+                            <span>Performance-first architecture</span>
+                        </div>
+                        
+                        {include file="atoms/button.html" 
+                            text="Learn More"
+                            url="/about/"
+                            variant="primary"
+                            size="lg"
+                        }
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="p-4 bg-light rounded">
+                        <pre class="mb-0"><code class="language-html">{literal}<!-- Atomic Design Example -->
+<div class="site__feature-card">
+  {include file="atoms/heading.html" 
+      level="h3"
+      text="Feature Title"
+      class="mb-3"
+  }
+  
+  {include file="atoms/button.html" 
+      text="Learn More"
+      variant="primary"
+  }
+</div>{/literal}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    {* Contact Section *}
+    <section class="py-5 bg-primary text-white" data-aos="fade-up">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    {include file="atoms/heading.html" 
+                        level="h2"
+                        text="Ready to Get Started?"
+                        class="text-white mb-4"
+                    }
+                    <p class="lead mb-4">
+                        Contact us today to discuss your project requirements and see how we can help.
+                    </p>
+                    
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                        {include file="atoms/button.html" 
+                            text="Contact Us"
+                            url="/contact/"
+                            variant="light"
+                            size="lg"
+                        }
+                        
+                        {include file="atoms/button.html" 
+                            text="View Portfolio"
+                            url="/portfolio/"
+                            variant="outline-light"
+                            size="lg"
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    {* Stats Section *}
+    <section class="py-5" data-aos="fade-up">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="p-4">
+                        {include file="atoms/heading.html" 
+                            level="h3"
+                            text="500+"
+                            size="display-4"
+                            class="text-primary mb-2"
+                        }
+                        <p class="text-muted mb-0">Projects Completed</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="p-4">
+                        {include file="atoms/heading.html" 
+                            level="h3"
+                            text="98%"
+                            size="display-4"
+                            class="text-success mb-2"
+                        }
+                        <p class="text-muted mb-0">Client Satisfaction</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="p-4">
+                        {include file="atoms/heading.html" 
+                            level="h3"
+                            text="50+"
+                            size="display-4"
+                            class="text-info mb-2"
+                        }
+                        <p class="text-muted mb-0">Team Members</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-sm-6" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="p-4">
+                        {include file="atoms/heading.html" 
+                            level="h3"
+                            text="24/7"
+                            size="display-4"
+                            class="text-warning mb-2"
+                        }
+                        <p class="text-muted mb-0">Support Available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

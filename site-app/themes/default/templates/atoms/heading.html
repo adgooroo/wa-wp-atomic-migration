@@ -1,0 +1,59 @@
+{*
+/**
+ * Heading Atom Component
+ * Semantic heading component with BEM methodology
+ *
+ * @param {string} $level - Heading level (h1-h6)
+ * @param {string} $text - Heading text content
+ * @param {string} $class - Additional CSS classes
+ * @param {string} $id - Unique ID for heading
+ * @param {string} $size - Display size override (display-1 to display-6)
+ */
+*}
+
+{$level = $level|default:'h2'}
+{$text = $text|default:''}
+{$class = $class|default:''}
+{$id = $id|default:''}
+{$size = $size|default:''}
+
+{* Validate heading level *}
+{if !in_array($level, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])}
+    {$level = 'h2'}
+{/if}
+
+{* Build CSS classes with BEM methodology *}
+{$heading_classes = "site__heading site__heading--{$level}"}
+{if $size}
+    {$heading_classes = "{$heading_classes} {$size}"}
+{/if}
+{if $class}
+    {$heading_classes = "{$heading_classes} {$class}"}
+{/if}
+
+{* Render heading element *}
+{if $level == 'h1'}
+    <h1 class="{$heading_classes}"{if $id} id="{$id}"{/if}>
+        {$text|escape}
+    </h1>
+{elseif $level == 'h2'}
+    <h2 class="{$heading_classes}"{if $id} id="{$id}"{/if}>
+        {$text|escape}
+    </h2>
+{elseif $level == 'h3'}
+    <h3 class="{$heading_classes}"{if $id} id="{$id}"{/if}>
+        {$text|escape}
+    </h3>
+{elseif $level == 'h4'}
+    <h4 class="{$heading_classes}"{if $id} id="{$id}"{/if}>
+        {$text|escape}
+    </h4>
+{elseif $level == 'h5'}
+    <h5 class="{$heading_classes}"{if $id} id="{$id}"{/if}>
+        {$text|escape}
+    </h5>
+{elseif $level == 'h6'}
+    <h6 class="{$heading_classes}"{if $id} id="{$id}"{/if}>
+        {$text|escape}
+    </h6>
+{/if}
