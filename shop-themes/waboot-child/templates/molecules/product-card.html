@@ -1,0 +1,367 @@
+{*
+ * Product Card Molecule Template with Comprehensive JSON-LD Schema
+ * Complete product display component with structured data
+ * @param product - Product data object
+ * @param show_wishlist - Show wishlist button
+ * @param show_compare - Show compare button
+ * @param show_quick_view - Show quick view button
+ * @param card_style - Card style variant
+ * @param image_aspect - Image aspect ratio
+ *}
+
+{$show_wishlist = $show_wishlist|default:true}
+{$show_compare = $show_compare|default:true}  
+{$show_quick_view = $show_quick_view|default:true}
+{$card_style = $card_style|default:'default'}
+{$image_aspect = $image_aspect|default:'square'}
+
+<article class="waboot-shop__product-card waboot-shop__product-card--{$card_style}"
+         itemscope itemtype="https://schema.org/Product"
+         x-data="productCard({
+             product_id: {$product.id},
+             sku_id: {$product.sku_id|default:0},
+             name: '{$product.name|escape:'javascript'}',
+             price: {$product.price|default:0},
+             url: '{$product.frontend_url|escape:'javascript'}',
+             image: '{$product.image_url|escape:'javascript'}',
+             brand: '{$product.brand|default:''|escape:'javascript'}',
+             rating: {$product.rating|default:0},
+             reviews_count: {$product.reviews_count|default:0},
+             in_stock: {$product.count > 0|json_encode}
+         })"
+         data-product-id="{$product.id}">
+
+    {* Product Card Header *}
+    <header class="waboot-shop__product-card__header">
+        
+        {* Product Badges *}
+        <div class="waboot-shop__product-card__badges">
+            {if $product.is_new}
+                <span class="waboot-shop__badge waboot-shop__badge--new">New</span>
+            {/if}
+            {if $product.on_sale}
+                <span class="waboot-shop__badge waboot-shop__badge--sale">Sale</span>
+            {/if}
+            {if $product.count <= 0}
+                <span class="waboot-shop__badge waboot-shop__badge--out-of-stock">Out of Stock</span>
+            {elseif $product.count <= 5}
+                <span class="waboot-shop__badge waboot-shop__badge--low-stock">Low Stock</span>
+            {/if}
+        </div>
+        
+        {* Action Buttons *}
+        <div class="waboot-shop__product-card__actions">
+            {if $show_wishlist}
+                <button type="button"
+                        class="waboot-shop__action-btn waboot-shop__action-btn--wishlist"
+                        :class="{ 'waboot-shop__action-btn--active': isInWishlist }"
+                        @click="toggleWishlist()"
+                        :aria-pressed="isInWishlist"
+                        aria-label="Add to wishlist">
+                    <span class="waboot-shop__icon waboot-shop__icon--heart" aria-hidden="true"></span>
+                </button>
+            {/if}
+            
+            {if $show_compare}
+                <button type="button"
+                        class="waboot-shop__action-btn waboot-shop__action-btn--compare"
+                        :class="{ 'waboot-shop__action-btn--active': isInCompare }"
+                        @click="toggleCompare()"
+                        :aria-pressed="isInCompare"
+                        aria-label="Add to compare">
+                    <span class="waboot-shop__icon waboot-shop__icon--compare" aria-hidden="true"></span>
+                </button>
+            {/if}
+            
+            {if $show_quick_view}
+                <button type="button"
+                        class="waboot-shop__action-btn waboot-shop__action-btn--quick-view"
+                        @click="quickView()"
+                        aria-label="Quick view product">
+                    <span class="waboot-shop__icon waboot-shop__icon--eye" aria-hidden="true"></span>
+                </button>
+            {/if}
+        </div>
+    </header>
+
+    {* Product Image *}
+    <div class="waboot-shop__product-card__image waboot-shop__product-card__image--{$image_aspect}">
+        <a href="{$product.frontend_url}" 
+           class="waboot-shop__product-card__image-link"
+           itemprop="url">
+            <img src="{$product.image_url}" 
+                 alt="{$product.name}" 
+                 class="waboot-shop__product-card__img"
+                 itemprop="image"
+                 loading="lazy"
+                 width="300"
+                 height="300">
+        </a>
+        
+        {* Hover Image (if available) *}
+        {if $product.hover_image_url}
+            <img src="{$product.hover_image_url}" 
+                 alt="{$product.name} - Alternative view" 
+                 class="waboot-shop__product-card__img waboot-shop__product-card__img--hover"
+                 loading="lazy">
+        {/if}
+    </div>
+
+    {* Product Content *}
+    <div class="waboot-shop__product-card__content">
+        
+        {* Product Category *}
+        {if $product.category}
+            <div class="waboot-shop__product-card__category" itemprop="category">
+                <a href="{$product.category.frontend_url}" class="waboot-shop__category-link">
+                    {$product.category.name}
+                </a>
+            </div>
+        {/if}
+        
+        {* Product Title *}
+        <h3 class="waboot-shop__product-card__title" itemprop="name">
+            <a href="{$product.frontend_url}" class="waboot-shop__product-card__title-link">
+                {$product.name}
+            </a>
+        </h3>
+        
+        {* Product Brand *}
+        {if $product.brand}
+            <div class="waboot-shop__product-card__brand" itemprop="brand" itemscope itemtype="https://schema.org/Brand">
+                <span itemprop="name">{$product.brand}</span>
+            </div>
+        {/if}
+        
+        {* Product Rating *}
+        {if $product.rating > 0}
+            <div class="waboot-shop__product-card__rating" 
+                 itemprop="aggregateRating" 
+                 itemscope itemtype="https://schema.org/AggregateRating">
+                <div class="waboot-shop__rating waboot-shop__rating--{$product.rating}">
+                    <span class="waboot-shop__sr-only">
+                        <span itemprop="ratingValue">{$product.rating}</span> out of 
+                        <span itemprop="bestRating">5</span> stars
+                    </span>
+                    <div class="waboot-shop__rating__stars" aria-hidden="true">
+                        {for $i=1 to 5}
+                            <span class="waboot-shop__rating__star {if $i <= $product.rating}waboot-shop__rating__star--filled{/if}"></span>
+                        {/for}
+                    </div>
+                    <span class="waboot-shop__rating__count" itemprop="reviewCount">
+                        ({$product.reviews_count|default:0})
+                    </span>
+                </div>
+            </div>
+        {/if}
+        
+        {* Product Description *}
+        {if $product.summary}
+            <div class="waboot-shop__product-card__description" itemprop="description">
+                {$product.summary|truncate:120:'...'}
+            </div>
+        {/if}
+        
+        {* Product SKU *}
+        {if $product.sku}
+            <div class="waboot-shop__product-card__sku">
+                <span class="waboot-shop__label">SKU:</span>
+                <span itemprop="sku">{$product.sku}</span>
+            </div>
+        {/if}
+    </div>
+
+    {* Product Footer *}
+    <footer class="waboot-shop__product-card__footer">
+        
+        {* Product Price *}
+        <div class="waboot-shop__product-card__price" 
+             itemprop="offers" 
+             itemscope itemtype="https://schema.org/Offer">
+            {include file="atoms/price.html" 
+                     price=$product.price 
+                     original_price=$product.compare_price
+                     sale=$product.on_sale
+                     currency=$product.currency
+                     size="normal"
+                     product_url=$product.frontend_url
+                     availability=($product.count > 0 ? 'InStock' : 'OutOfStock')}
+        </div>
+        
+        {* Add to Cart Button *}
+        <div class="waboot-shop__product-card__cart">
+            {include file="atoms/add-to-cart-button.html" 
+                     product_id=$product.id
+                     sku_id=$product.sku_id
+                     quantity=1
+                     text="Add to Cart"
+                     size="normal"
+                     style="primary"
+                     product_name=$product.name
+                     product_price=$product.price
+                     product_url=$product.frontend_url
+                     in_stock=($product.count > 0)}
+        </div>
+        
+        {* Stock Status *}
+        <div class="waboot-shop__product-card__stock">
+            {if $product.count > 0}
+                <span class="waboot-shop__stock-status waboot-shop__stock-status--in-stock">
+                    {if $product.count <= 5}
+                        Only {$product.count} left
+                    {else}
+                        In Stock
+                    {/if}
+                </span>
+            {else}
+                <span class="waboot-shop__stock-status waboot-shop__stock-status--out-of-stock">
+                    Out of Stock
+                </span>
+            {/if}
+        </div>
+    </footer>
+    
+    {* Hidden microdata *}
+    <meta itemprop="model" content="{$product.sku}">
+    <meta itemprop="mpn" content="{$product.sku}">
+    <meta itemprop="identifier" content="{$product.id}">
+    <meta itemprop="url" content="{$product.frontend_url}">
+    
+    {* Comprehensive JSON-LD Product Schema *}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "@id": "{$product.frontend_url}#product",
+      "name": "{$product.name}",
+      "description": "{$product.summary|escape:'javascript'}",
+      "image": [
+        "{$product.image_url}"
+        {if $product.hover_image_url},"{$product.hover_image_url}"{/if}
+        {if $product.gallery}
+          {foreach $product.gallery as $image}
+          ,"{$image.url}"
+          {/foreach}
+        {/if}
+      ],
+      "url": "{$product.frontend_url}",
+      "sku": "{$product.sku}",
+      "mpn": "{$product.sku}",
+      "identifier": "{$product.id}",
+      {if $product.brand}
+      "brand": {
+        "@type": "Brand",
+        "name": "{$product.brand}"
+      },
+      {/if}
+      {if $product.category}
+      "category": "{$product.category.name}",
+      {/if}
+      "offers": {
+        "@type": "Offer",
+        "@id": "{$product.frontend_url}#offer",
+        "url": "{$product.frontend_url}",
+        "priceCurrency": "{$product.currency|default:$wa->shop->settings('currency')}",
+        "price": "{$product.price}",
+        {if $product.compare_price && $product.on_sale}
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "{$product.price}",
+          "priceCurrency": "{$product.currency}",
+          "eligibleQuantity": {
+            "@type": "QuantitativeValue",
+            "minValue": 1
+          }
+        },
+        {/if}
+        "availability": "{if $product.count > 0}https://schema.org/InStock{else}https://schema.org/OutOfStock{/if}",
+        "itemCondition": "https://schema.org/NewCondition",
+        "priceValidUntil": "{date('Y-m-d', strtotime('+1 year'))}",
+        "seller": {
+          "@type": "Organization",
+          "@id": "{$wa_domain_url}#organization",
+          "name": "{$wa->accountName()}"
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 30
+        }
+      },
+      {if $product.rating > 0}
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{$product.rating}",
+        "reviewCount": "{$product.reviews_count|default:1}",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      {/if}
+      {if $product.reviews_count > 0}
+      "review": [
+        {foreach $product.reviews as $review}
+        {
+          "@type": "Review",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "{$review.rate}",
+            "bestRating": "5"
+          },
+          "author": {
+            "@type": "Person",
+            "name": "{$review.name}"
+          },
+          "reviewBody": "{$review.text|escape:'javascript'}",
+          "datePublished": "{$review.datetime}"
+        }{if !$review@last},{/if}
+        {/foreach}
+      ],
+      {/if}
+      "additionalProperty": [
+        {if $product.features}
+          {foreach $product.features as $feature}
+          {
+            "@type": "PropertyValue",
+            "name": "{$feature.name}",
+            "value": "{$feature.value}"
+          }{if !$feature@last},{/if}
+          {/foreach}
+        {/if}
+      ],
+      "isRelatedTo": [
+        {if $product.related_products}
+          {foreach $product.related_products as $related}
+          {
+            "@type": "Product",
+            "@id": "{$related.frontend_url}#product",
+            "name": "{$related.name}"
+          }{if !$related@last},{/if}
+          {/foreach}
+        {/if}
+      ],
+      "potentialAction": [
+        {
+          "@type": "BuyAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "{$wa_domain_url}/shop/cart/add/",
+            "httpMethod": "POST"
+          }
+        },
+        {
+          "@type": "ViewAction",
+          "target": "{$product.frontend_url}",
+          "name": "View Product Details"
+        },
+        {
+          "@type": "WishlistAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "{$wa_domain_url}/shop/wishlist/add/",
+            "httpMethod": "POST"
+          }
+        }
+      ]
+    }
+    </script>
+</article>
