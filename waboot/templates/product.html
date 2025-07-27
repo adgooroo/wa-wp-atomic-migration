@@ -1,0 +1,472 @@
+{* Product Detail Template for Waboot Theme *}
+{* Converted from WordPress Bootscore single-product.php to Webasyst Smarty template *}
+
+{* Get theme settings *}
+{$layout_type = $wa->theme()->settings('layout_type', 'wide')}
+{$show_related = $wa->theme()->settings('show_related_products', true)}
+{$show_reviews = $wa->theme()->settings('show_reviews', true)}
+
+{* Breadcrumbs *}
+<div class="waboot__breadcrumb-section bg-light py-3">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb waboot__breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="{$wa_url}"><i class="fas fa-home me-1"></i>Home</a>
+                </li>
+                {if $product.category}
+                    <li class="breadcrumb-item">
+                        <a href="{$wa_app_url}category/{$product.category.url}/">{$product.category.name|escape}</a>
+                    </li>
+                {/if}
+                <li class="breadcrumb-item active" aria-current="page">{$product.name|escape}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+{* Product Detail Section *}
+<div class="{if $layout_type == 'wide'}container-fluid{else}container{/if} py-5">
+    <div class="row">
+        
+        {* Product Images *}
+        <div class="col-lg-6 mb-4">
+            <div class="waboot__product-gallery" x-data="{ activeImage: 0, images: {$product.images|@json_encode} }">
+                
+                {* Main Image *}
+                <div class="waboot__main-image mb-3">
+                    <div class="waboot__image-container position-relative overflow-hidden rounded">
+                        {if $product.images}
+                            <template x-for="(image, index) in images" :key="index">
+                                <img :src="image.url_original" 
+                                     :alt="'{$product.name|escape}'" 
+                                     class="img-fluid w-100"
+                                     x-show="activeImage === index"
+                                     style="aspect-ratio: 1/1; object-fit: cover;">
+                            </template>
+                        {else}
+                            <div class="waboot__product-placeholder d-flex align-items-center justify-content-center bg-light">
+                                <i class="fas fa-image fa-5x text-muted"></i>
+                            </div>
+                        {/if}
+                        
+                        {* Product Badges *}
+                        {if $product.badge}
+                            <span class="waboot__product-badge waboot__product-badge--{$product.badge.type} position-absolute top-0 start-0 m-3">
+                                {$product.badge.text|escape}
+                            </span>
+                        {/if}
+                        
+                        {* Zoom Icon *}
+                        <button class="waboot__zoom-btn btn btn-light position-absolute top-0 end-0 m-3" 
+                                data-bs-toggle="modal" data-bs-target="#imageModal">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                {* Thumbnail Images *}
+                {if $product.images && count($product.images) > 1}
+                <div class="waboot__thumbnails">
+                    <div class="row g-2">
+                        {foreach $product.images as $index => $image}
+                        <div class="col-3">
+                            <button class="waboot__thumbnail-btn border-0 p-0 w-100 overflow-hidden rounded"
+                                    @click="activeImage = {$index}"
+                                    :class="activeImage === {$index} ? 'waboot__thumbnail--active' : ''">
+                                <img src="{$image.url_thumb}" alt="Thumbnail {$index + 1}" 
+                                     class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover;">
+                            </button>
+                        </div>
+                        {/foreach}
+                    </div>
+                </div>
+                {/if}
+                
+            </div>
+        </div>
+
+        {* Product Information *}
+        <div class="col-lg-6">
+            <div class="waboot__product-info">
+                
+                {* Product Title and SKU *}
+                <div class="waboot__product-header mb-4">
+                    <h1 class="waboot__product-title h2 fw-bold mb-2">{$product.name|escape}</h1>
+                    {if $product.sku}
+                        <p class="text-muted mb-0">SKU: <strong>{$product.sku|escape}</strong></p>
+                    {/if}
+                </div>
+
+                {* Product Rating *}
+                {if $product.rating}
+                <div class="waboot__product-rating mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="waboot__stars me-3">
+                            {for $i=1 to 5}
+                                <i class="fas fa-star {if $i <= $product.rating}text-warning{else}text-muted{/if}"></i>
+                            {/for}
+                        </div>
+                        <span class="text-muted">({$product.reviews_count} reviews)</span>
+                        {if $show_reviews}
+                            <a href="#reviews" class="ms-2 text-decoration-none">Write a review</a>
+                        {/if}
+                    </div>
+                </div>
+                {/if}
+
+                {* Product Price *}
+                <div class="waboot__product-pricing mb-4">
+                    <div class="d-flex align-items-center flex-wrap gap-3">
+                        <div class="waboot__price-main">
+                            {if $product.compare_price && $product.compare_price > $product.price}
+                                <span class="waboot__price-old text-muted text-decoration-line-through fs-5 me-2">
+                                    {wa_currency($product.compare_price)}
+                                </span>
+                                <span class="waboot__price-sale badge bg-danger ms-2">
+                                    {round((($product.compare_price - $product.price) / $product.compare_price) * 100)}% OFF
+                                </span>
+                            {/if}
+                            <span class="waboot__price-current text-primary fs-3 fw-bold">
+                                {wa_currency($product.price)}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {* Product Short Description *}
+                {if $product.summary}
+                <div class="waboot__product-summary mb-4">
+                    <p class="lead">{$product.summary|escape}</p>
+                </div>
+                {/if}
+
+                {* Product Variants *}
+                {if $product.skus && count($product.skus) > 1}
+                <div class="waboot__product-variants mb-4" x-data="{ selectedSku: '{$product.sku_id}' }">
+                    
+                    {* Color Variants *}
+                    {if $product.features.color}
+                    <div class="waboot__variant-group mb-3">
+                        <label class="form-label fw-bold">Color:</label>
+                        <div class="waboot__color-variants d-flex gap-2 flex-wrap">
+                            {foreach $product.features.color.variants as $color}
+                            <button class="waboot__color-variant border rounded p-2"
+                                    :class="selectedSku === '{$color.sku_id}' ? 'border-primary' : 'border-secondary'"
+                                    @click="selectedSku = '{$color.sku_id}'"
+                                    style="width: 3rem; height: 3rem; background-color: {$color.value};">
+                                <span class="visually-hidden">{$color.name}</span>
+                            </button>
+                            {/foreach}
+                        </div>
+                    </div>
+                    {/if}
+
+                    {* Size Variants *}
+                    {if $product.features.size}
+                    <div class="waboot__variant-group mb-3">
+                        <label class="form-label fw-bold">Size:</label>
+                        <div class="waboot__size-variants d-flex gap-2 flex-wrap">
+                            {foreach $product.features.size.variants as $size}
+                            <button class="waboot__size-variant btn btn-outline-secondary"
+                                    :class="selectedSku === '{$size.sku_id}' ? 'btn-primary' : 'btn-outline-secondary'"
+                                    @click="selectedSku = '{$size.sku_id}'">
+                                {$size.value}
+                            </button>
+                            {/foreach}
+                        </div>
+                    </div>
+                    {/if}
+
+                </div>
+                {/if}
+
+                {* Quantity and Add to Cart *}
+                <div class="waboot__product-actions mb-4" x-data="{ quantity: 1 }">
+                    <div class="row g-3 align-items-end">
+                        
+                        {* Quantity Selector *}
+                        <div class="col-md-4">
+                            <label for="quantity" class="form-label fw-bold">Quantity:</label>
+                            <div class="waboot__quantity-selector input-group">
+                                <button class="btn btn-outline-secondary" type="button" @click="quantity = Math.max(1, quantity - 1)">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" class="form-control text-center" 
+                                       id="quantity" x-model="quantity" min="1" max="{$product.stock_count|default:99}">
+                                <button class="btn btn-outline-secondary" type="button" @click="quantity = Math.min({$product.stock_count|default:99}, quantity + 1)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        {* Add to Cart Button *}
+                        <div class="col-md-8">
+                            {if $product.available}
+                                <button class="waboot__btn-add-to-cart btn btn-primary btn-lg w-100" 
+                                        data-product-id="{$product.id}">
+                                    <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                </button>
+                            {else}
+                                <button class="btn btn-secondary btn-lg w-100" disabled>
+                                    <i class="fas fa-times me-2"></i>Out of Stock
+                                </button>
+                            {/if}
+                        </div>
+                    </div>
+
+                    {* Action Buttons *}
+                    <div class="waboot__action-buttons d-flex gap-2 mt-3">
+                        <button class="waboot__btn-wishlist btn btn-outline-danger flex-fill" 
+                                data-product-id="{$product.id}">
+                            <i class="fas fa-heart me-2"></i>Add to Wishlist
+                        </button>
+                        <button class="waboot__btn-compare btn btn-outline-secondary flex-fill" 
+                                data-product-id="{$product.id}">
+                            <i class="fas fa-balance-scale me-2"></i>Compare
+                        </button>
+                        <button class="waboot__btn-share btn btn-outline-info" 
+                                data-bs-toggle="dropdown">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="navigator.share({ldelim}title: '{$product.name|escape}', url: location.href{rdelim})">
+                                <i class="fas fa-share me-2"></i>Share
+                            </a></li>
+                            <li><a class="dropdown-item" href="https://www.facebook.com/sharer/sharer.php?u={$smarty.server.REQUEST_URI|url_encode}" target="_blank">
+                                <i class="fab fa-facebook me-2"></i>Facebook
+                            </a></li>
+                            <li><a class="dropdown-item" href="https://twitter.com/intent/tweet?url={$smarty.server.REQUEST_URI|url_encode}&text={$product.name|escape|url_encode}" target="_blank">
+                                <i class="fab fa-twitter me-2"></i>Twitter
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                {* Stock Status *}
+                <div class="waboot__stock-status mb-4">
+                    {if $product.available}
+                        {if $product.stock_count}
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <strong>In Stock</strong> - {$product.stock_count} items available
+                            </div>
+                        {else}
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>In Stock</strong> - Ready to ship
+                            </div>
+                        {/if}
+                    {else}
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Out of Stock</strong> - Notify when available
+                        </div>
+                    {/if}
+                </div>
+
+                {* Product Features *}
+                {if $product.features}
+                <div class="waboot__product-features mb-4">
+                    <h3 class="h6 fw-bold mb-3">Product Features:</h3>
+                    <ul class="list-unstyled">
+                        {foreach $product.features as $feature}
+                            {if $feature.type !== 'color' && $feature.type !== 'size'}
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <strong>{$feature.name}:</strong> {$feature.value}
+                            </li>
+                            {/if}
+                        {/foreach}
+                    </ul>
+                </div>
+                {/if}
+
+                {* Shipping Info *}
+                <div class="waboot__shipping-info">
+                    <div class="card border-0 bg-light">
+                        <div class="card-body p-3">
+                            <h4 class="h6 card-title mb-2">
+                                <i class="fas fa-truck me-2"></i>Shipping Information
+                            </h4>
+                            <ul class="list-unstyled mb-0 small">
+                                <li><i class="fas fa-check text-success me-2"></i>Free shipping on orders over $50</li>
+                                <li><i class="fas fa-check text-success me-2"></i>2-3 business days delivery</li>
+                                <li><i class="fas fa-check text-success me-2"></i>30-day return policy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{* Product Tabs Section *}
+<div class="{if $layout_type == 'wide'}container-fluid{else}container{/if} py-5">
+    <div class="waboot__product-tabs">
+        
+        {* Tabs Navigation *}
+        <ul class="nav nav-tabs waboot__product-nav-tabs mb-4" id="productTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="description-tab" data-bs-toggle="tab" 
+                        data-bs-target="#description" type="button" role="tab">
+                    <i class="fas fa-align-left me-2"></i>Description
+                </button>
+            </li>
+            {if $product.features}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="specifications-tab" data-bs-toggle="tab" 
+                        data-bs-target="#specifications" type="button" role="tab">
+                    <i class="fas fa-list me-2"></i>Specifications
+                </button>
+            </li>
+            {/if}
+            {if $show_reviews}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" 
+                        data-bs-target="#reviews" type="button" role="tab">
+                    <i class="fas fa-star me-2"></i>Reviews ({$product.reviews_count|default:0})
+                </button>
+            </li>
+            {/if}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" 
+                        data-bs-target="#shipping" type="button" role="tab">
+                    <i class="fas fa-truck me-2"></i>Shipping & Returns
+                </button>
+            </li>
+        </ul>
+
+        {* Tabs Content *}
+        <div class="tab-content waboot__product-tab-content" id="productTabsContent">
+            
+            {* Description Tab *}
+            <div class="tab-pane fade show active" id="description" role="tabpanel">
+                <div class="waboot__product-description">
+                    {if $product.description}
+                        {$product.description}
+                    {else}
+                        <p class="text-muted">No description available for this product.</p>
+                    {/if}
+                </div>
+            </div>
+
+            {* Specifications Tab *}
+            {if $product.features}
+            <div class="tab-pane fade" id="specifications" role="tabpanel">
+                <div class="waboot__product-specifications">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tbody>
+                                {foreach $product.features as $feature}
+                                <tr>
+                                    <td class="fw-bold" style="width: 30%;">{$feature.name}</td>
+                                    <td>{$feature.value}</td>
+                                </tr>
+                                {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {/if}
+
+            {* Reviews Tab *}
+            {if $show_reviews}
+            <div class="tab-pane fade" id="reviews" role="tabpanel">
+                <div class="waboot__product-reviews">
+                    {* Reviews would be loaded here via AJAX or included from reviews template *}
+                    <div class="text-center py-5">
+                        <i class="fas fa-star fa-3x text-muted mb-3"></i>
+                        <h4>Customer Reviews</h4>
+                        <p class="text-muted">Reviews functionality would be integrated here with Webasyst reviews system.</p>
+                    </div>
+                </div>
+            </div>
+            {/if}
+
+            {* Shipping Tab *}
+            <div class="tab-pane fade" id="shipping" role="tabpanel">
+                <div class="waboot__shipping-returns">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="h5 mb-3"><i class="fas fa-truck me-2"></i>Shipping Information</h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Free shipping on orders over $50</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Standard delivery: 3-5 business days</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Express delivery: 1-2 business days</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>International shipping available</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="h5 mb-3"><i class="fas fa-undo me-2"></i>Returns & Exchanges</h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>30-day return policy</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Free returns on defective items</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Easy online return process</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Full refund or exchange</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{* Related Products Section *}
+{if $show_related && $related_products}
+<section class="waboot__related-products py-5 bg-light">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <h2 class="waboot__section-title text-center mb-5">Related Products</h2>
+        <div class="row">
+            {foreach $related_products as $product}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                {* Reuse product card component *}
+                <div class="waboot__product-card h-100" data-aos="fade-up" data-aos-delay="{$product@iteration * 100}">
+                    <div class="waboot__product-image">
+                        <a href="{$wa_app_url}product/{$product.url}/">
+                            {if $product.image}
+                                <img src="{$product.image.url_crop}" alt="{$product.name|escape}" 
+                                     class="img-fluid" loading="lazy">
+                            {/if}
+                        </a>
+                    </div>
+                    <div class="waboot__product-content">
+                        <h3 class="waboot__product-title">
+                            <a href="{$wa_app_url}product/{$product.url}/">{$product.name|escape}</a>
+                        </h3>
+                        <div class="waboot__product-price">
+                            {wa_currency($product.price)}
+                        </div>
+                        <button class="waboot__btn-add-to-cart btn btn-primary w-100 mt-3" 
+                                data-product-id="{$product.id}">
+                            <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {/foreach}
+        </div>
+    </div>
+</section>
+{/if}
+
+{* Image Modal for Zoom *}
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">{$product.name|escape}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center p-0">
+                {if $product.images}
+                    <img src="{$product.images[0].url_original}" alt="{$product.name|escape}" class="img-fluid">
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
