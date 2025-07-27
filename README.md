@@ -9,7 +9,7 @@
 
 **A modern, fully-local Webasyst e-commerce theme ported from WordPress Bootscore**
 
-[Demo](#) | [Documentation](docs/theme-documentation.md) | [Migration Guide](docs/migration-guide.md) | [Support](#support)
+[Best Stack](docs/stack-bootstrap-5-alpine.js-BEM-atomic-design) | [Documentation](docs/theme-documentation.md) | [Migration Guide](docs/migration-guide.md) | [Support](#support)
 
 </div>
 
