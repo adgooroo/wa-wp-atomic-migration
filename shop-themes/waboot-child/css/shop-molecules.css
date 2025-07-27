@@ -1,0 +1,479 @@
+/*!
+ * Waboot Child Shop - Molecular Components
+ * E-commerce molecular components with BEM methodology
+ * Bootstrap 5 + Alpine.js integration
+ * @version 1.0.0
+ */
+
+/* ============================================
+   PRODUCT FILTER FORM
+   ============================================ */
+
+.waboot-shop__filters {
+    background: var(--bs-white);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.waboot-shop__filters__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.waboot-shop__filters__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--bs-gray-900);
+}
+
+.waboot-shop__filters__clear {
+    background: none;
+    border: none;
+    color: var(--bs-primary);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.waboot-shop__filters__clear:hover {
+    color: var(--bs-primary-hover);
+}
+
+.waboot-shop__filters__group {
+    margin-bottom: 2rem;
+}
+
+.waboot-shop__filters__group:last-child {
+    margin-bottom: 0;
+}
+
+.waboot-shop__filters__group-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--bs-gray-800);
+}
+
+.waboot-shop__filters__checkbox-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.waboot-shop__filters__checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+}
+
+.waboot-shop__filters__checkbox-item:last-child {
+    margin-bottom: 0;
+}
+
+.waboot-shop__filters__checkbox {
+    margin-right: 0.75rem;
+}
+
+.waboot-shop__filters__checkbox-label {
+    flex: 1;
+    color: var(--bs-gray-700);
+    font-size: 0.875rem;
+}
+
+.waboot-shop__filters__checkbox-count {
+    color: var(--bs-gray-500);
+    font-size: 0.75rem;
+}
+
+/* ============================================
+   PRODUCT SEARCH FORM
+   ============================================ */
+
+.waboot-shop__search {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.waboot-shop__search__form {
+    display: flex;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    overflow: hidden;
+    background: var(--bs-white);
+}
+
+.waboot-shop__search__input {
+    flex: 1;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    outline: none;
+}
+
+.waboot-shop__search__input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.waboot-shop__search__button {
+    background: var(--bs-primary);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    color: var(--bs-white);
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.waboot-shop__search__button:hover {
+    background: var(--bs-primary-hover);
+}
+
+.waboot-shop__search__suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bs-white);
+    border: 1px solid var(--bs-border-color);
+    border-top: none;
+    border-radius: 0 0 var(--bs-border-radius-lg) var(--bs-border-radius-lg);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.waboot-shop__search__suggestion {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.waboot-shop__search__suggestion:hover,
+.waboot-shop__search__suggestion--active {
+    background: var(--bs-gray-100);
+}
+
+.waboot-shop__search__suggestion:last-child {
+    border-bottom: none;
+}
+
+/* ============================================
+   PRODUCT SORTING
+   ============================================ */
+
+.waboot-shop__sorting {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.waboot-shop__sorting__label {
+    font-weight: 500;
+    color: var(--bs-gray-700);
+    margin: 0;
+}
+
+.waboot-shop__sorting__select {
+    min-width: 200px;
+}
+
+.waboot-shop__sorting__view-toggle {
+    display: flex;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    overflow: hidden;
+}
+
+.waboot-shop__sorting__view-button {
+    background: var(--bs-white);
+    border: none;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.waboot-shop__sorting__view-button--active {
+    background: var(--bs-primary);
+    color: var(--bs-white);
+}
+
+.waboot-shop__sorting__view-button:hover:not(.waboot-shop__sorting__view-button--active) {
+    background: var(--bs-gray-100);
+}
+
+/* ============================================
+   BREADCRUMB NAVIGATION
+   ============================================ */
+
+.waboot-shop__breadcrumb {
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.waboot-shop__breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.waboot-shop__breadcrumb__item {
+    display: flex;
+    align-items: center;
+}
+
+.waboot-shop__breadcrumb__item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.75rem;
+    color: var(--bs-gray-500);
+}
+
+.waboot-shop__breadcrumb__link {
+    color: var(--bs-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+.waboot-shop__breadcrumb__link:hover {
+    text-decoration: underline;
+}
+
+.waboot-shop__breadcrumb__current {
+    color: var(--bs-gray-600);
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   PAGINATION
+   ============================================ */
+
+.waboot-shop__pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.waboot-shop__pagination__list {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    gap: 0.25rem;
+}
+
+.waboot-shop__pagination__item {
+    /* No specific styles needed, handled by children */
+}
+
+.waboot-shop__pagination__link,
+.waboot-shop__pagination__current {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    text-decoration: none;
+    color: var(--bs-gray-700);
+    background: var(--bs-white);
+    transition: all 0.15s ease-in-out;
+}
+
+.waboot-shop__pagination__link:hover {
+    background: var(--bs-gray-100);
+    border-color: var(--bs-gray-300);
+    color: var(--bs-gray-900);
+}
+
+.waboot-shop__pagination__current {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: var(--bs-white);
+}
+
+.waboot-shop__pagination__disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ============================================
+   PRODUCT QUICK VIEW
+   ============================================ */
+
+.waboot-shop__quick-view {
+    position: relative;
+}
+
+.waboot-shop__quick-view__trigger {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.15s ease-in-out;
+    backdrop-filter: blur(4px);
+}
+
+.waboot-shop__product-card:hover .waboot-shop__quick-view__trigger {
+    opacity: 1;
+}
+
+.waboot-shop__quick-view__trigger:hover {
+    background: var(--bs-white);
+    transform: scale(1.1);
+}
+
+/* ============================================
+   PRODUCT GALLERY
+   ============================================ */
+
+.waboot-shop__gallery {
+    margin-bottom: 2rem;
+}
+
+.waboot-shop__gallery__main {
+    margin-bottom: 1rem;
+    position: relative;
+    border-radius: var(--bs-border-radius-lg);
+    overflow: hidden;
+    background: var(--bs-gray-100);
+}
+
+.waboot-shop__gallery__main-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+
+.waboot-shop__gallery__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.15s ease-in-out;
+}
+
+.waboot-shop__gallery:hover .waboot-shop__gallery__nav {
+    opacity: 1;
+}
+
+.waboot-shop__gallery__nav--prev {
+    left: 1rem;
+}
+
+.waboot-shop__gallery__nav--next {
+    right: 1rem;
+}
+
+.waboot-shop__gallery__nav:hover {
+    background: var(--bs-white);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.waboot-shop__gallery__thumbs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.25rem;
+}
+
+.waboot-shop__gallery__thumb {
+    flex-shrink: 0;
+    width: 4rem;
+    height: 4rem;
+    border: 2px solid transparent;
+    border-radius: var(--bs-border-radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s ease-in-out;
+}
+
+.waboot-shop__gallery__thumb--active {
+    border-color: var(--bs-primary);
+}
+
+.waboot-shop__gallery__thumb-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 767.98px) {
+    .waboot-shop__filters {
+        padding: 1rem;
+    }
+    
+    .waboot-shop__filters__checkbox-list {
+        max-height: 150px;
+    }
+    
+    .waboot-shop__sorting {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+    
+    .waboot-shop__sorting__view-toggle {
+        align-self: center;
+    }
+    
+    .waboot-shop__breadcrumb__list {
+        font-size: 0.8125rem;
+    }
+    
+    .waboot-shop__pagination__link,
+    .waboot-shop__pagination__current {
+        min-width: 2rem;
+        height: 2rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .waboot-shop__gallery__thumbs {
+        gap: 0.25rem;
+    }
+    
+    .waboot-shop__gallery__thumb {
+        width: 3rem;
+        height: 3rem;
+    }
+}

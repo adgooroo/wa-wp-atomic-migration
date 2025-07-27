@@ -1,0 +1,404 @@
+{*
+ * Shopping Cart Organism Template with JSON-LD Schema
+ * Interactive shopping cart with comprehensive structured data and Alpine.js
+ * Includes full AJAX functionality and accessibility features
+ *}
+
+<section class="waboot-shop__cart" 
+         x-data="shoppingCart" 
+         x-init="loadCart()"
+         itemscope itemtype="https://schema.org/ShoppingCart"
+         aria-live="polite"
+         aria-label="Shopping Cart">
+    
+    {* Cart Header *}
+    <header class="waboot-shop__cart__header">
+        <h2 class="waboot-shop__cart__title" itemprop="name">
+            Shopping Cart
+            <span x-show="items.length > 0" 
+                  x-text="`(${getTotalQuantity()} items)`"
+                  class="waboot-shop__cart__count"
+                  aria-label="items in cart"></span>
+        </h2>
+    </header>
+    
+    {* Cart Items *}
+    <div class="waboot-shop__cart__items" 
+         x-show="items.length > 0"
+         role="list"
+         aria-label="Cart items">
+        
+        <template x-for="item in items" x-key="item.id">
+            <div class="waboot-shop__cart__item" 
+                 role="listitem"
+                 itemscope itemtype="https://schema.org/Product">
+                
+                {* Product Image *}
+                <img x-bind:src="item.image_url" 
+                     x-bind:alt="item.name"
+                     class="waboot-shop__cart__item-image"
+                     itemprop="image"
+                     loading="lazy">
+                
+                {* Product Details *}
+                <div class="waboot-shop__cart__item-details">
+                    <h3 class="waboot-shop__cart__item-name" 
+                        itemprop="name" 
+                        x-text="item.name"></h3>
+                    
+                    <div class="waboot-shop__cart__item-price" 
+                         itemprop="offers" 
+                         itemscope itemtype="https://schema.org/Offer">
+                        <span itemprop="price" x-bind:content="item.price" x-text="item.price_formatted"></span>
+                        <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
+                        <meta itemprop="availability" content="https://schema.org/InStock">
+                    </div>
+                    
+                    {* Product Options/Variants *}
+                    <template x-if="item.options && item.options.length > 0">
+                        <div class="waboot-shop__cart__item-options">
+                            <template x-for="option in item.options" x-key="option.name">
+                                <small class="text-muted" x-text="`${option.name}: ${option.value}`"></small>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+                
+                {* Quantity Controls *}
+                <div class="waboot-shop__cart__item-quantity" 
+                     role="group" 
+                     aria-label="Quantity controls">
+                    
+                    <button type="button" 
+                            class="waboot-shop__cart__quantity-button"
+                            x-on:click="updateQuantity(item.id, item.quantity - 1)"
+                            x-bind:disabled="item.quantity <= 1 || loading"
+                            x-bind:aria-label="`Decrease quantity for ${item.name}`">
+                        <i class="fas fa-minus" aria-hidden="true"></i>
+                    </button>
+                    
+                    <input type="number" 
+                           class="waboot-shop__cart__quantity-input"
+                           x-model.number="item.quantity"
+                           x-on:change="updateQuantity(item.id, $event.target.value)"
+                           min="1" 
+                           max="999"
+                           x-bind:aria-label="`Quantity for ${item.name}`">
+                    
+                    <button type="button" 
+                            class="waboot-shop__cart__quantity-button"
+                            x-on:click="updateQuantity(item.id, item.quantity + 1)"
+                            x-bind:disabled="item.quantity >= 999 || loading"
+                            x-bind:aria-label="`Increase quantity for ${item.name}`">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                    </button>
+                </div>
+                
+                {* Remove Button *}
+                <button type="button" 
+                        class="waboot-shop__cart__item-remove"
+                        x-on:click="removeItem(item.id)"
+                        x-bind:disabled="loading"
+                        x-bind:aria-label="`Remove ${item.name} from cart`">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </button>
+            </div>
+        </template>
+    </div>
+    
+    {* Empty Cart State *}
+    <div class="waboot-shop__cart__empty" 
+         x-show="items.length === 0 && !loading">
+        <i class="fas fa-shopping-cart waboot-shop__cart__empty-icon" aria-hidden="true"></i>
+        <p class="waboot-shop__cart__empty-text">Your cart is empty</p>
+        <a href="{$wa->shop->url()}" class="btn btn-primary">Continue Shopping</a>
+    </div>
+    
+    {* Loading State *}
+    <div class="waboot-shop__cart__loading" 
+         x-show="loading" 
+         role="status" 
+         aria-live="polite">
+        <div class="d-flex justify-content-center align-items-center p-4">
+            <div class="spinner-border text-primary me-2" role="status" aria-hidden="true"></div>
+            <span>Updating cart...</span>
+        </div>
+    </div>
+    
+    {* Cart Footer with Totals *}
+    <footer class="waboot-shop__cart__footer" 
+            x-show="items.length > 0 && !loading">
+        
+        {* Subtotal *}
+        <div class="waboot-shop__cart__total" 
+             itemprop="totalPaymentDue" 
+             itemscope itemtype="https://schema.org/PriceSpecification">
+            <span class="waboot-shop__cart__total-label">Subtotal:</span>
+            <span class="waboot-shop__cart__total-amount" 
+                  itemprop="price" 
+                  x-bind:content="getSubtotal()" 
+                  x-text="getSubtotalFormatted()"></span>
+            <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
+        </div>
+        
+        {* Action Buttons *}
+        <div class="waboot-shop__cart__actions">
+            <a href="{$wa->shop->url()}" 
+               class="btn btn-outline-primary waboot-shop__cart__continue">
+                Continue Shopping
+            </a>
+            
+            <a href="{$wa->shop->url('checkout')}" 
+               class="btn btn-primary waboot-shop__cart__checkout"
+               x-bind:disabled="items.length === 0">
+                Proceed to Checkout
+            </a>
+        </div>
+    </footer>
+</section>
+
+{* JSON-LD Structured Data for Shopping Cart *}
+<script type="application/ld+json" x-data x-init="updateCartStructuredData()">
+{
+    "@context": "https://schema.org",
+    "@type": "ShoppingCart",
+    "url": "{$wa->currentUrl()}",
+    "potentialAction": {
+        "@type": "CheckoutAction",
+        "target": "{$wa->shop->url('checkout')}"
+    },
+    "containsItem": [],
+    "totalPaymentDue": {
+        "@type": "PriceSpecification",
+        "price": "0",
+        "priceCurrency": "{$wa->shop->currency()}"
+    }
+}
+</script>
+
+{* Alpine.js Shopping Cart Component *}
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('shoppingCart', () => ({
+        items: [],
+        loading: false,
+        subtotal: 0,
+        
+        async loadCart() {
+            this.loading = true;
+            try {
+                const response = await fetch('/shop/cart/?format=json', {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    this.items = data.items || [];
+                    this.subtotal = data.subtotal || 0;
+                    this.updateCartStructuredData();
+                    this.updateCartCount();
+                } else {
+                    this.showError('Failed to load cart');
+                }
+            } catch (error) {
+                console.error('Cart loading error:', error);
+                this.showError('Cart loading failed');
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        async updateQuantity(itemId, newQuantity) {
+            if (newQuantity < 1) {
+                return this.removeItem(itemId);
+            }
+            
+            this.loading = true;
+            try {
+                const response = await fetch('/shop/cart/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: new URLSearchParams({
+                        action: 'update',
+                        item_id: itemId,
+                        quantity: newQuantity
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    await this.loadCart();
+                    this.showSuccess('Cart updated');
+                } else {
+                    this.showError(data.errors ? data.errors.join(', ') : 'Update failed');
+                }
+            } catch (error) {
+                console.error('Cart update error:', error);
+                this.showError('Update failed');
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        async removeItem(itemId) {
+            if (!confirm('Remove this item from your cart?')) {
+                return;
+            }
+            
+            this.loading = true;
+            try {
+                const response = await fetch('/shop/cart/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: new URLSearchParams({
+                        action: 'delete',
+                        item_id: itemId
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    await this.loadCart();
+                    this.showSuccess('Item removed from cart');
+                } else {
+                    this.showError(data.errors ? data.errors.join(', ') : 'Remove failed');
+                }
+            } catch (error) {
+                console.error('Cart remove error:', error);
+                this.showError('Remove failed');
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        getTotalQuantity() {
+            return this.items.reduce((total, item) => total + parseInt(item.quantity), 0);
+        },
+        
+        getSubtotal() {
+            return this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+        },
+        
+        getSubtotalFormatted() {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: '{$wa->shop->currency()}'
+            }).format(this.getSubtotal());
+        },
+        
+        updateCartCount() {
+            // Update cart count in header
+            const cartCount = document.querySelector('.site-header__cart-count');
+            if (cartCount) {
+                const count = this.getTotalQuantity();
+                cartCount.textContent = count;
+                cartCount.style.display = count > 0 ? 'inline' : 'none';
+            }
+            
+            // Dispatch custom event for other components
+            window.dispatchEvent(new CustomEvent('cart:updated', {
+                detail: {
+                    items: this.items,
+                    count: this.getTotalQuantity(),
+                    subtotal: this.getSubtotal()
+                }
+            }));
+        },
+        
+        updateCartStructuredData() {
+            const script = document.querySelector('script[type="application/ld+json"]');
+            if (script) {
+                const structuredData = {
+                    "@context": "https://schema.org",
+                    "@type": "ShoppingCart",
+                    "url": window.location.href,
+                    "potentialAction": {
+                        "@type": "CheckoutAction",
+                        "target": "{$wa->shop->url('checkout')}"
+                    },
+                    "containsItem": this.items.map(item => ({
+                        "@type": "Product",
+                        "name": item.name,
+                        "sku": item.sku,
+                        "image": item.image_url,
+                        "offers": {
+                            "@type": "Offer",
+                            "price": item.price,
+                            "priceCurrency": "{$wa->shop->currency()}",
+                            "availability": "https://schema.org/InStock"
+                        }
+                    })),
+                    "totalPaymentDue": {
+                        "@type": "PriceSpecification",
+                        "price": this.getSubtotal().toString(),
+                        "priceCurrency": "{$wa->shop->currency()}"
+                    }
+                };
+                
+                script.textContent = JSON.stringify(structuredData, null, 2);
+            }
+        },
+        
+        showSuccess(message) {
+            // Integration with notification system
+            if (window.waShowNotification) {
+                window.waShowNotification(message, 'success');
+            } else {
+                console.log('Success:', message);
+            }
+        },
+        
+        showError(message) {
+            if (window.waShowNotification) {
+                window.waShowNotification(message, 'error');
+            } else {
+                console.error('Error:', message);
+            }
+        }
+    }));
+});
+</script>
+
+{* Accessibility enhancements *}
+<style>
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .waboot-shop__cart__item {
+        border: 2px solid;
+    }
+    
+    .waboot-shop__cart__quantity-button:focus,
+    .waboot-shop__cart__item-remove:focus {
+        outline: 3px solid;
+        outline-offset: 2px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .waboot-shop__cart__item,
+    .waboot-shop__cart__quantity-button {
+        transition: none;
+    }
+}
+
+/* Focus visible improvements */
+.waboot-shop__cart__quantity-input:focus-visible,
+.waboot-shop__cart__quantity-button:focus-visible,
+.waboot-shop__cart__item-remove:focus-visible {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+</style>
