@@ -1,0 +1,359 @@
+{* Category/Product Listing Template for Waboot Theme *}
+{* Converted from WordPress Bootscore category.php to Webasyst Smarty template *}
+
+{* Get theme settings *}
+{$layout_type = $wa->theme()->settings('layout_type', 'wide')}
+{$products_per_row = $wa->theme()->settings('products_per_row', 4)}
+{$show_filters = $wa->theme()->settings('show_filters', true)}
+
+{* Category Header *}
+<div class="waboot__category-header bg-light py-5 mb-4">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <div class="row">
+            <div class="col-12">
+                {* Breadcrumbs *}
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb waboot__breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{$wa_url}"><i class="fas fa-home me-1"></i>Home</a>
+                        </li>
+                        {if $category.parent}
+                            <li class="breadcrumb-item">
+                                <a href="{$wa_app_url}category/{$category.parent.url}/">{$category.parent.name|escape}</a>
+                            </li>
+                        {/if}
+                        <li class="breadcrumb-item active" aria-current="page">{$category.name|escape}</li>
+                    </ol>
+                </nav>
+
+                {* Category Title and Description *}
+                <div class="waboot__category-info text-center">
+                    <h1 class="waboot__category-title display-5 fw-bold mb-3">{$category.name|escape}</h1>
+                    {if $category.description}
+                        <p class="waboot__category-description lead text-muted mb-4 mx-auto" style="max-width: 600px;">
+                            {$category.description|escape}
+                        </p>
+                    {/if}
+                    
+                    {* Product Count *}
+                    <div class="waboot__category-meta">
+                        <span class="badge bg-primary fs-6 px-3 py-2">
+                            {$products.count} {if $products.count == 1}Product{else}Products{/if}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{* Main Content Area *}
+<div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+    <div class="row">
+        
+        {* Sidebar with Filters *}
+        {if $show_filters}
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="waboot__filters-sidebar" x-data="{ openSections: ['price', 'features'] }">
+                
+                {* Filters Header *}
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h3 class="waboot__filters-title h5 mb-0">
+                        <i class="fas fa-filter me-2"></i>Filters
+                    </h3>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="location.reload()">
+                        <i class="fas fa-undo me-1"></i>Reset
+                    </button>
+                </div>
+
+                {* Price Filter *}
+                <div class="waboot__filter-section mb-4">
+                    <button class="waboot__filter-toggle w-100 text-start border-0 bg-transparent p-0 d-flex align-items-center justify-content-between"
+                            @click="openSections.includes('price') ? openSections = openSections.filter(s => s !== 'price') : openSections.push('price')">
+                        <h4 class="h6 fw-bold mb-0">Price Range</h4>
+                        <i class="fas fa-chevron-down transition-transform" 
+                           :class="openSections.includes('price') ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div class="waboot__filter-content mt-3" x-show="openSections.includes('price')" x-collapse>
+                        <div class="waboot__price-filter">
+                            <div class="row g-2 mb-3">
+                                <div class="col">
+                                    <input type="number" class="form-control form-control-sm" placeholder="Min" 
+                                           id="price-min" value="{$filters.price.min|default:''}">
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    <span class="text-muted">-</span>
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control form-control-sm" placeholder="Max" 
+                                           id="price-max" value="{$filters.price.max|default:''}">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-sm w-100">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                {* Features Filter *}
+                {if $features}
+                <div class="waboot__filter-section mb-4">
+                    <button class="waboot__filter-toggle w-100 text-start border-0 bg-transparent p-0 d-flex align-items-center justify-content-between"
+                            @click="openSections.includes('features') ? openSections = openSections.filter(s => s !== 'features') : openSections.push('features')">
+                        <h4 class="h6 fw-bold mb-0">Features</h4>
+                        <i class="fas fa-chevron-down transition-transform" 
+                           :class="openSections.includes('features') ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div class="waboot__filter-content mt-3" x-show="openSections.includes('features')" x-collapse>
+                        {foreach $features as $feature}
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" value="{$feature.id}" 
+                                   id="feature-{$feature.id}" {if $feature.id|in_array:$filters.features}checked{/if}>
+                            <label class="form-check-label" for="feature-{$feature.id}">
+                                {$feature.name|escape}
+                                <span class="text-muted">({$feature.count})</span>
+                            </label>
+                        </div>
+                        {/foreach}
+                    </div>
+                </div>
+                {/if}
+
+                {* Brand Filter *}
+                {if $brands}
+                <div class="waboot__filter-section mb-4">
+                    <button class="waboot__filter-toggle w-100 text-start border-0 bg-transparent p-0 d-flex align-items-center justify-content-between"
+                            @click="openSections.includes('brands') ? openSections = openSections.filter(s => s !== 'brands') : openSections.push('brands')">
+                        <h4 class="h6 fw-bold mb-0">Brands</h4>
+                        <i class="fas fa-chevron-down transition-transform" 
+                           :class="openSections.includes('brands') ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div class="waboot__filter-content mt-3" x-show="openSections.includes('brands')" x-collapse>
+                        {foreach $brands as $brand}
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" value="{$brand.id}" 
+                                   id="brand-{$brand.id}" {if $brand.id|in_array:$filters.brands}checked{/if}>
+                            <label class="form-check-label" for="brand-{$brand.id}">
+                                {$brand.name|escape}
+                                <span class="text-muted">({$brand.count})</span>
+                            </label>
+                        </div>
+                        {/foreach}
+                    </div>
+                </div>
+                {/if}
+
+            </div>
+        </div>
+        {/if}
+
+        {* Products Grid *}
+        <div class="{if $show_filters}col-lg-9 col-md-8{else}col-12{/if}">
+            
+            {* Toolbar *}
+            <div class="waboot__products-toolbar d-flex flex-wrap align-items-center justify-content-between mb-4 p-3 bg-light rounded">
+                <div class="waboot__toolbar-left d-flex align-items-center">
+                    <span class="text-muted me-3">
+                        Showing {$products.offset + 1}-{$products.offset + $products.limit} of {$products.count} products
+                    </span>
+                </div>
+                
+                <div class="waboot__toolbar-right d-flex align-items-center gap-3">
+                    {* View Toggle *}
+                    <div class="btn-group" role="group" aria-label="View toggle">
+                        <button type="button" class="btn btn-outline-secondary active" data-view="grid">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                    
+                    {* Sort Options *}
+                    <select class="form-select form-select-sm" style="width: auto;" onchange="location.href=this.value">
+                        <option value="{$wa_app_url}category/{$category.url}/?sort=name" {if $sort == 'name'}selected{/if}>Name</option>
+                        <option value="{$wa_app_url}category/{$category.url}/?sort=price" {if $sort == 'price'}selected{/if}>Price: Low to High</option>
+                        <option value="{$wa_app_url}category/{$category.url}/?sort=price_desc" {if $sort == 'price_desc'}selected{/if}>Price: High to Low</option>
+                        <option value="{$wa_app_url}category/{$category.url}/?sort=create_datetime" {if $sort == 'create_datetime'}selected{/if}>Newest</option>
+                        <option value="{$wa_app_url}category/{$category.url}/?sort=rating" {if $sort == 'rating'}selected{/if}>Best Rated</option>
+                    </select>
+                    
+                    {* Products per Page *}
+                    <select class="form-select form-select-sm" style="width: auto;" onchange="location.href=this.value">
+                        <option value="{$wa_app_url}category/{$category.url}/?limit=12" {if $limit == 12}selected{/if}>12</option>
+                        <option value="{$wa_app_url}category/{$category.url}/?limit=24" {if $limit == 24}selected{/if}>24</option>
+                        <option value="{$wa_app_url}category/{$category.url}/?limit=48" {if $limit == 48}selected{/if}>48</option>
+                    </select>
+                </div>
+            </div>
+
+            {* Products Grid *}
+            {if $products.products}
+            <div class="waboot__products-grid row" data-view="grid">
+                {foreach $products.products as $product}
+                <div class="col-xl-{12/$products_per_row} col-lg-{if $show_filters}4{else}3{/if} col-md-6 col-sm-6 mb-4">
+                    <div class="waboot__product-card h-100" data-aos="fade-up" data-aos-delay="{$product@iteration * 100}">
+                        
+                        {* Product Image *}
+                        <div class="waboot__product-image">
+                            <a href="{$wa_app_url}product/{$product.url}/">
+                                {if $product.image}
+                                    <img src="{$product.image.url_crop}" alt="{$product.name|escape}" 
+                                         class="img-fluid" loading="lazy">
+                                {else}
+                                    <div class="waboot__product-placeholder d-flex align-items-center justify-content-center bg-light">
+                                        <i class="fas fa-image fa-3x text-muted"></i>
+                                    </div>
+                                {/if}
+                            </a>
+                            
+                            {* Product Badges *}
+                            {if $product.badge}
+                                <span class="waboot__product-badge waboot__product-badge--{$product.badge.type}">
+                                    {$product.badge.text|escape}
+                                </span>
+                            {/if}
+                            
+                            {* Quick Actions *}
+                            <div class="waboot__product-actions-overlay">
+                                <button class="waboot__btn-quick-view btn btn-light btn-sm" 
+                                        data-product-id="{$product.id}" title="Quick View">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="waboot__btn-wishlist btn btn-light btn-sm" 
+                                        data-product-id="{$product.id}" title="Add to Wishlist">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        {* Product Content *}
+                        <div class="waboot__product-content">
+                            <h3 class="waboot__product-title">
+                                <a href="{$wa_app_url}product/{$product.url}/">{$product.name|escape}</a>
+                            </h3>
+                            
+                            {* Product Rating *}
+                            {if $product.rating}
+                            <div class="waboot__product-rating mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="waboot__stars">
+                                        {for $i=1 to 5}
+                                            <i class="fas fa-star {if $i <= $product.rating}text-warning{else}text-muted{/if}"></i>
+                                        {/for}
+                                    </div>
+                                    <span class="text-muted ms-2">({$product.reviews_count})</span>
+                                </div>
+                            </div>
+                            {/if}
+                            
+                            {* Product Price *}
+                            <div class="waboot__product-price">
+                                {if $product.compare_price && $product.compare_price > $product.price}
+                                    <span class="waboot__product-price__old">{wa_currency($product.compare_price)}</span>
+                                {/if}
+                                <span class="waboot__product-price__current">{wa_currency($product.price)}</span>
+                            </div>
+                            
+                            {* Add to Cart Button *}
+                            <div class="waboot__product-actions mt-auto">
+                                {if $product.available}
+                                    <button class="waboot__btn-add-to-cart btn btn-primary w-100" 
+                                            data-product-id="{$product.id}">
+                                        <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                    </button>
+                                {else}
+                                    <button class="btn btn-secondary w-100" disabled>
+                                        <i class="fas fa-times me-2"></i>Out of Stock
+                                    </button>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+
+            {* Pagination *}
+            {if $products.pages > 1}
+            <nav aria-label="Products pagination" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    {if $products.current_page > 1}
+                    <li class="page-item">
+                        <a class="page-link" href="{$wa_app_url}category/{$category.url}/?page={$products.current_page - 1}">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </a>
+                    </li>
+                    {/if}
+                    
+                    {for $page=1 to $products.pages}
+                        {if $page == $products.current_page}
+                        <li class="page-item active">
+                            <span class="page-link">{$page}</span>
+                        </li>
+                        {else}
+                        <li class="page-item">
+                            <a class="page-link" href="{$wa_app_url}category/{$category.url}/?page={$page}">{$page}</a>
+                        </li>
+                        {/if}
+                    {/for}
+                    
+                    {if $products.current_page < $products.pages}
+                    <li class="page-item">
+                        <a class="page-link" href="{$wa_app_url}category/{$category.url}/?page={$products.current_page + 1}">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {/if}
+                </ul>
+            </nav>
+            {/if}
+
+            {else}
+            {* No Products Found *}
+            <div class="waboot__no-products text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-search fa-4x text-muted"></i>
+                </div>
+                <h3 class="h4 mb-3">No products found</h3>
+                <p class="text-muted mb-4">Try adjusting your filters or search criteria.</p>
+                <a href="{$wa_app_url}" class="btn btn-primary">Browse All Products</a>
+            </div>
+            {/if}
+
+        </div>
+    </div>
+</div>
+
+{* Recently Viewed Products *}
+{if $recently_viewed}
+<section class="waboot__recently-viewed py-5 bg-light mt-5">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <h2 class="waboot__section-title text-center mb-4">Recently Viewed</h2>
+        <div class="row">
+            {foreach $recently_viewed as $product}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                {* Simplified product card for recently viewed *}
+                <div class="waboot__product-card h-100">
+                    <div class="waboot__product-image">
+                        <a href="{$wa_app_url}product/{$product.url}/">
+                            {if $product.image}
+                                <img src="{$product.image.url_crop}" alt="{$product.name|escape}" 
+                                     class="img-fluid" loading="lazy">
+                            {/if}
+                        </a>
+                    </div>
+                    <div class="waboot__product-content">
+                        <h4 class="waboot__product-title">
+                            <a href="{$wa_app_url}product/{$product.url}/">{$product.name|escape}</a>
+                        </h4>
+                        <div class="waboot__product-price">
+                            {wa_currency($product.price)}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/foreach}
+        </div>
+    </div>
+</section>
+{/if}
