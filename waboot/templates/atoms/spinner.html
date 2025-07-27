@@ -1,0 +1,35 @@
+{*
+/**
+ * Spinner Atom Component - Waboot Theme
+ * Loading spinner component with accessibility
+ *
+ * @param {string} $type - Spinner type (border, grow)
+ * @param {string} $size - Spinner size (sm, md, lg)
+ * @param {string} $variant - Color variant (primary, secondary, etc.)
+ * @param {string} $class - Additional CSS classes
+ * @param {string} $text - Screen reader text
+ */
+*}
+
+{$type = $type|default:'border'}
+{$size = $size|default:'md'}
+{$variant = $variant|default:'primary'}
+{$class = $class|default:''}
+{$text = $text|default:'Loading...'}
+
+{* Build CSS classes with BEM methodology *}
+{$spinner_classes = "waboot__spinner spinner-{$type}"}
+{if $size == 'sm'}
+    {$spinner_classes = "{$spinner_classes} spinner-{$type}-sm"}
+{/if}
+{if $variant != 'primary'}
+    {$spinner_classes = "{$spinner_classes} text-{$variant}"}
+{/if}
+{if $class}
+    {$spinner_classes = "{$spinner_classes} {$class}"}
+{/if}
+
+{* Render spinner element *}
+<div class="{$spinner_classes}" role="status" aria-hidden="true">
+    <span class="visually-hidden">{$text|escape}</span>
+</div>

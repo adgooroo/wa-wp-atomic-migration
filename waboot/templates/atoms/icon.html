@@ -1,0 +1,68 @@
+{*
+/**
+ * Icon Atom Component - Waboot Theme
+ * SVG and icon font component with accessibility
+ *
+ * @param {string} $name - Icon name/identifier
+ * @param {string} $type - Icon type (svg, font, bootstrap)
+ * @param {string} $size - Icon size (sm, md, lg, xl)
+ * @param {string} $class - Additional CSS classes
+ * @param {string} $title - Icon title for accessibility
+ * @param {string} $color - Icon color
+ * @param {boolean} $decorative - Is icon decorative (hidden from screen readers)
+ */
+*}
+
+{$name = $name|default:''}
+{$type = $type|default:'bootstrap'}
+{$size = $size|default:'md'}
+{$class = $class|default:''}
+{$title = $title|default:''}
+{$color = $color|default:''}
+{$decorative = $decorative|default:false}
+
+{* Build CSS classes with BEM methodology *}
+{$icon_classes = "waboot__icon waboot__icon--{$size}"}
+{if $color}
+    {$icon_classes = "{$icon_classes} text-{$color}"}
+{/if}
+{if $class}
+    {$icon_classes = "{$icon_classes} {$class}"}
+{/if}
+
+{* Bootstrap Icons *}
+{if $type == 'bootstrap'}
+    {$icon_classes = "{$icon_classes} bi bi-{$name}"}
+    <i 
+        class="{$icon_classes}"
+        {if $title && !$decorative}title="{$title|escape}"{/if}
+        {if $decorative}aria-hidden="true"{/if}
+        {if $title && !$decorative}role="img"{/if}
+    ></i>
+
+{* SVG Icons *}
+{elseif $type == 'svg'}
+    <svg 
+        class="{$icon_classes}" 
+        {if $title && !$decorative}role="img" aria-labelledby="icon-{$name}-title"{/if}
+        {if $decorative}aria-hidden="true"{/if}
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox="0 0 24 24" 
+        fill="currentColor"
+    >
+        {if $title && !$decorative}
+            <title id="icon-{$name}-title">{$title|escape}</title>
+        {/if}
+        <use href="#icon-{$name}"></use>
+    </svg>
+
+{* Font Icons *}
+{elseif $type == 'font'}
+    {$icon_classes = "{$icon_classes} {$name}"}
+    <i 
+        class="{$icon_classes}"
+        {if $title && !$decorative}title="{$title|escape}"{/if}
+        {if $decorative}aria-hidden="true"{/if}
+        {if $title && !$decorative}role="img"{/if}
+    ></i>
+{/if}

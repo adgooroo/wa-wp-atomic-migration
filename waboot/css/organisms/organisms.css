@@ -1,0 +1,534 @@
+/*!
+ * Waboot Organisms CSS
+ * Complex components following BEM methodology
+ * Version: 1.0.0
+ */
+
+/* ==========================================================================
+   Site Header Organism
+   ========================================================================== */
+
+.waboot__header {
+  --header-height: 80px;
+  --header-bg: #fff;
+  --header-border-color: var(--waboot-border-color);
+  --header-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --header-z-index: 1020;
+  
+  position: sticky;
+  top: 0;
+  z-index: var(--header-z-index);
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--header-border-color);
+  box-shadow: var(--header-shadow);
+  transition: all 0.3s ease-in-out;
+}
+
+.waboot__header--scrolled {
+  --header-height: 70px;
+  --header-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.waboot__header__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.waboot__header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--waboot-dark);
+  font-weight: 700;
+  font-size: 1.25rem;
+  transition: color 0.15s ease-in-out;
+}
+
+.waboot__header__brand:hover,
+.waboot__header__brand:focus {
+  color: var(--waboot-primary);
+  text-decoration: none;
+}
+
+.waboot__header__logo {
+  height: 40px;
+  width: auto;
+}
+
+.waboot__header__nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.waboot__header__menu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.waboot__header__menu-item {
+  position: relative;
+}
+
+.waboot__header__menu-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  color: var(--waboot-dark);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease-in-out;
+}
+
+.waboot__header__menu-link:hover,
+.waboot__header__menu-link:focus {
+  color: var(--waboot-primary);
+  text-decoration: none;
+}
+
+.waboot__header__menu-link--active {
+  color: var(--waboot-primary);
+  font-weight: 600;
+}
+
+.waboot__header__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid var(--waboot-border-color);
+  border-radius: var(--waboot-border-radius);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in-out;
+}
+
+.waboot__header__menu-item:hover .waboot__header__dropdown,
+.waboot__header__menu-item:focus-within .waboot__header__dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.waboot__header__dropdown-item {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--waboot-dark);
+  text-decoration: none;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.waboot__header__dropdown-item:hover,
+.waboot__header__dropdown-item:focus {
+  background-color: #f8f9fa;
+  color: var(--waboot-primary);
+  text-decoration: none;
+}
+
+.waboot__header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.waboot__header__search {
+  position: relative;
+}
+
+.waboot__header__search-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  color: var(--waboot-dark);
+  border-radius: var(--waboot-border-radius);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.waboot__header__search-toggle:hover,
+.waboot__header__search-toggle:focus {
+  background-color: #f8f9fa;
+  color: var(--waboot-primary);
+}
+
+.waboot__header__search-form {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  width: 300px;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid var(--waboot-border-color);
+  border-radius: var(--waboot-border-radius);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in-out;
+}
+
+.waboot__header__search--active .waboot__header__search-form {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.waboot__header__mobile-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.waboot__header__mobile-toggle-line {
+  height: 3px;
+  background-color: var(--waboot-dark);
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+  transform-origin: center;
+}
+
+.waboot__header__mobile-toggle--active .waboot__header__mobile-toggle-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.waboot__header__mobile-toggle--active .waboot__header__mobile-toggle-line:nth-child(2) {
+  opacity: 0;
+}
+
+.waboot__header__mobile-toggle--active .waboot__header__mobile-toggle-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ==========================================================================
+   Site Footer Organism
+   ========================================================================== */
+
+.waboot__footer {
+  --footer-bg: #212529;
+  --footer-color: #dee2e6;
+  --footer-link-color: #adb5bd;
+  --footer-link-hover-color: #fff;
+  --footer-border-color: #495057;
+  
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
+  line-height: 1.6;
+}
+
+.waboot__footer__brand {
+  margin-bottom: 2rem;
+}
+
+.waboot__footer__logo {
+  margin-bottom: 1rem;
+}
+
+.waboot__footer__description {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.waboot__footer__contact {
+  font-size: 0.9rem;
+}
+
+.waboot__footer__contact a {
+  color: var(--footer-link-color);
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+
+.waboot__footer__contact a:hover,
+.waboot__footer__contact a:focus {
+  color: var(--footer-link-hover-color);
+}
+
+.waboot__footer__menu {
+  margin-bottom: 2rem;
+}
+
+.waboot__footer__menu-title {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.waboot__footer__menu-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.waboot__footer__link {
+  color: var(--footer-link-color);
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+  font-size: 0.9rem;
+}
+
+.waboot__footer__link:hover,
+.waboot__footer__link:focus {
+  color: var(--footer-link-hover-color);
+  text-decoration: none;
+}
+
+.waboot__footer__newsletter {
+  margin-bottom: 2rem;
+}
+
+.waboot__footer__newsletter-title {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.waboot__footer__newsletter-description {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.waboot__footer__copyright {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.waboot__footer__social {
+  gap: 1rem;
+}
+
+.waboot__footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.15s ease-in-out;
+}
+
+.waboot__footer__social-link:hover,
+.waboot__footer__social-link:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Hero Section Organism
+   ========================================================================== */
+
+.waboot__hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.waboot__hero__background,
+.waboot__hero__video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.waboot__hero__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.waboot__hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.waboot__hero__subtitle {
+  margin-bottom: 1.5rem;
+}
+
+.waboot__hero__title {
+  margin-bottom: 2rem;
+}
+
+.waboot__hero__title-text {
+  line-height: 1.1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.waboot__hero__description {
+  margin-bottom: 3rem;
+}
+
+.waboot__hero__description p {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
+.waboot__hero__actions {
+  margin-bottom: 2rem;
+}
+
+.waboot__hero__button {
+  min-width: 150px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.waboot__hero__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.waboot__hero__scroll {
+  animation: waboot-bounce 2s infinite;
+}
+
+.waboot__hero__scroll a {
+  transition: color 0.15s ease-in-out;
+}
+
+.waboot__hero__scroll a:hover {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+@keyframes waboot-bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate(-50%, 0);
+  }
+  40%, 43% {
+    transform: translate(-50%, -10px);
+  }
+  70% {
+    transform: translate(-50%, -5px);
+  }
+  90% {
+    transform: translate(-50%, -2px);
+  }
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 991px) {
+  .waboot__header__nav {
+    display: none;
+  }
+  
+  .waboot__header__mobile-toggle {
+    display: flex;
+  }
+  
+  .waboot__header__nav--mobile {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    z-index: 1010;
+    padding: 2rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .waboot__header__nav--mobile.waboot__header__nav--active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  .waboot__header__menu {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .waboot__header__dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .waboot__header__search-form {
+    width: 250px;
+  }
+  
+  .waboot__hero__title-text {
+    font-size: 2.5rem;
+  }
+  
+  .waboot__hero__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .waboot__hero__button {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .waboot__footer__social {
+    justify-content: start !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .waboot__header__container {
+    padding: 0 0.75rem;
+  }
+  
+  .waboot__header__search-form {
+    width: 200px;
+  }
+  
+  .waboot__hero__title-text {
+    font-size: 2rem;
+  }
+}

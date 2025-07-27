@@ -1,0 +1,51 @@
+{*
+/**
+ * Link Atom Component - Waboot Theme
+ * Accessible link component with BEM methodology
+ *
+ * @param {string} $url - Link URL
+ * @param {string} $text - Link text content
+ * @param {string} $title - Link title attribute
+ * @param {string} $class - Additional CSS classes
+ * @param {string} $target - Link target (_blank, _self, etc.)
+ * @param {string} $rel - Link relationship (noopener, noreferrer, etc.)
+ * @param {boolean} $external - Is external link (adds security attributes)
+ * @param {string} $variant - Link style variant (primary, secondary, etc.)
+ */
+*}
+
+{$url = $url|default:'#'}
+{$text = $text|default:''}
+{$title = $title|default:''}
+{$class = $class|default:''}
+{$target = $target|default:''}
+{$rel = $rel|default:''}
+{$external = $external|default:false}
+{$variant = $variant|default:'default'}
+
+{* Build CSS classes with BEM methodology *}
+{$link_classes = "waboot__link waboot__link--{$variant}"}
+{if $class}
+    {$link_classes = "{$link_classes} {$class}"}
+{/if}
+
+{* Handle external links security *}
+{if $external || $target == '_blank'}
+    {if !$rel}
+        {$rel = 'noopener noreferrer'}
+    {/if}
+    {if !$target}
+        {$target = '_blank'}
+    {/if}
+{/if}
+
+{* Render link element *}
+<a 
+    href="{$url|escape}" 
+    class="{$link_classes}"
+    {if $title}title="{$title|escape}"{/if}
+    {if $target}target="{$target}"{/if}
+    {if $rel}rel="{$rel}"{/if}
+>
+    {$text|escape}
+</a>
