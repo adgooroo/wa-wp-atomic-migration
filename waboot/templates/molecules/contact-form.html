@@ -1,0 +1,203 @@
+{*
+/**
+ * Contact Form Molecule Component - Waboot Theme
+ * Complete contact form with Alpine.js validation and accessibility
+ *
+ * @param {string} $action - Form action URL
+ * @param {string} $method - Form method (POST, GET)
+ * @param {string} $class - Additional CSS classes
+ * @param {boolean} $show_subject - Show subject field
+ * @param {boolean} $show_phone - Show phone field
+ * @param {string} $submit_text - Submit button text
+ */
+*}
+
+{$action = $action|default:'/contact/'}
+{$method = $method|default:'POST'}
+{$class = $class|default:''}
+{$show_subject = $show_subject|default:true}
+{$show_phone = $show_phone|default:false}
+{$submit_text = $submit_text|default:'Send Message'}
+
+{* Build CSS classes with BEM methodology *}
+{$form_classes = "waboot__contact-form"}
+{if $class}
+    {$form_classes = "{$form_classes} {$class}"}
+{/if}
+
+<form 
+    class="{$form_classes}" 
+    action="{$action|escape}" 
+    method="{$method}"
+    x-data="{
+        name: '',
+        email: '',
+        {if $show_subject}subject: '',{/if}
+        {if $show_phone}phone: '',{/if}
+        message: '',
+        loading: false,
+        errors: {},
+        submitted: false,
+        
+        validateField(field, value) {
+            if (field === 'name' && !value.trim()) {
+                this.errors.name = 'Name is required';
+                return false;
+            }
+            if (field === 'email' && !this.isValidEmail(value)) {
+                this.errors.email = 'Valid email is required';
+                return false;
+            }
+            if (field === 'message' && !value.trim()) {
+                this.errors.message = 'Message is required';
+                return false;
+            }
+            delete this.errors[field];
+            return true;
+        },
+        
+        isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        },
+        
+        async submitForm() {
+            this.errors = {};
+            
+            // Validate all fields
+            const isValid = [
+                this.validateField('name', this.name),
+                this.validateField('email', this.email),
+                this.validateField('message', this.message)
+            ].every(v => v);
+            
+            if (!isValid) return;
+            
+            this.loading = true;
+            
+            try {
+                const formData = new FormData();
+                formData.append('name', this.name);
+                formData.append('email', this.email);
+                {if $show_subject}formData.append('subject', this.subject);{/if}
+                {if $show_phone}formData.append('phone', this.phone);{/if}
+                formData.append('message', this.message);
+                
+                const response = await fetch('{$action|escape}', {
+                    method: '{$method}',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    this.submitted = true;
+                    this.resetForm();
+                } else {
+                    this.errors.general = 'Something went wrong. Please try again.';
+                }
+            } catch (error) {
+                this.errors.general = 'Network error. Please check your connection.';
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        resetForm() {
+            this.name = '';
+            this.email = '';
+            {if $show_subject}this.subject = '';{/if}
+            {if $show_phone}this.phone = '';{/if}
+            this.message = '';
+        }
+    }"
+    @submit.prevent="submitForm"
+    novalidate
+>
+    {* Success Message *}
+    <div x-show="submitted" x-transition class="alert alert-success" role="alert">
+        <strong>Thank you!</strong> Your message has been sent successfully.
+    </div>
+    
+    {* Error Message *}
+    <div x-show="errors.general" x-transition class="alert alert-danger" role="alert">
+        <span x-text="errors.general"></span>
+    </div>
+    
+    <div x-show="!submitted">
+        <div class="row">
+            {* Name Field *}
+            <div class="col-md-6 mb-3">
+                {include file="atoms/input.html" 
+                    type="text"
+                    name="name"
+                    label="Full Name"
+                    required=true
+                    alpine_model="name"
+                    class="waboot__contact-form__name"
+                }
+            </div>
+            
+            {* Email Field *}
+            <div class="col-md-6 mb-3">
+                {include file="atoms/input.html" 
+                    type="email"
+                    name="email"
+                    label="Email Address"
+                    required=true
+                    alpine_model="email"
+                    class="waboot__contact-form__email"
+                }
+            </div>
+        </div>
+        
+        <div class="row">
+            {* Subject Field *}
+            {if $show_subject}
+            <div class="col-md-{if $show_phone}6{else}12{/if} mb-3">
+                {include file="atoms/input.html" 
+                    type="text"
+                    name="subject"
+                    label="Subject"
+                    alpine_model="subject"
+                    class="waboot__contact-form__subject"
+                }
+            </div>
+            {/if}
+            
+            {* Phone Field *}
+            {if $show_phone}
+            <div class="col-md-{if $show_subject}6{else}12{/if} mb-3">
+                {include file="atoms/input.html" 
+                    type="tel"
+                    name="phone"
+                    label="Phone Number"
+                    alpine_model="phone"
+                    class="waboot__contact-form__phone"
+                }
+            </div>
+            {/if}
+        </div>
+        
+        {* Message Field *}
+        <div class="mb-3">
+            {include file="atoms/textarea.html" 
+                name="message"
+                label="Message"
+                required=true
+                rows=5
+                alpine_model="message"
+                help_text="Please provide details about your inquiry."
+                class="waboot__contact-form__message"
+            }
+        </div>
+        
+        {* Submit Button *}
+        <div class="d-grid">
+            {include file="atoms/button.html" 
+                type="submit"
+                variant="primary"
+                size="lg"
+                text=$submit_text
+                class="waboot__contact-form__submit"
+            }
+        </div>
+    </div>
+</form>

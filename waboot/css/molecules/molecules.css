@@ -1,0 +1,299 @@
+/*!
+ * Waboot Molecules CSS
+ * Component combinations following BEM methodology
+ * Version: 1.0.0
+ */
+
+/* ==========================================================================
+   Search Form Molecule
+   ========================================================================== */
+
+.waboot__search-form {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+
+.waboot__search-form__input {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
+
+.waboot__search-form__button {
+  position: relative;
+  z-index: 2;
+}
+
+.waboot__search-form__suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #fff;
+  border: 1px solid var(--waboot-border-color);
+  border-top: none;
+  border-radius: 0 0 var(--waboot-border-radius) var(--waboot-border-radius);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.waboot__search-form__suggestion {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  color: var(--waboot-dark);
+  text-decoration: none;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.waboot__search-form__suggestion:hover,
+.waboot__search-form__suggestion:focus,
+.waboot__search-form__suggestion--active {
+  background-color: var(--waboot-primary);
+  color: #fff;
+}
+
+.waboot__search-form__no-results {
+  padding: 0.5rem 0.75rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* ==========================================================================
+   Contact Form Molecule
+   ========================================================================== */
+
+.waboot__contact-form {
+  max-width: 600px;
+}
+
+.waboot__contact-form__field-group {
+  margin-bottom: 1rem;
+}
+
+.waboot__contact-form__submit {
+  min-width: 150px;
+}
+
+.waboot__contact-form--loading {
+  pointer-events: none;
+}
+
+.waboot__contact-form--loading .waboot__contact-form__submit {
+  opacity: 0.65;
+}
+
+/* ==========================================================================
+   Newsletter Form Molecule
+   ========================================================================== */
+
+.waboot__newsletter-form {
+  max-width: 500px;
+}
+
+.waboot__newsletter-form__header {
+  text-align: center;
+}
+
+.waboot__newsletter-form__title {
+  color: var(--waboot-dark);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.waboot__newsletter-form__description {
+  color: #6c757d;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.waboot__newsletter-form__form {
+  width: 100%;
+}
+
+.waboot__newsletter-form__email {
+  border-radius: var(--waboot-border-radius) 0 0 var(--waboot-border-radius);
+}
+
+.waboot__newsletter-form--inline .waboot__newsletter-form__email {
+  border-right: none;
+}
+
+.waboot__newsletter-form--inline .waboot__newsletter-form__submit {
+  border-radius: 0 var(--waboot-border-radius) var(--waboot-border-radius) 0;
+  white-space: nowrap;
+}
+
+.waboot__newsletter-form__submit {
+  min-width: 120px;
+}
+
+.waboot__newsletter-form__privacy {
+  margin-top: 0.75rem;
+}
+
+.waboot__newsletter-form__success,
+.waboot__newsletter-form__error {
+  border-radius: var(--waboot-border-radius);
+}
+
+/* ==========================================================================
+   Breadcrumb Molecule
+   ========================================================================== */
+
+.waboot__breadcrumb {
+  --waboot-breadcrumb-padding-x: 0;
+  --waboot-breadcrumb-padding-y: 0;
+  --waboot-breadcrumb-margin-bottom: 1rem;
+  --waboot-breadcrumb-bg: transparent;
+  --waboot-breadcrumb-border-radius: var(--waboot-border-radius);
+  
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--waboot-breadcrumb-padding-y) var(--waboot-breadcrumb-padding-x);
+  margin-bottom: var(--waboot-breadcrumb-margin-bottom);
+  list-style: none;
+  background-color: var(--waboot-breadcrumb-bg);
+  border-radius: var(--waboot-breadcrumb-border-radius);
+}
+
+.waboot__breadcrumb__link {
+  color: var(--waboot-primary);
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+
+.waboot__breadcrumb__link:hover,
+.waboot__breadcrumb__link:focus {
+  color: color-mix(in srgb, var(--waboot-primary) 85%, black);
+  text-decoration: underline;
+}
+
+.waboot__breadcrumb__link:focus-visible {
+  outline: 2px solid var(--waboot-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   Pagination Molecule
+   ========================================================================== */
+
+.waboot__pagination {
+  --waboot-pagination-padding-x: 0.75rem;
+  --waboot-pagination-padding-y: 0.375rem;
+  --waboot-pagination-font-size: 1rem;
+  --waboot-pagination-color: var(--waboot-primary);
+  --waboot-pagination-bg: #fff;
+  --waboot-pagination-border-width: 1px;
+  --waboot-pagination-border-color: var(--waboot-border-color);
+  --waboot-pagination-border-radius: var(--waboot-border-radius);
+  --waboot-pagination-hover-color: color-mix(in srgb, var(--waboot-primary) 85%, black);
+  --waboot-pagination-hover-bg: #e9ecef;
+  --waboot-pagination-hover-border-color: var(--waboot-border-color);
+  --waboot-pagination-focus-color: var(--waboot-pagination-hover-color);
+  --waboot-pagination-focus-bg: var(--waboot-pagination-hover-bg);
+  --waboot-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  --waboot-pagination-active-color: #fff;
+  --waboot-pagination-active-bg: var(--waboot-primary);
+  --waboot-pagination-active-border-color: var(--waboot-primary);
+  --waboot-pagination-disabled-color: #6c757d;
+  --waboot-pagination-disabled-bg: #fff;
+  --waboot-pagination-disabled-border-color: var(--waboot-border-color);
+  
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+}
+
+.waboot__pagination__link {
+  position: relative;
+  display: block;
+  padding: var(--waboot-pagination-padding-y) var(--waboot-pagination-padding-x);
+  margin-left: -1px;
+  font-size: var(--waboot-pagination-font-size);
+  color: var(--waboot-pagination-color);
+  text-decoration: none;
+  background-color: var(--waboot-pagination-bg);
+  border: var(--waboot-pagination-border-width) solid var(--waboot-pagination-border-color);
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.waboot__pagination__link:hover {
+  z-index: 2;
+  color: var(--waboot-pagination-hover-color);
+  background-color: var(--waboot-pagination-hover-bg);
+  border-color: var(--waboot-pagination-hover-border-color);
+}
+
+.waboot__pagination__link:focus {
+  z-index: 3;
+  color: var(--waboot-pagination-focus-color);
+  background-color: var(--waboot-pagination-focus-bg);
+  outline: 0;
+  box-shadow: var(--waboot-pagination-focus-box-shadow);
+}
+
+.waboot__pagination__link.active,
+.waboot__pagination__link:active {
+  z-index: 3;
+  color: var(--waboot-pagination-active-color);
+  background-color: var(--waboot-pagination-active-bg);
+  border-color: var(--waboot-pagination-active-border-color);
+}
+
+.waboot__pagination__link.disabled {
+  color: var(--waboot-pagination-disabled-color);
+  pointer-events: none;
+  background-color: var(--waboot-pagination-disabled-bg);
+  border-color: var(--waboot-pagination-disabled-border-color);
+}
+
+.waboot__pagination__link:first-child {
+  margin-left: 0;
+  border-top-left-radius: var(--waboot-pagination-border-radius);
+  border-bottom-left-radius: var(--waboot-pagination-border-radius);
+}
+
+.waboot__pagination__link:last-child {
+  border-top-right-radius: var(--waboot-pagination-border-radius);
+  border-bottom-right-radius: var(--waboot-pagination-border-radius);
+}
+
+/* ==========================================================================
+   Responsive Utilities
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .waboot__newsletter-form--inline {
+    flex-direction: column;
+  }
+  
+  .waboot__newsletter-form--inline .waboot__newsletter-form__email {
+    border-radius: var(--waboot-border-radius);
+    border-right: 1px solid var(--waboot-border-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  .waboot__newsletter-form--inline .waboot__newsletter-form__submit {
+    border-radius: var(--waboot-border-radius);
+  }
+  
+  .waboot__search-form {
+    flex-direction: column;
+  }
+  
+  .waboot__search-form__input {
+    margin-bottom: 0.5rem;
+  }
+}
