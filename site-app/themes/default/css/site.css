@@ -51,6 +51,102 @@
   --site-transition: all 0.15s ease-in-out;
   --site-transition-fast: all 0.1s ease-in-out;
   --site-transition-slow: all 0.3s ease-in-out;
+}
+
+/* ==========================================================================
+   CSS Imports - Atomic Design Structure
+   ========================================================================== */
+
+/* NOTE: These @import statements should be replaced with proper CSS loading
+   in the HTML template for better performance. This is for demonstration. */
+
+/*
+@import url('atoms/atoms.css');
+@import url('molecules/molecules.css');
+@import url('organisms/organisms.css');
+@import url('templates/templates.css');
+*/
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--site-font-family);
+  font-size: var(--site-font-size-base);
+  font-weight: var(--site-font-weight-normal);
+  line-height: var(--site-line-height-base);
+  color: var(--site-dark);
+  background-color: #ffffff;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* Focus management for accessibility */
+*:focus {
+  outline: 2px solid var(--site-primary);
+  outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--site-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Alpine.js Integration Styles
+   ========================================================================== */
+
+[x-cloak] {
+  display: none !important;
+}
+
+/* Transition classes for Alpine.js */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity var(--site-transition);
+}
+
+.fade-leave-active {
+  opacity: 0;
+  transition: opacity var(--site-transition);
+}
+
+.slide-enter {
+  transform: translateX(-100%);
+}
+
+.slide-enter-active {
+  transform: translateX(0);
+  transition: transform var(--site-transition);
+}
+
+.slide-leave-active {
+  transform: translateX(-100%);
+  transition: transform var(--site-transition);
+}
+
+/* ==========================================================================
+   Site Transitions (continued)
+  --site-transition: all 0.15s ease-in-out;
+  --site-transition-fast: all 0.1s ease-in-out;
+  --site-transition-slow: all 0.3s ease-in-out;
   
   /* Site z-index scale */
   --site-z-dropdown: 1000;

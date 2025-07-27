@@ -1,0 +1,289 @@
+{*
+/**
+ * Site Header Organism Component
+ * Main navigation header with mobile menu and search
+ *
+ * @param {string} $logo_text - Logo text
+ * @param {string} $logo_image - Logo image URL
+ * @param {string} $logo_url - Logo link URL
+ * @param {array} $navigation_items - Navigation menu items
+ * @param {boolean} $show_search - Show search functionality
+ * @param {boolean} $sticky - Sticky header
+ * @param {string} $theme - Header theme (light, dark, transparent)
+ * @param {string} $class - Additional CSS classes
+ * @param {boolean} $show_cta - Show call-to-action button
+ * @param {string} $cta_text - CTA button text
+ * @param {string} $cta_url - CTA button URL
+ * @param {string} $search_placeholder - Search placeholder text
+ */
+*}
+
+{$logo_text = $logo_text|default:"Site"}
+{$logo_image = $logo_image|default:""}
+{$logo_url = $logo_url|default:"/"}
+{$navigation_items = $navigation_items|default:array()}
+{$show_search = $show_search|default:true}
+{$sticky = $sticky|default:true}
+{$theme = $theme|default:"light"}
+{$class = $class|default:""}
+{$show_cta = $show_cta|default:false}
+{$cta_text = $cta_text|default:"Get Started"}
+{$cta_url = $cta_url|default:"/contact"}
+{$search_placeholder = $search_placeholder|default:"Search..."}
+
+{* Build CSS classes with BEM methodology *}
+{$header_classes = "site__header navbar"}
+{if $sticky}
+    {$header_classes = "{$header_classes} sticky-top"}
+{/if}
+{if $theme == 'dark'}
+    {$header_classes = "{$header_classes} navbar-dark bg-dark"}
+{elseif $theme == 'transparent'}
+    {$header_classes = "{$header_classes} navbar-light bg-transparent"}
+{else}
+    {$header_classes = "{$header_classes} navbar-light bg-white border-bottom"}
+{/if}
+{$header_classes = "{$header_classes} navbar-expand-lg"}
+{if $class}
+    {$header_classes = "{$header_classes} {$class}"}
+{/if}
+
+<header class="{$header_classes}"
+        x-data="siteHeader()"
+        x-init="init()"
+        role="banner">
+        
+    <div class="container-fluid">
+        {* Logo/Brand *}
+        <a class="navbar-brand site__header__logo" 
+           href="{$logo_url}"
+           aria-label="Go to homepage">
+            {if $logo_image}
+                <img src="{$logo_image|escape}" 
+                     alt="{$logo_text|escape}" 
+                     class="site__header__logo-image"
+                     height="40">
+            {else}
+                <span class="site__header__logo-text fw-bold">{$logo_text|escape}</span>
+            {/if}
+        </a>
+        
+        {* Mobile menu toggle *}
+        <button class="navbar-toggler site__header__mobile-toggle" 
+                type="button"
+                @click="toggleMobileMenu()"
+                x-bind:aria-expanded="mobileMenuOpen"
+                aria-controls="navbarNav"
+                aria-label="Toggle navigation menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        {* Navigation *}
+        <div class="collapse navbar-collapse site__header__nav" 
+             id="navbarNav"
+             x-bind:class="{ 'show': mobileMenuOpen }">
+             
+            {* Main navigation *}
+            <ul class="navbar-nav me-auto site__header__nav-list">
+                {foreach $navigation_items as $item}
+                    {if $item.children}
+                        {* Dropdown menu *}
+                        <li class="nav-item dropdown site__header__nav-item site__header__nav-item--dropdown"
+                            x-data="{ dropdownOpen: false }">
+                            <a class="nav-link dropdown-toggle site__header__nav-link"
+                               href="#"
+                               role="button"
+                               @click.prevent="dropdownOpen = !dropdownOpen"
+                               x-bind:aria-expanded="dropdownOpen"
+                               aria-haspopup="true">
+                                {$item.title|escape}
+                            </a>
+                            
+                            <ul class="dropdown-menu site__header__dropdown"
+                                x-show="dropdownOpen"
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="transform opacity-0 scale-95"
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="transform opacity-100 scale-100"
+                                x-transition:leave-end="transform opacity-0 scale-95"
+                                @click.away="dropdownOpen = false">
+                                {foreach $item.children as $child}
+                                    <li>
+                                        <a class="dropdown-item site__header__dropdown-link"
+                                           href="{$child.url|escape}">
+                                            {$child.title|escape}
+                                        </a>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        </li>
+                    {else}
+                        {* Regular nav item *}
+                        <li class="nav-item site__header__nav-item">
+                            <a class="nav-link site__header__nav-link" 
+                               href="{$item.url|escape}"
+                               {if $item.current}aria-current="page"{/if}>
+                                {$item.title|escape}
+                            </a>
+                        </li>
+                    {/if}
+                {/foreach}
+            </ul>
+            
+            {* Right side actions *}
+            <div class="d-flex align-items-center site__header__actions">
+                {* Search *}
+                {if $show_search}
+                    <div class="me-3 site__header__search"
+                         x-data="{ searchOpen: false }">
+                        
+                        {* Search toggle (mobile) *}
+                        <button class="btn btn-outline-secondary d-lg-none site__header__search-toggle"
+                                @click="searchOpen = !searchOpen"
+                                aria-label="Toggle search">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                        
+                        {* Search form *}
+                        <form class="site__header__search-form"
+                              x-bind:class="{ 'd-none d-lg-block': !searchOpen }"
+                              action="/search"
+                              method="get"
+                              role="search">
+                            <div class="input-group">
+                                <input type="search"
+                                       name="q"
+                                       class="form-control site__header__search-input"
+                                       placeholder="{$search_placeholder|escape}"
+                                       aria-label="Search"
+                                       x-model="searchQuery"
+                                       @input.debounce.300ms="performSearch()"
+                                       @keydown.escape="searchOpen = false">
+                                <button class="btn btn-outline-secondary site__header__search-submit" 
+                                        type="submit"
+                                        aria-label="Submit search">
+                                    <i class="fas fa-search" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            
+                            {* Search results dropdown *}
+                            <div class="site__header__search-results position-absolute w-100 mt-1"
+                                 x-show="searchResults.length > 0"
+                                 x-transition
+                                 @click.away="searchResults = []">
+                                <div class="list-group shadow-sm">
+                                    <template x-for="result in searchResults" :key="result.id">
+                                        <a class="list-group-item list-group-item-action site__header__search-result"
+                                           x-bind:href="result.url">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1" x-text="result.title"></h6>
+                                                <small x-text="result.type"></small>
+                                            </div>
+                                            <p class="mb-1 text-muted small" x-text="result.excerpt"></p>
+                                        </a>
+                                    </template>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                {/if}
+                
+                {* Call-to-action button *}
+                {if $show_cta}
+                    <div class="site__header__cta">
+                        {include file="atoms/button.html"
+                            href=$cta_url
+                            variant="primary"
+                            text=$cta_text
+                            size="sm"
+                            class="site__header__cta-button"}
+                    </div>
+                {/if}
+            </div>
+        </div>
+    </div>
+</header>
+
+{* Mobile menu overlay *}
+<div class="site__header__overlay"
+     x-show="mobileMenuOpen"
+     x-transition:enter="transition-opacity ease-linear duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition-opacity ease-linear duration-300"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0"
+     @click="closeMobileMenu()"
+     style="display: none;">
+</div>
+
+<script>
+function siteHeader() {
+    return {
+        mobileMenuOpen: false,
+        searchQuery: '',
+        searchResults: [],
+        searchTimeout: null,
+        
+        init() {
+            // Handle escape key to close menus
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    this.mobileMenuOpen = false;
+                    this.searchResults = [];
+                }
+            });
+            
+            // Close mobile menu on resize to desktop
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 992) {
+                    this.mobileMenuOpen = false;
+                }
+            });
+        },
+        
+        toggleMobileMenu() {
+            this.mobileMenuOpen = !this.mobileMenuOpen;
+            
+            // Prevent body scroll when menu is open
+            if (this.mobileMenuOpen) {
+                document.body.classList.add('nav-open');
+            } else {
+                document.body.classList.remove('nav-open');
+            }
+        },
+        
+        closeMobileMenu() {
+            this.mobileMenuOpen = false;
+            document.body.classList.remove('nav-open');
+        },
+        
+        async performSearch() {
+            if (this.searchQuery.length < 2) {
+                this.searchResults = [];
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/search?q=${encodeURIComponent(this.searchQuery)}&limit=5`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.searchResults = data.results || [];
+                } else {
+                    this.searchResults = [];
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                this.searchResults = [];
+            }
+        },
+        
+        clearSearch() {
+            this.searchQuery = '';
+            this.searchResults = [];
+        }
+    }
+}
+</script>

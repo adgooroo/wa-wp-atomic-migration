@@ -1,0 +1,139 @@
+{*
+/**
+ * Button Atom Component
+ * Flexible button component with multiple variants and states
+ *
+ * @param {string} $type - Button type (button, submit, reset)
+ * @param {string} $variant - Button variant (primary, secondary, outline-primary, outline-secondary, success, danger, warning, info, light, dark, link, ghost)
+ * @param {string} $size - Button size (sm, md, lg)
+ * @param {string} $text - Button text content
+ * @param {string} $class - Additional CSS classes
+ * @param {string} $id - Unique ID for button
+ * @param {string} $href - Link URL (creates <a> instead of <button>)
+ * @param {string} $target - Link target (_blank, _self, etc.)
+ * @param {boolean} $disabled - Disable button
+ * @param {boolean} $loading - Show loading state
+ * @param {string} $icon - Icon class (e.g., "fas fa-save")
+ * @param {string} $icon_position - Icon position (left, right)
+ * @param {string} $click_action - Alpine.js click action
+ * @param {string} $form - Form ID to associate with
+ * @param {boolean} $full_width - Make button full width
+ * @param {string} $tooltip - Tooltip text
+ */
+*}
+
+{$type = $type|default:'button'}
+{$variant = $variant|default:'primary'}
+{$size = $size|default:'md'}
+{$text = $text|default:''}
+{$class = $class|default:''}
+{$id = $id|default:''}
+{$href = $href|default:''}
+{$target = $target|default:''}
+{$disabled = $disabled|default:false}
+{$loading = $loading|default:false}
+{$icon = $icon|default:''}
+{$icon_position = $icon_position|default:'left'}
+{$click_action = $click_action|default:''}
+{$form = $form|default:''}
+{$full_width = $full_width|default:false}
+{$tooltip = $tooltip|default:''}
+
+{* Build CSS classes with BEM methodology *}
+{$button_classes = "site__btn btn btn-{$variant}"}
+
+{* Add size class *}
+{if $size == 'sm'}
+    {$button_classes = "{$button_classes} btn-sm"}
+{elseif $size == 'lg'}
+    {$button_classes = "{$button_classes} btn-lg"}
+{/if}
+
+{* Add full width class *}
+{if $full_width}
+    {$button_classes = "{$button_classes} w-100"}
+{/if}
+
+{* Add loading state *}
+{if $loading}
+    {$button_classes = "{$button_classes} site__btn--loading"}
+{/if}
+
+{* Add custom classes *}
+{if $class}
+    {$button_classes = "{$button_classes} {$class}"}
+{/if}
+
+{* Build Alpine.js attributes *}
+{$alpine_attrs = ''}
+{if $click_action}
+    {$alpine_attrs = "{$alpine_attrs} @click=\"{$click_action}\""}
+{/if}
+{if $loading}
+    {$alpine_attrs = "{$alpine_attrs} :disabled=\"loading\" :class=\"{ 'pe-none': loading }\""}
+{/if}
+
+{* Render as link or button *}
+{if $href}
+    {* Render as link *}
+    <a href="{$href|escape}" 
+       class="{$button_classes}"
+       {if $id}id="{$id}"{/if}
+       {if $target}target="{$target}"{/if}
+       {if $target == '_blank'}rel="noopener noreferrer"{/if}
+       {if $disabled}aria-disabled="true" tabindex="-1"{/if}
+       {if $tooltip}title="{$tooltip|escape}" data-bs-toggle="tooltip"{/if}
+       {$alpine_attrs}
+       role="button">
+        
+        {* Icon before text *}
+        {if $icon && $icon_position == 'left'}
+            <i class="{$icon} site__btn__icon site__btn__icon--left" aria-hidden="true"></i>
+        {/if}
+        
+        {* Loading spinner *}
+        {if $loading}
+            <span class="spinner-border spinner-border-sm site__btn__spinner" role="status" aria-hidden="true"></span>
+        {/if}
+        
+        {* Button text *}
+        {if $text}
+            <span class="site__btn__text">{$text|escape}</span>
+        {/if}
+        
+        {* Icon after text *}
+        {if $icon && $icon_position == 'right'}
+            <i class="{$icon} site__btn__icon site__btn__icon--right" aria-hidden="true"></i>
+        {/if}
+    </a>
+{else}
+    {* Render as button *}
+    <button type="{$type}"
+            class="{$button_classes}"
+            {if $id}id="{$id}"{/if}
+            {if $disabled || $loading}disabled{/if}
+            {if $form}form="{$form}"{/if}
+            {if $tooltip}title="{$tooltip|escape}" data-bs-toggle="tooltip"{/if}
+            {$alpine_attrs}>
+        
+        {* Icon before text *}
+        {if $icon && $icon_position == 'left'}
+            <i class="{$icon} site__btn__icon site__btn__icon--left" aria-hidden="true"></i>
+        {/if}
+        
+        {* Loading spinner *}
+        {if $loading}
+            <span class="spinner-border spinner-border-sm site__btn__spinner" role="status" aria-hidden="true"></span>
+        {/if}
+        
+        {* Button text *}
+        {if $text}
+            <span class="site__btn__text">{$text|escape}</span>
+        {/if}
+        
+        {* Icon after text *}
+        {if $icon && $icon_position == 'right'}
+            <i class="{$icon} site__btn__icon site__btn__icon--right" aria-hidden="true"></i>
+        {/if}
+    </button>
+{/if}
