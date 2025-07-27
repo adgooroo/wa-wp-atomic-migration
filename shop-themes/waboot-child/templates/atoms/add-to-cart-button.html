@@ -1,0 +1,119 @@
+{*
+ * Add to Cart Button Atom Template
+ * Interactive button for adding products to shopping cart
+ * @param product_id - Product ID
+ * @param sku_id - SKU ID (optional)
+ * @param quantity - Default quantity
+ * @param size - Button size (sm, normal, lg)
+ * @param text - Button text
+ * @param icon - Show cart icon
+ * @param disabled - Disable button
+ *}
+
+{$product_id = $product_id|default:0}
+{$sku_id = $sku_id|default:0}
+{$quantity = $quantity|default:1}
+{$size = $size|default:'normal'}
+{$text = $text|default:'Add to Cart'}
+{$icon = $icon|default:true}
+{$disabled = $disabled|default:false}
+
+<button type="button" 
+        class="waboot-shop__add-to-cart {if $size !== 'normal'}waboot-shop__add-to-cart--{$size}{/if}"
+        {if $disabled}disabled{/if}
+        x-data="addToCart({
+            productId: {$product_id},
+            skuId: {$sku_id},
+            quantity: {$quantity}
+        })"
+        x-bind:class="{
+            'waboot-shop__add-to-cart--loading': loading,
+            'waboot-shop__add-to-cart--disabled': disabled
+        }"
+        x-bind:disabled="disabled || loading"
+        x-on:click="addProduct()"
+        aria-label="Add {$text|escape} to shopping cart">
+    
+    {if $icon}
+        <svg class="waboot-shop__add-to-cart__icon" 
+             x-show="!loading" 
+             fill="currentColor" 
+             viewBox="0 0 20 20" 
+             xmlns="http://www.w3.org/2000/svg"
+             aria-hidden="true">
+            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+        </svg>
+    {/if}
+    
+    <span class="waboot-shop__add-to-cart__text" x-text="loading ? 'Adding...' : '{$text|escape}'">
+        {$text|escape}
+    </span>
+</button>
+
+{* Alpine.js Component Definition *}
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('addToCart', (config) => ({
+        productId: config.productId,
+        skuId: config.skuId,
+        quantity: config.quantity,
+        loading: false,
+        disabled: false,
+        
+        async addProduct() {
+            if (this.loading || this.disabled) return;
+            
+            this.loading = true;
+            
+            try {
+                const response = await fetch('/shop/cart/add/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({
+                        product_id: this.productId,
+                        sku_id: this.skuId,
+                        quantity: this.quantity
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'ok') {
+                    // Update cart store
+                    this.$store.shop.addToCart({
+                        product_id: this.productId,
+                        sku_id: this.skuId,
+                        quantity: this.quantity
+                    });
+                    
+                    // Show success notification
+                    this.$store.notifications.add({
+                        type: 'success',
+                        message: 'Product added to cart successfully!',
+                        duration: 3000
+                    });
+                    
+                    // Trigger cart update event
+                    this.$dispatch('cart-updated', result.data);
+                } else {
+                    throw new Error(result.errors || 'Failed to add product to cart');
+                }
+            } catch (error) {
+                console.error('Add to cart error:', error);
+                
+                // Show error notification
+                this.$store.notifications.add({
+                    type: 'error',
+                    message: error.message || 'Failed to add product to cart',
+                    duration: 5000
+                });
+            } finally {
+                this.loading = false;
+            }
+        }
+    }));
+});
+</script>

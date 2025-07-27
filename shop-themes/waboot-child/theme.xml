@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<theme id="waboot-child" app="shop" system="0" vendor="adgooroo">
+    <name>Waboot Child Shop</name>
+    <description>Modern e-commerce child theme inheriting from Site app Waboot theme - Bootstrap 5 + Alpine.js + BEM + Atomic Design</description>
+    <version>1.0.0</version>
+    <parent_theme app="site">waboot</parent_theme>
+    <author>AdGooroo</author>
+    <author_url>https://github.com/adgooroo</author_url>
+    <requirements>
+        <app id="site" version="*"/>
+        <theme app="site" id="waboot"/>
+    </requirements>
+    
+    <!-- Theme Settings -->
+    <settings>
+        <setting var="layout_type" title="Layout Type" type="select" options="wide,boxed" default="wide"/>
+        <setting var="show_filters" title="Show Product Filters" type="checkbox" default="1"/>
+        <setting var="products_per_page" title="Products per Page" type="select" options="12,24,36,48" default="24"/>
+        <setting var="show_quick_view" title="Enable Quick View" type="checkbox" default="1"/>
+        <setting var="show_wishlist" title="Enable Wishlist" type="checkbox" default="1"/>
+        <setting var="show_compare" title="Enable Product Compare" type="checkbox" default="1"/>
+    </settings>
+
+    <!-- Custom CSS Variables -->
+    <variables>
+        <var name="primary_color" type="color" default="#0d6efd"/>
+        <var name="secondary_color" type="color" default="#6c757d"/>
+        <var name="success_color" type="color" default="#198754"/>
+        <var name="danger_color" type="color" default="#dc3545"/>
+        <var name="warning_color" type="color" default="#ffc107"/>
+        <var name="info_color" type="color" default="#0dcaf0"/>
+    </variables>
+</theme>

@@ -1,0 +1,36 @@
+{*
+ * Price Atom Template
+ * Displays product prices with sale/original price support
+ * @param price - Current price
+ * @param original_price - Original price (for sales)
+ * @param currency - Currency symbol/code
+ * @param size - Size modifier (small, normal, large)
+ * @param sale - Boolean to indicate sale price
+ *}
+
+{$size = $size|default:'normal'}
+{$currency = $currency|default:$wa->shop->settings('currency')}
+{$sale = $sale|default:false}
+
+<div class="waboot-shop__price {if $size !== 'normal'}waboot-shop__price--{$size}{/if} {if $sale}waboot-shop__price--sale{/if}"
+     {if $original_price && $sale}data-original-price="{$original_price}"{/if}>
+    
+    {* Current/Sale Price *}
+    <span class="waboot-shop__price__amount" itemProp="price" content="{$price}">
+        <span class="waboot-shop__price__currency">{$currency}</span>{$price|number_format:2}
+    </span>
+    
+    {* Original Price (if on sale) *}
+    {if $original_price && $sale}
+        <span class="waboot-shop__price__original">
+            <span class="waboot-shop__sr-only">Original price: </span>
+            <span class="waboot-shop__price__currency">{$currency}</span>{$original_price|number_format:2}
+        </span>
+    {/if}
+    
+    {* Structured data for search engines *}
+    {if $sale && $original_price}
+        <meta itemProp="priceValidUntil" content="{date('Y-m-d', strtotime('+1 year'))}">
+        <meta itemProp="availability" content="https://schema.org/InStock">
+    {/if}
+</div>
