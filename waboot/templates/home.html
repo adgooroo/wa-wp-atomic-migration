@@ -1,0 +1,386 @@
+{* Homepage Template for Waboot Theme *}
+{* Converted from WordPress Bootscore index.php and home template to Webasyst Smarty *}
+
+{* Hero Section *}
+<section class="waboot__hero bg-primary text-white py-5 mb-5" 
+         style="background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-secondary) 100%);">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-6">
+                <div class="waboot__hero-content" data-aos="fade-right">
+                    <h1 class="display-4 fw-bold mb-4">
+                        {if $wa->shop->settings('hero_title')}
+                            {$wa->shop->settings('hero_title')|escape}
+                        {else}
+                            Welcome to {$wa->shop->settings('name')|escape}
+                        {/if}
+                    </h1>
+                    
+                    <p class="lead mb-4">
+                        {if $wa->shop->settings('hero_subtitle')}
+                            {$wa->shop->settings('hero_subtitle')|escape}
+                        {else}
+                            Discover amazing products at unbeatable prices. Quality, style, and value all in one place.
+                        {/if}
+                    </p>
+                    
+                    <div class="waboot__hero-actions">
+                        <a href="{$wa->getUrl('shop/frontend/products')}" class="btn btn-light btn-lg me-3">
+                            <i class="fas fa-shopping-bag me-2"></i>
+                            Shop Now
+                        </a>
+                        <a href="{$wa->getUrl('shop/frontend/about')}" class="btn btn-outline-light btn-lg">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="waboot__hero-image text-center" data-aos="fade-left">
+                    {if $wa->shop->settings('hero_image')}
+                        <img src="{$wa->shop->settings('hero_image')}" alt="Hero" class="img-fluid rounded-3" style="max-height: 400px;">
+                    {else}
+                        <div class="waboot__hero-placeholder bg-white bg-opacity-25 rounded-3 p-5" style="min-height: 300px;">
+                            <i class="fas fa-store fa-5x mb-3 text-white opacity-75"></i>
+                            <h4 class="text-white">Your Store</h4>
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{* Featured Categories Section *}
+{if $categories}
+<section class="waboot__featured-categories py-5">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="display-6 mb-3">Shop by Category</h2>
+                <p class="lead text-muted">Explore our wide range of products</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {foreach $categories as $category name="featured_cats"}
+                {if $smarty.foreach.featured_cats.index < 6}
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{($smarty.foreach.featured_cats.index * 100)}">
+                    <div class="waboot__category-card card h-100 border-0 shadow-sm">
+                        {if $category.image}
+                            <img src="{$category.image.url_big}" class="card-img-top" alt="{$category.name|escape}" style="height: 200px; object-fit: cover;">
+                        {else}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="fas fa-tag fa-3x text-muted"></i>
+                            </div>
+                        {/if}
+                        
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{$category.name|escape}</h5>
+                            {if $category.description}
+                                <p class="card-text text-muted">{$category.description|escape|truncate:100}</p>
+                            {/if}
+                            <p class="text-muted small">
+                                {if $category.count}
+                                    {$category.count} product{if $category.count != 1}s{/if}
+                                {/if}
+                            </p>
+                            <a href="{$category.url}" class="btn btn-outline-primary">Browse Category</a>
+                        </div>
+                    </div>
+                </div>
+                {/if}
+            {/foreach}
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="{$wa->getUrl('shop/frontend/categories')}" class="btn btn-primary btn-lg">
+                    View All Categories
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{/if}
+
+{* Featured Products Section *}
+{if $featured_products}
+<section class="waboot__featured-products py-5 bg-light">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="display-6 mb-3">Featured Products</h2>
+                <p class="lead text-muted">Hand-picked favorites just for you</p>
+            </div>
+        </div>
+        
+        <div class="row g-4" id="featured-products-grid">
+            {foreach $featured_products as $product name="featured"}
+                {if $smarty.foreach.featured.index < 8}
+                <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="{($smarty.foreach.featured.index * 50)}">
+                    <div class="waboot__product-card card h-100 border-0 shadow-sm">
+                        <div class="waboot__product-image position-relative">
+                            {if $product.image}
+                                <img src="{$product.image.url_big}" class="card-img-top" alt="{$product.name|escape}" style="height: 250px; object-fit: cover;">
+                            {else}
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                            {/if}
+                            
+                            {* Product Badges *}
+                            {if $product.badge}
+                            <span class="badge bg-danger position-absolute top-0 start-0 m-2">{$product.badge}</span>
+                            {/if}
+                            
+                            {* Quick Actions *}
+                            <div class="waboot__product-actions position-absolute top-0 end-0 m-2">
+                                <button class="btn btn-light btn-sm rounded-circle" title="Add to Wishlist" aria-label="Add to Wishlist">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <h6 class="card-title">
+                                <a href="{$product.url}" class="text-decoration-none text-dark">{$product.name|escape|truncate:50}</a>
+                            </h6>
+                            
+                            {if $product.rating}
+                            <div class="waboot__product-rating mb-2">
+                                {section name="star" loop=5}
+                                    {if $smarty.section.star.index < $product.rating}
+                                        <i class="fas fa-star text-warning"></i>
+                                    {else}
+                                        <i class="far fa-star text-muted"></i>
+                                    {/if}
+                                {/section}
+                                <small class="text-muted ms-1">({$product.rating})</small>
+                            </div>
+                            {/if}
+                            
+                            <div class="waboot__product-price mb-3">
+                                {if $product.compare_price && $product.compare_price > $product.price}
+                                    <span class="text-muted text-decoration-line-through me-2">{$product.compare_price} {$wa->shop->currency()}</span>
+                                    <span class="text-danger fw-bold">{$product.price} {$wa->shop->currency()}</span>
+                                {else}
+                                    <span class="fw-bold">{$product.price} {$wa->shop->currency()}</span>
+                                {/if}
+                            </div>
+                            
+                            <div class="d-grid">
+                                {if $product.available}
+                                    <button class="btn btn-primary waboot__add-to-cart" 
+                                            data-product-id="{$product.id}"
+                                            @click="addToCart({$product.id})">
+                                        <i class="fas fa-shopping-cart me-2"></i>
+                                        Add to Cart
+                                    </button>
+                                {else}
+                                    <button class="btn btn-outline-secondary" disabled>
+                                        Out of Stock
+                                    </button>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/if}
+            {/foreach}
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="{$wa->getUrl('shop/frontend/products')}" class="btn btn-primary btn-lg">
+                    View All Products
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{/if}
+
+{* Newsletter & Features Section *}
+<section class="waboot__newsletter-features py-5">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <div class="row">
+            
+            {* Newsletter Signup *}
+            <div class="col-lg-6 mb-5">
+                <div class="waboot__newsletter-section bg-primary text-white p-5 rounded-3" data-aos="fade-right">
+                    <h3 class="mb-3">Stay Updated</h3>
+                    <p class="mb-4">Get the latest news about our products and exclusive offers delivered to your inbox.</p>
+                    
+                    <form action="{$wa->getUrl('shop/frontend/newsletter')}" method="post" class="waboot__newsletter-form">
+                        {$wa->csrf()}
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                            <button class="btn btn-light" type="submit">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <small class="text-white-50">
+                            We respect your privacy. Unsubscribe at any time.
+                        </small>
+                    </form>
+                </div>
+            </div>
+            
+            {* Key Features *}
+            <div class="col-lg-6" data-aos="fade-left">
+                <h3 class="mb-4">Why Choose Us?</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="waboot__feature text-center">
+                            <div class="waboot__feature-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-shipping-fast fa-lg"></i>
+                            </div>
+                            <h5>Fast Shipping</h5>
+                            <p class="text-muted">Free shipping on orders over $50</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="waboot__feature text-center">
+                            <div class="waboot__feature-icon bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-shield-alt fa-lg"></i>
+                            </div>
+                            <h5>Secure Payment</h5>
+                            <p class="text-muted">100% secure checkout</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="waboot__feature text-center">
+                            <div class="waboot__feature-icon bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-undo fa-lg"></i>
+                            </div>
+                            <h5>Easy Returns</h5>
+                            <p class="text-muted">30-day return policy</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="waboot__feature text-center">
+                            <div class="waboot__feature-icon bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-headset fa-lg"></i>
+                            </div>
+                            <h5>24/7 Support</h5>
+                            <p class="text-muted">Always here to help</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{* Recent Blog Posts (if blog app is enabled) *}
+{if $wa->getApp('blog') && $blog_posts}
+<section class="waboot__blog-posts py-5 bg-light">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="display-6 mb-3">Latest from Our Blog</h2>
+                <p class="lead text-muted">Stay informed with our latest news and insights</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {foreach $blog_posts as $post name="blog"}
+                {if $smarty.foreach.blog.index < 3}
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{($smarty.foreach.blog.index * 100)}">
+                    <article class="waboot__blog-card card h-100 border-0 shadow-sm">
+                        {if $post.image}
+                            <img src="{$post.image}" class="card-img-top" alt="{$post.title|escape}" style="height: 200px; object-fit: cover;">
+                        {/if}
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{$post.url}" class="text-decoration-none">{$post.title|escape}</a>
+                            </h5>
+                            <p class="card-text text-muted">{$post.excerpt|escape|truncate:120}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    {$post.date|date_format:"%B %d, %Y"}
+                                </small>
+                                <a href="{$post.url}" class="btn btn-sm btn-outline-primary">Read More</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                {/if}
+            {/foreach}
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="{$wa->getAppUrl('blog')}" class="btn btn-primary">
+                    View All Posts
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{/if}
+
+{* Alpine.js data for cart functionality *}
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('homepageCart', () => ({
+        addToCart(productId) {
+            // Add to cart functionality with Alpine.js
+            fetch(`{$wa->getUrl('shop/frontend/cart')}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: `product_id=${productId}&quantity=1`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    // Show success message
+                    this.showCartMessage('Product added to cart!', 'success');
+                    // Update cart count in header
+                    this.updateCartCount();
+                } else {
+                    this.showCartMessage('Error adding product to cart', 'error');
+                }
+            })
+            .catch(error => {
+                this.showCartMessage('Error adding product to cart', 'error');
+            });
+        },
+        
+        showCartMessage(message, type) {
+            // Create and show toast notification
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'success' ? 'success' : 'danger'} position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999;';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        },
+        
+        updateCartCount() {
+            // Update cart count in header
+            fetch(`{$wa->getUrl('shop/frontend/cart')}?format=json`)
+            .then(response => response.json())
+            .then(data => {
+                const cartCountElements = document.querySelectorAll('.cart-count');
+                cartCountElements.forEach(el => {
+                    el.textContent = data.count || 0;
+                });
+            });
+        }
+    }));
+});
+</script>
