@@ -1,22 +1,28 @@
 {*
- * Price Atom Template
- * Displays product prices with sale/original price support
+ * Price Atom Template with JSON-LD Product Offer Schema
+ * Displays product prices with comprehensive structured data
  * @param price - Current price
  * @param original_price - Original price (for sales)
  * @param currency - Currency symbol/code
  * @param size - Size modifier (small, normal, large)
  * @param sale - Boolean to indicate sale price
+ * @param product_url - Product URL for schema
+ * @param availability - Product availability status
+ * @param valid_until - Price validity date
  *}
 
 {$size = $size|default:'normal'}
 {$currency = $currency|default:$wa->shop->settings('currency')}
 {$sale = $sale|default:false}
+{$availability = $availability|default:'InStock'}
+{$valid_until = $valid_until|default:date('Y-m-d', strtotime('+1 year'))}
 
 <div class="waboot-shop__price {if $size !== 'normal'}waboot-shop__price--{$size}{/if} {if $sale}waboot-shop__price--sale{/if}"
+     itemscope itemtype="https://schema.org/Offer"
      {if $original_price && $sale}data-original-price="{$original_price}"{/if}>
     
-    {* Current/Sale Price *}
-    <span class="waboot-shop__price__amount" itemProp="price" content="{$price}">
+    {* Current/Sale Price with microdata *}
+    <span class="waboot-shop__price__amount" itemprop="price" content="{$price}">
         <span class="waboot-shop__price__currency">{$currency}</span>{$price|number_format:2}
     </span>
     
@@ -26,11 +32,77 @@
             <span class="waboot-shop__sr-only">Original price: </span>
             <span class="waboot-shop__price__currency">{$currency}</span>{$original_price|number_format:2}
         </span>
+        {* Sale discount percentage *}
+        {assign var="discount" value=round((($original_price - $price) / $original_price) * 100)}
+        <span class="waboot-shop__price__discount">-{$discount}%</span>
     {/if}
     
-    {* Structured data for search engines *}
-    {if $sale && $original_price}
-        <meta itemProp="priceValidUntil" content="{date('Y-m-d', strtotime('+1 year'))}">
-        <meta itemProp="availability" content="https://schema.org/InStock">
-    {/if}
+    {* Microdata for structured data *}
+    <meta itemprop="priceCurrency" content="{$currency}">
+    <meta itemprop="availability" content="https://schema.org/{$availability}">
+    <meta itemprop="priceValidUntil" content="{$valid_until}">
+    {if $product_url}<meta itemprop="url" content="{$product_url}">{/if}
+    
+    {* JSON-LD Offer Schema *}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Offer",
+      "price": "{$price}",
+      "priceCurrency": "{$currency}",
+      "availability": "https://schema.org/{$availability}",
+      "priceValidUntil": "{$valid_until}",
+      {if $product_url}"url": "{$product_url}",{/if}
+      {if $sale && $original_price}
+      "priceSpecification": {
+        "@type": "PriceSpecification",
+        "price": "{$price}",
+        "priceCurrency": "{$currency}",
+        "eligibleQuantity": {
+          "@type": "QuantitativeValue",
+          "minValue": 1
+        }
+      },
+      "discount": "{if $original_price}{round((($original_price - $price) / $original_price) * 100)}{else}0{/if}",
+      {/if}
+      "seller": {
+        "@type": "Organization",
+        "@id": "{$wa_domain_url}#organization",
+        "name": "{$wa->accountName()}"
+      },
+      "itemCondition": "https://schema.org/NewCondition",
+      "validFrom": "{date('Y-m-d')}",
+      "acceptedPaymentMethod": [
+        "https://schema.org/CreditCard",
+        "https://schema.org/PaymentCard",
+        "https://schema.org/DebitCard"
+      ]
+    }
+    </script>
 </div>
+
+{* Price comparison schema for sale items *}
+{if $sale && $original_price}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ComparisonShopping",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Regular Price",
+      "price": "{$original_price}",
+      "priceCurrency": "{$currency}"
+    },
+    {
+      "@type": "Offer", 
+      "name": "Sale Price",
+      "price": "{$price}",
+      "priceCurrency": "{$currency}",
+      "availability": "https://schema.org/{$availability}",
+      "priceValidUntil": "{$valid_until}"
+    }
+  ]
+}
+</script>
+{/if}

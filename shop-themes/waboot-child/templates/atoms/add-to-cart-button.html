@@ -1,119 +1,179 @@
 {*
- * Add to Cart Button Atom Template
- * Interactive button for adding products to shopping cart
- * @param product_id - Product ID
- * @param sku_id - SKU ID (optional)
+ * Add to Cart Button Atom Template with JSON-LD Action Schema
+ * Interactive shopping cart button with comprehensive structured data
+ * @param product_id - Product identifier
+ * @param sku_id - SKU identifier  
  * @param quantity - Default quantity
- * @param size - Button size (sm, normal, lg)
  * @param text - Button text
- * @param icon - Show cart icon
- * @param disabled - Disable button
+ * @param size - Button size (small, normal, large)
+ * @param style - Button style variant
+ * @param disabled - Disabled state
+ * @param product_name - Product name for schema
+ * @param product_price - Product price for schema
+ * @param product_url - Product URL for schema
+ * @param in_stock - Stock availability
  *}
 
 {$product_id = $product_id|default:0}
 {$sku_id = $sku_id|default:0}
 {$quantity = $quantity|default:1}
-{$size = $size|default:'normal'}
 {$text = $text|default:'Add to Cart'}
-{$icon = $icon|default:true}
+{$size = $size|default:'normal'}
+{$style = $style|default:'primary'}
 {$disabled = $disabled|default:false}
+{$in_stock = $in_stock|default:true}
 
-<button type="button" 
-        class="waboot-shop__add-to-cart {if $size !== 'normal'}waboot-shop__add-to-cart--{$size}{/if}"
-        {if $disabled}disabled{/if}
-        x-data="addToCart({
-            productId: {$product_id},
-            skuId: {$sku_id},
-            quantity: {$quantity}
-        })"
-        x-bind:class="{
-            'waboot-shop__add-to-cart--loading': loading,
-            'waboot-shop__add-to-cart--disabled': disabled
-        }"
-        x-bind:disabled="disabled || loading"
-        x-on:click="addProduct()"
-        aria-label="Add {$text|escape} to shopping cart">
+<div class="waboot-shop__add-to-cart" 
+     x-data="productCard({ 
+         product_id: {$product_id}, 
+         sku_id: {$sku_id}, 
+         quantity: {$quantity},
+         name: '{$product_name|escape:'javascript'}',
+         price: '{$product_price|default:0}',
+         url: '{$product_url|escape:'javascript'}'
+     })"
+     itemscope itemtype="https://schema.org/BuyAction">
     
-    {if $icon}
-        <svg class="waboot-shop__add-to-cart__icon" 
-             x-show="!loading" 
-             fill="currentColor" 
-             viewBox="0 0 20 20" 
-             xmlns="http://www.w3.org/2000/svg"
-             aria-hidden="true">
-            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
-        </svg>
+    {* Add to Cart Button *}
+    <button type="button"
+            class="waboot-shop__add-to-cart__button btn {if $size !== 'normal'}btn--{$size}{/if} btn--{$style}"
+            :class="{ 'btn--loading': loading, 'btn--disabled': !{$in_stock|json_encode} }"
+            :disabled="loading || !{$in_stock|json_encode}"
+            @click="addToCart()"
+            itemprop="target"
+            aria-label="Add {$product_name|default:'product'} to shopping cart">
+        
+        {* Button Content *}
+        <span class="waboot-shop__add-to-cart__text" x-show="!loading">
+            {if !$in_stock}
+                Out of Stock
+            {else}
+                {$text}
+            {/if}
+        </span>
+        
+        {* Loading Spinner *}
+        <span class="waboot-shop__add-to-cart__loading" x-show="loading">
+            <span class="waboot-shop__spinner" aria-hidden="true"></span>
+            Adding...
+        </span>
+    </button>
+    
+    {* Quantity Selector (if enabled) *}
+    {if $show_quantity|default:false}
+    <div class="waboot-shop__add-to-cart__quantity">
+        <label for="quantity-{$product_id}" class="waboot-shop__sr-only">Quantity</label>
+        <input type="number" 
+               id="quantity-{$product_id}"
+               class="waboot-shop__quantity-input"
+               x-model.number="quantity"
+               min="1" 
+               max="{$max_quantity|default:99}"
+               value="{$quantity}"
+               aria-label="Product quantity">
+    </div>
     {/if}
     
-    <span class="waboot-shop__add-to-cart__text" x-text="loading ? 'Adding...' : '{$text|escape}'">
-        {$text|escape}
-    </span>
-</button>
+    {* Microdata for structured data *}
+    <meta itemprop="object" content="{$product_url}">
+    <meta itemprop="agent" content="{$wa_domain_url}#organization">
+    {if $product_name}<meta itemprop="name" content="Add {$product_name} to Cart">{/if}
+    
+    {* JSON-LD BuyAction Schema *}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BuyAction",
+      "@id": "{$wa_domain_url}/action/add-to-cart#{$product_id}",
+      "actionStatus": "https://schema.org/PotentialActionStatus",
+      "agent": {
+        "@type": "Organization",
+        "@id": "{$wa_domain_url}#organization"
+      },
+      "object": {
+        "@type": "Product",
+        "@id": "{$product_url}#product",
+        {if $product_name}"name": "{$product_name}",{/if}
+        {if $product_price}"offers": {
+          "@type": "Offer",
+          "price": "{$product_price}",
+          "priceCurrency": "{$wa->shop->settings('currency')}",
+          "availability": "{if $in_stock}https://schema.org/InStock{else}https://schema.org/OutOfStock{/if}"
+        },{/if}
+        "sku": "{$sku_id}"
+      },
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "{$wa_domain_url}/shop/cart/add/",
+        "httpMethod": "POST",
+        "contentType": "application/json"
+      },
+      "result": {
+        "@type": "ShoppingCart",
+        "url": "{$wa_domain_url}/shop/cart/"
+      },
+      "instrument": {
+        "@type": "WebPage",
+        "url": "{$product_url}"
+      },
+      "startTime": "{date('Y-m-d\TH:i:s\Z')}",
+      "potentialAction": {
+        "@type": "ViewAction",
+        "target": "{$wa_domain_url}/shop/cart/",
+        "name": "View Shopping Cart"
+      }
+    }
+    </script>
+</div>
 
-{* Alpine.js Component Definition *}
-<script>
-document.addEventListener('alpine:init', () => {
-    Alpine.data('addToCart', (config) => ({
-        productId: config.productId,
-        skuId: config.skuId,
-        quantity: config.quantity,
-        loading: false,
-        disabled: false,
-        
-        async addProduct() {
-            if (this.loading || this.disabled) return;
-            
-            this.loading = true;
-            
-            try {
-                const response = await fetch('/shop/cart/add/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: JSON.stringify({
-                        product_id: this.productId,
-                        sku_id: this.skuId,
-                        quantity: this.quantity
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (result.status === 'ok') {
-                    // Update cart store
-                    this.$store.shop.addToCart({
-                        product_id: this.productId,
-                        sku_id: this.skuId,
-                        quantity: this.quantity
-                    });
-                    
-                    // Show success notification
-                    this.$store.notifications.add({
-                        type: 'success',
-                        message: 'Product added to cart successfully!',
-                        duration: 3000
-                    });
-                    
-                    // Trigger cart update event
-                    this.$dispatch('cart-updated', result.data);
-                } else {
-                    throw new Error(result.errors || 'Failed to add product to cart');
-                }
-            } catch (error) {
-                console.error('Add to cart error:', error);
-                
-                // Show error notification
-                this.$store.notifications.add({
-                    type: 'error',
-                    message: error.message || 'Failed to add product to cart',
-                    duration: 5000
-                });
-            } finally {
-                this.loading = false;
-            }
-        }
-    }));
-});
+{* Shopping Cart Update Action Schema *}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "UpdateAction",
+  "@id": "{$wa_domain_url}/action/update-cart#{$product_id}",
+  "actionStatus": "https://schema.org/PotentialActionStatus",
+  "agent": {
+    "@type": "Person",
+    "name": "Customer"
+  },
+  "object": {
+    "@type": "ShoppingCart",
+    "url": "{$wa_domain_url}/shop/cart/"
+  },
+  "target": {
+    "@type": "EntryPoint",
+    "urlTemplate": "{$wa_domain_url}/shop/cart/update/",
+    "httpMethod": "POST"
+  },
+  "instrument": {
+    "@type": "SoftwareApplication",
+    "name": "Shopping Cart",
+    "applicationCategory": "E-commerce"
+  }
+}
 </script>
+
+{* Success Notification Schema (for completed actions) *}
+<template x-if="$store.notifications?.latest?.type === 'success'">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "InformAction",
+      "actionStatus": "https://schema.org/CompletedActionStatus",
+      "agent": {
+        "@type": "SoftwareApplication",
+        "name": "Shopping Cart System"
+      },
+      "target": {
+        "@type": "Person",
+        "name": "Customer"
+      },
+      "object": {
+        "@type": "Message",
+        "text": "Product successfully added to cart"
+      },
+      "endTime": "{date('Y-m-d\TH:i:s\Z')}"
+    }
+    </script>
+</template>
