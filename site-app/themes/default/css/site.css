@@ -1,0 +1,588 @@
+/*!
+ * Site App Main CSS
+ * Bootstrap 5 + Alpine.js + BEM + Atomic Design
+ * Local assets, no CDN dependencies
+ * Version: 3.0.0
+ */
+
+/* ==========================================================================
+   CSS Custom Properties
+   ========================================================================== */
+
+:root {
+  /* Site-specific colors extending Bootstrap variables */
+  --site-primary: #0d6efd;
+  --site-secondary: #6c757d;
+  --site-success: #198754;
+  --site-info: #0dcaf0;
+  --site-warning: #ffc107;
+  --site-danger: #dc3545;
+  --site-light: #f8f9fa;
+  --site-dark: #212529;
+  
+  /* Site typography */
+  --site-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --site-font-size-base: 1rem;
+  --site-font-weight-light: 300;
+  --site-font-weight-normal: 400;
+  --site-font-weight-medium: 500;
+  --site-font-weight-semibold: 600;
+  --site-font-weight-bold: 700;
+  --site-line-height-base: 1.6;
+  
+  /* Site spacing */
+  --site-spacer: 1rem;
+  --site-section-padding: 4rem 0;
+  
+  /* Site borders and radius */
+  --site-border-width: 1px;
+  --site-border-color: #dee2e6;
+  --site-border-radius: 0.5rem;
+  --site-border-radius-sm: 0.25rem;
+  --site-border-radius-lg: 0.75rem;
+  --site-border-radius-xl: 1rem;
+  
+  /* Site shadows */
+  --site-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --site-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --site-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  
+  /* Site transitions */
+  --site-transition: all 0.15s ease-in-out;
+  --site-transition-fast: all 0.1s ease-in-out;
+  --site-transition-slow: all 0.3s ease-in-out;
+  
+  /* Site z-index scale */
+  --site-z-dropdown: 1000;
+  --site-z-sticky: 1020;
+  --site-z-fixed: 1030;
+  --site-z-modal-backdrop: 1040;
+  --site-z-modal: 1050;
+  --site-z-popover: 1060;
+  --site-z-tooltip: 1070;
+  --site-z-toast: 1080;
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--site-font-family);
+  font-size: var(--site-font-size-base);
+  font-weight: var(--site-font-weight-normal);
+  line-height: var(--site-line-height-base);
+  color: var(--site-dark);
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.site-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site__main {
+  flex: 1;
+}
+
+/* ==========================================================================
+   Typography Enhancements
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: var(--site-font-weight-bold);
+  line-height: 1.2;
+  color: var(--site-dark);
+  margin-bottom: 1rem;
+}
+
+.display-1 { font-size: clamp(3rem, 8vw, 5rem); }
+.display-2 { font-size: clamp(2.5rem, 7vw, 4.5rem); }
+.display-3 { font-size: clamp(2rem, 6vw, 4rem); }
+.display-4 { font-size: clamp(1.75rem, 5vw, 3.5rem); }
+.display-5 { font-size: clamp(1.5rem, 4vw, 3rem); }
+.display-6 { font-size: clamp(1.25rem, 3vw, 2.5rem); }
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: var(--site-font-weight-normal);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Links and Interactive Elements
+   ========================================================================== */
+
+a {
+  color: var(--site-primary);
+  text-decoration: none;
+  transition: var(--site-transition);
+}
+
+a:hover {
+  color: var(--site-primary);
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 2px solid var(--site-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.object-fit-contain {
+  object-fit: contain;
+}
+
+.z-index-1 { z-index: 1; }
+.z-index-2 { z-index: 2; }
+.z-index-3 { z-index: 3; }
+.z-index-4 { z-index: 4; }
+.z-index-5 { z-index: 5; }
+
+.transition-all { transition: var(--site-transition); }
+.transition-fast { transition: var(--site-transition-fast); }
+.transition-slow { transition: var(--site-transition-slow); }
+
+.hover-lift {
+  transition: transform 0.15s ease-in-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.hover-scale {
+  transition: transform 0.15s ease-in-out;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   Focus Management (Accessibility)
+   ========================================================================== */
+
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.focus-ring:focus {
+  outline: 2px solid var(--site-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Loading States
+   ========================================================================== */
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--site-z-modal);
+  backdrop-filter: blur(2px);
+}
+
+.loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--site-light);
+  border-top: 3px solid var(--site-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   Back to Top Button
+   ========================================================================== */
+
+.site__back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--site-primary);
+  color: white;
+  font-size: 1.25rem;
+  box-shadow: var(--site-shadow);
+  transition: var(--site-transition);
+  z-index: var(--site-z-fixed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site__back-to-top:hover {
+  background: var(--site-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--site-shadow-lg);
+}
+
+.site__back-to-top:focus {
+  outline: 2px solid var(--site-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Section Spacing
+   ========================================================================== */
+
+.section {
+  padding: var(--site-section-padding);
+}
+
+.section--sm {
+  padding: 2rem 0;
+}
+
+.section--lg {
+  padding: 6rem 0;
+}
+
+.section--xl {
+  padding: 8rem 0;
+}
+
+/* ==========================================================================
+   Content Blocks
+   ========================================================================== */
+
+.content-block {
+  margin-bottom: 3rem;
+}
+
+.content-block:last-child {
+  margin-bottom: 0;
+}
+
+.content-block__title {
+  font-size: 2rem;
+  font-weight: var(--site-font-weight-bold);
+  margin-bottom: 1.5rem;
+  color: var(--site-dark);
+}
+
+.content-block__subtitle {
+  font-size: 1.25rem;
+  font-weight: var(--site-font-weight-medium);
+  margin-bottom: 1rem;
+  color: var(--site-secondary);
+}
+
+.content-block__content {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--site-dark);
+}
+
+/* ==========================================================================
+   Image Optimizations
+   ========================================================================== */
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.img-lazy {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.img-lazy.loaded {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+  .site__header,
+  .site__footer,
+  .site__back-to-top,
+  .btn,
+  .alert,
+  .modal,
+  [x-cloak] {
+    display: none !important;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+    color: #000;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #000;
+    page-break-after: avoid;
+  }
+  
+  p, blockquote {
+    page-break-inside: avoid;
+  }
+  
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+  
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+}
+
+/* ==========================================================================
+   Responsive Design Enhancements
+   ========================================================================== */
+
+@media (max-width: 1199.98px) {
+  .section {
+    padding: 3rem 0;
+  }
+  
+  .section--lg {
+    padding: 4rem 0;
+  }
+  
+  .section--xl {
+    padding: 5rem 0;
+  }
+}
+
+@media (max-width: 991.98px) {
+  :root {
+    --site-font-size-base: 0.95rem;
+  }
+  
+  .section {
+    padding: 2.5rem 0;
+  }
+  
+  .content-block__title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --site-font-size-base: 0.9rem;
+  }
+  
+  .section {
+    padding: 2rem 0;
+  }
+  
+  .section--lg {
+    padding: 3rem 0;
+  }
+  
+  .section--xl {
+    padding: 4rem 0;
+  }
+  
+  .content-block__title {
+    font-size: 1.5rem;
+  }
+  
+  .site__back-to-top {
+    bottom: 1rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .section {
+    padding: 1.5rem 0;
+  }
+  
+  .content-block {
+    margin-bottom: 2rem;
+  }
+  
+  .content-block__title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .content-block__content {
+    font-size: 1rem;
+  }
+}
+
+/* ==========================================================================
+   Dark Mode Support (Future Enhancement)
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  /* Dark mode styles can be added here in the future */
+}
+
+/* ==========================================================================
+   High Contrast Mode Support
+   ========================================================================== */
+
+@media (prefers-contrast: high) {
+  :root {
+    --site-border-width: 2px;
+  }
+  
+  .btn {
+    border-width: 2px;
+  }
+  
+  .form-control {
+    border-width: 2px;
+  }
+}
+
+/* ==========================================================================
+   Reduced Motion Support
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ==========================================================================
+   Component-specific Overrides
+   ========================================================================== */
+
+/* Bootstrap component customizations */
+.btn {
+  border-radius: var(--site-border-radius);
+  font-weight: var(--site-font-weight-medium);
+  transition: var(--site-transition);
+}
+
+.form-control,
+.form-select {
+  border-radius: var(--site-border-radius);
+  border-width: var(--site-border-width);
+  transition: var(--site-transition);
+}
+
+.card {
+  border-radius: var(--site-border-radius-lg);
+  box-shadow: var(--site-shadow-sm);
+  transition: var(--site-transition);
+}
+
+.card:hover {
+  box-shadow: var(--site-shadow);
+}
+
+.modal-content {
+  border-radius: var(--site-border-radius-lg);
+  border: none;
+  box-shadow: var(--site-shadow-lg);
+}
+
+.alert {
+  border-radius: var(--site-border-radius);
+  border-width: var(--site-border-width);
+}
+
+/* ==========================================================================
+   Site-specific Component Classes
+   ========================================================================== */
+
+.site__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.site__container--fluid {
+  max-width: 100%;
+}
+
+.site__container--narrow {
+  max-width: 800px;
+}
+
+.site__grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.site__grid--2-cols {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.site__grid--3-cols {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.site__grid--4-cols {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+@media (max-width: 767.98px) {
+  .site__grid {
+    gap: 1rem;
+  }
+  
+  .site__grid--2-cols,
+  .site__grid--3-cols,
+  .site__grid--4-cols {
+    grid-template-columns: 1fr;
+  }
+}

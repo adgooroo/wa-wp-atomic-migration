@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="{$lang|default:'en'}" {if $rtl}dir="rtl"{/if}>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{$meta_description|escape|default:''}">
+    {if $meta_keywords}<meta name="keywords" content="{$meta_keywords|escape}">{/if}
+    {if $canonical_url}<link rel="canonical" href="{$canonical_url|escape}">{/if}
+    
+    {* Page Title *}
+    <title>{$page_title|escape}{if $page_title && $site_name} - {$site_name|escape}{elseif $site_name}{$site_name|escape}{/if}</title>
+    
+    {* Open Graph Meta Tags *}
+    <meta property="og:title" content="{$page_title|escape|default:$site_name}">
+    <meta property="og:description" content="{$meta_description|escape|default:''}">
+    <meta property="og:type" content="{$og_type|default:'website'}">
+    {if $og_image}<meta property="og:image" content="{$og_image|escape}">{/if}
+    {if $canonical_url}<meta property="og:url" content="{$canonical_url|escape}">{/if}
+    
+    {* Twitter Card Meta Tags *}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{$page_title|escape|default:$site_name}">
+    <meta name="twitter:description" content="{$meta_description|escape|default:''}">
+    {if $og_image}<meta name="twitter:image" content="{$og_image|escape}">{/if}
+    
+    {* Favicon *}
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    {* Preload Critical Resources *}
+    <link rel="preload" href="css/vendor/bootstrap.min.css" as="style">
+    <link rel="preload" href="js/vendor/alpine.min.js" as="script">
+    <link rel="preload" href="css/site.css" as="style">
+    
+    {* CSS Stylesheets *}
+    <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="css/vendor/aos.min.css">
+    <link rel="stylesheet" href="css/atoms/atoms.css">
+    <link rel="stylesheet" href="css/molecules/molecules.css">
+    <link rel="stylesheet" href="css/organisms/organisms.css">
+    <link rel="stylesheet" href="css/templates/templates.css">
+    <link rel="stylesheet" href="css/utilities/utilities.css">
+    <link rel="stylesheet" href="css/site.css">
+    
+    {* Bootstrap Icons *}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    
+    {* Structured Data *}
+    {if $structured_data}
+        <script type="application/ld+json">
+            {$structured_data}
+        </script>
+    {/if}
+    
+    {* Additional Head Content *}
+    {$head_content}
+</head>
+<body class="{$body_class|default:''} site-body"
+      {if $page_type}data-page-type="{$page_type}"{/if}
+      x-data="siteData"
+      x-init="init()"
+>
+    {* Skip to Main Content (Accessibility) *}
+    <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 z-3 m-3">
+        Skip to main content
+    </a>
+    
+    {* Site Header *}
+    {include file="organisms/site-header.html" 
+        menu_items=$header_menu
+        show_search=true
+        show_user_menu=true
+        sticky=true
+    }
+    
+    {* Main Content Area *}
+    <main id="main-content" class="site__main" role="main">
+        {* Breadcrumbs (if available) *}
+        {if $breadcrumbs}
+            <div class="container py-3">
+                {include file="molecules/breadcrumb.html" 
+                    items=$breadcrumbs
+                    schema=true
+                }
+            </div>
+        {/if}
+        
+        {* Page Content *}
+        {$content}
+    </main>
+    
+    {* Site Footer *}
+    {include file="organisms/site-footer.html" 
+        footer_menus=$footer_menus
+        social_links=$social_links
+        copyright_text=$copyright_text
+        show_newsletter=true
+    }
+    
+    {* Back to Top Button *}
+    <button type="button" 
+            class="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-circle site__back-to-top"
+            style="width: 50px; height: 50px; z-index: 1000;"
+            x-show="showBackToTop"
+            x-transition
+            @click="scrollToTop()"
+            aria-label="Back to top"
+    >
+        {include file="atoms/icon.html" 
+            name="chevron-up"
+            type="bootstrap"
+            decorative=true
+        }
+    </button>
+    
+    {* JavaScript *}
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/vendor/alpine.min.js" defer></script>
+    <script src="js/vendor/aos.min.js"></script>
+    <script src="js/components/site-components.js"></script>
+    <script src="js/site.js"></script>
+    
+    {* Initialize AOS (Animate On Scroll) *}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 50
+            });
+        });
+    </script>
+    
+    {* Alpine.js Global Data *}
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('siteData', () => ({
+                showBackToTop: false,
+                
+                init() {
+                    // Initialize scroll monitoring
+                    this.handleScroll();
+                    window.addEventListener('scroll', () => this.handleScroll());
+                },
+                
+                handleScroll() {
+                    this.showBackToTop = window.pageYOffset > 300;
+                },
+                
+                scrollToTop() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            }));
+        });
+    </script>
+    
+    {* Additional Body Content *}
+    {$body_content}
+</body>
+</html>
