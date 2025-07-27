@@ -1,0 +1,287 @@
+{* Footer Template for Waboot Theme *}
+{* Converted from WordPress Bootscore footer.php to Webasyst Smarty template *}
+
+{* Get theme settings *}
+{$footer_text = $wa->theme()->settings('footer_text', '')}
+{$layout_type = $wa->theme()->settings('layout_type', 'wide')}
+{$logo = $wa->theme()->settings('logo')}
+
+{* Main Footer *}
+<div class="waboot__footer-main bg-dark text-light py-5">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <div class="row">
+            
+            {* Footer Column 1 - About/Logo *}
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="waboot__footer-about">
+                    {* Logo or Site Name *}
+                    {if $logo}
+                        <img src="{$logo}" alt="{$wa->shop->settings('name')|escape}" class="waboot__footer-logo mb-3" height="40">
+                    {else}
+                        <h5 class="waboot__footer-title">{$wa->shop->settings('name')|escape}</h5>
+                    {/if}
+                    
+                    {* About Text *}
+                    <p class="waboot__footer-description text-muted">
+                        {if $wa->shop->settings('description')}
+                            {$wa->shop->settings('description')|escape|truncate:150}
+                        {else}
+                            Your trusted online store for quality products and exceptional service. Shop with confidence and enjoy fast, reliable delivery.
+                        {/if}
+                    </p>
+                    
+                    {* Social Media Links *}
+                    <div class="waboot__social-links">
+                        {if $wa->shop->settings('social_facebook')}
+                        <a href="{$wa->shop->settings('social_facebook')}" class="text-light me-3" aria-label="Facebook" target="_blank" rel="noopener">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        {/if}
+                        {if $wa->shop->settings('social_twitter')}
+                        <a href="{$wa->shop->settings('social_twitter')}" class="text-light me-3" aria-label="Twitter" target="_blank" rel="noopener">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        {/if}
+                        {if $wa->shop->settings('social_instagram')}
+                        <a href="{$wa->shop->settings('social_instagram')}" class="text-light me-3" aria-label="Instagram" target="_blank" rel="noopener">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        {/if}
+                        {if $wa->shop->settings('social_youtube')}
+                        <a href="{$wa->shop->settings('social_youtube')}" class="text-light me-3" aria-label="YouTube" target="_blank" rel="noopener">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        {/if}
+                        {if $wa->shop->settings('social_linkedin')}
+                        <a href="{$wa->shop->settings('social_linkedin')}" class="text-light" aria-label="LinkedIn" target="_blank" rel="noopener">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            
+            {* Footer Column 2 - Quick Links *}
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h5 class="waboot__footer-title">Quick Links</h5>
+                <ul class="list-unstyled waboot__footer-links">
+                    <li><a href="{$wa->getUrl()}" class="text-muted text-decoration-none">Home</a></li>
+                    <li><a href="{$wa->getUrl('shop/frontend/about')}" class="text-muted text-decoration-none">About Us</a></li>
+                    <li><a href="{$wa->getUrl('shop/frontend/contact')}" class="text-muted text-decoration-none">Contact</a></li>
+                    {if $wa->getApp('blog')}
+                    <li><a href="{$wa->getAppUrl('blog')}" class="text-muted text-decoration-none">Blog</a></li>
+                    {/if}
+                    <li><a href="{$wa->getUrl('shop/frontend/sitemap')}" class="text-muted text-decoration-none">Sitemap</a></li>
+                </ul>
+            </div>
+            
+            {* Footer Column 3 - Shop Categories *}
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h5 class="waboot__footer-title">Categories</h5>
+                <ul class="list-unstyled waboot__footer-links">
+                    {if $categories}
+                        {foreach $categories as $cat name="footer_cats"}
+                            {if $smarty.foreach.footer_cats.index < 6}
+                            <li><a href="{$cat.url}" class="text-muted text-decoration-none">{$cat.name|escape}</a></li>
+                            {/if}
+                        {/foreach}
+                        {if count($categories) > 6}
+                        <li><a href="{$wa->getUrl('shop/frontend/categories')}" class="text-muted text-decoration-none">View All Categories</a></li>
+                        {/if}
+                    {else}
+                        <li><a href="#" class="text-muted text-decoration-none">Electronics</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Clothing</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Home & Garden</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Sports</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Books</a></li>
+                    {/if}
+                </ul>
+            </div>
+            
+            {* Footer Column 4 - Customer Service *}
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h5 class="waboot__footer-title">Customer Service</h5>
+                <ul class="list-unstyled waboot__footer-links">
+                    {if $wa->user()->isAuth()}
+                    <li><a href="{$wa->getUrl('shop/frontend/my')}" class="text-muted text-decoration-none">My Account</a></li>
+                    <li><a href="{$wa->getUrl('shop/frontend/orders')}" class="text-muted text-decoration-none">Order History</a></li>
+                    {else}
+                    <li><a href="{$wa->getUrl('shop/frontend/login')}" class="text-muted text-decoration-none">Login</a></li>
+                    <li><a href="{$wa->getUrl('shop/frontend/signup')}" class="text-muted text-decoration-none">Register</a></li>
+                    {/if}
+                    <li><a href="{$wa->getUrl('shop/frontend/shipping')}" class="text-muted text-decoration-none">Shipping Info</a></li>
+                    <li><a href="{$wa->getUrl('shop/frontend/returns')}" class="text-muted text-decoration-none">Returns</a></li>
+                    <li><a href="{$wa->getUrl('shop/frontend/faq')}" class="text-muted text-decoration-none">FAQ</a></li>
+                    <li><a href="{$wa->getUrl('shop/frontend/help')}" class="text-muted text-decoration-none">Help Center</a></li>
+                </ul>
+            </div>
+            
+            {* Footer Column 5 - Contact Info & Newsletter *}
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="waboot__footer-title">Get In Touch</h5>
+                
+                {* Contact Information *}
+                <div class="waboot__contact-info mb-4">
+                    {if $wa->shop->settings('contact_address')}
+                    <div class="d-flex align-items-start mb-2">
+                        <i class="fas fa-map-marker-alt text-primary me-2 mt-1"></i>
+                        <span class="text-muted small">{$wa->shop->settings('contact_address')}</span>
+                    </div>
+                    {/if}
+                    
+                    {if $wa->shop->settings('contact_phone')}
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-phone text-primary me-2"></i>
+                        <a href="tel:{$wa->shop->settings('contact_phone')}" class="text-muted text-decoration-none small">
+                            {$wa->shop->settings('contact_phone')}
+                        </a>
+                    </div>
+                    {/if}
+                    
+                    {if $wa->shop->settings('contact_email')}
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-envelope text-primary me-2"></i>
+                        <a href="mailto:{$wa->shop->settings('contact_email')}" class="text-muted text-decoration-none small">
+                            {$wa->shop->settings('contact_email')}
+                        </a>
+                    </div>
+                    {/if}
+                </div>
+                
+                {* Newsletter Signup *}
+                <div class="waboot__newsletter">
+                    <h6 class="text-light mb-3">Subscribe to our Newsletter</h6>
+                    <p class="text-muted small mb-3">Get the latest updates on new products and upcoming sales</p>
+                    
+                    <form action="{$wa->getUrl('shop/frontend/newsletter')}" method="post" class="waboot__newsletter-form">
+                        {$wa->csrf()}
+                        <div class="input-group">
+                            <input type="email" class="form-control" name="email" placeholder="Your email address" 
+                                   aria-label="Email address for newsletter" required>
+                            <button class="btn btn-primary" type="submit" aria-label="Subscribe to newsletter">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted d-block mt-2">
+                            By subscribing, you agree to our 
+                            <a href="{$wa->getUrl('shop/frontend/privacy')}" class="text-decoration-none">Privacy Policy</a>
+                        </small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{* Footer Bottom Bar *}
+<div class="waboot__footer-bottom bg-darker text-light py-3">
+    <div class="{if $layout_type == 'wide'}container-fluid{else}container{/if}">
+        <div class="row align-items-center">
+            
+            {* Copyright Text *}
+            <div class="col-md-6">
+                <p class="mb-0 text-muted small">
+                    {if $footer_text}
+                        {$footer_text|escape}
+                    {else}
+                        © {$smarty.now|date_format:"%Y"} {$wa->shop->settings('name')|escape}. All rights reserved.
+                    {/if}
+                </p>
+            </div>
+            
+            {* Footer Links & Payment Methods *}
+            <div class="col-md-6 text-md-end">
+                <div class="waboot__footer-bottom-links">
+                    {* Legal Links *}
+                    <a href="{$wa->getUrl('shop/frontend/privacy')}" class="text-muted text-decoration-none small me-3">Privacy Policy</a>
+                    <a href="{$wa->getUrl('shop/frontend/terms')}" class="text-muted text-decoration-none small me-3">Terms of Service</a>
+                    <a href="{$wa->getUrl('shop/frontend/cookies')}" class="text-muted text-decoration-none small">Cookie Policy</a>
+                    
+                    {* Payment Methods (if configured) *}
+                    {if $wa->shop->settings('payment_methods_display')}
+                    <div class="waboot__payment-methods mt-2">
+                        <small class="text-muted me-2">We Accept:</small>
+                        <i class="fab fa-cc-visa text-muted me-1" title="Visa"></i>
+                        <i class="fab fa-cc-mastercard text-muted me-1" title="MasterCard"></i>
+                        <i class="fab fa-cc-amex text-muted me-1" title="American Express"></i>
+                        <i class="fab fa-cc-paypal text-muted" title="PayPal"></i>
+                    </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{* Back to Top Button *}
+<button class="waboot__back-to-top btn btn-primary position-fixed" 
+        style="bottom: 20px; right: 20px; z-index: 1050; display: none;"
+        aria-label="Back to top"
+        x-data="{ show: false }"
+        x-show="show"
+        @scroll.window="show = window.pageYOffset > 300"
+        @click="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    <i class="fas fa-chevron-up"></i>
+</button>
+
+{* Custom Footer Styles for BEM methodology *}
+<style>
+.waboot__footer-main {
+    border-top: 3px solid var(--bs-primary);
+}
+
+.waboot__footer-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.waboot__footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.waboot__footer-links a:hover {
+    color: var(--bs-primary) !important;
+    transform: translateX(2px);
+    transition: all 0.2s ease;
+}
+
+.waboot__social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.waboot__social-links a:hover {
+    background-color: var(--bs-primary);
+    transform: translateY(-2px);
+}
+
+.waboot__newsletter-form .form-control:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.waboot__back-to-top {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.waboot__back-to-top:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.bg-darker {
+    background-color: #1a1a1a !important;
+}
+</style>
