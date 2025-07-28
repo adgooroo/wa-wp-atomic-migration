@@ -86,41 +86,59 @@
 ```
 📦 Waboot Theme System
 ├── 📄 README.md                     # Project overview and status
-├── 📁 waboot/                       # Main Site Theme ✅ COMPLETE
-│   ├── 📄 theme.xml                 # Theme configuration
-│   ├── 📁 templates/                # Smarty templates with atomic design
-│   │   ├── atoms/                   # 10 atomic components + JSON-LD
-│   │   ├── molecules/               # 4 molecular components + JSON-LD
-│   │   ├── organisms/               # 3 organism components + JSON-LD
-│   │   └── layout.html              # Main layout with structured data
-│   ├── 📁 css/                      # Complete BEM CSS architecture
-│   ├── 📁 js/                       # Alpine.js components and store
-│   └── 📁 images/                   # Theme assets
-├── 📁 site-app/                     # Enhanced Site Application ✅ COMPLETE
-│   ├── 📁 lib/                      # Application logic
-│   ├── 📁 themes/default/           # Site theme with atomic design + JSON-LD
-│   └── 📁 docs/                     # Site app documentation
-├── 📁 shop-themes/                  # Shop-Script Child Theme 🔄 IN PROGRESS
-│   └── 📁 waboot-child/             # Child theme inheriting from site
-│       ├── 📄 theme.xml             # Child theme configuration
-│       ├── 📁 templates/            # E-commerce specific templates + JSON-LD
-│       ├── 📁 css/                  # Shop-specific styling
-│       └── 📁 js/                   # Shopping cart Alpine.js
-├── 📁 blog-themes/                  # Blog Child Theme 📝 PLANNED
-│   └── 📁 waboot-child/             # Blog child theme with JSON-LD
-├── 📁 hub-themes/                   # Hub Child Theme 🤝 PLANNED
-│   └── 📁 waboot-child/             # Hub child theme with social schema
-├── 📁 mailer-themes/                # Mailer Child Theme 📧 PLANNED
-│   └── 📁 waboot-child/             # Mailer child theme with email schema
-├── 📁 helpdesk-themes/              # Helpdesk Child Theme 🎧 PLANNED
-│   └── 📁 waboot-child/             # Helpdesk child theme with FAQ schema
-└── 📁 docs/                         # Complete Documentation Suite
-    ├── project-completion-status.md
-    ├── child-theme-development-guide.md
-    ├── json-ld-integration-guide.md  # NEW: JSON-LD implementation guide
-    ├── migration-guide.md
-    ├── theme-documentation.md
-    └── stack-bootstrap-5-alpine.js-BEM-atomic-design.md
+├── 📄 .gitignore                    # Git ignore rules
+├── 📁 wa-apps/                      # Webasyst applications structure
+│   ├── 📁 site/                     # Site application
+│   │   ├── 📁 themes/
+│   │   │   ├── 📁 default/          # Default site theme
+│   │   │   └── 📁 waboot/           # Main Site Theme ✅ COMPLETE
+│   │   │       ├── 📄 theme.xml     # Theme configuration
+│   │   │       ├── 📁 templates/    # Smarty templates with atomic design
+│   │   │       │   ├── atoms/       # 10 atomic components + JSON-LD
+│   │   │       │   ├── molecules/   # 4 molecular components + JSON-LD
+│   │   │       │   ├── organisms/   # 3 organism components + JSON-LD
+│   │   │       │   └── layout.html  # Main layout with structured data
+│   │   │       ├── 📁 css/          # Complete BEM CSS architecture
+│   │   │       ├── 📁 js/           # Alpine.js components and store
+│   │   │       └── 📁 images/       # Theme assets
+│   │   ├── 📁 lib/                  # Application logic
+│   │   └── 📁 locale/               # Localization files
+│   ├── 📁 shop/                     # Shop-Script application
+│   │   ├── 📁 themes/
+│   │   │   └── 📁 waboot/           # Shop-Script Child Theme ✅ COMPLETE
+│   │   │       ├── 📄 theme.xml     # Child theme configuration
+│   │   │       ├── 📁 templates/    # E-commerce specific templates + JSON-LD
+│   │   │       ├── 📁 css/          # Shop-specific styling
+│   │   │       └── 📁 js/           # Shopping cart Alpine.js
+│   │   ├── 📁 lib/                  # Application logic
+│   │   └── 📁 locale/               # Localization files
+│   ├── 📁 blog/                     # Blog application
+│   │   ├── 📁 themes/
+│   │   │   └── 📁 waboot/           # Blog Child Theme 📝 PLANNED
+│   │   ├── 📁 lib/                  # Application logic
+│   │   └── 📁 locale/               # Localization files
+│   ├── 📁 hub/                      # Hub application
+│   │   ├── 📁 themes/
+│   │   │   └── 📁 waboot/           # Hub Child Theme 🤝 PLANNED
+│   │   ├── 📁 lib/                  # Application logic
+│   │   └── 📁 locale/               # Localization files
+│   ├── 📁 mailer/                   # Mailer application
+│   │   ├── 📁 themes/
+│   │   │   └── 📁 waboot/           # Mailer Child Theme 📧 PLANNED
+│   │   ├── 📁 lib/                  # Application logic
+│   │   └── 📁 locale/               # Localization files
+│   └── 📁 helpdesk/                 # Helpdesk application
+│       ├── 📁 themes/
+│       │   └── 📁 waboot/           # Helpdesk Child Theme 🎧 PLANNED
+│       ├── 📁 lib/                  # Application logic
+│       └── 📁 locale/               # Localization files
+├── 📁 docs/                         # Complete Documentation Suite
+│   ├── project-completion-status.md
+│   ├── child-theme-development-guide.md
+│   ├── json-ld-integration-guide.md  # NEW: JSON-LD implementation guide
+│   ├── migration-guide.md
+│   ├── theme-documentation.md
+│   └── stack-bootstrap-5-alpine.js-BEM-atomic-design.md
 ```
 
 ## 📊 JSON-LD Structured Data Implementation
@@ -171,8 +189,8 @@ All components now include mandatory JSON-LD structured data markup following sc
 #### 2. **Shop-Script Child Theme (Active Development)**
 ```bash
 # Copy shop child theme (when development complete)
-cp -r shop-themes/waboot-child/ /path/to/webasyst/wa-apps/shop/themes/
-chmod -R 755 /path/to/webasyst/wa-apps/shop/themes/waboot-child/
+cp -r wa-apps/shop/themes/waboot/ /path/to/webasyst/wa-apps/shop/themes/
+chmod -R 755 /path/to/webasyst/wa-apps/shop/themes/waboot/
 ```
 
 #### 3. **Activate Themes**
@@ -413,8 +431,8 @@ We welcome contributions to all child themes and JSON-LD implementations! Please
 
 ### Development Setup
 ```bash
-git clone https://github.com/adgooroo/wp-wa-migration.git
-cd wp-wa-migration
+git clone https://github.com/adgooroo/wa-wp-atomic-migration.git
+cd wa-wp-atomic-migration
 # Install in Webasyst development environment
 # Ensure Site app is installed as parent theme dependency
 # Validate JSON-LD with schema testing tools
@@ -465,7 +483,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ for the Webasyst community**
 
-[⭐ Star this repo](https://github.com/adgooroo/wp-wa-migration) | [🐛 Report Bug](https://github.com/adgooroo/wp-wa-migration/issues) | [💡 Request Feature](https://github.com/adgooroo/wp-wa-migration/issues)
+[⭐ Star this repo](https://github.com/adgooroo/wa-wp-atomic-migration) | [🐛 Report Bug](https://github.com/adgooroo/wa-wp-atomic-migration/issues) | [💡 Request Feature](https://github.com/adgooroo/wa-wp-atomic-migration/issues)
 
 **Current Status**: Site Theme ✅ Complete | Shop Child Theme ✅ Complete | JSON-LD Integration ✅ Implemented | Blog Theme 📝 Ready
 

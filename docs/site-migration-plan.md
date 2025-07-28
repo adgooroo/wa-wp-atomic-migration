@@ -30,7 +30,7 @@
 
 ## 3. Current Repository Snapshot
 
-The repository already contains a fully-functional **Waboot** theme. No dedicated **Site** app folder exists yet. This plan introduces the required directory structure under `wa-apps/site/themes/waboot-site/`.
+The repository already contains a fully-functional **Waboot** theme. No dedicated **Site** app folder exists yet. This plan introduces the required directory structure under `wa-apps/site/themes/waboot/`.
 
 Proposed structure:
 ```
