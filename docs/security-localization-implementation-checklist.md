@@ -51,8 +51,8 @@ This checklist provides step-by-step implementation guidance for enhancing the W
 - [ ] **Verify directory protection**
   ```bash
   # Test that these URLs return 403 Forbidden:
-  curl -I http://yoursite.com/wa-apps/site/themes/waboot/lib/
-  curl -I http://yoursite.com/wa-apps/site/themes/waboot/locale/
+  curl -I http://yoursite.com/wa-apps/{app}/themes/waboot/lib/
+curl -I http://yoursite.com/wa-apps/{app}/themes/waboot/locale/
   ```
 
 ### 🔍 Output Escaping (HIGH - Priority 1)
@@ -281,8 +281,8 @@ This checklist provides step-by-step implementation guidance for enhancing the W
 - [ ] **Directory Protection Test**
   ```bash
   # These should return 403 Forbidden:
-  curl -I http://yoursite.com/wa-apps/site/themes/waboot/lib/config/
-  curl -I http://yoursite.com/wa-apps/site/themes/waboot/locale/
+  curl -I http://yoursite.com/wa-apps/{app}/themes/waboot/lib/config/
+curl -I http://yoursite.com/wa-apps/{app}/themes/waboot/locale/
   ```
 
 - [ ] **XSS Prevention Test**

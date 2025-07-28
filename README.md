@@ -172,7 +172,7 @@ All components now include mandatory JSON-LD structured data markup following sc
 ```bash
 # Copy shop child theme (when development complete)
 cp -r shop-themes/waboot-child/ /path/to/webasyst/wa-apps/shop/themes/
-chmod -R 755 /path/to/webasyst/wa-apps/shop/themes/waboot-child/
+chmod -R 755 /path/to/webasyst/wa-apps/{app}/themes/waboot-child/
 ```
 
 #### 3. **Activate Themes**

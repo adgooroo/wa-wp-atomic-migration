@@ -56,11 +56,12 @@
 1. Download the Waboot theme package
 2. Extract to your Webasyst themes directory:
    ```
-   /path/to/webasyst/wa-apps/shop/themes/waboot/
+   /path/to/webasyst/wa-apps/{app}/themes/waboot/
    ```
+   Where `{app}` is the application name (site, shop, blog, hub, mailer, etc.)
 3. Set proper file permissions:
    ```bash
-   chmod -R 755 wa-apps/shop/themes/waboot/
+   chmod -R 755 wa-apps/{app}/themes/waboot/
    ```
 
 ### Step 2: Activate Theme
@@ -164,8 +165,9 @@ document.addEventListener('alpine:init', () => {
 #### Creating Child Templates
 1. Copy template to your custom directory:
    ```
-   /wa-apps/shop/themes/waboot-custom/templates/
+   /wa-apps/{app}/themes/waboot-custom/templates/
    ```
+   Where `{app}` is the application name (site, shop, blog, hub, mailer, etc.)
 2. Modify as needed while maintaining Smarty syntax
 3. Reference original for variable structure
 
