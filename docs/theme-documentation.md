@@ -15,7 +15,18 @@
 ## Theme Overview
 
 ### Description
-**Waboot** is a modern, fully-local Webasyst e-commerce theme built by porting the popular WordPress Bootscore theme. It combines the power of Bootstrap 5 with Alpine.js for a responsive, fast, and accessible shopping experience.
+**Waboot** is a modern, fully-local Webasyst theme built by porting the popular WordPress Bootscore theme. It combines the power of Bootstrap 5 with Alpine.js for a responsive, fast, and accessible experience.
+
+### Theme Inheritance Structure
+The Waboot theme uses a hierarchical inheritance system:
+
+- **Site App** (`wa-apps/site/themes/waboot/`) - Base theme with all core styles and components
+- **Shop App** (`wa-apps/shop/themes/waboot/`) - Inherits from site, adds e-commerce specific styles
+- **Blog App** (`wa-apps/blog/themes/waboot/`) - Inherits from site, minimal customization
+- **Hub App** (`wa-apps/hub/themes/waboot/`) - Inherits from site, minimal customization
+- **Mailer App** (`wa-apps/mailer/themes/waboot/`) - Inherits from site, minimal customization
+
+**Important:** Site app is required and contains the base theme. Other apps inherit styles and can add their own customizations.
 
 ### Key Features
 - **Fully Local Assets**: No CDN dependencies - all libraries stored locally
@@ -48,7 +59,8 @@
 
 ### Prerequisites
 - Webasyst Framework installed
-- Webasyst Shop app installed and configured
+- Webasyst Site app installed (required - base theme)
+- Webasyst Shop app installed and configured (optional - inherits from site)
 - PHP 7.4+ (recommended 8.0+)
 - Modern web browser for administration
 
@@ -56,19 +68,20 @@
 1. Download the Waboot theme package
 2. Extract to your Webasyst themes directory:
    ```
-   /path/to/webasyst/wa-apps/{app}/themes/waboot/
+   /path/to/webasyst/wa-apps/site/themes/waboot/
    ```
-   Where `{app}` is the application name (site, shop, blog, hub, mailer, etc.)
+   **Important:** Site app is the base theme. Other apps (shop, blog, etc.) inherit from site.
 3. Set proper file permissions:
    ```bash
-   chmod -R 755 wa-apps/{app}/themes/waboot/
+   chmod -R 755 wa-apps/site/themes/waboot/
    ```
 
 ### Step 2: Activate Theme
 1. Log in to Webasyst admin panel
-2. Navigate to **Shop** → **Design** → **Themes**
+2. Navigate to **Site** → **Design** → **Themes**
 3. Find "Waboot" theme and click **Activate**
-4. Configure theme settings as needed
+4. For other apps (Shop, Blog, etc.), navigate to their respective Design sections
+5. Configure theme settings as needed
 
 ### Step 3: Verify Installation
 1. Visit your shop frontend
@@ -132,7 +145,9 @@ Access theme settings via **Shop** → **Design** → **Themes** → **Waboot** 
 ```
 
 ### Custom CSS
-Add custom styles via **Shop** → **Design** → **Themes** → **Custom CSS**
+Add custom styles via the `user_theme` directory in the theme:
+
+**Location:** `wa-apps/site/themes/waboot/user_theme/css/user-custom.css`
 
 ```css
 /* Example customizations */
@@ -147,7 +162,9 @@ Add custom styles via **Shop** → **Design** → **Themes** → **Custom CSS**
 ```
 
 ### Custom JavaScript
-Add custom scripts via **Shop** → **Design** → **Themes** → **Custom JavaScript**
+Add custom scripts via the `user_theme` directory in the theme:
+
+**Location:** `wa-apps/site/themes/waboot/user_theme/js/user-custom.js`
 
 ```javascript
 // Example: Custom product interactions

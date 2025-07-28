@@ -29,20 +29,23 @@
     
     {* Preload Critical Assets for Performance *}
     {if $preload_assets}
-    <link rel="preload" href="{$wa_theme_url}css/bootstrap.min.css" as="style">
+    <link rel="preload" href="{$wa_theme_url}css/vendor/bootstrap.min.css" as="style">
     <link rel="preload" href="{$wa_theme_url}css/waboot.css" as="style">
-    <link rel="preload" href="{$wa_theme_url}js/bootstrap.bundle.min.js" as="script">
-    <link rel="preload" href="{$wa_theme_url}js/alpine.min.js" as="script">
+    <link rel="preload" href="{$wa_theme_url}js/vendor/bootstrap.bundle.min.js" as="script">
+    <link rel="preload" href="{$wa_theme_url}js/vendor/alpine.min.js" as="script">
     {/if}
     
     {* Critical CSS - Bootstrap 5 Framework *}
-    <link rel="stylesheet" href="{$wa_theme_url}css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$wa_theme_url}css/vendor/bootstrap.min.css">
     
     {* Theme Custom Styles *}
     <link rel="stylesheet" href="{$wa_theme_url}css/waboot.css">
     
     {* BEM Utility Classes *}
     <link rel="stylesheet" href="{$wa_theme_url}css/utilities.css">
+    
+    {* User Custom CSS - Loaded after theme styles *}
+    <link rel="stylesheet" href="{$wa_theme_url}user_theme/css/user-custom.css">
     
     {* RTL Styles for Right-to-Left Languages *}
     {if $wa->getLocale() == 'ar' || $wa->getLocale() == 'he'}
@@ -157,13 +160,16 @@
     </div>
 
     {* JavaScript - Bootstrap 5 Bundle (includes Popper) *}
-    <script src="{$wa_theme_url}js/bootstrap.bundle.min.js"></script>
+    <script src="{$wa_theme_url}js/vendor/bootstrap.bundle.min.js"></script>
     
     {* Alpine.js for Reactivity *}
-    <script src="{$wa_theme_url}js/alpine.min.js" defer></script>
+    <script src="{$wa_theme_url}js/vendor/alpine.min.js" defer></script>
     
     {* Theme Custom JavaScript *}
     <script src="{$wa_theme_url}js/waboot.js"></script>
+    
+    {* User Custom JavaScript - Loaded after theme scripts *}
+    <script src="{$wa_theme_url}user_theme/js/user-custom.js"></script>
     
     {* Additional Footer Scripts from Apps *}
     {$wa->footer()}

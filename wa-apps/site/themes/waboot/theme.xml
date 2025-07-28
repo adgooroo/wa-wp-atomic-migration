@@ -253,12 +253,14 @@
     
     <!-- Theme Files Structure -->
     <files>
-        <file path="css/bootstrap.min.css" type="stylesheet"/>
+        <file path="css/vendor/bootstrap.min.css" type="stylesheet"/>
         <file path="css/waboot.css" type="stylesheet"/>
         <file path="css/utilities.css" type="stylesheet"/>
-        <file path="js/bootstrap.bundle.min.js" type="javascript"/>
-        <file path="js/alpine.min.js" type="javascript"/>
+        <file path="user_theme/css/user-custom.css" type="stylesheet"/>
+        <file path="js/vendor/bootstrap.bundle.min.js" type="javascript"/>
+        <file path="js/vendor/alpine.min.js" type="javascript"/>
         <file path="js/waboot.js" type="javascript"/>
+        <file path="user_theme/js/user-custom.js" type="javascript"/>
         <file path="templates/layout.html" type="template"/>
         <file path="templates/header.html" type="template"/>
         <file path="templates/footer.html" type="template"/>
