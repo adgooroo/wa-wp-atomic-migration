@@ -7,6 +7,181 @@
     <author>WordPress to Webasyst Migration Project</author>
     <url>https://github.com/wp-wa-migration/waboot</url>
     
+    <!-- LOCALIZATION SECTION -->
+    <locales>
+        <!-- Navigation and UI Elements -->
+        <locale>
+            <msgid>Home</msgid>
+            <msgstr locale="ru_RU">Главная</msgstr>
+            <msgstr locale="en_US">Home</msgstr>
+        </locale>
+        <locale>
+            <msgid>About</msgid>
+            <msgstr locale="ru_RU">О нас</msgstr>
+            <msgstr locale="en_US">About</msgstr>
+        </locale>
+        <locale>
+            <msgid>Contact</msgid>
+            <msgstr locale="ru_RU">Контакты</msgstr>
+            <msgstr locale="en_US">Contact</msgstr>
+        </locale>
+        <locale>
+            <msgid>Search</msgid>
+            <msgstr locale="ru_RU">Поиск</msgstr>
+            <msgstr locale="en_US">Search</msgstr>
+        </locale>
+        <locale>
+            <msgid>Search products...</msgid>
+            <msgstr locale="ru_RU">Поиск товаров...</msgstr>
+            <msgstr locale="en_US">Search products...</msgstr>
+        </locale>
+        
+        <!-- E-commerce Elements -->
+        <locale>
+            <msgid>Add to Cart</msgid>
+            <msgstr locale="ru_RU">В корзину</msgstr>
+            <msgstr locale="en_US">Add to Cart</msgstr>
+        </locale>
+        <locale>
+            <msgid>Shopping Cart</msgid>
+            <msgstr locale="ru_RU">Корзина покупок</msgstr>
+            <msgstr locale="en_US">Shopping Cart</msgstr>
+        </locale>
+        <locale>
+            <msgid>Quick View</msgid>
+            <msgstr locale="ru_RU">Быстрый просмотр</msgstr>
+            <msgstr locale="en_US">Quick View</msgstr>
+        </locale>
+        <locale>
+            <msgid>Add to Wishlist</msgid>
+            <msgstr locale="ru_RU">В избранное</msgstr>
+            <msgstr locale="en_US">Add to Wishlist</msgstr>
+        </locale>
+        <locale>
+            <msgid>Compare</msgid>
+            <msgstr locale="ru_RU">Сравнить</msgstr>
+            <msgstr locale="en_US">Compare</msgstr>
+        </locale>
+        <locale>
+            <msgid>Product Details</msgid>
+            <msgstr locale="ru_RU">Подробности товара</msgstr>
+            <msgstr locale="en_US">Product Details</msgstr>
+        </locale>
+        
+        <!-- Form Elements -->
+        <locale>
+            <msgid>Subscribe</msgid>
+            <msgstr locale="ru_RU">Подписаться</msgstr>
+            <msgstr locale="en_US">Subscribe</msgstr>
+        </locale>
+        <locale>
+            <msgid>Newsletter</msgid>
+            <msgstr locale="ru_RU">Рассылка</msgstr>
+            <msgstr locale="en_US">Newsletter</msgstr>
+        </locale>
+        <locale>
+            <msgid>Your email address</msgid>
+            <msgstr locale="ru_RU">Ваш email адрес</msgstr>
+            <msgstr locale="en_US">Your email address</msgstr>
+        </locale>
+        <locale>
+            <msgid>Submit</msgid>
+            <msgstr locale="ru_RU">Отправить</msgstr>
+            <msgstr locale="en_US">Submit</msgstr>
+        </locale>
+        
+        <!-- Product Properties -->
+        <locale>
+            <msgid>Price</msgid>
+            <msgstr locale="ru_RU">Цена</msgstr>
+            <msgstr locale="en_US">Price</msgstr>
+        </locale>
+        <locale>
+            <msgid>Availability</msgid>
+            <msgstr locale="ru_RU">Наличие</msgstr>
+            <msgstr locale="en_US">Availability</msgstr>
+        </locale>
+        <locale>
+            <msgid>In Stock</msgid>
+            <msgstr locale="ru_RU">В наличии</msgstr>
+            <msgstr locale="en_US">In Stock</msgstr>
+        </locale>
+        <locale>
+            <msgid>Out of Stock</msgid>
+            <msgstr locale="ru_RU">Нет в наличии</msgstr>
+            <msgstr locale="en_US">Out of Stock</msgstr>
+        </locale>
+        
+        <!-- Accessibility and Error Messages -->
+        <locale>
+            <msgid>Skip to main content</msgid>
+            <msgstr locale="ru_RU">Перейти к основному содержимому</msgstr>
+            <msgstr locale="en_US">Skip to main content</msgstr>
+        </locale>
+        <locale>
+            <msgid>Close</msgid>
+            <msgstr locale="ru_RU">Закрыть</msgstr>
+            <msgstr locale="en_US">Close</msgstr>
+        </locale>
+        <locale>
+            <msgid>Open menu</msgid>
+            <msgstr locale="ru_RU">Открыть меню</msgstr>
+            <msgstr locale="en_US">Open menu</msgstr>
+        </locale>
+        <locale>
+            <msgid>Close menu</msgid>
+            <msgstr locale="ru_RU">Закрыть меню</msgstr>
+            <msgstr locale="en_US">Close menu</msgstr>
+        </locale>
+        
+        <!-- Categories and Filters -->
+        <locale>
+            <msgid>Categories</msgid>
+            <msgstr locale="ru_RU">Категории</msgstr>
+            <msgstr locale="en_US">Categories</msgstr>
+        </locale>
+        <locale>
+            <msgid>Filter</msgid>
+            <msgstr locale="ru_RU">Фильтр</msgstr>
+            <msgstr locale="en_US">Filter</msgstr>
+        </locale>
+        <locale>
+            <msgid>Sort by</msgid>
+            <msgstr locale="ru_RU">Сортировать по</msgstr>
+            <msgstr locale="en_US">Sort by</msgstr>
+        </locale>
+        <locale>
+            <msgid>Show more</msgid>
+            <msgstr locale="ru_RU">Показать еще</msgstr>
+            <msgstr locale="en_US">Show more</msgstr>
+        </locale>
+        <locale>
+            <msgid>Load more</msgid>
+            <msgstr locale="ru_RU">Загрузить еще</msgstr>
+            <msgstr locale="en_US">Load more</msgstr>
+        </locale>
+        
+        <!-- Plurals Support -->
+        <locale>
+            <msgid>item</msgid>
+            <msgid_plural>items</msgid_plural>
+            <msgstr locale="ru_RU">товар</msgstr>
+            <msgstr_plural locale="ru_RU">товара</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">товаров</msgstr_plural2>
+            <msgstr locale="en_US">item</msgstr>
+            <msgstr_plural locale="en_US">items</msgstr_plural>
+        </locale>
+        <locale>
+            <msgid>product</msgid>
+            <msgid_plural>products</msgid_plural>
+            <msgstr locale="ru_RU">товар</msgstr>
+            <msgstr_plural locale="ru_RU">товара</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">товаров</msgstr_plural2>
+            <msgstr locale="en_US">product</msgstr>
+            <msgstr_plural locale="en_US">products</msgstr_plural>
+        </locale>
+    </locales>
+    
     <!-- Theme Settings -->
     <settings>
         <!-- Layout Options -->

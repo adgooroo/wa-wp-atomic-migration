@@ -1,0 +1,33 @@
+# Webasyst Theme Security - Deny access to lib directory
+# This file protects sensitive configuration and library files from direct web access
+
+# Apache 2.4
+<RequireAll>
+    Require all denied
+</RequireAll>
+
+# Apache 2.2 fallback
+<IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+</IfModule>
+
+# Additional security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Disable server signature
+ServerSignature Off
+
+# Prevent access to version control files
+<FilesMatch "\.(git|svn|hg)">
+    Require all denied
+</FilesMatch>
+
+# Prevent access to backup files
+<FilesMatch "\.(bak|backup|old|orig|tmp)$">
+    Require all denied
+</FilesMatch>

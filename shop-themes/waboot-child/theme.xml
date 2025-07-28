@@ -11,6 +11,202 @@
         <theme app="site" id="waboot"/>
     </requirements>
     
+    <!-- CHILD THEME LOCALIZATION -->
+    <locales>
+        <!-- Shop-specific E-commerce Elements -->
+        <locale>
+            <msgid>Add to Cart</msgid>
+            <msgstr locale="ru_RU">Добавить в корзину</msgstr>
+            <msgstr locale="en_US">Add to Cart</msgstr>
+        </locale>
+        <locale>
+            <msgid>Buy Now</msgid>
+            <msgstr locale="ru_RU">Купить сейчас</msgstr>
+            <msgstr locale="en_US">Buy Now</msgstr>
+        </locale>
+        <locale>
+            <msgid>Quick Order</msgid>
+            <msgstr locale="ru_RU">Быстрый заказ</msgstr>
+            <msgstr locale="en_US">Quick Order</msgstr>
+        </locale>
+        <locale>
+            <msgid>Checkout</msgid>
+            <msgstr locale="ru_RU">Оформить заказ</msgstr>
+            <msgstr locale="en_US">Checkout</msgstr>
+        </locale>
+        <locale>
+            <msgid>Continue Shopping</msgid>
+            <msgstr locale="ru_RU">Продолжить покупки</msgstr>
+            <msgstr locale="en_US">Continue Shopping</msgstr>
+        </locale>
+        
+        <!-- Product Attributes -->
+        <locale>
+            <msgid>Size</msgid>
+            <msgstr locale="ru_RU">Размер</msgstr>
+            <msgstr locale="en_US">Size</msgstr>
+        </locale>
+        <locale>
+            <msgid>Color</msgid>
+            <msgstr locale="ru_RU">Цвет</msgstr>
+            <msgstr locale="en_US">Color</msgstr>
+        </locale>
+        <locale>
+            <msgid>Material</msgid>
+            <msgstr locale="ru_RU">Материал</msgstr>
+            <msgstr locale="en_US">Material</msgstr>
+        </locale>
+        <locale>
+            <msgid>Brand</msgid>
+            <msgstr locale="ru_RU">Бренд</msgstr>
+            <msgstr locale="en_US">Brand</msgstr>
+        </locale>
+        
+        <!-- Shopping Cart -->
+        <locale>
+            <msgid>Your Cart</msgid>
+            <msgstr locale="ru_RU">Ваша корзина</msgstr>
+            <msgstr locale="en_US">Your Cart</msgstr>
+        </locale>
+        <locale>
+            <msgid>Cart is empty</msgid>
+            <msgstr locale="ru_RU">Корзина пуста</msgstr>
+            <msgstr locale="en_US">Cart is empty</msgstr>
+        </locale>
+        <locale>
+            <msgid>Remove from cart</msgid>
+            <msgstr locale="ru_RU">Удалить из корзины</msgstr>
+            <msgstr locale="en_US">Remove from cart</msgstr>
+        </locale>
+        <locale>
+            <msgid>Update quantity</msgid>
+            <msgstr locale="ru_RU">Обновить количество</msgstr>
+            <msgstr locale="en_US">Update quantity</msgstr>
+        </locale>
+        <locale>
+            <msgid>Quantity</msgid>
+            <msgstr locale="ru_RU">Количество</msgstr>
+            <msgstr locale="en_US">Quantity</msgstr>
+        </locale>
+        
+        <!-- Product Reviews -->
+        <locale>
+            <msgid>Customer Reviews</msgid>
+            <msgstr locale="ru_RU">Отзывы покупателей</msgstr>
+            <msgstr locale="en_US">Customer Reviews</msgstr>
+        </locale>
+        <locale>
+            <msgid>Write a review</msgid>
+            <msgstr locale="ru_RU">Написать отзыв</msgstr>
+            <msgstr locale="en_US">Write a review</msgstr>
+        </locale>
+        <locale>
+            <msgid>Rating</msgid>
+            <msgstr locale="ru_RU">Рейтинг</msgstr>
+            <msgstr locale="en_US">Rating</msgstr>
+        </locale>
+        <locale>
+            <msgid>No reviews yet</msgid>
+            <msgstr locale="ru_RU">Пока нет отзывов</msgstr>
+            <msgstr locale="en_US">No reviews yet</msgstr>
+        </locale>
+        
+        <!-- Product Comparison -->
+        <locale>
+            <msgid>Add to Compare</msgid>
+            <msgstr locale="ru_RU">Добавить к сравнению</msgstr>
+            <msgstr locale="en_US">Add to Compare</msgstr>
+        </locale>
+        <locale>
+            <msgid>Compare Products</msgid>
+            <msgstr locale="ru_RU">Сравнить товары</msgstr>
+            <msgstr locale="en_US">Compare Products</msgstr>
+        </locale>
+        <locale>
+            <msgid>Remove from comparison</msgid>
+            <msgstr locale="ru_RU">Удалить из сравнения</msgstr>
+            <msgstr locale="en_US">Remove from comparison</msgstr>
+        </locale>
+        
+        <!-- Wishlist -->
+        <locale>
+            <msgid>My Wishlist</msgid>
+            <msgstr locale="ru_RU">Мой список желаний</msgstr>
+            <msgstr locale="en_US">My Wishlist</msgstr>
+        </locale>
+        <locale>
+            <msgid>Add to Wishlist</msgid>
+            <msgstr locale="ru_RU">Добавить в избранное</msgstr>
+            <msgstr locale="en_US">Add to Wishlist</msgstr>
+        </locale>
+        <locale>
+            <msgid>Remove from wishlist</msgid>
+            <msgstr locale="ru_RU">Удалить из избранного</msgstr>
+            <msgstr locale="en_US">Remove from wishlist</msgstr>
+        </locale>
+        
+        <!-- Product Filters -->
+        <locale>
+            <msgid>Price Range</msgid>
+            <msgstr locale="ru_RU">Диапазон цен</msgstr>
+            <msgstr locale="en_US">Price Range</msgstr>
+        </locale>
+        <locale>
+            <msgid>Apply Filters</msgid>
+            <msgstr locale="ru_RU">Применить фильтры</msgstr>
+            <msgstr locale="en_US">Apply Filters</msgstr>
+        </locale>
+        <locale>
+            <msgid>Clear Filters</msgid>
+            <msgstr locale="ru_RU">Очистить фильтры</msgstr>
+            <msgstr locale="en_US">Clear Filters</msgstr>
+        </locale>
+        <locale>
+            <msgid>Show Results</msgid>
+            <msgstr locale="ru_RU">Показать результаты</msgstr>
+            <msgstr locale="en_US">Show Results</msgstr>
+        </locale>
+        
+        <!-- Shipping and Delivery -->
+        <locale>
+            <msgid>Free Shipping</msgid>
+            <msgstr locale="ru_RU">Бесплатная доставка</msgstr>
+            <msgstr locale="en_US">Free Shipping</msgstr>
+        </locale>
+        <locale>
+            <msgid>Fast Delivery</msgid>
+            <msgstr locale="ru_RU">Быстрая доставка</msgstr>
+            <msgstr locale="en_US">Fast Delivery</msgstr>
+        </locale>
+        <locale>
+            <msgid>Delivery Information</msgid>
+            <msgstr locale="ru_RU">Информация о доставке</msgstr>
+            <msgstr locale="en_US">Delivery Information</msgstr>
+        </locale>
+        
+        <!-- Order Status -->
+        <locale>
+            <msgid>Order Status</msgid>
+            <msgstr locale="ru_RU">Статус заказа</msgstr>
+            <msgstr locale="en_US">Order Status</msgstr>
+        </locale>
+        <locale>
+            <msgid>Processing</msgid>
+            <msgstr locale="ru_RU">Обрабатывается</msgstr>
+            <msgstr locale="en_US">Processing</msgstr>
+        </locale>
+        <locale>
+            <msgid>Shipped</msgid>
+            <msgstr locale="ru_RU">Отправлен</msgstr>
+            <msgstr locale="en_US">Shipped</msgstr>
+        </locale>
+        <locale>
+            <msgid>Delivered</msgid>
+            <msgstr locale="ru_RU">Доставлен</msgstr>
+            <msgstr locale="en_US">Delivered</msgstr>
+        </locale>
+    </locales>
+    
     <!-- Theme Settings -->
     <settings>
         <setting var="layout_type" title="Layout Type" type="select" options="wide,boxed" default="wide"/>
