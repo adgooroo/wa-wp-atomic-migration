@@ -1,0 +1,26 @@
+# Webasyst Site App Security - Deny access to lib directory
+# This file protects sensitive configuration and library files from direct web access
+
+# Apache 2.4
+<RequireAll>
+    Require all denied
+</RequireAll>
+
+# Apache 2.2 fallback  
+<IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+</IfModule>
+
+# Prevent access to PHP configuration files
+<FilesMatch "\.(php|php3|php4|php5|phtml|inc)$">
+    Require all denied
+</FilesMatch>
+
+# Additional security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
