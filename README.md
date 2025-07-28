@@ -139,7 +139,6 @@
 │   ├── migration-guide.md
 │   ├── theme-documentation.md
 │   └── stack-bootstrap-5-alpine.js-BEM-atomic-design.md
-└── 📁 memory-bank/                  # AI-generated content (excluded from git)
 ```
 
 ## 📊 JSON-LD Structured Data Implementation
