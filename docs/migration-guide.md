@@ -75,11 +75,11 @@ Webasyst Theme Structure:
 |-------------------|-------------------|-------------|
 | `get_header()` | `{include file="header.html"}` | Include header template |
 | `get_footer()` | `{include file="footer.html"}` | Include footer template |
-| `wp_head()` | `{$wa->shop->header()}` | Output head metadata |
-| `wp_footer()` | `{$wa->shop->footer()}` | Output footer scripts |
+| `wp_head()` | `{$wa->head()}` | Output head metadata |
+| `wp_footer()` | `{$wa->js()}` | Output footer scripts |
 | `the_title()` | `{$product.name\|escape}` | Display title/name |
 | `the_content()` | `{$product.description}` | Display content/description |
-| `get_permalink()` | `{$wa_app_url}product/{$product.url}/` | Get item URL |
+| `get_permalink()` | `{$wa->getUrl('shop')}product/{$product.url}/` | Get item URL |
 | `has_post_thumbnail()` | `{if $product.image}` | Check for featured image |
 | `the_post_thumbnail()` | `<img src="{$product.image.url_crop}">` | Display featured image |
 
@@ -87,7 +87,7 @@ Webasyst Theme Structure:
 
 | WordPress Function | Webasyst Equivalent | Description |
 |-------------------|-------------------|-------------|
-| `wp_nav_menu()` | `{wa_navigation}` | Display navigation menu |
+| `wp_nav_menu()` | `{include file="navigation.html"}` | Display navigation menu |
 | `get_search_form()` | `{include file="search.html"}` | Include search form |
 | `paginate_links()` | Custom pagination logic | Display pagination |
 | `next_post_link()` | `{$next_product.url}` | Next item link |
@@ -102,8 +102,8 @@ Webasyst Theme Structure:
 | `wc_price()` | `{wa_currency($product.price)}` | Format price |
 | `woocommerce_breadcrumb()` | Custom breadcrumb template | Display breadcrumbs |
 | `woocommerce_output_product_data_tabs()` | Custom tab implementation | Product detail tabs |
-| `wc_get_cart_url()` | `{$wa_app_url}cart/` | Cart page URL |
-| `wc_get_checkout_url()` | `{$wa_app_url}checkout/` | Checkout page URL |
+| `wc_get_cart_url()` | `{$wa->getUrl('shop')}cart/` | Cart page URL |
+| `wc_get_checkout_url()` | `{$wa->getUrl('shop')}checkout/` | Checkout page URL |
 
 ### Data Access Functions
 
@@ -130,9 +130,9 @@ Webasyst Theme Structure:
     <title>{$wa_title|escape}</title>
     
     {* Local CSS assets *}
-    <link rel="stylesheet" href="{$wa_theme_url}css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="{$wa_theme_url}css/vendor/aos.min.css">
-    <link rel="stylesheet" href="{$wa_theme_url}css/waboot.css">
+    <link rel="stylesheet" href="{$wa->themeUrl()}css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="{$wa->themeUrl()}css/vendor/aos.min.css">
+    <link rel="stylesheet" href="{$wa->themeUrl()}css/waboot.css">
 </head>
 <body>
     {include file="header.html"}
@@ -144,10 +144,10 @@ Webasyst Theme Structure:
     {include file="footer.html"}
     
     {* Local JavaScript assets *}
-    <script src="{$wa_theme_url}js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="{$wa_theme_url}js/vendor/alpine.min.js" defer></script>
-    <script src="{$wa_theme_url}js/vendor/aos.min.js"></script>
-    <script src="{$wa_theme_url}js/waboot.js"></script>
+    <script src="{$wa->themeUrl()}js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="{$wa->themeUrl()}js/vendor/alpine.min.js" defer></script>
+    <script src="{$wa->themeUrl()}js/vendor/aos.min.js"></script>
+    <script src="{$wa->themeUrl()}js/waboot.js"></script>
 </body>
 </html>
 ```
@@ -406,7 +406,7 @@ function debounce(func, wait) {
 **Solution**: Verify asset paths
 ```html
 <!-- Correct asset URL -->
-<link rel="stylesheet" href="{$wa_theme_url}css/waboot.css">
+<link rel="stylesheet" href="{$wa->themeUrl()}css/waboot.css">
 ```
 
 #### 3. JavaScript Errors
@@ -414,7 +414,7 @@ function debounce(func, wait) {
 **Solution**: Check script loading order
 ```html
 <!-- Alpine.js must be loaded with defer -->
-<script src="{$wa_theme_url}js/vendor/alpine.min.js" defer></script>
+<script src="{$wa->themeUrl()}js/vendor/alpine.min.js" defer></script>
 ```
 
 #### 4. Product Data Not Displaying

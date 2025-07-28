@@ -71,13 +71,13 @@ Webasyst Framework предоставляет уникальную архите�
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Custom CSS (BEM + Atomic) -->
-    <link href="{$wa_theme_url}css/atoms.css" rel="stylesheet">
-    <link href="{$wa_theme_url}css/molecules.css" rel="stylesheet">
-    <link href="{$wa_theme_url}css/organisms.css" rel="stylesheet">
-    <link href="{$wa_theme_url}css/templates.css" rel="stylesheet">
+    <link href="{$wa->themeUrl()}css/atoms.css" rel="stylesheet">
+    <link href="{$wa->themeUrl()}css/molecules.css" rel="stylesheet">
+    <link href="{$wa->themeUrl()}css/organisms.css" rel="stylesheet">
+    <link href="{$wa->themeUrl()}css/templates.css" rel="stylesheet">
     
     <!-- Preload критичных ресурсов -->
-    <link rel="preload" href="{$wa_theme_url}fonts/main.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{$wa->themeUrl()}fonts/main.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
     <!-- Alpine.js перед закрывающим body для прогрессивных улучшений -->
@@ -443,7 +443,7 @@ themes/
     <div class="site-header__container container">
         <!-- Логотип -->
         <div class="site-header__brand">
-            <a href="{$wa->getUrl()}" class="site-header__logo" aria-label="На главную">
+            <a href="{$wa->getUrl('site')}" class="site-header__logo" aria-label="На главную">
                 {if $logo_image}
                     <img src="{$logo_image}" alt="{$site_name}" class="site-header__logo-image">
                 {else}

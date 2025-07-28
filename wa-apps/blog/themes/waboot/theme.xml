@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<theme id="waboot" app="blog">
+    <name>Waboot Blog</name>
+    <description>A modern, fully-local Webasyst blog theme inheriting from site:waboot. Built with Bootstrap 5, Alpine.js, and BEM methodology for outstanding blog performance.</description>
+    <version>1.0.0</version>
+    <vendor>Waboot Team</vendor>
+    <author>WordPress to Webasyst Migration Project</author>
+    <url>https://github.com/wp-wa-migration/waboot</url>
+    
+    <!-- Parent theme - inherits from site:waboot -->
+    <parent_theme>site:waboot</parent_theme>
+    
+    <!-- LOCALIZATION SECTION -->
+    <locales>
+        <!-- Blog Elements -->
+        <locale>
+            <msgid>Read More</msgid>
+            <msgstr locale="ru_RU">Читать далее</msgstr>
+            <msgstr locale="en_US">Read More</msgstr>
+        </locale>
+        <locale>
+            <msgid>Published</msgid>
+            <msgstr locale="ru_RU">Опубликовано</msgstr>
+            <msgstr locale="en_US">Published</msgstr>
+        </locale>
+        <locale>
+            <msgid>Author</msgid>
+            <msgstr locale="ru_RU">Автор</msgstr>
+            <msgstr locale="en_US">Author</msgstr>
+        </locale>
+        <locale>
+            <msgid>Categories</msgid>
+            <msgstr locale="ru_RU">Категории</msgstr>
+            <msgstr locale="en_US">Categories</msgstr>
+        </locale>
+        <locale>
+            <msgid>Tags</msgid>
+            <msgstr locale="ru_RU">Теги</msgstr>
+            <msgstr locale="en_US">Tags</msgstr>
+        </locale>
+        <locale>
+            <msgid>Comments</msgid>
+            <msgstr locale="ru_RU">Комментарии</msgstr>
+            <msgstr locale="en_US">Comments</msgstr>
+        </locale>
+        <locale>
+            <msgid>Leave a Comment</msgid>
+            <msgstr locale="ru_RU">Оставить комментарий</msgstr>
+            <msgstr locale="en_US">Leave a Comment</msgstr>
+        </locale>
+        <locale>
+            <msgid>Search posts...</msgid>
+            <msgstr locale="ru_RU">Поиск постов...</msgstr>
+            <msgstr locale="en_US">Search posts...</msgstr>
+        </locale>
+        
+        <!-- Navigation -->
+        <locale>
+            <msgid>Previous Post</msgid>
+            <msgstr locale="ru_RU">Предыдущий пост</msgstr>
+            <msgstr locale="en_US">Previous Post</msgstr>
+        </locale>
+        <locale>
+            <msgid>Next Post</msgid>
+            <msgstr locale="ru_RU">Следующий пост</msgstr>
+            <msgstr locale="en_US">Next Post</msgstr>
+        </locale>
+        <locale>
+            <msgid>Back to Blog</msgid>
+            <msgstr locale="ru_RU">Вернуться к блогу</msgstr>
+            <msgstr locale="en_US">Back to Blog</msgstr>
+        </locale>
+        
+        <!-- Social Sharing -->
+        <locale>
+            <msgid>Share</msgid>
+            <msgstr locale="ru_RU">Поделиться</msgstr>
+            <msgstr locale="en_US">Share</msgstr>
+        </locale>
+        <locale>
+            <msgid>Share on Facebook</msgid>
+            <msgstr locale="ru_RU">Поделиться в Facebook</msgstr>
+            <msgstr locale="en_US">Share on Facebook</msgstr>
+        </locale>
+        <locale>
+            <msgid>Share on Twitter</msgid>
+            <msgstr locale="ru_RU">Поделиться в Twitter</msgstr>
+            <msgstr locale="en_US">Share on Twitter</msgstr>
+        </locale>
+        
+        <!-- Plurals Support -->
+        <locale>
+            <msgid>post</msgid>
+            <msgid_plural>posts</msgid_plural>
+            <msgstr locale="ru_RU">пост</msgstr>
+            <msgstr_plural locale="ru_RU">поста</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">постов</msgstr_plural2>
+            <msgstr locale="en_US">post</msgstr>
+            <msgstr_plural locale="en_US">posts</msgstr_plural>
+        </locale>
+        <locale>
+            <msgid>comment</msgid>
+            <msgid_plural>comments</msgid_plural>
+            <msgstr locale="ru_RU">комментарий</msgstr>
+            <msgstr_plural locale="ru_RU">комментария</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">комментариев</msgstr_plural2>
+            <msgstr locale="en_US">comment</msgstr>
+            <msgstr_plural locale="en_US">comments</msgstr_plural>
+        </locale>
+    </locales>
+    
+    <!-- Theme Settings -->
+    <settings>
+        <!-- Blog-specific Layout Options -->
+        <setting var="blog_layout_type" control_type="select" name="Blog Layout Type">
+            <option value="grid">Grid Layout</option>
+            <option value="list">List Layout</option>
+            <option value="masonry">Masonry Layout</option>
+        </setting>
+        
+        <!-- Post Display Options -->
+        <setting var="posts_per_page" control_type="input" name="Posts per Page">
+            <description>Number of posts to display per page</description>
+        </setting>
+        
+        <!-- Excerpt Options -->
+        <setting var="show_excerpt" control_type="checkbox" name="Show Excerpt">
+            <description>Show post excerpt on blog listing</description>
+        </setting>
+        
+        <!-- Social Sharing -->
+        <setting var="enable_social_sharing" control_type="checkbox" name="Enable Social Sharing">
+            <description>Enable social sharing buttons</description>
+        </setting>
+        
+        <!-- Author Display -->
+        <setting var="show_author" control_type="checkbox" name="Show Author">
+            <description>Display author information on posts</description>
+        </setting>
+        
+        <!-- Related Posts -->
+        <setting var="show_related_posts" control_type="checkbox" name="Show Related Posts">
+            <description>Display related posts at the bottom</description>
+        </setting>
+    </settings>
+    
+    <!-- Supported Features -->
+    <features>
+        <feature id="responsive">Fully responsive design</feature>
+        <feature id="bootstrap5">Bootstrap 5 framework</feature>
+        <feature id="alpinejs">Alpine.js micro-reactivity</feature>
+        <feature id="bem">BEM CSS methodology</feature>
+        <feature id="local_assets">No CDN dependencies</feature>
+        <feature id="blog_optimized">Blog optimized</feature>
+        <feature id="social_sharing">Social sharing functionality</feature>
+        <feature id="related_posts">Related posts functionality</feature>
+        <feature id="author_profiles">Author profile display</feature>
+        <feature id="rtl">RTL language support</feature>
+        <feature id="accessibility">WCAG 2.1 compliant</feature>
+    </features>
+    
+    <!-- Required Webasyst Version -->
+    <requirements>
+        <app id="blog" version="2.0.0"/>
+        <php version="7.4.0"/>
+    </requirements>
+    
+    <!-- Theme Files Structure -->
+    <files>
+        <file path="css/blog-atoms.css" type="stylesheet"/>
+        <file path="css/blog-molecules.css" type="stylesheet"/>
+        <file path="css/blog-organisms.css" type="stylesheet"/>
+        <file path="js/waboot-blog.js" type="javascript"/>
+        <file path="templates/post.html" type="template"/>
+        <file path="templates/post-list.html" type="template"/>
+        <file path="templates/author.html" type="template"/>
+        <file path="templates/category.html" type="template"/>
+    </files>
+    
+    <!-- Theme Compatibility -->
+    <compatibility>
+        <app id="blog" version="2.0.0"/>
+    </compatibility>
+    
+    <!-- Theme Preview Screenshots -->
+    <screenshots>
+        <screenshot path="img/screenshots/blog-list.png">Blog List</screenshot>
+        <screenshot path="img/screenshots/post-detail.png">Post Detail</screenshot>
+        <screenshot path="img/screenshots/author-page.png">Author Page</screenshot>
+        <screenshot path="img/screenshots/mobile.png">Mobile View</screenshot>
+    </screenshots>
+    
+    <!-- Theme Categories -->
+    <categories>
+        <category>Blog</category>
+        <category>Bootstrap</category>
+        <category>Responsive</category>
+        <category>Modern</category>
+    </categories>
+    
+    <!-- License Information -->
+    <license>MIT</license>
+    
+    <!-- Theme Changelog -->
+    <changelog>
+        <version number="1.0.0" date="2024-12-19">
+            <change>Initial release as blog theme</change>
+            <change>Inherits from site:waboot base theme</change>
+            <change>Blog specific components</change>
+            <change>Post listing and detail templates</change>
+            <change>Author and category pages</change>
+            <change>Social sharing functionality</change>
+        </version>
+    </changelog>
+</theme> 

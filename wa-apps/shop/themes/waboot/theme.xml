@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<theme id="waboot" app="shop">
+    <name>Waboot Shop</name>
+    <description>A modern, fully-local Webasyst shop theme inheriting from site:waboot. Built with Bootstrap 5, Alpine.js, and BEM methodology for outstanding e-commerce performance.</description>
+    <version>1.0.0</version>
+    <vendor>Waboot Team</vendor>
+    <author>WordPress to Webasyst Migration Project</author>
+    <url>https://github.com/wp-wa-migration/waboot</url>
+    
+    <!-- Parent theme - inherits from site:waboot -->
+    <parent_theme>site:waboot</parent_theme>
+    
+    <!-- LOCALIZATION SECTION -->
+    <locales>
+        <!-- E-commerce Elements -->
+        <locale>
+            <msgid>Add to Cart</msgid>
+            <msgstr locale="ru_RU">В корзину</msgstr>
+            <msgstr locale="en_US">Add to Cart</msgstr>
+        </locale>
+        <locale>
+            <msgid>Shopping Cart</msgid>
+            <msgstr locale="ru_RU">Корзина покупок</msgstr>
+            <msgstr locale="en_US">Shopping Cart</msgstr>
+        </locale>
+        <locale>
+            <msgid>Quick View</msgid>
+            <msgstr locale="ru_RU">Быстрый просмотр</msgstr>
+            <msgstr locale="en_US">Quick View</msgstr>
+        </locale>
+        <locale>
+            <msgid>Add to Wishlist</msgid>
+            <msgstr locale="ru_RU">В избранное</msgstr>
+            <msgstr locale="en_US">Add to Wishlist</msgstr>
+        </locale>
+        <locale>
+            <msgid>Compare</msgid>
+            <msgstr locale="ru_RU">Сравнить</msgstr>
+            <msgstr locale="en_US">Compare</msgstr>
+        </locale>
+        <locale>
+            <msgid>Product Details</msgid>
+            <msgstr locale="ru_RU">Подробности товара</msgstr>
+            <msgstr locale="en_US">Product Details</msgstr>
+        </locale>
+        <locale>
+            <msgid>Search products...</msgid>
+            <msgstr locale="ru_RU">Поиск товаров...</msgstr>
+            <msgstr locale="en_US">Search products...</msgstr>
+        </locale>
+        
+        <!-- Product Properties -->
+        <locale>
+            <msgid>Price</msgid>
+            <msgstr locale="ru_RU">Цена</msgstr>
+            <msgstr locale="en_US">Price</msgstr>
+        </locale>
+        <locale>
+            <msgid>Availability</msgid>
+            <msgstr locale="ru_RU">Наличие</msgstr>
+            <msgstr locale="en_US">Availability</msgstr>
+        </locale>
+        <locale>
+            <msgid>In Stock</msgid>
+            <msgstr locale="ru_RU">В наличии</msgstr>
+            <msgstr locale="en_US">In Stock</msgstr>
+        </locale>
+        <locale>
+            <msgid>Out of Stock</msgid>
+            <msgstr locale="ru_RU">Нет в наличии</msgstr>
+            <msgstr locale="en_US">Out of Stock</msgstr>
+        </locale>
+        <locale>
+            <msgid>Low Stock</msgid>
+            <msgstr locale="ru_RU">Осталось мало</msgstr>
+            <msgstr locale="en_US">Low Stock</msgstr>
+        </locale>
+        
+        <!-- Categories and Filters -->
+        <locale>
+            <msgid>Categories</msgid>
+            <msgstr locale="ru_RU">Категории</msgstr>
+            <msgstr locale="en_US">Categories</msgstr>
+        </locale>
+        <locale>
+            <msgid>Filter</msgid>
+            <msgstr locale="ru_RU">Фильтр</msgstr>
+            <msgstr locale="en_US">Filter</msgstr>
+        </locale>
+        <locale>
+            <msgid>Sort by</msgid>
+            <msgstr locale="ru_RU">Сортировать по</msgstr>
+            <msgstr locale="en_US">Sort by</msgstr>
+        </locale>
+        <locale>
+            <msgid>Show more</msgid>
+            <msgstr locale="ru_RU">Показать еще</msgstr>
+            <msgstr locale="en_US">Show more</msgstr>
+        </locale>
+        <locale>
+            <msgid>Load more</msgid>
+            <msgstr locale="ru_RU">Загрузить еще</msgstr>
+            <msgstr locale="en_US">Load more</msgstr>
+        </locale>
+        
+        <!-- Shopping Cart -->
+        <locale>
+            <msgid>Cart</msgid>
+            <msgstr locale="ru_RU">Корзина</msgstr>
+            <msgstr locale="en_US">Cart</msgstr>
+        </locale>
+        <locale>
+            <msgid>Checkout</msgid>
+            <msgstr locale="ru_RU">Оформить заказ</msgstr>
+            <msgstr locale="en_US">Checkout</msgstr>
+        </locale>
+        <locale>
+            <msgid>Continue Shopping</msgid>
+            <msgstr locale="ru_RU">Продолжить покупки</msgstr>
+            <msgstr locale="en_US">Continue Shopping</msgstr>
+        </locale>
+        <locale>
+            <msgid>Remove from Cart</msgid>
+            <msgstr locale="ru_RU">Удалить из корзины</msgstr>
+            <msgstr locale="en_US">Remove from Cart</msgstr>
+        </locale>
+        
+        <!-- Plurals Support -->
+        <locale>
+            <msgid>item</msgid>
+            <msgid_plural>items</msgid_plural>
+            <msgstr locale="ru_RU">товар</msgstr>
+            <msgstr_plural locale="ru_RU">товара</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">товаров</msgstr_plural2>
+            <msgstr locale="en_US">item</msgstr>
+            <msgstr_plural locale="en_US">items</msgstr_plural>
+        </locale>
+        <locale>
+            <msgid>product</msgid>
+            <msgid_plural>products</msgid_plural>
+            <msgstr locale="ru_RU">товар</msgstr>
+            <msgstr_plural locale="ru_RU">товара</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">товаров</msgstr_plural2>
+            <msgstr locale="en_US">product</msgstr>
+            <msgstr_plural locale="en_US">products</msgstr_plural>
+        </locale>
+    </locales>
+    
+    <!-- Theme Settings -->
+    <settings>
+        <!-- Shop-specific Layout Options -->
+        <setting var="shop_layout_type" control_type="select" name="Shop Layout Type">
+            <option value="grid">Grid Layout</option>
+            <option value="list">List Layout</option>
+            <option value="masonry">Masonry Layout</option>
+        </setting>
+        
+        <!-- Product Display Options -->
+        <setting var="products_per_page" control_type="input" name="Products per Page">
+            <description>Number of products to display per page</description>
+        </setting>
+        
+        <!-- Quick View Options -->
+        <setting var="enable_quick_view" control_type="checkbox" name="Enable Quick View">
+            <description>Enable quick view functionality for products</description>
+        </setting>
+        
+        <!-- Wishlist Options -->
+        <setting var="enable_wishlist" control_type="checkbox" name="Enable Wishlist">
+            <description>Enable wishlist functionality</description>
+        </setting>
+        
+        <!-- Compare Options -->
+        <setting var="enable_compare" control_type="checkbox" name="Enable Compare">
+            <description>Enable product comparison functionality</description>
+        </setting>
+        
+        <!-- Stock Display -->
+        <setting var="show_stock_status" control_type="checkbox" name="Show Stock Status">
+            <description>Display stock status on product cards</description>
+        </setting>
+        
+        <!-- Price Display -->
+        <setting var="show_original_price" control_type="checkbox" name="Show Original Price">
+            <description>Show original price for discounted products</description>
+        </setting>
+    </settings>
+    
+    <!-- Supported Features -->
+    <features>
+        <feature id="responsive">Fully responsive design</feature>
+        <feature id="bootstrap5">Bootstrap 5 framework</feature>
+        <feature id="alpinejs">Alpine.js micro-reactivity</feature>
+        <feature id="bem">BEM CSS methodology</feature>
+        <feature id="local_assets">No CDN dependencies</feature>
+        <feature id="ecommerce_optimized">E-commerce optimized</feature>
+        <feature id="quick_view">Quick view functionality</feature>
+        <feature id="wishlist">Wishlist functionality</feature>
+        <feature id="compare">Product comparison</feature>
+        <feature id="stock_management">Stock status display</feature>
+        <feature id="rtl">RTL language support</feature>
+        <feature id="accessibility">WCAG 2.1 compliant</feature>
+    </features>
+    
+    <!-- Required Webasyst Version -->
+    <requirements>
+        <app id="shop" version="9.0.0"/>
+        <php version="7.4.0"/>
+    </requirements>
+    
+    <!-- Theme Files Structure -->
+    <files>
+        <file path="css/shop-atoms.css" type="stylesheet"/>
+        <file path="css/shop-molecules.css" type="stylesheet"/>
+        <file path="css/shop-organisms.css" type="stylesheet"/>
+        <file path="css/waboot-child.css" type="stylesheet"/>
+        <file path="js/waboot-shop.js" type="javascript"/>
+        <file path="templates/atoms/add-to-cart-button.html" type="template"/>
+        <file path="templates/atoms/price.html" type="template"/>
+        <file path="templates/atoms/stock-status.html" type="template"/>
+        <file path="templates/molecules/breadcrumb.html" type="template"/>
+        <file path="templates/molecules/product-card.html" type="template"/>
+        <file path="templates/molecules/product-filters.html" type="template"/>
+        <file path="templates/organisms/product-grid.html" type="template"/>
+        <file path="templates/organisms/shopping-cart.html" type="template"/>
+    </files>
+    
+    <!-- Theme Compatibility -->
+    <compatibility>
+        <app id="shop" version="9.0.0"/>
+    </compatibility>
+    
+    <!-- Theme Preview Screenshots -->
+    <screenshots>
+        <screenshot path="img/screenshots/product.png">Product Page</screenshot>
+        <screenshot path="img/screenshots/checkout.png">Checkout Process</screenshot>
+        <screenshot path="img/screenshots/cart.png">Shopping Cart</screenshot>
+        <screenshot path="img/screenshots/mobile.png">Mobile View</screenshot>
+    </screenshots>
+    
+    <!-- Theme Categories -->
+    <categories>
+        <category>E-commerce</category>
+        <category>Bootstrap</category>
+        <category>Responsive</category>
+        <category>Modern</category>
+    </categories>
+    
+    <!-- License Information -->
+    <license>MIT</license>
+    
+    <!-- Theme Changelog -->
+    <changelog>
+        <version number="1.0.0" date="2024-12-19">
+            <change>Initial release as shop theme</change>
+            <change>Inherits from site:waboot base theme</change>
+            <change>E-commerce specific components</change>
+            <change>Product grid and card components</change>
+            <change>Shopping cart functionality</change>
+            <change>Quick view and wishlist features</change>
+        </version>
+    </changelog>
+</theme>
