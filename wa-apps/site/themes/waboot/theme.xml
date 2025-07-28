@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<theme id="waboot" app="shop">
+<theme id="waboot" app="site">
     <name>Waboot</name>
-    <description>A modern, fully-local Webasyst theme ported from WordPress Bootscore. Built with Bootstrap 5, Alpine.js, and BEM methodology for outstanding e-commerce performance.</description>
+    <description>A modern, fully-local Webasyst base theme. Built with Bootstrap 5, Alpine.js, and BEM methodology for outstanding performance across all Webasyst applications.</description>
     <version>1.0.0</version>
     <vendor>Waboot Team</vendor>
     <author>WordPress to Webasyst Migration Project</author>
     <url>https://github.com/wp-wa-migration/waboot</url>
+    
+    <!-- Parent theme - none, this is the base theme -->
+    <parent_theme></parent_theme>
     
     <!-- LOCALIZATION SECTION -->
     <locales>
@@ -237,14 +240,14 @@
         <feature id="alpinejs">Alpine.js micro-reactivity</feature>
         <feature id="bem">BEM CSS methodology</feature>
         <feature id="local_assets">No CDN dependencies</feature>
-        <feature id="woocommerce_compatible">E-commerce optimized</feature>
+        <feature id="atomic_design">Atomic Design components</feature>
         <feature id="rtl">RTL language support</feature>
         <feature id="accessibility">WCAG 2.1 compliant</feature>
     </features>
     
     <!-- Required Webasyst Version -->
     <requirements>
-        <app id="shop" version="9.0.0"/>
+        <app id="site" version="2.0.0"/>
         <php version="7.4.0"/>
     </requirements>
     
@@ -260,28 +263,26 @@
         <file path="templates/header.html" type="template"/>
         <file path="templates/footer.html" type="template"/>
         <file path="templates/home.html" type="template"/>
-        <file path="templates/product.html" type="template"/>
     </files>
     
     <!-- Theme Compatibility -->
     <compatibility>
-        <app id="shop" version="9.0.0"/>
         <app id="site" version="2.0.0"/>
+        <app id="shop" version="9.0.0"/>
         <app id="blog" version="2.0.0"/>
-        <app id="photos" version="2.0.0"/>
+        <app id="hub" version="2.0.0"/>
+        <app id="mailer" version="2.0.0"/>
     </compatibility>
     
     <!-- Theme Preview Screenshots -->
     <screenshots>
         <screenshot path="img/screenshots/homepage.png">Homepage</screenshot>
-        <screenshot path="img/screenshots/product.png">Product Page</screenshot>
-        <screenshot path="img/screenshots/checkout.png">Checkout Process</screenshot>
         <screenshot path="img/screenshots/mobile.png">Mobile View</screenshot>
     </screenshots>
     
     <!-- Theme Categories -->
     <categories>
-        <category>E-commerce</category>
+        <category>Base Theme</category>
         <category>Bootstrap</category>
         <category>Responsive</category>
         <category>Modern</category>
@@ -292,13 +293,14 @@
     
     <!-- Theme Changelog -->
     <changelog>
-        <version number="1.0.0" date="2025-01-16">
-            <change>Initial release</change>
+        <version number="1.0.0" date="2024-12-19">
+            <change>Initial release as base theme</change>
             <change>WordPress Bootscore theme port completed</change>
             <change>Bootstrap 5 integration</change>
             <change>Alpine.js integration</change>
             <change>BEM methodology implementation</change>
             <change>Full local asset support</change>
+            <change>Atomic Design structure</change>
         </version>
     </changelog>
 </theme>

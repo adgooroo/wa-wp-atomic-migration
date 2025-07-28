@@ -63,7 +63,7 @@ Each child theme extends the parent with app-specific features:
 ### **Directory Structure Template**
 
 ```
-{app}/themes/waboot-child/
+{app}/themes/waboot/
 ├── theme.xml                 # Theme configuration & inheritance
 ├── templates/                # Smarty templates
 │   ├── atoms/               # App-specific atomic components

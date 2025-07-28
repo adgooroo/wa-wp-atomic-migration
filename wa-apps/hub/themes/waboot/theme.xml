@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<theme id="waboot" app="hub">
+    <name>Waboot Hub</name>
+    <description>A modern, fully-local Webasyst hub theme inheriting from site:waboot. Built with Bootstrap 5, Alpine.js, and BEM methodology for outstanding social network performance.</description>
+    <version>1.0.0</version>
+    <vendor>Waboot Team</vendor>
+    <author>WordPress to Webasyst Migration Project</author>
+    <url>https://github.com/wp-wa-migration/waboot</url>
+    
+    <!-- Parent theme - inherits from site:waboot -->
+    <parent_theme>site:waboot</parent_theme>
+    
+    <!-- LOCALIZATION SECTION -->
+    <locales>
+        <!-- Social Network Elements -->
+        <locale>
+            <msgid>Profile</msgid>
+            <msgstr locale="ru_RU">Профиль</msgstr>
+            <msgstr locale="en_US">Profile</msgstr>
+        </locale>
+        <locale>
+            <msgid>Friends</msgid>
+            <msgstr locale="ru_RU">Друзья</msgstr>
+            <msgstr locale="en_US">Friends</msgstr>
+        </locale>
+        <locale>
+            <msgid>Messages</msgid>
+            <msgstr locale="ru_RU">Сообщения</msgstr>
+            <msgstr locale="en_US">Messages</msgstr>
+        </locale>
+        <locale>
+            <msgid>Notifications</msgid>
+            <msgstr locale="ru_RU">Уведомления</msgstr>
+            <msgstr locale="en_US">Notifications</msgstr>
+        </locale>
+        <locale>
+            <msgid>Like</msgid>
+            <msgstr locale="ru_RU">Нравится</msgstr>
+            <msgstr locale="en_US">Like</msgstr>
+        </locale>
+        <locale>
+            <msgid>Comment</msgid>
+            <msgstr locale="ru_RU">Комментировать</msgstr>
+            <msgstr locale="en_US">Comment</msgstr>
+        </locale>
+        <locale>
+            <msgid>Share</msgid>
+            <msgstr locale="ru_RU">Поделиться</msgstr>
+            <msgstr locale="en_US">Share</msgstr>
+        </locale>
+        <locale>
+            <msgid>Follow</msgid>
+            <msgstr locale="ru_RU">Подписаться</msgstr>
+            <msgstr locale="en_US">Follow</msgstr>
+        </locale>
+        <locale>
+            <msgid>Unfollow</msgid>
+            <msgstr locale="ru_RU">Отписаться</msgstr>
+            <msgstr locale="en_US">Unfollow</msgstr>
+        </locale>
+        
+        <!-- Activity Feed -->
+        <locale>
+            <msgid>Activity Feed</msgid>
+            <msgstr locale="ru_RU">Лента активности</msgstr>
+            <msgstr locale="en_US">Activity Feed</msgstr>
+        </locale>
+        <locale>
+            <msgid>What's on your mind?</msgid>
+            <msgstr locale="ru_RU">О чем вы думаете?</msgstr>
+            <msgstr locale="en_US">What's on your mind?</msgstr>
+        </locale>
+        <locale>
+            <msgid>Post</msgid>
+            <msgstr locale="ru_RU">Опубликовать</msgstr>
+            <msgstr locale="en_US">Post</msgstr>
+        </locale>
+        
+        <!-- User Actions -->
+        <locale>
+            <msgid>Edit Profile</msgid>
+            <msgstr locale="ru_RU">Редактировать профиль</msgstr>
+            <msgstr locale="en_US">Edit Profile</msgstr>
+        </locale>
+        <locale>
+            <msgid>Settings</msgid>
+            <msgstr locale="ru_RU">Настройки</msgstr>
+            <msgstr locale="en_US">Settings</msgstr>
+        </locale>
+        <locale>
+            <msgid>Logout</msgid>
+            <msgstr locale="ru_RU">Выйти</msgstr>
+            <msgstr locale="en_US">Logout</msgstr>
+        </locale>
+        
+        <!-- Plurals Support -->
+        <locale>
+            <msgid>friend</msgid>
+            <msgid_plural>friends</msgid_plural>
+            <msgstr locale="ru_RU">друг</msgstr>
+            <msgstr_plural locale="ru_RU">друга</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">друзей</msgstr_plural2>
+            <msgstr locale="en_US">friend</msgstr>
+            <msgstr_plural locale="en_US">friends</msgstr_plural>
+        </locale>
+        <locale>
+            <msgid>message</msgid>
+            <msgid_plural>messages</msgid_plural>
+            <msgstr locale="ru_RU">сообщение</msgstr>
+            <msgstr_plural locale="ru_RU">сообщения</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">сообщений</msgstr_plural2>
+            <msgstr locale="en_US">message</msgstr>
+            <msgstr_plural locale="en_US">messages</msgstr_plural>
+        </locale>
+    </locales>
+    
+    <!-- Theme Settings -->
+    <settings>
+        <!-- Hub-specific Layout Options -->
+        <setting var="hub_layout_type" control_type="select" name="Hub Layout Type">
+            <option value="feed">Feed Layout</option>
+            <option value="grid">Grid Layout</option>
+            <option value="list">List Layout</option>
+        </setting>
+        
+        <!-- Activity Display Options -->
+        <setting var="posts_per_page" control_type="input" name="Posts per Page">
+            <description>Number of posts to display per page</description>
+        </setting>
+        
+        <!-- Privacy Options -->
+        <setting var="default_privacy" control_type="select" name="Default Privacy">
+            <option value="public">Public</option>
+            <option value="friends">Friends Only</option>
+            <option value="private">Private</option>
+        </setting>
+        
+        <!-- Notifications -->
+        <setting var="enable_notifications" control_type="checkbox" name="Enable Notifications">
+            <description>Enable real-time notifications</description>
+        </setting>
+        
+        <!-- Friend Suggestions -->
+        <setting var="show_friend_suggestions" control_type="checkbox" name="Show Friend Suggestions">
+            <description>Display friend suggestions</description>
+        </setting>
+        
+        <!-- Activity Feed -->
+        <setting var="show_activity_feed" control_type="checkbox" name="Show Activity Feed">
+            <description>Display activity feed on homepage</description>
+        </setting>
+    </settings>
+    
+    <!-- Supported Features -->
+    <features>
+        <feature id="responsive">Fully responsive design</feature>
+        <feature id="bootstrap5">Bootstrap 5 framework</feature>
+        <feature id="alpinejs">Alpine.js micro-reactivity</feature>
+        <feature id="bem">BEM CSS methodology</feature>
+        <feature id="local_assets">No CDN dependencies</feature>
+        <feature id="social_network">Social network optimized</feature>
+        <feature id="real_time">Real-time updates</feature>
+        <feature id="friend_system">Friend system</feature>
+        <feature id="messaging">Messaging system</feature>
+        <feature id="activity_feed">Activity feed</feature>
+        <feature id="rtl">RTL language support</feature>
+        <feature id="accessibility">WCAG 2.1 compliant</feature>
+    </features>
+    
+    <!-- Required Webasyst Version -->
+    <requirements>
+        <app id="hub" version="2.0.0"/>
+        <php version="7.4.0"/>
+    </requirements>
+    
+    <!-- Theme Files Structure -->
+    <files>
+        <file path="css/hub-atoms.css" type="stylesheet"/>
+        <file path="css/hub-molecules.css" type="stylesheet"/>
+        <file path="css/hub-organisms.css" type="stylesheet"/>
+        <file path="js/waboot-hub.js" type="javascript"/>
+        <file path="templates/profile.html" type="template"/>
+        <file path="templates/activity-feed.html" type="template"/>
+        <file path="templates/friends.html" type="template"/>
+        <file path="templates/messages.html" type="template"/>
+    </files>
+    
+    <!-- Theme Compatibility -->
+    <compatibility>
+        <app id="hub" version="2.0.0"/>
+    </compatibility>
+    
+    <!-- Theme Preview Screenshots -->
+    <screenshots>
+        <screenshot path="img/screenshots/activity-feed.png">Activity Feed</screenshot>
+        <screenshot path="img/screenshots/profile.png">User Profile</screenshot>
+        <screenshot path="img/screenshots/friends.png">Friends List</screenshot>
+        <screenshot path="img/screenshots/mobile.png">Mobile View</screenshot>
+    </screenshots>
+    
+    <!-- Theme Categories -->
+    <categories>
+        <category>Social Network</category>
+        <category>Bootstrap</category>
+        <category>Responsive</category>
+        <category>Modern</category>
+    </categories>
+    
+    <!-- License Information -->
+    <license>MIT</license>
+    
+    <!-- Theme Changelog -->
+    <changelog>
+        <version number="1.0.0" date="2024-12-19">
+            <change>Initial release as hub theme</change>
+            <change>Inherits from site:waboot base theme</change>
+            <change>Social network specific components</change>
+            <change>Activity feed and profile templates</change>
+            <change>Friend system functionality</change>
+            <change>Messaging system</change>
+        </version>
+    </changelog>
+</theme> 

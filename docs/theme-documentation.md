@@ -336,8 +336,8 @@ document.addEventListener('alpine:init', () => {
 #### Global Variables
 ```smarty
 {$wa_url}              <!-- Site root URL -->
-{$wa_app_url}          <!-- Shop app URL -->
-{$wa_theme_url}        <!-- Theme assets URL -->
+{$wa->getUrl('shop')}  <!-- Shop app URL -->
+{$wa->themeUrl()}      <!-- Theme assets URL -->
 {$wa_title}            <!-- Page title -->
 {$locale}              <!-- Current locale -->
 {$layout_type}         <!-- Theme layout setting -->
