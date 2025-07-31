@@ -1,0 +1,75 @@
+{* Post Navigation Molecule Component *}
+
+<nav class="waboot-blog__post-nav" x-data="postNavigation()" aria-label="Post navigation">
+    <div class="waboot-blog__post-nav__container">
+        {* Previous Post *}
+        {if $post.prev_post}
+            <div class="waboot-blog__post-nav__item waboot-blog__post-nav__item--prev">
+                <a href="{$post.prev_post.url}" class="waboot-blog__post-nav__link">
+                    <div class="waboot-blog__post-nav__arrow">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="waboot-blog__post-nav__content">
+                        <span class="waboot-blog__post-nav__label">Previous Post</span>
+                        <h4 class="waboot-blog__post-nav__title">{$post.prev_post.title|escape:'html'}</h4>
+                        {if $post.prev_post.image}
+                            <img 
+                                src="{$post.prev_post.image.url}" 
+                                alt="{$post.prev_post.title|escape:'html'}"
+                                class="waboot-blog__post-nav__image"
+                                loading="lazy"
+                            >
+                        {/if}
+                    </div>
+                </a>
+            </div>
+        {/if}
+        
+        {* Next Post *}
+        {if $post.next_post}
+            <div class="waboot-blog__post-nav__item waboot-blog__post-nav__item--next">
+                <a href="{$post.next_post.url}" class="waboot-blog__post-nav__link">
+                    <div class="waboot-blog__post-nav__content">
+                        <span class="waboot-blog__post-nav__label">Next Post</span>
+                        <h4 class="waboot-blog__post-nav__title">{$post.next_post.title|escape:'html'}</h4>
+                        {if $post.next_post.image}
+                            <img 
+                                src="{$post.next_post.image.url}" 
+                                alt="{$post.next_post.title|escape:'html'}"
+                                class="waboot-blog__post-nav__image"
+                                loading="lazy"
+                            >
+                        {/if}
+                    </div>
+                    <div class="waboot-blog__post-nav__arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+            </div>
+        {/if}
+    </div>
+    
+    {* Related Posts *}
+    {if $post.related_posts}
+        <div class="waboot-blog__post-nav__related">
+            <h3 class="waboot-blog__post-nav__related-title">Related Posts</h3>
+            <div class="waboot-blog__post-nav__related-grid">
+                {foreach $post.related_posts as $related_post}
+                    <div class="waboot-blog__post-nav__related-item">
+                        <a href="{$related_post.url}" class="waboot-blog__post-nav__related-link">
+                            {if $related_post.image}
+                                <img 
+                                    src="{$related_post.image.url}" 
+                                    alt="{$related_post.title|escape:'html'}"
+                                    class="waboot-blog__post-nav__related-image"
+                                    loading="lazy"
+                                >
+                            {/if}
+                            <h5 class="waboot-blog__post-nav__related-title">{$related_post.title|escape:'html'}</h5>
+                        </a>
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+    {/if}
+</nav> 

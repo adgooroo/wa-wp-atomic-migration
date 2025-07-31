@@ -1,215 +1,362 @@
-<?xml version="1.0" encoding="utf-8"?>
-<theme id="waboot" app="blog">
-    <name>Waboot Blog</name>
-    <description>A modern, fully-local Webasyst blog theme inheriting from site:waboot. Built with Bootstrap 5, Alpine.js, and BEM methodology for outstanding blog performance.</description>
-    <version>1.0.0</version>
-    <vendor>Waboot Team</vendor>
-    <author>WordPress to Webasyst Migration Project</author>
-    <url>https://github.com/wp-wa-migration/waboot</url>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE theme PUBLIC "wa-app-theme" "http://www.webasyst.com/wa-content/xml/wa-app-theme.dtd" >
+<theme id="waboot" vendor="adgooroo" app="blog" parent_theme_id="site:waboot" version="1.0.0">
+    <name locale="en_US">Waboot Blog Theme</name>
+    <name locale="ru_RU">Waboot Тема для Блога</name>
     
-    <!-- Parent theme - inherits from site:waboot -->
-    <parent_theme>site:waboot</parent_theme>
+    <files>
+        <!-- Main templates -->
+        <file path="templates/index.html">
+            <description locale="en_US">Blog main page template</description>
+            <description locale="ru_RU">Шаблон главной страницы блога</description>
+        </file>
+        <file path="templates/post.html">
+            <description locale="en_US">Single blog post template</description>
+            <description locale="ru_RU">Шаблон отдельной записи блога</description>
+        </file>
+        <file path="templates/stream.html">
+            <description locale="en_US">Blog posts list template</description>
+            <description locale="ru_RU">Шаблон списка записей блога</description>
+        </file>
+        <file path="templates/comments.html">
+            <description locale="en_US">Comments template</description>
+            <description locale="ru_RU">Шаблон комментариев</description>
+        </file>
+        
+        <!-- Atomic Design Components -->
+        <file path="templates/atoms/post-meta.html">
+            <description locale="en_US">Post metadata atom component</description>
+            <description locale="ru_RU">Атомарный компонент метаданных записи</description>
+        </file>
+        <file path="templates/atoms/read-more-button.html">
+            <description locale="en_US">Read more button atom component</description>
+            <description locale="ru_RU">Атомарный компонент кнопки "Читать далее"</description>
+        </file>
+        <file path="templates/atoms/social-share.html">
+            <description locale="en_US">Social sharing atom component</description>
+            <description locale="ru_RU">Атомарный компонент социальных кнопок</description>
+        </file>
+        
+        <!-- Molecular Components -->
+        <file path="templates/molecules/post-card.html">
+            <description locale="en_US">Post card molecule component</description>
+            <description locale="ru_RU">Молекулярный компонент карточки записи</description>
+        </file>
+        <file path="templates/molecules/post-navigation.html">
+            <description locale="en_US">Post navigation molecule component</description>
+            <description locale="ru_RU">Молекулярный компонент навигации по записям</description>
+        </file>
+        <file path="templates/molecules/author-bio.html">
+            <description locale="en_US">Author biography molecule component</description>
+            <description locale="ru_RU">Молекулярный компонент биографии автора</description>
+        </file>
+        
+        <!-- Organism Components -->
+        <file path="templates/organisms/post-grid.html">
+            <description locale="en_US">Posts grid organism component</description>
+            <description locale="ru_RU">Организменный компонент сетки записей</description>
+        </file>
+        <file path="templates/organisms/blog-sidebar.html">
+            <description locale="en_US">Blog sidebar organism component</description>
+            <description locale="ru_RU">Организменный компонент боковой панели блога</description>
+        </file>
+        
+        <!-- CSS Files -->
+        <file path="css/blog-atoms.css">
+            <description locale="en_US">Blog atomic components CSS</description>
+            <description locale="ru_RU">CSS атомарных компонентов блога</description>
+        </file>
+        <file path="css/blog-molecules.css">
+            <description locale="en_US">Blog molecular components CSS</description>
+            <description locale="ru_RU">CSS молекулярных компонентов блога</description>
+        </file>
+        <file path="css/blog-organisms.css">
+            <description locale="en_US">Blog organism components CSS</description>
+            <description locale="ru_RU">CSS организменных компонентов блога</description>
+        </file>
+        <file path="css/waboot-child.css">
+            <description locale="en_US">Main blog theme CSS file</description>
+            <description locale="ru_RU">Главный CSS файл темы блога</description>
+        </file>
+        
+        <!-- JavaScript Files -->
+        <file path="js/waboot-blog.js">
+            <description locale="en_US">Blog theme JavaScript components</description>
+            <description locale="ru_RU">JavaScript компоненты темы блога</description>
+        </file>
+    </files>
     
-    <!-- LOCALIZATION SECTION -->
+    <instruction locale="en_US">/docs/blog-theme-instructions.html</instruction>
+    <instruction locale="ru_RU">/docs/blog-theme-instructions-ru.html</instruction>
+    
+    <!-- LOCALIZATION CONFIGURATION -->
     <locales>
-        <!-- Blog Elements -->
-        <locale>
-            <msgid>Read More</msgid>
-            <msgstr locale="ru_RU">Читать далее</msgstr>
-            <msgstr locale="en_US">Read More</msgstr>
-        </locale>
-        <locale>
-            <msgid>Published</msgid>
-            <msgstr locale="ru_RU">Опубликовано</msgstr>
-            <msgstr locale="en_US">Published</msgstr>
-        </locale>
-        <locale>
-            <msgid>Author</msgid>
-            <msgstr locale="ru_RU">Автор</msgstr>
-            <msgstr locale="en_US">Author</msgstr>
-        </locale>
-        <locale>
-            <msgid>Categories</msgid>
-            <msgstr locale="ru_RU">Категории</msgstr>
-            <msgstr locale="en_US">Categories</msgstr>
-        </locale>
-        <locale>
-            <msgid>Tags</msgid>
-            <msgstr locale="ru_RU">Теги</msgstr>
-            <msgstr locale="en_US">Tags</msgstr>
-        </locale>
-        <locale>
-            <msgid>Comments</msgid>
-            <msgstr locale="ru_RU">Комментарии</msgstr>
-            <msgstr locale="en_US">Comments</msgstr>
-        </locale>
-        <locale>
-            <msgid>Leave a Comment</msgid>
-            <msgstr locale="ru_RU">Оставить комментарий</msgstr>
-            <msgstr locale="en_US">Leave a Comment</msgstr>
-        </locale>
+        <!-- Blog Navigation -->
         <locale>
             <msgid>Search posts...</msgid>
-            <msgstr locale="ru_RU">Поиск постов...</msgstr>
             <msgstr locale="en_US">Search posts...</msgstr>
+            <msgstr locale="ru_RU">Поиск записей...</msgstr>
         </locale>
         
-        <!-- Navigation -->
         <locale>
-            <msgid>Previous Post</msgid>
-            <msgstr locale="ru_RU">Предыдущий пост</msgstr>
-            <msgstr locale="en_US">Previous Post</msgstr>
+            <msgid>Search</msgid>
+            <msgstr locale="en_US">Search</msgstr>
+            <msgstr locale="ru_RU">Поиск</msgstr>
         </locale>
+        
+        <!-- Blog Content -->
         <locale>
-            <msgid>Next Post</msgid>
-            <msgstr locale="ru_RU">Следующий пост</msgstr>
-            <msgstr locale="en_US">Next Post</msgstr>
+            <msgid>posts</msgid>
+            <msgstr locale="en_US">posts</msgstr>
+            <msgstr locale="ru_RU">записей</msgstr>
         </locale>
+        
         <locale>
-            <msgid>Back to Blog</msgid>
-            <msgstr locale="ru_RU">Вернуться к блогу</msgstr>
-            <msgstr locale="en_US">Back to Blog</msgstr>
+            <msgid>categories</msgid>
+            <msgstr locale="en_US">categories</msgstr>
+            <msgstr locale="ru_RU">категорий</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>tags</msgid>
+            <msgstr locale="en_US">tags</msgstr>
+            <msgstr locale="ru_RU">тегов</msgstr>
+        </locale>
+        
+        <!-- Comments -->
+        <locale>
+            <msgid>Comments</msgid>
+            <msgstr locale="en_US">Comments</msgstr>
+            <msgstr locale="ru_RU">Комментарии</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Reply</msgid>
+            <msgstr locale="en_US">Reply</msgstr>
+            <msgstr locale="ru_RU">Ответить</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Edit</msgid>
+            <msgstr locale="en_US">Edit</msgstr>
+            <msgstr locale="ru_RU">Редактировать</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Delete</msgid>
+            <msgstr locale="en_US">Delete</msgstr>
+            <msgstr locale="ru_RU">Удалить</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Write your reply...</msgid>
+            <msgstr locale="en_US">Write your reply...</msgstr>
+            <msgstr locale="ru_RU">Напишите ваш ответ...</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Submit Reply</msgid>
+            <msgstr locale="en_US">Submit Reply</msgstr>
+            <msgstr locale="ru_RU">Отправить ответ</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Cancel</msgid>
+            <msgstr locale="en_US">Cancel</msgstr>
+            <msgstr locale="ru_RU">Отмена</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Save Changes</msgid>
+            <msgstr locale="en_US">Save Changes</msgstr>
+            <msgstr locale="ru_RU">Сохранить изменения</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Leave a Comment</msgid>
+            <msgstr locale="en_US">Leave a Comment</msgstr>
+            <msgstr locale="ru_RU">Оставить комментарий</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Name</msgid>
+            <msgstr locale="en_US">Name</msgstr>
+            <msgstr locale="ru_RU">Имя</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Email</msgid>
+            <msgstr locale="en_US">Email</msgstr>
+            <msgstr locale="ru_RU">Email</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Website</msgid>
+            <msgstr locale="en_US">Website</msgstr>
+            <msgstr locale="ru_RU">Веб-сайт</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Comment</msgid>
+            <msgstr locale="en_US">Comment</msgstr>
+            <msgstr locale="ru_RU">Комментарий</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Write your comment here...</msgid>
+            <msgstr locale="en_US">Write your comment here...</msgstr>
+            <msgstr locale="ru_RU">Напишите ваш комментарий здесь...</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Post Comment</msgid>
+            <msgstr locale="en_US">Post Comment</msgstr>
+            <msgstr locale="ru_RU">Отправить комментарий</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Posting...</msgid>
+            <msgstr locale="en_US">Posting...</msgstr>
+            <msgstr locale="ru_RU">Отправка...</msgstr>
         </locale>
         
         <!-- Social Sharing -->
         <locale>
             <msgid>Share</msgid>
-            <msgstr locale="ru_RU">Поделиться</msgstr>
             <msgstr locale="en_US">Share</msgstr>
-        </locale>
-        <locale>
-            <msgid>Share on Facebook</msgid>
-            <msgstr locale="ru_RU">Поделиться в Facebook</msgstr>
-            <msgstr locale="en_US">Share on Facebook</msgstr>
-        </locale>
-        <locale>
-            <msgid>Share on Twitter</msgid>
-            <msgstr locale="ru_RU">Поделиться в Twitter</msgstr>
-            <msgstr locale="en_US">Share on Twitter</msgstr>
+            <msgstr locale="ru_RU">Поделиться</msgstr>
         </locale>
         
-        <!-- Plurals Support -->
+        <locale>
+            <msgid>shares</msgid>
+            <msgstr locale="en_US">shares</msgstr>
+            <msgstr locale="ru_RU">поделились</msgstr>
+        </locale>
+        
+        <!-- Navigation -->
+        <locale>
+            <msgid>Previous Post</msgid>
+            <msgstr locale="en_US">Previous Post</msgstr>
+            <msgstr locale="ru_RU">Предыдущая запись</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Next Post</msgid>
+            <msgstr locale="en_US">Next Post</msgstr>
+            <msgstr locale="ru_RU">Следующая запись</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Related Posts</msgid>
+            <msgstr locale="en_US">Related Posts</msgstr>
+            <msgstr locale="ru_RU">Похожие записи</msgstr>
+        </locale>
+        
+        <!-- Sidebar -->
+        <locale>
+            <msgid>Subscribe to Newsletter</msgid>
+            <msgstr locale="en_US">Subscribe to Newsletter</msgstr>
+            <msgstr locale="ru_RU">Подписаться на рассылку</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Stay updated with our latest posts and news.</msgid>
+            <msgstr locale="en_US">Stay updated with our latest posts and news.</msgstr>
+            <msgstr locale="ru_RU">Будьте в курсе наших последних записей и новостей.</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Your email address</msgid>
+            <msgstr locale="en_US">Your email address</msgstr>
+            <msgstr locale="ru_RU">Ваш email адрес</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Subscribe</msgid>
+            <msgstr locale="en_US">Subscribe</msgstr>
+            <msgstr locale="ru_RU">Подписаться</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Subscribing...</msgid>
+            <msgstr locale="en_US">Subscribing...</msgstr>
+            <msgstr locale="ru_RU">Подписка...</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Recent Posts</msgid>
+            <msgstr locale="en_US">Recent Posts</msgstr>
+            <msgstr locale="ru_RU">Последние записи</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Categories</msgid>
+            <msgstr locale="en_US">Categories</msgstr>
+            <msgstr locale="ru_RU">Категории</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Popular Tags</msgid>
+            <msgstr locale="en_US">Popular Tags</msgstr>
+            <msgstr locale="ru_RU">Популярные теги</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Authors</msgid>
+            <msgstr locale="en_US">Authors</msgstr>
+            <msgstr locale="ru_RU">Авторы</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Follow Us</msgid>
+            <msgstr locale="en_US">Follow Us</msgstr>
+            <msgstr locale="ru_RU">Подписывайтесь на нас</msgstr>
+        </locale>
+        
+        <!-- Plural Forms -->
         <locale>
             <msgid>post</msgid>
             <msgid_plural>posts</msgid_plural>
-            <msgstr locale="ru_RU">пост</msgstr>
-            <msgstr_plural locale="ru_RU">поста</msgstr_plural>
-            <msgstr_plural2 locale="ru_RU">постов</msgstr_plural2>
             <msgstr locale="en_US">post</msgstr>
             <msgstr_plural locale="en_US">posts</msgstr_plural>
+            <msgstr locale="ru_RU">запись</msgstr>
+            <msgstr_plural locale="ru_RU">записи</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">записей</msgstr_plural2>
         </locale>
+        
         <locale>
             <msgid>comment</msgid>
             <msgid_plural>comments</msgid_plural>
+            <msgstr locale="en_US">comment</msgstr>
+            <msgstr_plural locale="en_US">comments</msgstr_plural>
             <msgstr locale="ru_RU">комментарий</msgstr>
             <msgstr_plural locale="ru_RU">комментария</msgstr_plural>
             <msgstr_plural2 locale="ru_RU">комментариев</msgstr_plural2>
-            <msgstr locale="en_US">comment</msgstr>
-            <msgstr_plural locale="en_US">comments</msgstr_plural>
+        </locale>
+        
+        <!-- Error Messages -->
+        <locale>
+            <msgid>No posts found</msgid>
+            <msgstr locale="en_US">No posts found</msgstr>
+            <msgstr locale="ru_RU">Записи не найдены</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>There are no blog posts available at the moment.</msgid>
+            <msgstr locale="en_US">There are no blog posts available at the moment.</msgstr>
+            <msgstr locale="ru_RU">В данный момент нет доступных записей блога.</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>No comments yet. Be the first to comment!</msgid>
+            <msgstr locale="en_US">No comments yet. Be the first to comment!</msgstr>
+            <msgstr locale="ru_RU">Пока нет комментариев. Будьте первым!</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Comments are disabled for this post.</msgid>
+            <msgstr locale="en_US">Comments are disabled for this post.</msgstr>
+            <msgstr locale="ru_RU">Комментарии отключены для этой записи.</msgstr>
         </locale>
     </locales>
-    
-    <!-- Theme Settings -->
-    <settings>
-        <!-- Blog-specific Layout Options -->
-        <setting var="blog_layout_type" control_type="select" name="Blog Layout Type">
-            <option value="grid">Grid Layout</option>
-            <option value="list">List Layout</option>
-            <option value="masonry">Masonry Layout</option>
-        </setting>
-        
-        <!-- Post Display Options -->
-        <setting var="posts_per_page" control_type="input" name="Posts per Page">
-            <description>Number of posts to display per page</description>
-        </setting>
-        
-        <!-- Excerpt Options -->
-        <setting var="show_excerpt" control_type="checkbox" name="Show Excerpt">
-            <description>Show post excerpt on blog listing</description>
-        </setting>
-        
-        <!-- Social Sharing -->
-        <setting var="enable_social_sharing" control_type="checkbox" name="Enable Social Sharing">
-            <description>Enable social sharing buttons</description>
-        </setting>
-        
-        <!-- Author Display -->
-        <setting var="show_author" control_type="checkbox" name="Show Author">
-            <description>Display author information on posts</description>
-        </setting>
-        
-        <!-- Related Posts -->
-        <setting var="show_related_posts" control_type="checkbox" name="Show Related Posts">
-            <description>Display related posts at the bottom</description>
-        </setting>
-    </settings>
-    
-    <!-- Supported Features -->
-    <features>
-        <feature id="responsive">Fully responsive design</feature>
-        <feature id="bootstrap5">Bootstrap 5 framework</feature>
-        <feature id="alpinejs">Alpine.js micro-reactivity</feature>
-        <feature id="bem">BEM CSS methodology</feature>
-        <feature id="local_assets">No CDN dependencies</feature>
-        <feature id="blog_optimized">Blog optimized</feature>
-        <feature id="social_sharing">Social sharing functionality</feature>
-        <feature id="related_posts">Related posts functionality</feature>
-        <feature id="author_profiles">Author profile display</feature>
-        <feature id="rtl">RTL language support</feature>
-        <feature id="accessibility">WCAG 2.1 compliant</feature>
-    </features>
-    
-    <!-- Required Webasyst Version -->
-    <requirements>
-        <app id="blog" version="2.0.0"/>
-        <php version="7.4.0"/>
-    </requirements>
-    
-    <!-- Theme Files Structure -->
-    <files>
-        <file path="css/blog-atoms.css" type="stylesheet"/>
-        <file path="css/blog-molecules.css" type="stylesheet"/>
-        <file path="css/blog-organisms.css" type="stylesheet"/>
-        <file path="js/waboot-blog.js" type="javascript"/>
-        <file path="templates/post.html" type="template"/>
-        <file path="templates/post-list.html" type="template"/>
-        <file path="templates/author.html" type="template"/>
-        <file path="templates/category.html" type="template"/>
-    </files>
-    
-    <!-- Theme Compatibility -->
-    <compatibility>
-        <app id="blog" version="2.0.0"/>
-    </compatibility>
-    
-    <!-- Theme Preview Screenshots -->
-    <screenshots>
-        <screenshot path="img/screenshots/blog-list.png">Blog List</screenshot>
-        <screenshot path="img/screenshots/post-detail.png">Post Detail</screenshot>
-        <screenshot path="img/screenshots/author-page.png">Author Page</screenshot>
-        <screenshot path="img/screenshots/mobile.png">Mobile View</screenshot>
-    </screenshots>
-    
-    <!-- Theme Categories -->
-    <categories>
-        <category>Blog</category>
-        <category>Bootstrap</category>
-        <category>Responsive</category>
-        <category>Modern</category>
-    </categories>
-    
-    <!-- License Information -->
-    <license>MIT</license>
-    
-    <!-- Theme Changelog -->
-    <changelog>
-        <version number="1.0.0" date="2024-12-19">
-            <change>Initial release as blog theme</change>
-            <change>Inherits from site:waboot base theme</change>
-            <change>Blog specific components</change>
-            <change>Post listing and detail templates</change>
-            <change>Author and category pages</change>
-            <change>Social sharing functionality</change>
-        </version>
-    </changelog>
 </theme> 

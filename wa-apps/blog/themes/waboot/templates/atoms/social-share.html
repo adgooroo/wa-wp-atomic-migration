@@ -1,0 +1,90 @@
+{* Social Share Atom Component *}
+
+<div class="waboot-blog__social-share" x-data="socialSharing()">
+    <div class="waboot-blog__social-share__container">
+        <span class="waboot-blog__social-share__label">Share:</span>
+        
+        {* Facebook *}
+        <a 
+            href="#" 
+            class="waboot-blog__social-share__button waboot-blog__social-share__button--facebook"
+            @click.prevent="shareOnFacebook()"
+            title="Share on Facebook"
+            aria-label="Share on Facebook"
+        >
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        
+        {* Twitter/X *}
+        <a 
+            href="#" 
+            class="waboot-blog__social-share__button waboot-blog__social-share__button--twitter"
+            @click.prevent="shareOnTwitter()"
+            title="Share on Twitter"
+            aria-label="Share on Twitter"
+        >
+            <i class="fab fa-twitter"></i>
+        </a>
+        
+        {* LinkedIn *}
+        <a 
+            href="#" 
+            class="waboot-blog__social-share__button waboot-blog__social-share__button--linkedin"
+            @click.prevent="shareOnLinkedIn()"
+            title="Share on LinkedIn"
+            aria-label="Share on LinkedIn"
+        >
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+        
+        {* WhatsApp *}
+        <a 
+            href="#" 
+            class="waboot-blog__social-share__button waboot-blog__social-share__button--whatsapp"
+            @click.prevent="shareOnWhatsApp()"
+            title="Share on WhatsApp"
+            aria-label="Share on WhatsApp"
+        >
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        
+        {* Email *}
+        <a 
+            href="#" 
+            class="waboot-blog__social-share__button waboot-blog__social-share__button--email"
+            @click.prevent="shareViaEmail()"
+            title="Share via Email"
+            aria-label="Share via Email"
+        >
+            <i class="fas fa-envelope"></i>
+        </a>
+        
+        {* Copy Link *}
+        <button 
+            class="waboot-blog__social-share__button waboot-blog__social-share__button--copy"
+            @click="copyLink()"
+            title="Copy link"
+            aria-label="Copy link"
+            :class="{ 'waboot-blog__social-share__button--copied': linkCopied }"
+        >
+            <i class="fas fa-link" x-show="!linkCopied"></i>
+            <i class="fas fa-check" x-show="linkCopied"></i>
+        </button>
+    </div>
+    
+    {* Share count *}
+    {if $post.shares_count > 0}
+        <div class="waboot-blog__social-share__count">
+            <span class="waboot-blog__social-share__count-number">{$post.shares_count}</span>
+            <span class="waboot-blog__social-share__count-label">shares</span>
+        </div>
+    {/if}
+    
+    {* Success message *}
+    <div 
+        class="waboot-blog__social-share__message" 
+        x-show="showMessage" 
+        x-text="message"
+        x-transition
+    ></div>
+</div> 

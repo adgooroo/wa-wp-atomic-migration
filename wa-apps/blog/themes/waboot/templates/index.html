@@ -1,0 +1,274 @@
+{* Blog Main Template - Inherits from Site Waboot Theme *}
+
+{* Include parent theme layout *}
+{include file="`$wa_parent_theme_path`/templates/layout.html"}
+
+{* Blog-specific head content *}
+{block name="head"}
+    {* Include parent head content *}
+    {$smarty.block.parent}
+    
+    {* Blog-specific meta tags *}
+    <meta name="description" content="{$wa->blog->description()|escape:'html'}">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="{$wa->blog->title()|escape:'html'}">
+    <meta property="og:description" content="{$wa->blog->description()|escape:'html'}">
+    
+    {* Blog-specific CSS *}
+    <link rel="stylesheet" href="{$wa_theme_url}css/waboot-child.css">
+    
+    {* Blog-specific JavaScript *}
+    <script src="{$wa_theme_url}js/waboot-blog.js" defer></script>
+{/block}
+
+{* Blog-specific body classes *}
+{block name="body_classes"}blog-page{/block}
+
+{* Blog Header *}
+{block name="header"}
+    <header class="waboot-blog__header">
+        <div class="container">
+            <div class="waboot-blog__header__container">
+                <h1 class="waboot-blog__header__title">{$wa->blog->title()|escape:'html'}</h1>
+                {if $wa->blog->description()}
+                    <p class="waboot-blog__header__subtitle">{$wa->blog->description()|escape:'html'}</p>
+                {/if}
+                <div class="waboot-blog__header__meta">
+                    <div class="waboot-blog__header__meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>{$wa->blog->posts()->count()} {_w('posts')}</span>
+                    </div>
+                    <div class="waboot-blog__header__meta-item">
+                        <i class="fas fa-folder"></i>
+                        <span>{$wa->blog->categories()->count()} {_w('categories')}</span>
+                    </div>
+                    <div class="waboot-blog__header__meta-item">
+                        <i class="fas fa-tags"></i>
+                        <span>{$wa->blog->tags()->count()} {_w('tags')}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{/block}
+
+{* Blog Main Content *}
+{block name="main"}
+    <main class="waboot-blog__main">
+        <div class="container">
+            <div class="waboot-blog__container">
+                {* Blog Content Area *}
+                <div class="waboot-blog__content">
+                    {* Search Form *}
+                    <div class="waboot-blog__search" x-data="blogSearch()">
+                        <form class="waboot-blog__search__form" @submit.prevent="search()">
+                            {$wa->csrf()}
+                            <input 
+                                type="text" 
+                                class="waboot-blog__search__input" 
+                                placeholder="{_w('Search posts...')}"
+                                x-model="query"
+                                @input="handleInput()"
+                            >
+                            <button type="submit" class="waboot-blog__search__button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                        
+                        {* Search Suggestions *}
+                        <div 
+                            class="waboot-blog__search__suggestions" 
+                            x-show="showSuggestions && suggestions.length > 0"
+                            x-transition
+                        >
+                            <template x-for="suggestion in suggestions" :key="suggestion">
+                                <div 
+                                    class="waboot-blog__search__suggestion"
+                                    @click="selectSuggestion(suggestion)"
+                                    x-text="suggestion"
+                                ></div>
+                            </template>
+                        </div>
+                    </div>
+                    
+                    {* Blog Posts Grid *}
+                    <div class="waboot-blog__post-grid waboot-blog__post-grid--grid-3">
+                        {foreach $wa->blog->posts() as $post}
+                            {include file="`$wa_active_theme_path`/templates/molecules/post-card.html" post=$post}
+                        {foreachelse}
+                            <div class="waboot-blog__post-grid__empty">
+                                <div class="waboot-blog__post-grid__empty-icon">
+                                    <i class="fas fa-newspaper"></i>
+                                </div>
+                                <h3 class="waboot-blog__post-grid__empty-title">No posts found</h3>
+                                <p class="waboot-blog__post-grid__empty-text">
+                                    There are no blog posts available at the moment.
+                                </p>
+                            </div>
+                        {/foreach}
+                    </div>
+                    
+                    {* Pagination *}
+                    {if $wa->blog->posts()->pages() > 1}
+                        <div class="waboot-blog__pagination">
+                            <ul class="waboot-blog__pagination__list">
+                                {* Previous Page *}
+                                {if $wa->blog->posts()->current_page() > 1}
+                                    <li class="waboot-blog__pagination__item">
+                                        <a 
+                                            href="{$wa->blog->posts()->prev_page_url()}" 
+                                            class="waboot-blog__pagination__link"
+                                            aria-label="Previous page"
+                                        >
+                                            <i class="fas fa-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                {/if}
+                                
+                                {* Page Numbers *}
+                                {for $page = 1 to $wa->blog->posts()->pages()}
+                                    <li class="waboot-blog__pagination__item">
+                                        {if $page == $wa->blog->posts()->current_page()}
+                                            <span class="waboot-blog__pagination__current">{$page}</span>
+                                        {else}
+                                            <a 
+                                                href="{$wa->blog->posts()->page_url($page)}" 
+                                                class="waboot-blog__pagination__link"
+                                            >
+                                                {$page}
+                                            </a>
+                                        {/if}
+                                    </li>
+                                {/for}
+                                
+                                {* Next Page *}
+                                {if $wa->blog->posts()->current_page() < $wa->blog->posts()->pages()}
+                                    <li class="waboot-blog__pagination__item">
+                                        <a 
+                                            href="{$wa->blog->posts()->next_page_url()}" 
+                                            class="waboot-blog__pagination__link"
+                                            aria-label="Next page"
+                                        >
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                {/if}
+                            </ul>
+                        </div>
+                    {/if}
+                </div>
+                
+                {* Blog Sidebar *}
+                <div class="waboot-blog__sidebar-container">
+                    {include file="`$wa_active_theme_path`/templates/organisms/blog-sidebar.html"}
+                </div>
+            </div>
+        </div>
+    </main>
+{/block}
+
+{* Blog-specific footer content *}
+{block name="footer"}
+    {* Include parent footer *}
+    {$smarty.block.parent}
+    
+    {* Blog-specific footer content *}
+    <footer class="waboot-blog__footer">
+        <div class="container">
+            <div class="waboot-blog__footer__container">
+                <div class="waboot-blog__footer__section">
+                    <h3 class="waboot-blog__footer__title">About Our Blog</h3>
+                    <p class="waboot-blog__footer__text">
+                        {$wa->blog->description()|escape:'html'}
+                    </p>
+                </div>
+                
+                <div class="waboot-blog__footer__section">
+                    <h3 class="waboot-blog__footer__title">Quick Links</h3>
+                    <ul class="waboot-blog__footer__links">
+                        <li class="waboot-blog__footer__link">
+                            <a href="{$wa->blog->url()}">All Posts</a>
+                        </li>
+                        <li class="waboot-blog__footer__link">
+                            <a href="{$wa->blog->categories_url()}">Categories</a>
+                        </li>
+                        <li class="waboot-blog__footer__link">
+                            <a href="{$wa->blog->tags_url()}">Tags</a>
+                        </li>
+                        <li class="waboot-blog__footer__link">
+                            <a href="{$wa->blog->authors_url()}">Authors</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="waboot-blog__footer__section">
+                    <h3 class="waboot-blog__footer__title">Subscribe</h3>
+                    <p class="waboot-blog__footer__text">
+                        Stay updated with our latest posts and news.
+                    </p>
+                    <form class="waboot-blog__sidebar__newsletter-form">
+                        <input 
+                            type="email" 
+                            class="waboot-blog__sidebar__newsletter-input" 
+                            placeholder="Your email address"
+                            required
+                        >
+                        <button type="submit" class="waboot-blog__sidebar__newsletter-button">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="waboot-blog__footer__bottom">
+                <p>&copy; {date('Y')} {$wa->blog->title()|escape:'html'}. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+{/block}
+
+{* JSON-LD Schema for Blog *}
+{block name="json_ld"}
+    {* Include parent JSON-LD *}
+    {$smarty.block.parent}
+    
+    {* Blog-specific JSON-LD *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "{$wa->blog->title()|escape:'javascript'}",
+        "description": "{$wa->blog->description()|escape:'javascript'}",
+        "url": "{$wa->blog->url()}",
+        "publisher": {
+            "@type": "Organization",
+            "name": "{$wa->app('site')->title()|escape:'javascript'}",
+            "url": "{$wa->app('site')->url()}"
+        },
+        "blogPost": [
+            {foreach $wa->blog->posts() as $post name="posts"}
+            {
+                "@type": "BlogPosting",
+                "headline": "{$post.title|escape:'javascript'}",
+                "description": "{$post.excerpt|escape:'javascript'}",
+                "url": "{$post.url}",
+                "datePublished": "{$post.datetime|date_format:'Y-m-d\TH:i:sP'}",
+                "dateModified": "{$post.update_datetime|date_format:'Y-m-d\TH:i:sP'}",
+                "author": {
+                    "@type": "Person",
+                    "name": "{$post.author.name|escape:'javascript'}"
+                }
+                {if $post.image}
+                ,"image": {
+                    "@type": "ImageObject",
+                    "url": "{$post.image.url}",
+                    "width": {$post.image.width},
+                    "height": {$post.image.height}
+                }
+                {/if}
+            }{if !$smarty.foreach.posts.last},{/if}
+            {/foreach}
+        ]
+    }
+    </script>
+{/block} 

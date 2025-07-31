@@ -1,0 +1,474 @@
+/*!
+ * Waboot Blog Child Theme - Atomic Components CSS
+ * Blog-specific atomic components with BEM methodology
+ * @version 1.0.0
+ * @author AdGooroo
+ */
+
+/* ============================================
+   BLOG ATOMIC COMPONENTS
+   ============================================ */
+
+/* Post Meta Atom Component */
+.waboot-blog__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+    margin-bottom: 1rem;
+}
+
+.waboot-blog__meta--small {
+    font-size: 0.8125rem;
+    gap: 0.75rem;
+}
+
+.waboot-blog__meta--large {
+    font-size: 1rem;
+    gap: 1.25rem;
+}
+
+.waboot-blog__meta__item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.waboot-blog__meta__icon {
+    width: 1rem;
+    height: 1rem;
+    color: var(--bs-gray-500);
+}
+
+.waboot-blog__meta__text {
+    color: inherit;
+    text-decoration: none;
+}
+
+.waboot-blog__meta__text:hover {
+    color: var(--bs-primary);
+    text-decoration: underline;
+}
+
+.waboot-blog__meta__author {
+    font-weight: 500;
+    color: var(--bs-gray-700);
+}
+
+.waboot-blog__meta__date {
+    color: var(--bs-gray-600);
+}
+
+.waboot-blog__meta__category {
+    color: var(--bs-primary);
+    font-weight: 500;
+}
+
+/* Read More Button Atom Component */
+.waboot-blog__read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--bs-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--bs-border-radius);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.waboot-blog__read-more:hover {
+    background-color: var(--bs-primary-hover);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+.waboot-blog__read-more:focus {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+
+.waboot-blog__read-more--small {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+}
+
+.waboot-blog__read-more--large {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+}
+
+.waboot-blog__read-more--outline {
+    background-color: transparent;
+    color: var(--bs-primary);
+    border: 2px solid var(--bs-primary);
+}
+
+.waboot-blog__read-more--outline:hover {
+    background-color: var(--bs-primary);
+    color: white;
+}
+
+/* Social Share Atom Component */
+.waboot-blog__social-share {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.waboot-blog__social-share--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.waboot-blog__social-share__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--bs-gray-100);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 50%;
+    color: var(--bs-gray-600);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.waboot-blog__social-share__button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+.waboot-blog__social-share__button--facebook:hover {
+    background-color: #1877f2;
+    border-color: #1877f2;
+    color: white;
+}
+
+.waboot-blog__social-share__button--twitter:hover {
+    background-color: #1da1f2;
+    border-color: #1da1f2;
+    color: white;
+}
+
+.waboot-blog__social-share__button--linkedin:hover {
+    background-color: #0077b5;
+    border-color: #0077b5;
+    color: white;
+}
+
+.waboot-blog__social-share__button--whatsapp:hover {
+    background-color: #25d366;
+    border-color: #25d366;
+    color: white;
+}
+
+.waboot-blog__social-share__button--telegram:hover {
+    background-color: #0088cc;
+    border-color: #0088cc;
+    color: white;
+}
+
+.waboot-blog__social-share__icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: currentColor;
+}
+
+/* Post Excerpt Atom Component */
+.waboot-blog__excerpt {
+    color: var(--bs-gray-700);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.waboot-blog__excerpt--small {
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.waboot-blog__excerpt--large {
+    font-size: 1.125rem;
+    line-height: 1.7;
+}
+
+/* Post Title Atom Component */
+.waboot-blog__title {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--bs-gray-900);
+}
+
+.waboot-blog__title--small {
+    font-size: 1.25rem;
+}
+
+.waboot-blog__title--normal {
+    font-size: 1.5rem;
+}
+
+.waboot-blog__title--large {
+    font-size: 2rem;
+}
+
+.waboot-blog__title--huge {
+    font-size: 2.5rem;
+}
+
+.waboot-blog__title__link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.waboot-blog__title__link:hover {
+    color: var(--bs-primary);
+    text-decoration: none;
+}
+
+/* Post Image Atom Component */
+.waboot-blog__image {
+    position: relative;
+    border-radius: var(--bs-border-radius-lg);
+    overflow: hidden;
+    background-color: var(--bs-gray-100);
+}
+
+.waboot-blog__image__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.waboot-blog__image:hover .waboot-blog__image__img {
+    transform: scale(1.05);
+}
+
+.waboot-blog__image--aspect-16-9 {
+    aspect-ratio: 16/9;
+}
+
+.waboot-blog__image--aspect-4-3 {
+    aspect-ratio: 4/3;
+}
+
+.waboot-blog__image--aspect-square {
+    aspect-ratio: 1/1;
+}
+
+/* Tag Atom Component */
+.waboot-blog__tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--bs-gray-100);
+    color: var(--bs-gray-700);
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid var(--bs-border-color);
+}
+
+.waboot-blog__tag:hover {
+    background-color: var(--bs-primary);
+    color: white;
+    border-color: var(--bs-primary);
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.waboot-blog__tag--primary {
+    background-color: var(--bs-primary);
+    color: white;
+    border-color: var(--bs-primary);
+}
+
+.waboot-blog__tag--primary:hover {
+    background-color: var(--bs-primary-hover);
+    border-color: var(--bs-primary-hover);
+}
+
+/* Category Badge Atom Component */
+.waboot-blog__category {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 0.875rem;
+    background-color: var(--bs-primary);
+    color: white;
+    border-radius: var(--bs-border-radius);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    transition: all 0.3s ease;
+}
+
+.waboot-blog__category:hover {
+    background-color: var(--bs-primary-hover);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+.waboot-blog__category--small {
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
+}
+
+.waboot-blog__category--large {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+/* Author Avatar Atom Component */
+.waboot-blog__avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--bs-border-color);
+}
+
+.waboot-blog__avatar--small {
+    width: 2rem;
+    height: 2rem;
+}
+
+.waboot-blog__avatar--large {
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+.waboot-blog__avatar--huge {
+    width: 5rem;
+    height: 5rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Mobile Optimizations */
+@media (max-width: 576px) {
+    .waboot-blog__meta {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    
+    .waboot-blog__title--huge {
+        font-size: 2rem;
+    }
+    
+    .waboot-blog__title--large {
+        font-size: 1.75rem;
+    }
+    
+    .waboot-blog__social-share {
+        justify-content: center;
+    }
+    
+    .waboot-blog__read-more {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Tablet Optimizations */
+@media (min-width: 768px) and (max-width: 991px) {
+    .waboot-blog__meta {
+        gap: 1.25rem;
+    }
+    
+    .waboot-blog__social-share--vertical {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .waboot-blog__meta {
+        background-color: white;
+        padding: 0.25rem 0.5rem;
+        border: 2px solid currentColor;
+        border-radius: 0.25rem;
+    }
+    
+    .waboot-blog__read-more {
+        border: 2px solid currentColor;
+    }
+    
+    .waboot-blog__tag {
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .waboot-blog__read-more,
+    .waboot-blog__social-share__button,
+    .waboot-blog__tag,
+    .waboot-blog__category {
+        transition: none;
+    }
+    
+    .waboot-blog__read-more:hover,
+    .waboot-blog__social-share__button:hover,
+    .waboot-blog__tag:hover,
+    .waboot-blog__category:hover {
+        transform: none;
+    }
+    
+    .waboot-blog__image__img {
+        transition: none;
+    }
+    
+    .waboot-blog__image:hover .waboot-blog__image__img {
+        transform: none;
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+    .waboot-blog__social-share,
+    .waboot-blog__read-more {
+        display: none !important;
+    }
+    
+    .waboot-blog__meta {
+        color: #000 !important;
+        background: none !important;
+        border: none !important;
+    }
+    
+    .waboot-blog__title {
+        color: #000 !important;
+    }
+    
+    .waboot-blog__excerpt {
+        color: #000 !important;
+    }
+} 

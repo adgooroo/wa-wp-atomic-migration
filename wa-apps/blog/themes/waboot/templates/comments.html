@@ -1,0 +1,270 @@
+{* Comments Template *}
+
+<div class="waboot-blog__comments" x-data="comments()">
+    {* Comments Header *}
+    <div class="waboot-blog__comments__header">
+        <h3 class="waboot-blog__comments__title">
+            {_w('Comments')} ({$post.comments_count})
+        </h3>
+    </div>
+    
+    {* Comments List *}
+    {if $post.comments}
+        <div class="waboot-blog__comments__list">
+            {foreach $post.comments as $comment}
+                <div class="waboot-blog__comment" id="comment-{$comment.id}">
+                    <div class="waboot-blog__comment__avatar">
+                        {if $comment.author.photo}
+                            <img 
+                                src="{$comment.author.photo}" 
+                                alt="{$comment.author.name|escape:'html'}"
+                                class="waboot-blog__comment__avatar-image"
+                                loading="lazy"
+                            >
+                        {else}
+                            <div class="waboot-blog__comment__avatar-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        {/if}
+                    </div>
+                    
+                    <div class="waboot-blog__comment__content">
+                        <div class="waboot-blog__comment__header">
+                            <h4 class="waboot-blog__comment__author">
+                                {if $comment.author.url}
+                                    <a href="{$comment.author.url}" class="waboot-blog__comment__author-link">
+                                        {$comment.author.name|escape:'html'}
+                                    </a>
+                                {else}
+                                    {$comment.author.name|escape:'html'}
+                                {/if}
+                            </h4>
+                            
+                            <time datetime="{$comment.datetime|date_format:'Y-m-d\TH:i:sP'}" class="waboot-blog__comment__date">
+                                {$comment.datetime|wa_date:'humandate'}
+                            </time>
+                        </div>
+                        
+                                <div class="waboot-blog__comment__text">
+            {$comment.text|escape:'html'}
+        </div>
+                        
+                        <div class="waboot-blog__comment__actions">
+                            <button 
+                                class="waboot-blog__comment__action waboot-blog__comment__action--reply"
+                                @click="replyToComment({$comment.id})"
+                            >
+                                <i class="fas fa-reply"></i>
+                                {_w('Reply')}
+                            </button>
+                            
+                            {if $comment.can_edit}
+                                <button 
+                                    class="waboot-blog__comment__action waboot-blog__comment__action--edit"
+                                    @click="editComment({$comment.id})"
+                                >
+                                    <i class="fas fa-edit"></i>
+                                    {_w('Edit')}
+                                </button>
+                            {/if}
+                            
+                            {if $comment.can_delete}
+                                <button 
+                                    class="waboot-blog__comment__action waboot-blog__comment__action--delete"
+                                    @click="deleteComment({$comment.id})"
+                                >
+                                    <i class="fas fa-trash"></i>
+                                    {_w('Delete')}
+                                </button>
+                            {/if}
+                        </div>
+                        
+                        {* Reply Form *}
+                        <div 
+                            class="waboot-blog__comment__reply-form" 
+                            x-show="replyingTo === {$comment.id}"
+                            x-transition
+                        >
+                            <form @submit.prevent="submitReply({$comment.id})">
+                                <textarea 
+                                    class="waboot-blog__comment__reply-textarea"
+                                    placeholder="{_w('Write your reply...')}"
+                                    x-model="replyText"
+                                    required
+                                ></textarea>
+                                
+                                <div class="waboot-blog__comment__reply-actions">
+                                    <button type="submit" class="waboot-blog__comment__reply-submit">
+                                        {_w('Submit Reply')}
+                                    </button>
+                                    <button 
+                                        type="button" 
+                                        class="waboot-blog__comment__reply-cancel"
+                                        @click="cancelReply()"
+                                    >
+                                        {_w('Cancel')}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        {* Edit Form *}
+                        <div 
+                            class="waboot-blog__comment__edit-form" 
+                            x-show="editingComment === {$comment.id}"
+                            x-transition
+                        >
+                            <form @submit.prevent="submitEdit({$comment.id})">
+                                <textarea 
+                                    class="waboot-blog__comment__edit-textarea"
+                                    x-model="editText"
+                                    required
+                                >{$comment.text}</textarea>
+                                
+                                <div class="waboot-blog__comment__edit-actions">
+                                    <button type="submit" class="waboot-blog__comment__edit-submit">
+                                        {_w('Save Changes')}
+                                    </button>
+                                    <button 
+                                        type="button" 
+                                        class="waboot-blog__comment__edit-cancel"
+                                        @click="cancelEdit()"
+                                    >
+                                        {_w('Cancel')}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {/foreach}
+        </div>
+    {else}
+        {* No Comments *}
+        <div class="waboot-blog__comments__empty">
+            <div class="waboot-blog__comments__empty-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <p class="waboot-blog__comments__empty-text">{_w('No comments yet. Be the first to comment!')}</p>
+        </div>
+    {/if}
+    
+    {* Comment Form *}
+    {if $post.comments_allowed}
+        <div class="waboot-blog__comments__form">
+            <h4 class="waboot-blog__comments__form-title">{_w('Leave a Comment')}</h4>
+            
+            <form class="waboot-blog__comments__form-content" @submit.prevent="submitComment()">
+                {$wa->csrf()}
+                {* User Info *}
+                <div class="waboot-blog__comments__form-user">
+                    {if $wa->user()->isAuth()}
+                        <div class="waboot-blog__comments__form-user-info">
+                            <img 
+                                src="{$wa->user()->get('photo_url')}" 
+                                alt="{$wa->user()->get('name')|escape:'html'}"
+                                class="waboot-blog__comments__form-user-avatar"
+                            >
+                            <span class="waboot-blog__comments__form-user-name">
+                                {$wa->user()->get('name')|escape:'html'}
+                            </span>
+                        </div>
+                    {else}
+                        <div class="waboot-blog__comments__form-guest">
+                            <div class="waboot-blog__comments__form-field">
+                                <label for="comment-name" class="waboot-blog__comments__form-label">{_w('Name')} *</label>
+                                <input 
+                                    type="text" 
+                                    id="comment-name"
+                                    class="waboot-blog__comments__form-input"
+                                    x-model="commentData.name"
+                                    required
+                                >
+                            </div>
+                            
+                            <div class="waboot-blog__comments__form-field">
+                                <label for="comment-email" class="waboot-blog__comments__form-label">{_w('Email')} *</label>
+                                <input 
+                                    type="email" 
+                                    id="comment-email"
+                                    class="waboot-blog__comments__form-input"
+                                    x-model="commentData.email"
+                                    required
+                                >
+                            </div>
+                            
+                            <div class="waboot-blog__comments__form-field">
+                                <label for="comment-website" class="waboot-blog__comments__form-label">{_w('Website')}</label>
+                                <input 
+                                    type="url" 
+                                    id="comment-website"
+                                    class="waboot-blog__comments__form-input"
+                                    x-model="commentData.website"
+                                >
+                            </div>
+                        </div>
+                    {/if}
+                </div>
+                
+                {* Comment Text *}
+                <div class="waboot-blog__comments__form-field">
+                    <label for="comment-text" class="waboot-blog__comments__form-label">{_w('Comment')} *</label>
+                    <textarea 
+                        id="comment-text"
+                        class="waboot-blog__comments__form-textarea"
+                        placeholder="{_w('Write your comment here...')}"
+                        x-model="commentData.text"
+                        required
+                        rows="5"
+                    ></textarea>
+                </div>
+                
+                {* Notify on Reply *}
+                <div class="waboot-blog__comments__form-field">
+                    <label class="waboot-blog__comments__form-checkbox">
+                        <input 
+                            type="checkbox" 
+                            x-model="commentData.notify"
+                            class="waboot-blog__comments__form-checkbox-input"
+                        >
+                        <span class="waboot-blog__comments__form-checkbox-text">
+                            Notify me when someone replies to my comment
+                        </span>
+                    </label>
+                </div>
+                
+                {* Submit Button *}
+                <div class="waboot-blog__comments__form-actions">
+                    <button 
+                        type="submit" 
+                        class="waboot-blog__comments__form-submit"
+                        :disabled="submitting"
+                    >
+                        <span x-show="!submitting">{_w('Post Comment')}</span>
+                        <span x-show="submitting">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            {_w('Posting...')}
+                        </span>
+                    </button>
+                </div>
+                
+                {* Success/Error Messages *}
+                <div 
+                    class="waboot-blog__comments__form-message" 
+                    x-show="showMessage" 
+                    x-text="message"
+                    :class="messageType === 'success' ? 'waboot-blog__comments__form-message--success' : 'waboot-blog__comments__form-message--error'"
+                    x-transition
+                ></div>
+            </form>
+        </div>
+    {else}
+        {* Comments Disabled *}
+        <div class="waboot-blog__comments__disabled">
+            <div class="waboot-blog__comments__disabled-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <p class="waboot-blog__comments__disabled-text">{_w('Comments are disabled for this post.')}</p>
+        </div>
+    {/if}
+</div> 

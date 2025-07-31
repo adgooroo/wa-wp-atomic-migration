@@ -1,0 +1,140 @@
+{* Blog Posts List Template *}
+
+{* Include parent theme layout *}
+{include file="`$wa_parent_theme_path`/templates/layout.html"}
+
+{* Blog-specific head content *}
+{block name="head"}
+    {* Include parent head content *}
+    {$smarty.block.parent}
+    
+    {* Blog-specific meta tags *}
+    <meta name="description" content="{$wa->blog->description()|escape:'html'}">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="{$wa->blog->title()|escape:'html'}">
+    <meta property="og:description" content="{$wa->blog->description()|escape:'html'}">
+    
+    {* Blog-specific CSS *}
+    <link rel="stylesheet" href="{$wa_theme_url}css/waboot-child.css">
+    
+    {* Blog-specific JavaScript *}
+    <script src="{$wa_theme_url}js/waboot-blog.js" defer></script>
+{/block}
+
+{* Blog-specific body classes *}
+{block name="body_classes"}blog-page blog-stream-page{/block}
+
+{* Blog Header *}
+{block name="header"}
+    <header class="waboot-blog__header">
+        <div class="container">
+            <div class="waboot-blog__header__container">
+                <h1 class="waboot-blog__header__title">{$wa->blog->title()|escape:'html'}</h1>
+                {if $wa->blog->description()}
+                    <p class="waboot-blog__header__subtitle">{$wa->blog->description()|escape:'html'}</p>
+                {/if}
+                
+                {* Filter Controls *}
+                <div class="waboot-blog__header__filters">
+                    {if $category}
+                        <div class="waboot-blog__header__filter">
+                            <span class="waboot-blog__header__filter-label">Category:</span>
+                            <span class="waboot-blog__header__filter-value">{$category.name|escape:'html'}</span>
+                            <a href="{$wa->blog->url()}" class="waboot-blog__header__filter-clear">Clear</a>
+                        </div>
+                    {/if}
+                    
+                    {if $tag}
+                        <div class="waboot-blog__header__filter">
+                            <span class="waboot-blog__header__filter-label">Tag:</span>
+                            <span class="waboot-blog__header__filter-value">{$tag.name|escape:'html'}</span>
+                            <a href="{$wa->blog->url()}" class="waboot-blog__header__filter-clear">Clear</a>
+                        </div>
+                    {/if}
+                    
+                    {if $author}
+                        <div class="waboot-blog__header__filter">
+                            <span class="waboot-blog__header__filter-label">Author:</span>
+                            <span class="waboot-blog__header__filter-value">{$author.name|escape:'html'}</span>
+                            <a href="{$wa->blog->url()}" class="waboot-blog__header__filter-clear">Clear</a>
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </header>
+{/block}
+
+{* Blog Main Content *}
+{block name="main"}
+    <main class="waboot-blog__main">
+        <div class="container">
+            <div class="waboot-blog__container">
+                {* Blog Content Area *}
+                <div class="waboot-blog__content">
+                    {* Posts Grid *}
+                    {include file="`$wa_active_theme_path`/templates/organisms/post-grid.html"}
+                </div>
+                
+                {* Blog Sidebar *}
+                <div class="waboot-blog__sidebar-container">
+                    {include file="`$wa_active_theme_path`/templates/organisms/blog-sidebar.html"}
+                </div>
+            </div>
+        </div>
+    </main>
+{/block}
+
+{* Blog-specific footer content *}
+{block name="footer"}
+    {* Include parent footer *}
+    {$smarty.block.parent}
+{/block}
+
+{* JSON-LD Schema for Blog Stream *}
+{block name="json_ld"}
+    {* Include parent JSON-LD *}
+    {$smarty.block.parent}
+    
+    {* Blog stream-specific JSON-LD *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "{$wa->blog->title()|escape:'javascript'}",
+        "description": "{$wa->blog->description()|escape:'javascript'}",
+        "url": "{$wa->blog->url()}",
+        "publisher": {
+            "@type": "Organization",
+            "name": "{$wa->app('site')->title()|escape:'javascript'}",
+            "url": "{$wa->app('site')->url()}"
+        }
+        {if $posts}
+        ,"blogPost": [
+            {foreach $posts as $post name="posts"}
+            {
+                "@type": "BlogPosting",
+                "headline": "{$post.title|escape:'javascript'}",
+                "description": "{$post.excerpt|escape:'javascript'}",
+                "url": "{$post.url}",
+                "datePublished": "{$post.datetime|date_format:'Y-m-d\TH:i:sP'}",
+                "dateModified": "{$post.update_datetime|date_format:'Y-m-d\TH:i:sP'}",
+                "author": {
+                    "@type": "Person",
+                    "name": "{$post.author.name|escape:'javascript'}"
+                }
+                {if $post.image}
+                ,"image": {
+                    "@type": "ImageObject",
+                    "url": "{$post.image.url}",
+                    "width": {$post.image.width},
+                    "height": {$post.image.height}
+                }
+                {/if}
+            }{if !$smarty.foreach.posts.last},{/if}
+            {/foreach}
+        ]
+        {/if}
+    }
+    </script>
+{/block} 

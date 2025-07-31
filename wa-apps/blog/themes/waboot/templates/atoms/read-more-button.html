@@ -1,0 +1,14 @@
+{* Read More Button Atom Component *}
+
+<a href="{$post.url}" class="waboot-blog__read-more" x-data="readMoreButton()" @click="handleClick($event)">
+    <span class="waboot-blog__read-more__text">Read More</span>
+    <i class="fas fa-arrow-right waboot-blog__read-more__icon"></i>
+    
+    {* Loading state *}
+    <div class="waboot-blog__read-more__loading" x-show="loading" x-transition>
+        <i class="fas fa-spinner fa-spin"></i>
+    </div>
+    
+    {* Hover effect *}
+    <div class="waboot-blog__read-more__hover-effect"></div>
+</a> 

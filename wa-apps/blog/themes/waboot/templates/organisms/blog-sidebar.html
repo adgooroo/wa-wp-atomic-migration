@@ -1,0 +1,206 @@
+{* Blog Sidebar Organism Component *}
+
+<aside class="waboot-blog__sidebar" x-data="blogSidebar()">
+    {* Search Widget *}
+    <div class="waboot-blog__sidebar__widget waboot-blog__sidebar__widget--search">
+        <h3 class="waboot-blog__sidebar__widget-title">{_w('Search')}</h3>
+        <form class="waboot-blog__sidebar__search-form" @submit.prevent="search()">
+            {$wa->csrf()}
+            <div class="waboot-blog__sidebar__search-input-group">
+                <input 
+                    type="text" 
+                    class="waboot-blog__sidebar__search-input" 
+                    placeholder="{_w('Search posts...')}"
+                    x-model="searchQuery"
+                    @input="handleSearchInput()"
+                >
+                <button type="submit" class="waboot-blog__sidebar__search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            {* Search Suggestions *}
+            <div 
+                class="waboot-blog__sidebar__search-suggestions" 
+                x-show="showSuggestions && suggestions.length > 0"
+                x-transition
+            >
+                <template x-for="suggestion in suggestions" :key="suggestion">
+                    <div 
+                        class="waboot-blog__sidebar__search-suggestion"
+                        @click="selectSuggestion(suggestion)"
+                        x-text="suggestion"
+                    ></div>
+                </template>
+            </div>
+        </form>
+    </div>
+    
+    {* Categories Widget *}
+    {if $wa->blog->categories()}
+        <div class="waboot-blog__sidebar__widget waboot-blog__sidebar__widget--categories">
+            <h3 class="waboot-blog__sidebar__widget-title">{_w('Categories')}</h3>
+            <ul class="waboot-blog__sidebar__categories-list">
+                {foreach $wa->blog->categories() as $category}
+                    <li class="waboot-blog__sidebar__category-item">
+                        <a href="{$category.url}" class="waboot-blog__sidebar__category-link">
+                            <span class="waboot-blog__sidebar__category-name">{$category.name|escape:'html'}</span>
+                            <span class="waboot-blog__sidebar__category-count">({$category.posts_count})</span>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+    {/if}
+    
+    {* Tags Widget *}
+    {if $wa->blog->tags()}
+        <div class="waboot-blog__sidebar__widget waboot-blog__sidebar__widget--tags">
+            <h3 class="waboot-blog__sidebar__widget-title">{_w('Popular Tags')}</h3>
+            <div class="waboot-blog__sidebar__tags-cloud">
+                {foreach $wa->blog->tags() as $tag}
+                    <a 
+                        href="{$tag.url}" 
+                        class="waboot-blog__sidebar__tag"
+                        style="font-size: {max(0.8, min(1.5, 0.8 + ($tag.posts_count / 10)))}em;"
+                    >
+                        {$tag.name|escape:'html'}
+                    </a>
+                {/foreach}
+            </div>
+        </div>
+    {/if}
+    
+    {* Recent Posts Widget *}
+    {if $wa->blog->posts(5)}
+        <div class="waboot-blog__sidebar__widget waboot-blog__sidebar__widget--recent">
+            <h3 class="waboot-blog__sidebar__widget-title">{_w('Recent Posts')}</h3>
+            <ul class="waboot-blog__sidebar__recent-list">
+                {foreach $wa->blog->posts(5) as $recent_post}
+                    <li class="waboot-blog__sidebar__recent-item">
+                        <a href="{$recent_post.url}" class="waboot-blog__sidebar__recent-link">
+                            {if $recent_post.image}
+                                <img 
+                                    src="{$recent_post.image.url}" 
+                                    alt="{$recent_post.title|escape:'html'}"
+                                    class="waboot-blog__sidebar__recent-image"
+                                    loading="lazy"
+                                >
+                            {/if}
+                            <div class="waboot-blog__sidebar__recent-content">
+                                <h4 class="waboot-blog__sidebar__recent-title">{$recent_post.title|escape:'html'}</h4>
+                                <time datetime="{$recent_post.datetime|date_format:'Y-m-d\TH:i:sP'}" class="waboot-blog__sidebar__recent-date">
+                                    {$recent_post.datetime|wa_date:'humandate'}
+                                </time>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+    {/if}
+    
+    {* Authors Widget *}
+    {if $wa->blog->authors()}
+        <div class="waboot-blog__sidebar__widget waboot-blog__sidebar__widget--authors">
+            <h3 class="waboot-blog__sidebar__widget-title">{_w('Authors')}</h3>
+            <ul class="waboot-blog__sidebar__authors-list">
+                {foreach $wa->blog->authors() as $author}
+                    <li class="waboot-blog__sidebar__author-item">
+                        <a href="{$author.url}" class="waboot-blog__sidebar__author-link">
+                            {if $author.photo}
+                                <img 
+                                    src="{$author.photo}" 
+                                    alt="{$author.name|escape:'html'}"
+                                    class="waboot-blog__sidebar__author-photo"
+                                    loading="lazy"
+                                >
+                            {else}
+                                <div class="waboot-blog__sidebar__author-placeholder">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            {/if}
+                            <div class="waboot-blog__sidebar__author-info">
+                                <span class="waboot-blog__sidebar__author-name">{$author.name|escape:'html'}</span>
+                                <span class="waboot-blog__sidebar__author-posts">{$author.posts_count} {_w('posts')}</span>
+                            </div>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+    {/if}
+    
+    {* Newsletter Widget *}
+    <div class="waboot-blog__sidebar__widget waboot-blog__sidebar__widget--newsletter">
+        <h3 class="waboot-blog__sidebar__widget-title">{_w('Subscribe to Newsletter')}</h3>
+        <p class="waboot-blog__sidebar__newsletter-text">
+            {_w('Stay updated with our latest posts and news.')}
+        </p>
+        <form class="waboot-blog__sidebar__newsletter-form" @submit.prevent="subscribe()">
+            {$wa->csrf()}
+            <input 
+                type="email" 
+                class="waboot-blog__sidebar__newsletter-input" 
+                placeholder="{_w('Your email address')}"
+                x-model="email"
+                required
+            >
+            <button type="submit" class="waboot-blog__sidebar__newsletter-button">
+                <span x-show="!subscribing">{_w('Subscribe')}</span>
+                <span x-show="subscribing">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    {_w('Subscribing...')}
+                </span>
+            </button>
+        </form>
+        
+        {* Success/Error Messages *}
+        <div 
+            class="waboot-blog__sidebar__newsletter-message" 
+            x-show="showMessage" 
+            x-text="message"
+            :class="messageType === 'success' ? 'waboot-blog__sidebar__newsletter-message--success' : 'waboot-blog__sidebar__newsletter-message--error'"
+            x-transition
+        ></div>
+    </div>
+    
+    {* Archive Widget *}
+    {if $wa->blog->archives()}
+        <div class="waboot-blog__sidebar__widget waboot-blog__sidebar__widget--archive">
+            <h3 class="waboot-blog__sidebar__widget-title">{_w('Archive')}</h3>
+            <ul class="waboot-blog__sidebar__archive-list">
+                {foreach $wa->blog->archives() as $archive}
+                    <li class="waboot-blog__sidebar__archive-item">
+                        <a href="{$archive.url}" class="waboot-blog__sidebar__archive-link">
+                            <span class="waboot-blog__sidebar__archive-month">{$archive.month|date_format:'F Y'}</span>
+                            <span class="waboot-blog__sidebar__archive-count">({$archive.posts_count})</span>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+    {/if}
+    
+    {* Social Media Widget *}
+    <div class="waboot-blog__sidebar__widget waboot-blog__sidebar__widget--social">
+        <h3 class="waboot-blog__sidebar__widget-title">{_w('Follow Us')}</h3>
+        <div class="waboot-blog__sidebar__social-links">
+            <a href="#" class="waboot-blog__sidebar__social-link waboot-blog__sidebar__social-link--facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="waboot-blog__sidebar__social-link waboot-blog__sidebar__social-link--twitter" title="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="waboot-blog__sidebar__social-link waboot-blog__sidebar__social-link--instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="waboot-blog__sidebar__social-link waboot-blog__sidebar__social-link--linkedin" title="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" class="waboot-blog__sidebar__social-link waboot-blog__sidebar__social-link--youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+        </div>
+    </div>
+</aside> 

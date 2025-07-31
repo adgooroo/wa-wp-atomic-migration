@@ -1,0 +1,172 @@
+{* Single Blog Post Template *}
+
+{* Include parent theme layout *}
+{include file="`$wa_parent_theme_path`/templates/layout.html"}
+
+{* Blog-specific head content *}
+{block name="head"}
+    {* Include parent head content *}
+    {$smarty.block.parent}
+    
+    {* Blog-specific meta tags *}
+    <meta name="description" content="{$post.excerpt|escape:'html'}">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{$post.title|escape:'html'}">
+    <meta property="og:description" content="{$post.excerpt|escape:'html'}">
+    <meta property="og:url" content="{$post.url}">
+    {if $post.image}
+        <meta property="og:image" content="{$post.image.url}">
+    {/if}
+    <meta property="article:published_time" content="{$post.datetime|date_format:'Y-m-d\TH:i:sP'}">
+    <meta property="article:modified_time" content="{$post.update_datetime|date_format:'Y-m-d\TH:i:sP'}">
+    {if $post.author}
+        <meta property="article:author" content="{$post.author.name|escape:'html'}">
+    {/if}
+    
+    {* Blog-specific CSS *}
+    <link rel="stylesheet" href="{$wa_theme_url}css/waboot-child.css">
+    
+    {* Blog-specific JavaScript *}
+    <script src="{$wa_theme_url}js/waboot-blog.js" defer></script>
+{/block}
+
+{* Blog-specific body classes *}
+{block name="body_classes"}blog-page blog-post-page{/block}
+
+{* Blog Post Header *}
+{block name="header"}
+    <header class="waboot-blog__post-header">
+        <div class="container">
+            <div class="waboot-blog__post-header__container">
+                {* Breadcrumb *}
+                <nav class="waboot-blog__breadcrumb" aria-label="Breadcrumb">
+                    <ol class="waboot-blog__breadcrumb__list">
+                        <li class="waboot-blog__breadcrumb__item">
+                            <a href="{$wa->app('site')->url()}" class="waboot-blog__breadcrumb__link">Home</a>
+                        </li>
+                        <li class="waboot-blog__breadcrumb__item">
+                            <a href="{$wa->blog->url()}" class="waboot-blog__breadcrumb__link">Blog</a>
+                        </li>
+                        {if $post.categories}
+                            <li class="waboot-blog__breadcrumb__item">
+                                <a href="{$post.categories[0].url}" class="waboot-blog__breadcrumb__link">{$post.categories[0].name|escape:'html'}</a>
+                            </li>
+                        {/if}
+                        <li class="waboot-blog__breadcrumb__item waboot-blog__breadcrumb__item--current">
+                            <span class="waboot-blog__breadcrumb__current">{$post.title|escape:'html'}</span>
+                        </li>
+                    </ol>
+                </nav>
+                
+                {* Post Title *}
+                <h1 class="waboot-blog__post-header__title">{$post.title|escape:'html'}</h1>
+                
+                {* Post Meta *}
+                {include file="`$wa_active_theme_path`/templates/atoms/post-meta.html"}
+            </div>
+        </div>
+    </header>
+{/block}
+
+{* Blog Post Main Content *}
+{block name="main"}
+    <main class="waboot-blog__main">
+        <div class="container">
+            <div class="waboot-blog__container">
+                {* Blog Content Area *}
+                <div class="waboot-blog__content">
+                    {* Post Featured Image *}
+                    {if $post.image}
+                        <div class="waboot-blog__post-image">
+                            <img 
+                                src="{$post.image.url}" 
+                                alt="{$post.title|escape:'html'}"
+                                class="waboot-blog__post-image__img"
+                                loading="lazy"
+                            >
+                        </div>
+                    {/if}
+                    
+                    {* Post Content *}
+                    <article class="waboot-blog__post-content blog-content">
+                        {$post.text}
+                    </article>
+                    
+                    {* Social Share *}
+                    <div class="waboot-blog__post-share">
+                        {include file="`$wa_active_theme_path`/templates/atoms/social-share.html"}
+                    </div>
+                    
+                    {* Author Bio *}
+                    {include file="`$wa_active_theme_path`/templates/molecules/author-bio.html"}
+                    
+                    {* Post Navigation *}
+                    {include file="`$wa_active_theme_path`/templates/molecules/post-navigation.html"}
+                    
+                    {* Comments Section *}
+                    {if $post.comments_allowed}
+                        <div id="comments" class="waboot-blog__comments">
+                            {include file="`$wa_active_theme_path`/templates/comments.html"}
+                        </div>
+                    {/if}
+                </div>
+                
+                {* Blog Sidebar *}
+                <div class="waboot-blog__sidebar-container">
+                    {include file="`$wa_active_theme_path`/templates/organisms/blog-sidebar.html"}
+                </div>
+            </div>
+        </div>
+    </main>
+{/block}
+
+{* Blog-specific footer content *}
+{block name="footer"}
+    {* Include parent footer *}
+    {$smarty.block.parent}
+{/block}
+
+{* JSON-LD Schema for Blog Post *}
+{block name="json_ld"}
+    {* Include parent JSON-LD *}
+    {$smarty.block.parent}
+    
+    {* Blog post-specific JSON-LD *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{$post.title|escape:'javascript'}",
+        "description": "{$post.excerpt|escape:'javascript'}",
+        "url": "{$post.url}",
+        "datePublished": "{$post.datetime|date_format:'Y-m-d\TH:i:sP'}",
+        "dateModified": "{$post.update_datetime|date_format:'Y-m-d\TH:i:sP'}",
+        "author": {
+            "@type": "Person",
+            "name": "{$post.author.name|escape:'javascript'}"
+            {if $post.author.photo}
+            ,"image": "{$post.author.photo}"
+            {/if}
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{$wa->app('site')->title()|escape:'javascript'}",
+            "url": "{$wa->app('site')->url()}"
+        }
+        {if $post.image}
+        ,"image": {
+            "@type": "ImageObject",
+            "url": "{$post.image.url}",
+            "width": {$post.image.width},
+            "height": {$post.image.height}
+        }
+        {/if}
+        {if $post.categories}
+        ,"articleSection": "{$post.categories[0].name|escape:'javascript'}"
+        {/if}
+        {if $post.tags}
+        ,"keywords": "{foreach $post.tags as $tag name="tags"}{$tag.name|escape:'javascript'}{if !$smarty.foreach.tags.last}, {/if}{/foreach}"
+        {/if}
+    }
+    </script>
+{/block} 

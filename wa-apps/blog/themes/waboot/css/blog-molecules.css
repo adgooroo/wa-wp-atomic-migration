@@ -1,0 +1,512 @@
+/*!
+ * Waboot Child Blog - Molecular Components
+ * Blog molecular components with BEM methodology
+ * Bootstrap 5 + Alpine.js integration
+ * @version 1.0.0
+ */
+
+/* ============================================
+   POST CARD MOLECULE
+   ============================================ */
+
+.waboot-blog__post-card {
+    background: var(--bs-white);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.waboot-blog__post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+    border-color: var(--bs-primary);
+}
+
+.waboot-blog__post-card__image {
+    position: relative;
+    overflow: hidden;
+    background: var(--bs-gray-100);
+}
+
+.waboot-blog__post-card__image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.waboot-blog__post-card:hover .waboot-blog__post-card__image img {
+    transform: scale(1.05);
+}
+
+.waboot-blog__post-card__category {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 2;
+}
+
+.waboot-blog__post-card__content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.waboot-blog__post-card__meta {
+    margin-bottom: 1rem;
+}
+
+.waboot-blog__post-card__title {
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.waboot-blog__post-card__excerpt {
+    margin-bottom: 1.5rem;
+    flex: 1;
+}
+
+.waboot-blog__post-card__footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.waboot-blog__post-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.waboot-blog__post-card__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* ============================================
+   POST NAVIGATION MOLECULE
+   ============================================ */
+
+.waboot-blog__post-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3rem 0;
+    padding: 2rem 0;
+    border-top: 1px solid var(--bs-border-color);
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.waboot-blog__post-nav__item {
+    flex: 1;
+    max-width: 45%;
+}
+
+.waboot-blog__post-nav__item--prev {
+    text-align: left;
+}
+
+.waboot-blog__post-nav__item--next {
+    text-align: right;
+}
+
+.waboot-blog__post-nav__link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--bs-gray-50);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    text-decoration: none;
+    color: var(--bs-gray-700);
+    transition: all 0.3s ease;
+}
+
+.waboot-blog__post-nav__link:hover {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+.waboot-blog__post-nav__item--next .waboot-blog__post-nav__link {
+    flex-direction: row-reverse;
+}
+
+.waboot-blog__post-nav__icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+}
+
+.waboot-blog__post-nav__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.waboot-blog__post-nav__label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    opacity: 0.7;
+}
+
+.waboot-blog__post-nav__title {
+    font-weight: 600;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ============================================
+   AUTHOR BIO MOLECULE
+   ============================================ */
+
+.waboot-blog__author-bio {
+    background: var(--bs-gray-50);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    padding: 2rem;
+    margin: 3rem 0;
+}
+
+.waboot-blog__author-bio__header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.waboot-blog__author-bio__avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--bs-white);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.waboot-blog__author-bio__info {
+    flex: 1;
+}
+
+.waboot-blog__author-bio__name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--bs-gray-900);
+}
+
+.waboot-blog__author-bio__title {
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+    margin-bottom: 0.5rem;
+}
+
+.waboot-blog__author-bio__social {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.waboot-blog__author-bio__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--bs-white);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 50%;
+    color: var(--bs-gray-600);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.waboot-blog__author-bio__social-link:hover {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.waboot-blog__author-bio__content {
+    color: var(--bs-gray-700);
+    line-height: 1.6;
+}
+
+.waboot-blog__author-bio__stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--bs-border-color);
+}
+
+.waboot-blog__author-bio__stat {
+    text-align: center;
+}
+
+.waboot-blog__author-bio__stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--bs-primary);
+    display: block;
+}
+
+.waboot-blog__author-bio__stat-label {
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+/* ============================================
+   SEARCH FORM MOLECULE
+   ============================================ */
+
+.waboot-blog__search {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.waboot-blog__search__form {
+    display: flex;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    overflow: hidden;
+    background: var(--bs-white);
+}
+
+.waboot-blog__search__input {
+    flex: 1;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    outline: none;
+}
+
+.waboot-blog__search__input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.waboot-blog__search__button {
+    background: var(--bs-primary);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    color: var(--bs-white);
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.waboot-blog__search__button:hover {
+    background: var(--bs-primary-hover);
+}
+
+.waboot-blog__search__suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bs-white);
+    border: 1px solid var(--bs-border-color);
+    border-top: none;
+    border-radius: 0 0 var(--bs-border-radius-lg) var(--bs-border-radius-lg);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.waboot-blog__search__suggestion {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.waboot-blog__search__suggestion:hover,
+.waboot-blog__search__suggestion--active {
+    background: var(--bs-gray-100);
+}
+
+.waboot-blog__search__suggestion:last-child {
+    border-bottom: none;
+}
+
+/* ============================================
+   BREADCRUMB NAVIGATION MOLECULE
+   ============================================ */
+
+.waboot-blog__breadcrumb {
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.waboot-blog__breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.waboot-blog__breadcrumb__item {
+    display: flex;
+    align-items: center;
+}
+
+.waboot-blog__breadcrumb__item:not(:last-child)::after {
+    content: '/';
+    margin: 0 0.75rem;
+    color: var(--bs-gray-500);
+}
+
+.waboot-blog__breadcrumb__link {
+    color: var(--bs-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+.waboot-blog__breadcrumb__link:hover {
+    text-decoration: underline;
+}
+
+.waboot-blog__breadcrumb__current {
+    color: var(--bs-gray-600);
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   PAGINATION MOLECULE
+   ============================================ */
+
+.waboot-blog__pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.waboot-blog__pagination__list {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    gap: 0.25rem;
+}
+
+.waboot-blog__pagination__item {
+    /* No specific styles needed, handled by children */
+}
+
+.waboot-blog__pagination__link,
+.waboot-blog__pagination__current {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    text-decoration: none;
+    color: var(--bs-gray-700);
+    background: var(--bs-white);
+    transition: all 0.15s ease-in-out;
+}
+
+.waboot-blog__pagination__link:hover {
+    background: var(--bs-gray-100);
+    border-color: var(--bs-gray-300);
+    color: var(--bs-gray-900);
+}
+
+.waboot-blog__pagination__current {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: var(--bs-white);
+}
+
+.waboot-blog__pagination__disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 767.98px) {
+    .waboot-blog__post-nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .waboot-blog__post-nav__item {
+        max-width: 100%;
+    }
+    
+    .waboot-blog__post-nav__item--next .waboot-blog__post-nav__link {
+        flex-direction: row;
+    }
+    
+    .waboot-blog__author-bio__header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .waboot-blog__author-bio__stats {
+        justify-content: center;
+    }
+    
+    .waboot-blog__breadcrumb__list {
+        font-size: 0.8125rem;
+    }
+    
+    .waboot-blog__pagination__link,
+    .waboot-blog__pagination__current {
+        min-width: 2rem;
+        height: 2rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .waboot-blog__post-card__footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .waboot-blog__post-card__actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .waboot-blog__author-bio {
+        padding: 1.5rem;
+    }
+    
+    .waboot-blog__author-bio__stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+} 

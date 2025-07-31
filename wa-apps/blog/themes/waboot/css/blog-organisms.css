@@ -1,0 +1,567 @@
+/*!
+ * Waboot Child Blog - Organism Components
+ * Blog organism components with BEM methodology
+ * Bootstrap 5 + Alpine.js integration
+ * @version 1.0.0
+ */
+
+/* ============================================
+   POST GRID ORGANISM
+   ============================================ */
+
+.waboot-blog__post-grid {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.waboot-blog__post-grid--grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.waboot-blog__post-grid--grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.waboot-blog__post-grid--grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.waboot-blog__post-grid--list {
+    grid-template-columns: 1fr;
+}
+
+.waboot-blog__post-grid--list .waboot-blog__post-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding: 0;
+}
+
+.waboot-blog__post-grid--list .waboot-blog__post-card__image {
+    width: 300px;
+    height: 200px;
+    flex-shrink: 0;
+}
+
+.waboot-blog__post-grid--list .waboot-blog__post-card__content {
+    flex: 1;
+    padding: 2rem;
+}
+
+.waboot-blog__post-grid--list .waboot-blog__post-card__footer {
+    margin-top: 1rem;
+}
+
+/* Loading State */
+.waboot-blog__post-grid--loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.waboot-blog__post-grid__loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+}
+
+.waboot-blog__post-grid__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-blog__post-grid__empty-icon {
+    font-size: 4rem;
+    color: var(--bs-gray-400);
+    margin-bottom: 1rem;
+}
+
+.waboot-blog__post-grid__empty-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.waboot-blog__post-grid__empty-text {
+    margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   BLOG SIDEBAR ORGANISM
+   ============================================ */
+
+.waboot-blog__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.waboot-blog__sidebar__widget {
+    background: var(--bs-white);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    padding: 1.5rem;
+}
+
+.waboot-blog__sidebar__widget-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--bs-gray-900);
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--bs-primary);
+}
+
+/* Search Widget */
+.waboot-blog__sidebar__search {
+    /* Search form styles are in molecules */
+}
+
+/* Categories Widget */
+.waboot-blog__sidebar__categories {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.waboot-blog__sidebar__category {
+    margin-bottom: 0.75rem;
+}
+
+.waboot-blog__sidebar__category:last-child {
+    margin-bottom: 0;
+}
+
+.waboot-blog__sidebar__category-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--bs-gray-50);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    text-decoration: none;
+    color: var(--bs-gray-700);
+    transition: all 0.15s ease-in-out;
+}
+
+.waboot-blog__sidebar__category-link:hover {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: white;
+    text-decoration: none;
+    transform: translateX(4px);
+}
+
+.waboot-blog__sidebar__category-name {
+    font-weight: 500;
+}
+
+.waboot-blog__sidebar__category-count {
+    background: var(--bs-gray-200);
+    color: var(--bs-gray-600);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.waboot-blog__sidebar__category-link:hover .waboot-blog__sidebar__category-count {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* Recent Posts Widget */
+.waboot-blog__sidebar__recent-posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.waboot-blog__sidebar__recent-post {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.waboot-blog__sidebar__recent-post:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.waboot-blog__sidebar__recent-post-image {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--bs-border-radius);
+    object-fit: cover;
+    background: var(--bs-gray-100);
+    flex-shrink: 0;
+}
+
+.waboot-blog__sidebar__recent-post-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.waboot-blog__sidebar__recent-post-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.3;
+    margin-bottom: 0.25rem;
+}
+
+.waboot-blog__sidebar__recent-post-title a {
+    color: var(--bs-gray-900);
+    text-decoration: none;
+}
+
+.waboot-blog__sidebar__recent-post-title a:hover {
+    color: var(--bs-primary);
+}
+
+.waboot-blog__sidebar__recent-post-date {
+    font-size: 0.75rem;
+    color: var(--bs-gray-600);
+}
+
+/* Tags Widget */
+.waboot-blog__sidebar__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.waboot-blog__sidebar__tag {
+    /* Tag styles are in atoms */
+}
+
+/* Author Widget */
+.waboot-blog__sidebar__author {
+    text-align: center;
+}
+
+.waboot-blog__sidebar__author-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1rem;
+    border: 3px solid var(--bs-white);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.waboot-blog__sidebar__author-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--bs-gray-900);
+}
+
+.waboot-blog__sidebar__author-bio {
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.waboot-blog__sidebar__author-social {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.waboot-blog__sidebar__author-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--bs-gray-100);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 50%;
+    color: var(--bs-gray-600);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.waboot-blog__sidebar__author-social-link:hover {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* Newsletter Widget */
+.waboot-blog__sidebar__newsletter {
+    background: linear-gradient(135deg, var(--bs-primary), var(--bs-primary-hover));
+    color: white;
+    border: none;
+}
+
+.waboot-blog__sidebar__newsletter .waboot-blog__sidebar__widget-title {
+    color: white;
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.waboot-blog__sidebar__newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.waboot-blog__sidebar__newsletter-input {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: var(--bs-border-radius);
+    font-size: 0.875rem;
+}
+
+.waboot-blog__sidebar__newsletter-button {
+    padding: 0.75rem 1rem;
+    background: white;
+    color: var(--bs-primary);
+    border: none;
+    border-radius: var(--bs-border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.waboot-blog__sidebar__newsletter-button:hover {
+    background: var(--bs-gray-100);
+    transform: translateY(-1px);
+}
+
+/* ============================================
+   BLOG LAYOUT ORGANISM
+   ============================================ */
+
+.waboot-blog__layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.waboot-blog__main {
+    flex: 1;
+    padding: var(--blog-content-spacing, 2rem) 0;
+}
+
+.waboot-blog__container {
+    display: grid;
+    gap: var(--blog-sidebar-spacing, 2rem);
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 992px) {
+    .waboot-blog__container {
+        grid-template-columns: 1fr 300px;
+    }
+    
+    .waboot-blog__container--no-sidebar {
+        grid-template-columns: 1fr;
+    }
+}
+
+.waboot-blog__content {
+    /* Main content area */
+}
+
+.waboot-blog__sidebar-container {
+    /* Sidebar container */
+}
+
+/* ============================================
+   BLOG HEADER ORGANISM
+   ============================================ */
+
+.waboot-blog__header {
+    background: var(--bs-gray-50);
+    border-bottom: 1px solid var(--bs-border-color);
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.waboot-blog__header__container {
+    text-align: center;
+}
+
+.waboot-blog__header__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--bs-gray-900);
+}
+
+.waboot-blog__header__subtitle {
+    font-size: 1.125rem;
+    color: var(--bs-gray-600);
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.waboot-blog__header__meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-blog__header__meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ============================================
+   BLOG FOOTER ORGANISM
+   ============================================ */
+
+.waboot-blog__footer {
+    background: var(--bs-gray-900);
+    color: var(--bs-gray-300);
+    padding: 3rem 0 1rem;
+    margin-top: 4rem;
+}
+
+.waboot-blog__footer__container {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .waboot-blog__footer__container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.waboot-blog__footer__section {
+    /* Footer section */
+}
+
+.waboot-blog__footer__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.waboot-blog__footer__text {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.waboot-blog__footer__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.waboot-blog__footer__link {
+    margin-bottom: 0.5rem;
+}
+
+.waboot-blog__footer__link a {
+    color: var(--bs-gray-300);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.waboot-blog__footer__link a:hover {
+    color: white;
+}
+
+.waboot-blog__footer__bottom {
+    border-top: 1px solid var(--bs-gray-700);
+    padding-top: 1rem;
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1199.98px) {
+    .waboot-blog__post-grid--grid-4 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .waboot-blog__post-grid--grid-3,
+    .waboot-blog__post-grid--grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .waboot-blog__sidebar {
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .waboot-blog__post-grid--grid-2,
+    .waboot-blog__post-grid--grid-3,
+    .waboot-blog__post-grid--grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .waboot-blog__post-grid--list .waboot-blog__post-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .waboot-blog__post-grid--list .waboot-blog__post-card__image {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .waboot-blog__post-grid--list .waboot-blog__post-card__content {
+        padding: 1.5rem;
+    }
+    
+    .waboot-blog__header__title {
+        font-size: 2rem;
+    }
+    
+    .waboot-blog__header__meta {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .waboot-blog__footer__container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .waboot-blog__sidebar__widget {
+        padding: 1rem;
+    }
+    
+    .waboot-blog__header {
+        padding: 1.5rem 0;
+    }
+    
+    .waboot-blog__header__title {
+        font-size: 1.75rem;
+    }
+    
+    .waboot-blog__footer {
+        padding: 2rem 0 1rem;
+    }
+} 

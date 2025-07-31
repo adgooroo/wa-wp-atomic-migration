@@ -1,0 +1,92 @@
+{* Post Card Molecule Component *}
+
+<article class="waboot-blog__post-card" x-data="postCard()" @mouseenter="handleHover()">
+    {* Post Image *}
+    {if $post.image}
+        <div class="waboot-blog__post-card__image-container">
+            <a href="{$post.url}" class="waboot-blog__post-card__image-link">
+                <img 
+                    src="{$post.image.url}" 
+                    alt="{$post.title|escape:'html'}"
+                    class="waboot-blog__post-card__image"
+                    loading="lazy"
+                    @load="imageLoaded = true"
+                    :class="{ 'waboot-blog__post-card__image--loaded': imageLoaded }"
+                >
+            </a>
+            
+            {* Image overlay with category *}
+            {if $post.categories}
+                <div class="waboot-blog__post-card__category">
+                    <a href="{$post.categories[0].url}" class="waboot-blog__post-card__category-link">
+                        {$post.categories[0].name|escape:'html'}
+                    </a>
+                </div>
+            {/if}
+        </div>
+    {/if}
+    
+    {* Post Content *}
+    <div class="waboot-blog__post-card__content">
+        {* Post Meta *}
+        <div class="waboot-blog__post-card__meta">
+            {if $post.author}
+                <div class="waboot-blog__post-card__author">
+                    {if $post.author.photo}
+                        <img 
+                            src="{$post.author.photo}" 
+                            alt="{$post.author.name|escape:'html'}"
+                            class="waboot-blog__post-card__author-photo"
+                        >
+                    {/if}
+                    <span class="waboot-blog__post-card__author-name">
+                        {$post.author.name|escape:'html'}
+                    </span>
+                </div>
+            {/if}
+            
+            <time datetime="{$post.datetime|date_format:'Y-m-d\TH:i:sP'}" class="waboot-blog__post-card__date">
+                {$post.datetime|wa_date:'humandate'}
+            </time>
+        </div>
+        
+        {* Post Title *}
+        <h3 class="waboot-blog__post-card__title">
+            <a href="{$post.url}" class="waboot-blog__post-card__title-link">
+                {$post.title|escape:'html'}
+            </a>
+        </h3>
+        
+        {* Post Excerpt *}
+        {if $post.excerpt}
+            <div class="waboot-blog__post-card__excerpt">
+                {$post.excerpt|escape:'html'}
+            </div>
+        {/if}
+        
+        {* Post Tags *}
+        {if $post.tags}
+            <div class="waboot-blog__post-card__tags">
+                {foreach $post.tags as $tag name="tags"}
+                    <a href="{$tag.url}" class="waboot-blog__post-card__tag">
+                        {$tag.name|escape:'html'}
+                    </a>
+                {/foreach}
+            </div>
+        {/if}
+        
+        {* Post Footer *}
+        <div class="waboot-blog__post-card__footer">
+            {* Read More Button *}
+            {include file="`$wa_active_theme_path`/templates/atoms/read-more-button.html"}
+            
+            {* Social Share *}
+            <div class="waboot-blog__post-card__share">
+                {include file="`$wa_active_theme_path`/templates/atoms/social-share.html"}
+            </div>
+        </div>
+    </div>
+    
+    {* Hover Effects *}
+    <div class="waboot-blog__post-card__hover-overlay"></div>
+</article> 

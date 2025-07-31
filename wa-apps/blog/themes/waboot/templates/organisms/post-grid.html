@@ -1,0 +1,187 @@
+{* Post Grid Organism Component *}
+
+<div class="waboot-blog__post-grid" x-data="postGrid()">
+    {* Grid Header *}
+    <div class="waboot-blog__post-grid__header">
+        <div class="waboot-blog__post-grid__title">
+            <h2 class="waboot-blog__post-grid__title-text">
+                {if $category}
+                    Posts in {$category.name|escape:'html'}
+                {elseif $tag}
+                    Posts tagged with "{$tag.name|escape:'html'}"
+                {elseif $author}
+                    Posts by {$author.name|escape:'html'}
+                {else}
+                    Latest Posts
+                {/if}
+            </h2>
+            
+            {if $posts_count}
+                <span class="waboot-blog__post-grid__count">{$posts_count} post{if $posts_count != 1}s{/if}</span>
+            {/if}
+        </div>
+        
+        {* Grid Controls *}
+        <div class="waboot-blog__post-grid__controls">
+            {* View Toggle *}
+            <div class="waboot-blog__post-grid__view-toggle">
+                <button 
+                    class="waboot-blog__post-grid__view-btn waboot-blog__post-grid__view-btn--grid"
+                    :class="{ 'waboot-blog__post-grid__view-btn--active': viewMode === 'grid' }"
+                    @click="setViewMode('grid')"
+                    title="Grid view"
+                    aria-label="Switch to grid view"
+                >
+                    <i class="fas fa-th"></i>
+                </button>
+                
+                <button 
+                    class="waboot-blog__post-grid__view-btn waboot-blog__post-grid__view-btn--list"
+                    :class="{ 'waboot-blog__post-grid__view-btn--active': viewMode === 'list' }"
+                    @click="setViewMode('list')"
+                    title="List view"
+                    aria-label="Switch to list view"
+                >
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+            
+            {* Sort Options *}
+            <div class="waboot-blog__post-grid__sort">
+                <select 
+                    class="waboot-blog__post-grid__sort-select"
+                    x-model="sortBy"
+                    @change="handleSort()"
+                >
+                    <option value="date">Sort by Date</option>
+                    <option value="title">Sort by Title</option>
+                    <option value="popularity">Sort by Popularity</option>
+                    <option value="comments">Sort by Comments</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    {* Grid Content *}
+    <div 
+        class="waboot-blog__post-grid__content"
+        :class="{
+            'waboot-blog__post-grid__content--grid': viewMode === 'grid',
+            'waboot-blog__post-grid__content--list': viewMode === 'list'
+        }"
+    >
+        {* Loading State *}
+        <div 
+            class="waboot-blog__post-grid__loading" 
+            x-show="loading" 
+            x-transition
+        >
+            <div class="waboot-blog__post-grid__loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <p class="waboot-blog__post-grid__loading-text">Loading posts...</p>
+        </div>
+        
+        {* Posts Grid *}
+        <div 
+            class="waboot-blog__post-grid__items"
+            x-show="!loading"
+            x-transition
+        >
+            {foreach $posts as $post name="posts"}
+                <div class="waboot-blog__post-grid__item">
+                    {include file="`$wa_active_theme_path`/templates/molecules/post-card.html"}
+                </div>
+            {foreachelse}
+                {* Empty State *}
+                <div class="waboot-blog__post-grid__empty">
+                    <div class="waboot-blog__post-grid__empty-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h3 class="waboot-blog__post-grid__empty-title">No posts found</h3>
+                    <p class="waboot-blog__post-grid__empty-text">
+                        {if $category}
+                            No posts found in this category.
+                        {elseif $tag}
+                            No posts found with this tag.
+                        {elseif $author}
+                            No posts found by this author.
+                        {else}
+                            No blog posts available at the moment.
+                        {/if}
+                    </p>
+                    <a href="{$wa->blog->url()}" class="waboot-blog__post-grid__empty-link">
+                        View all posts
+                    </a>
+                </div>
+            {/foreach}
+        </div>
+    </div>
+    
+    {* Load More Button *}
+    {if $has_more_posts}
+        <div class="waboot-blog__post-grid__load-more">
+            <button 
+                class="waboot-blog__post-grid__load-more-btn"
+                @click="loadMore()"
+                :disabled="loadingMore"
+                x-show="!allLoaded"
+            >
+                <span x-show="!loadingMore">Load More Posts</span>
+                <span x-show="loadingMore">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Loading...
+                </span>
+            </button>
+        </div>
+    {/if}
+    
+    {* Pagination *}
+    {if $pagination && $pagination.pages > 1}
+        <div class="waboot-blog__post-grid__pagination">
+            <ul class="waboot-blog__post-grid__pagination-list">
+                {* Previous Page *}
+                {if $pagination.current_page > 1}
+                    <li class="waboot-blog__post-grid__pagination-item">
+                        <a 
+                            href="{$pagination.prev_page_url}" 
+                            class="waboot-blog__post-grid__pagination-link"
+                            aria-label="Previous page"
+                        >
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                {/if}
+                
+                {* Page Numbers *}
+                {for $page = 1 to $pagination.pages}
+                    <li class="waboot-blog__post-grid__pagination-item">
+                        {if $page == $pagination.current_page}
+                            <span class="waboot-blog__post-grid__pagination-current">{$page}</span>
+                        {else}
+                            <a 
+                                href="{$pagination.page_url($page)}" 
+                                class="waboot-blog__post-grid__pagination-link"
+                            >
+                                {$page}
+                            </a>
+                        {/if}
+                    </li>
+                {/for}
+                
+                {* Next Page *}
+                {if $pagination.current_page < $pagination.pages}
+                    <li class="waboot-blog__post-grid__pagination-item">
+                        <a 
+                            href="{$pagination.next_page_url}" 
+                            class="waboot-blog__post-grid__pagination-link"
+                            aria-label="Next page"
+                        >
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                {/if}
+            </ul>
+        </div>
+    {/if}
+</div> 

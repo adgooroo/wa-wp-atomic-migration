@@ -1,0 +1,71 @@
+{* Post Meta Atom Component *}
+
+<div class="waboot-blog__meta">
+    {* Author *}
+    {if $post.author}
+        <div class="waboot-blog__meta-item">
+            <i class="fas fa-user"></i>
+            <span class="waboot-blog__meta-label">Author:</span>
+            <a href="{$post.author.url}" class="waboot-blog__meta-link">
+                {$post.author.name|escape:'html'}
+            </a>
+        </div>
+    {/if}
+    
+    {* Publication Date *}
+    <div class="waboot-blog__meta-item">
+        <i class="fas fa-calendar-alt"></i>
+        <span class="waboot-blog__meta-label">Published:</span>
+        <time datetime="{$post.datetime|date_format:'Y-m-d\TH:i:sP'}" class="waboot-blog__meta-date">
+            {$post.datetime|wa_date:'humandate'}
+        </time>
+    </div>
+    
+    {* Categories *}
+    {if $post.categories}
+        <div class="waboot-blog__meta-item">
+            <i class="fas fa-folder"></i>
+            <span class="waboot-blog__meta-label">Categories:</span>
+            {foreach $post.categories as $category name="categories"}
+                <a href="{$category.url}" class="waboot-blog__meta-link">
+                    {$category.name|escape:'html'}
+                </a>{if !$smarty.foreach.categories.last}, {/if}
+            {/foreach}
+        </div>
+    {/if}
+    
+    {* Tags *}
+    {if $post.tags}
+        <div class="waboot-blog__meta-item">
+            <i class="fas fa-tags"></i>
+            <span class="waboot-blog__meta-label">Tags:</span>
+            {foreach $post.tags as $tag name="tags"}
+                <a href="{$tag.url}" class="waboot-blog__meta-link">
+                    {$tag.name|escape:'html'}
+                </a>{if !$smarty.foreach.tags.last}, {/if}
+            {/foreach}
+        </div>
+    {/if}
+    
+    {* Reading Time *}
+    {if $post.text}
+        <div class="waboot-blog__meta-item">
+            <i class="fas fa-clock"></i>
+            <span class="waboot-blog__meta-label">Reading time:</span>
+            <span class="waboot-blog__meta-reading-time">
+                {($post.text|count_words / 200)|round} min read
+            </span>
+        </div>
+    {/if}
+    
+    {* Comments Count *}
+    {if $post.comments_allowed}
+        <div class="waboot-blog__meta-item">
+            <i class="fas fa-comments"></i>
+            <span class="waboot-blog__meta-label">Comments:</span>
+            <a href="{$post.url}#comments" class="waboot-blog__meta-link">
+                {$post.comments_count} comment{if $post.comments_count != 1}s{/if}
+            </a>
+        </div>
+    {/if}
+</div> 

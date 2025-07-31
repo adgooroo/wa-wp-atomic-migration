@@ -1,0 +1,112 @@
+{* Author Bio Molecule Component *}
+
+{if $post.author}
+    <div class="waboot-blog__author-bio" x-data="authorBio()">
+        <div class="waboot-blog__author-bio__container">
+            {* Author Avatar *}
+            <div class="waboot-blog__author-bio__avatar">
+                {if $post.author.photo}
+                    <img 
+                        src="{$post.author.photo}" 
+                        alt="{$post.author.name|escape:'html'}"
+                        class="waboot-blog__author-bio__avatar-image"
+                        loading="lazy"
+                    >
+                {else}
+                    <div class="waboot-blog__author-bio__avatar-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                {/if}
+            </div>
+            
+            {* Author Info *}
+            <div class="waboot-blog__author-bio__info">
+                <h3 class="waboot-blog__author-bio__name">
+                    <a href="{$post.author.url}" class="waboot-blog__author-bio__name-link">
+                        {$post.author.name|escape:'html'}
+                    </a>
+                </h3>
+                
+                {if $post.author.title}
+                    <p class="waboot-blog__author-bio__title">{$post.author.title|escape:'html'}</p>
+                {/if}
+                
+                {if $post.author.bio}
+                    <div class="waboot-blog__author-bio__bio">
+                        <p>{$post.author.bio|escape:'html'}</p>
+                    </div>
+                {/if}
+                
+                {* Author Stats *}
+                <div class="waboot-blog__author-bio__stats">
+                    <div class="waboot-blog__author-bio__stat">
+                        <span class="waboot-blog__author-bio__stat-number">{$post.author.posts_count}</span>
+                        <span class="waboot-blog__author-bio__stat-label">posts</span>
+                    </div>
+                    
+                    {if $post.author.followers_count}
+                        <div class="waboot-blog__author-bio__stat">
+                            <span class="waboot-blog__author-bio__stat-number">{$post.author.followers_count}</span>
+                            <span class="waboot-blog__author-bio__stat-label">followers</span>
+                        </div>
+                    {/if}
+                </div>
+                
+                {* Author Social Links *}
+                {if $post.author.social_links}
+                    <div class="waboot-blog__author-bio__social">
+                        {foreach $post.author.social_links as $platform => $url}
+                            <a 
+                                href="{$url}" 
+                                class="waboot-blog__author-bio__social-link waboot-blog__author-bio__social-link--{$platform}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="Follow on {$platform|ucfirst}"
+                                aria-label="Follow {$post.author.name|escape:'html'} on {$platform|ucfirst}"
+                            >
+                                <i class="fab fa-{$platform}"></i>
+                            </a>
+                        {/foreach}
+                    </div>
+                {/if}
+                
+                {* Follow Button *}
+                <button 
+                    class="waboot-blog__author-bio__follow-btn"
+                    @click="toggleFollow()"
+                    :class="{ 'waboot-blog__author-bio__follow-btn--following': isFollowing }"
+                >
+                    <span x-show="!isFollowing">Follow</span>
+                    <span x-show="isFollowing">Following</span>
+                </button>
+            </div>
+        </div>
+        
+        {* Author's Recent Posts *}
+        {if $post.author.recent_posts}
+            <div class="waboot-blog__author-bio__recent-posts">
+                <h4 class="waboot-blog__author-bio__recent-title">Recent Posts by {$post.author.name|escape:'html'}</h4>
+                <div class="waboot-blog__author-bio__recent-grid">
+                    {foreach $post.author.recent_posts as $recent_post}
+                        <div class="waboot-blog__author-bio__recent-item">
+                            <a href="{$recent_post.url}" class="waboot-blog__author-bio__recent-link">
+                                {if $recent_post.image}
+                                    <img 
+                                        src="{$recent_post.image.url}" 
+                                        alt="{$recent_post.title|escape:'html'}"
+                                        class="waboot-blog__author-bio__recent-image"
+                                        loading="lazy"
+                                    >
+                                {/if}
+                                <h5 class="waboot-blog__author-bio__recent-post-title">{$recent_post.title|escape:'html'}</h5>
+                                <time datetime="{$recent_post.datetime|date_format:'Y-m-d\TH:i:sP'}" class="waboot-blog__author-bio__recent-date">
+                                    {$recent_post.datetime|wa_date:'humandate'}
+                                </time>
+                            </a>
+                        </div>
+                    {/foreach}
+                </div>
+            </div>
+        {/if}
+    </div>
+{/if} 
