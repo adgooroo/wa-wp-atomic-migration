@@ -185,5 +185,5 @@ For more information about specific licenses, please refer to the official docum
 
 ---
 
-**Last Updated:** January 16, 2025  
+**Last Updated:** July 31, 2025  
 **Version:** 1.0.0 
