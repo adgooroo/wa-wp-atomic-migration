@@ -327,6 +327,7 @@ tmp/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+package.json
 
 # Composer
 composer.lock
