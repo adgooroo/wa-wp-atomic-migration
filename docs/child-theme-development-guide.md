@@ -87,9 +87,10 @@ Each child theme extends the parent with app-specific features:
 
 ### **Inheritance Configuration**
 
-#### **theme.xml Template**
+#### **theme.xml Template - СТРОГИЕ ПРАВИЛА**
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE theme SYSTEM "theme.dtd">
 <theme id="waboot-child" app="{app}" system="0" vendor="adgooroo">
     <name>Waboot Child {App}</name>
     <description>Child theme inheriting from Site app Waboot theme</description>
@@ -103,40 +104,110 @@ Each child theme extends the parent with app-specific features:
 </theme>
 ```
 
-### **CSS Inheritance Strategy**
+#### **КРИТИЧЕСКИЕ ПРАВИЛА НАСЛЕДОВАНИЯ**
 
-#### **Main CSS File Structure**
+**❌ ЗАПРЕЩЕНО:**
+- Использовать `parent_theme_id` вместо `parent_theme`
+- Пропускать DOCTYPE в theme.xml
+- Использовать разные форматы XML в разных темах
+- Наследовать от несуществующих тем
+
+**✅ ОБЯЗАТЕЛЬНО:**
+- Всегда включать DOCTYPE в theme.xml
+- Использовать правильный атрибут `parent_theme app="site">waboot</parent_theme>`
+- Указывать корректные requirements
+- Проверять существование родительской темы
+
+### **CSS Inheritance Strategy - ИСПРАВЛЕННАЯ СТРУКТУРА**
+
+#### **ПРАВИЛЬНАЯ CSS СТРУКТУРА**
 ```css
-/* Import parent theme styles */
-@import url('../../site-app/themes/default/css/atoms/atoms.css');
-@import url('../../site-app/themes/default/css/molecules/molecules.css');
-@import url('../../site-app/themes/default/css/organisms/organisms.css');
-@import url('../../site-app/themes/default/css/site.css');
+/* css/waboot-child.css */
 
-/* Import child theme specific styles */
-@import url('{app}-atoms.css');
-@import url('{app}-molecules.css');
-@import url('{app}-organisms.css');
+/* 1. Импорт базовых стилей родительской темы */
+@import url('../../site/themes/waboot/css/waboot.css');
+
+/* 2. Импорт компонентов Atomic Design */
+@import url('atoms.css');
+@import url('molecules.css');
+@import url('organisms.css');
+
+/* 3. Импорт утилит и переопределений */
+@import url('utilities.css');
 ```
 
-### **Template Inheritance Pattern**
+#### **СТРУКТУРА CSS ФАЙЛОВ - СТРОГИЕ ПРАВИЛА**
 
-#### **Base Layout Inheritance**
+**✅ ПРАВИЛЬНАЯ СТРУКТУРА:**
+```
+css/
+├── atoms.css           # Атомарные компоненты
+├── molecules.css       # Молекулярные компоненты  
+├── organisms.css       # Организменные компоненты
+├── utilities.css       # Утилиты и переопределения
+└── waboot-child.css    # Главный файл (импорты)
+```
+
+**❌ ЗАПРЕЩЕННЫЕ ПРАКТИКИ:**
+- Использовать префиксы приложений в именах файлов (`shop-atoms.css`)
+- Создавать отдельные папки для CSS компонентов
+- Импортировать стили из default темы
+- Нарушать порядок импортов (сначала родитель, потом дочерние)
+
+### **Template Inheritance Pattern - ИСПРАВЛЕННАЯ СТРУКТУРА**
+
+#### **ПРАВИЛЬНАЯ СТРУКТУРА TEMPLATES**
+```
+templates/
+├── atoms/              # Атомарные компоненты
+│   ├── button.html
+│   ├── input.html
+│   └── ...
+├── molecules/          # Молекулярные компоненты
+│   ├── form.html
+│   ├── card.html
+│   └── ...
+├── organisms/          # Организменные компоненты
+│   ├── header.html
+│   ├── footer.html
+│   └── ...
+├── layout.html         # Главный макет
+└── pages/              # Страницы приложения
+    ├── home.html
+    ├── product.html
+    └── ...
+```
+
+#### **ПРАВИЛЬНОЕ НАСЛЕДОВАНИЕ LAYOUT**
 ```smarty
-{* Inherit from parent layout *}
-{extends file="../../site-app/themes/default/templates/layout.html"}
+{* templates/layout.html *}
+{extends file="../../site/themes/waboot/templates/layout.html"}
 
-{* Override specific content blocks *}
+{* Переопределение блоков контента *}
 {block name="content"}
-    {* App-specific content *}
+    {* Контент приложения *}
 {/block}
 
-{* Append app-specific assets *}
+{* Добавление специфичных ассетов *}
 {block name="head" append}
     <link rel="stylesheet" href="{$theme_url}css/waboot-child.css">
-    <script src="{$theme_url}js/waboot-{$app}.js"></script>
+    <script src="{$theme_url}js/waboot-child.js"></script>
 {/block}
 ```
+
+#### **КРИТИЧЕСКИЕ ПРАВИЛА TEMPLATES**
+
+**❌ ЗАПРЕЩЕНО:**
+- Размещать страницы вне папки `pages/`
+- Создавать компоненты вне соответствующих папок (atoms/molecules/organisms)
+- Наследовать от default темы
+- Использовать неправильные пути к родительским шаблонам
+
+**✅ ОБЯЗАТЕЛЬНО:**
+- Соблюдать Atomic Design структуру
+- Наследовать от waboot темы site приложения
+- Использовать правильные пути к родительским файлам
+- Организовывать страницы в папке `pages/`
 
 ---
 
@@ -726,11 +797,26 @@ cd /workspace
 # Create child theme directory
 mkdir -p {app}-themes/waboot-child
 
-# Set up directory structure
-mkdir -p {app}-themes/waboot-child/{templates/{atoms,molecules,organisms},css,js,images}
+# Set up CORRECT directory structure
+mkdir -p {app}-themes/waboot-child/templates/{atoms,molecules,organisms,pages}
+mkdir -p {app}-themes/waboot-child/css
+mkdir -p {app}-themes/waboot-child/js
+mkdir -p {app}-themes/waboot-child/images
 
 # Copy theme configuration template
 cp templates/theme.xml {app}-themes/waboot-child/theme.xml
+```
+
+#### **2. ВАЛИДАЦИЯ СТРУКТУРЫ ТЕМЫ**
+```bash
+# Проверка структуры темы
+./validate-theme-structure.sh {app}-themes/waboot-child/
+
+# Проверка theme.xml
+xmllint --valid {app}-themes/waboot-child/theme.xml
+
+# Проверка CSS структуры
+./validate-css-structure.sh {app}-themes/waboot-child/css/
 ```
 
 #### **2. Theme Configuration**
@@ -748,22 +834,25 @@ cp templates/theme.xml {app}-themes/waboot-child/theme.xml
 /* Create main CSS file */
 /* css/waboot-child.css */
 
-/* Import parent theme styles */
-@import url('../../site-app/themes/default/css/site.css');
+/* 1. Импорт родительской темы */
+@import url('../../site/themes/waboot/css/waboot.css');
 
-/* Import child-specific styles */
-@import url('{app}-atoms.css');
-@import url('{app}-molecules.css');
-@import url('{app}-organisms.css');
+/* 2. Импорт компонентов Atomic Design */
+@import url('atoms.css');
+@import url('molecules.css');
+@import url('organisms.css');
+
+/* 3. Импорт утилит */
+@import url('utilities.css');
 ```
 
 #### **4. JavaScript Integration**
 ```javascript
-// js/waboot-{app}.js
+// js/waboot-child.js
 
 document.addEventListener('alpine:init', () => {
     // Extend parent store
-    Alpine.store('{app}', {
+    Alpine.store('child', {
         ...Alpine.store('site'),
         // App-specific extensions
     });
@@ -793,18 +882,36 @@ document.addEventListener('alpine:init', () => {
 
 ### **Code Quality Standards**
 
-#### **BEM Naming Convention**
+#### **BEM Naming Convention - ИСПРАВЛЕННАЯ МЕТОДОЛОГИЯ**
 ```css
 /* Block */
-.waboot-{app}__component { }
+.waboot__component { }
 
 /* Element */
-.waboot-{app}__component__element { }
+.waboot__component__element { }
 
 /* Modifier */
-.waboot-{app}__component--modifier { }
-.waboot-{app}__component__element--modifier { }
+.waboot__component--modifier { }
+.waboot__component__element--modifier { }
+
+/* App-specific overrides */
+.waboot-child__component { }
+.waboot-child__component__element { }
 ```
+
+#### **КРИТИЧЕСКИЕ ПРАВИЛА BEM**
+
+**❌ ЗАПРЕЩЕНО:**
+- Использовать префиксы приложений в базовых классах (`waboot-shop__`, `waboot-blog__`)
+- Создавать слишком длинные имена классов
+- Нарушать иерархию BEM (блок → элемент → модификатор)
+- Использовать вложенные селекторы
+
+**✅ ОБЯЗАТЕЛЬНО:**
+- Использовать единый префикс `waboot__` для базовых компонентов
+- Использовать `waboot-child__` только для специфичных переопределений
+- Соблюдать плоскую структуру CSS
+- Документировать все компоненты
 
 #### **Template Standards**
 ```smarty
@@ -818,7 +925,7 @@ document.addEventListener('alpine:init', () => {
 {$param = $param|default:'default_value'}
 
 {* Component markup with BEM classes *}
-<div class="waboot-{app}__component {if $modifier}waboot-{app}__component--{$modifier}{/if}">
+<div class="waboot__component {if $modifier}waboot__component--{$modifier}{/if}">
     {* Component content *}
 </div>
 ```
@@ -848,6 +955,20 @@ Alpine.data('componentName', (config) => ({
 }));
 ```
 
+#### **КРИТИЧЕСКИЕ ПРАВИЛА ALPINE.JS**
+
+**❌ ЗАПРЕЩЕНО:**
+- Создавать конфликтующие имена компонентов
+- Использовать глобальные переменные
+- Нарушать принципы реактивности
+- Создавать слишком сложные компоненты
+
+**✅ ОБЯЗАТЕЛЬНО:**
+- Использовать уникальные имена компонентов
+- Соблюдать принципы реактивности Alpine.js
+- Разделять сложную логику на простые компоненты
+- Документировать все методы и свойства
+
 ---
 
 ## 🧪 **TESTING & QUALITY ASSURANCE**
@@ -862,6 +983,14 @@ Alpine.data('componentName', (config) => ({
 - [ ] **Search & Filters**: Search and filtering systems work correctly
 - [ ] **Cart Operations**: Shopping cart functions (for shop theme)
 - [ ] **User Interactions**: Social features work (for hub theme)
+
+#### **НАСЛЕДОВАНИЕ И СТРУКТУРА**
+- [ ] **Theme.xml Validation**: XML файл корректен и валиден
+- [ ] **Parent Theme Inheritance**: Правильное наследование от родительской темы
+- [ ] **CSS Structure**: Структура CSS соответствует Atomic Design
+- [ ] **Template Structure**: Шаблоны организованы по Atomic Design
+- [ ] **BEM Naming**: Все классы следуют BEM методологии
+- [ ] **Asset Loading**: Все ассеты загружаются корректно
 
 #### **Cross-Browser Testing**
 - [ ] **Chrome**: Latest version compatibility
@@ -902,6 +1031,21 @@ npm install -g csslint
 # Validate CSS files
 stylelint "css/**/*.css"
 csslint css/waboot-child.css
+```
+
+#### **ТЕМА ВАЛИДАЦИЯ**
+```bash
+# Валидация структуры темы
+./validate-theme.sh {theme-path}
+
+# Валидация theme.xml
+xmllint --valid theme.xml
+
+# Проверка наследования
+./check-inheritance.sh {parent-theme} {child-theme}
+
+# Валидация BEM классов
+./validate-bem.sh css/
 ```
 
 #### **JavaScript Testing**
@@ -1006,6 +1150,63 @@ cp -r /path/to/webasyst/wa-apps/{app}/themes/waboot-child/ backup/
 - **Version Control**: Use Git for version control and collaboration
 - **Code Review**: Implement code review process for quality assurance
 
+#### **ПРЕДОТВРАЩЕНИЕ ОШИБОК НАСЛЕДОВАНИЯ**
+
+**🔍 ЧЕК-ЛИСТ ПЕРЕД РАЗРАБОТКОЙ:**
+- [ ] Проверить существование родительской темы
+- [ ] Убедиться в корректности theme.xml структуры
+- [ ] Проверить пути к родительским файлам
+- [ ] Валидировать CSS структуру
+- [ ] Проверить BEM именование
+
+**🚨 ТИПИЧНЫЕ ОШИБКИ И РЕШЕНИЯ:**
+
+**Ошибка 1: Неправильный путь к родительской теме**
+```xml
+<!-- ❌ НЕПРАВИЛЬНО -->
+<parent_theme app="site">default</parent_theme>
+
+<!-- ✅ ПРАВИЛЬНО -->
+<parent_theme app="site">waboot</parent_theme>
+```
+
+**Ошибка 2: Неправильная структура CSS**
+```css
+/* ❌ НЕПРАВИЛЬНО */
+@import url('shop-atoms.css');
+@import url('shop-molecules.css');
+
+/* ✅ ПРАВИЛЬНО */
+@import url('atoms.css');
+@import url('molecules.css');
+```
+
+**Ошибка 3: Нарушение Atomic Design**
+```
+/* ❌ НЕПРАВИЛЬНО */
+templates/
+├── home.html
+├── product.html
+└── atoms/
+
+/* ✅ ПРАВИЛЬНО */
+templates/
+├── pages/
+│   ├── home.html
+│   └── product.html
+└── atoms/
+```
+
+**Ошибка 4: Неправильное BEM именование**
+```css
+/* ❌ НЕПРАВИЛЬНО */
+.waboot-shop__button { }
+
+/* ✅ ПРАВИЛЬНО */
+.waboot__button { }
+.waboot-child__button { }
+```
+
 #### **Performance Optimization**
 - **Asset Minification**: Minify CSS and JavaScript files
 - **Image Optimization**: Optimize images for web delivery
@@ -1026,6 +1227,32 @@ cp -r /path/to/webasyst/wa-apps/{app}/themes/waboot-child/ backup/
 - **CSRF Protection**: Implement CSRF protection for forms
 - **Secure Headers**: Set appropriate security headers
 - **Regular Updates**: Keep dependencies updated
+
+#### **ОТЛАДКА ПРОБЛЕМ НАСЛЕДОВАНИЯ**
+
+**🔧 ИНСТРУМЕНТЫ ОТЛАДКИ:**
+```bash
+# Проверка структуры темы
+find {theme-path} -type f -name "*.xml" -exec xmllint --valid {} \;
+
+# Проверка CSS импортов
+grep -r "@import" {theme-path}/css/
+
+# Проверка BEM классов
+grep -r "waboot-" {theme-path}/css/ | grep -v "waboot-child"
+
+# Проверка путей к родительским файлам
+grep -r "extends file" {theme-path}/templates/
+```
+
+**📋 ЧЕК-ЛИСТ ОТЛАДКИ:**
+1. **Проверить theme.xml**: Валидность и правильность наследования
+2. **Проверить CSS структуру**: Соответствие Atomic Design
+3. **Проверить templates**: Правильность путей и структуры
+4. **Проверить BEM классы**: Соответствие методологии
+5. **Проверить ассеты**: Корректность загрузки файлов
+6. **Проверить консоль**: Отсутствие ошибок JavaScript
+7. **Проверить сеть**: Корректность загрузки ресурсов
 
 ### **Maintenance Guidelines**
 
