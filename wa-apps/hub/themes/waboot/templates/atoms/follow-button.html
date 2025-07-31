@@ -1,0 +1,406 @@
+{* Hub Follow Button Atom - Кнопка подписки с полной поддержкой WCAG 2.1 AA *}
+{strip}
+{* Получаем данные пользователя *}
+{$_user_id = $wa->user()->getId()}
+{$_is_following = false}
+{$_follow_count = 0}
+
+{* Проверяем статус подписки *}
+{if !empty($_user_id) && !empty($user_id)}
+    {$_is_following = $wa->hub->isFollowing($_user_id, $user_id)}
+    {$_follow_count = $wa->hub->getFollowCount($user_id)}
+{/if}
+
+{* Кнопка подписки с полной доступностью *}
+<div class="hub-follow-button" 
+     x-data="hubFollowButton()" 
+     x-init="init('{$user_id}', {$_is_following|json_encode}, {$_follow_count})"
+     role="group" 
+     aria-labelledby="follow-button-label-{$user_id}">
+    
+    {* Скрытый заголовок для screen readers *}
+    <h4 class="visually-hidden" id="follow-button-label-{$user_id}">{_w("Follow user options")}</h4>
+    
+    {* Основная кнопка подписки *}
+    <button type="button"
+            class="hub-follow-button__btn"
+            :class="{
+                'hub-follow-button__btn--following': isFollowing,
+                'hub-follow-button__btn--loading': isLoading
+            }"
+            @click="toggleFollow"
+            @keydown.enter="toggleFollow"
+            @keydown.space.prevent="toggleFollow"
+            :disabled="isLoading"
+            :aria-pressed="isFollowing"
+            :aria-describedby="'follow-status-' + userId"
+            :aria-label="getFollowButtonLabel()"
+            role="button"
+            tabindex="0">
+        
+        {* Иконка состояния *}
+        <span class="hub-follow-button__icon" 
+              :class="{
+                  'hub-follow-button__icon--following': isFollowing,
+                  'hub-follow-button__icon--loading': isLoading
+              }"
+              aria-hidden="true">
+            <svg x-show="!isFollowing && !isLoading" 
+                 class="hub-follow-button__svg" 
+                 width="16" 
+                 height="16" 
+                 viewBox="0 0 16 16" 
+                 fill="currentColor">
+                <path d="M8 1.5a.5.5 0 0 1 .5.5v5.5H14a.5.5 0 0 1 0 1H8.5V14a.5.5 0 0 1-1 0V8.5H2a.5.5 0 0 1 0-1h5.5V2a.5.5 0 0 1 .5-.5z"/>
+            </svg>
+            
+            <svg x-show="isFollowing && !isLoading" 
+                 class="hub-follow-button__svg" 
+                 width="16" 
+                 height="16" 
+                 viewBox="0 0 16 16" 
+                 fill="currentColor">
+                <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+            </svg>
+            
+            <svg x-show="isLoading" 
+                 class="hub-follow-button__svg hub-follow-button__svg--spinning" 
+                 width="16" 
+                 height="16" 
+                 viewBox="0 0 16 16" 
+                 fill="currentColor">
+                <path d="M8 3a5 5 0 1 0 5 5H8V3z"/>
+            </svg>
+        </span>
+        
+        {* Текст кнопки *}
+        <span class="hub-follow-button__text" x-text="getFollowButtonText()"></span>
+        
+        {* Счетчик подписчиков *}
+        <span class="hub-follow-button__count" 
+              :id="'follow-count-' + userId"
+              x-show="followCount > 0"
+              :aria-label="getFollowCountLabel()">
+            (<span x-text="followCount"></span>)
+        </span>
+    </button>
+    
+    {* Статус для screen readers *}
+    <div :id="'follow-status-' + userId" 
+         class="visually-hidden" 
+         role="status" 
+         aria-live="polite" 
+         x-text="getFollowStatusText()">
+    </div>
+    
+    {* Сообщения об ошибках *}
+    <div x-show="error" 
+         class="hub-follow-button__error" 
+         role="alert" 
+         aria-live="assertive">
+        <span x-text="error"></span>
+    </div>
+    
+    {* JSON-LD структурированные данные *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FollowAction",
+        "agent": {
+            "@type": "Person",
+            "identifier": "{$wa->user()->getId()}"
+        },
+        "object": {
+            "@type": "Person",
+            "identifier": "{$user_id}"
+        },
+        "actionStatus": "{if $_is_following}CompletedActionStatus{else}PotentialActionStatus{/if}"
+    }
+    </script>
+</div>
+
+{* CSS стили для кнопки подписки с поддержкой доступности *}
+<style>
+.hub-follow-button {
+    display: inline-block;
+    position: relative;
+}
+
+.hub-follow-button__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #005a87; /* Улучшенный контраст */
+    color: white;
+    border: 1px solid #005a87;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 36px;
+    min-width: 100px;
+}
+
+.hub-follow-button__btn:hover:not(:disabled) {
+    background: #003d5a;
+    border-color: #003d5a;
+    color: white;
+}
+
+.hub-follow-button__btn:focus {
+    outline: 2px solid #005a87;
+    outline-offset: 2px;
+}
+
+.hub-follow-button__btn:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.hub-follow-button__btn:focus-visible {
+    outline: 2px solid #005a87;
+    outline-offset: 2px;
+}
+
+.hub-follow-button__btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #ccc;
+    border-color: #ccc;
+    color: #666;
+}
+
+/* Состояние "Подписан" */
+.hub-follow-button__btn--following {
+    background: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.hub-follow-button__btn--following:hover:not(:disabled) {
+    background: #218838;
+    border-color: #218838;
+}
+
+/* Состояние загрузки */
+.hub-follow-button__btn--loading {
+    background: #6c757d;
+    border-color: #6c757d;
+    color: white;
+    cursor: wait;
+}
+
+/* Иконки */
+.hub-follow-button__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.hub-follow-button__svg {
+    width: 16px;
+    height: 16px;
+}
+
+.hub-follow-button__svg--spinning {
+    animation: hub-spin 1s linear infinite;
+}
+
+@keyframes hub-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Текст кнопки */
+.hub-follow-button__text {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Счетчик */
+.hub-follow-button__count {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    font-weight: normal;
+}
+
+/* Сообщения об ошибках */
+.hub-follow-button__error {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    z-index: 10;
+}
+
+/* Visually Hidden */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .hub-follow-button__btn {
+        border: 2px solid #000;
+        background: #fff;
+        color: #000;
+    }
+    
+    .hub-follow-button__btn:hover:not(:disabled) {
+        background: #000;
+        color: #fff;
+    }
+    
+    .hub-follow-button__btn--following {
+        background: #000;
+        color: #fff;
+        border-color: #000;
+    }
+    
+    .hub-follow-button__btn:focus {
+        outline: 3px solid #000;
+        outline-offset: 1px;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .hub-follow-button__btn {
+        transition: none;
+    }
+    
+    .hub-follow-button__svg--spinning {
+        animation: none;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .hub-follow-button__btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        min-width: 80px;
+    }
+    
+    .hub-follow-button__text {
+        display: none;
+    }
+    
+    .hub-follow-button__count {
+        display: none;
+    }
+}
+</style>
+
+{* Alpine.js компонент для кнопки подписки *}
+<script>
+function hubFollowButton() {
+    return {
+        userId: '',
+        isFollowing: false,
+        followCount: 0,
+        isLoading: false,
+        error: null,
+        
+        init(userId, following, count) {
+            this.userId = userId;
+            this.isFollowing = following;
+            this.followCount = count;
+        },
+        
+        async toggleFollow() {
+            if (this.isLoading) return;
+            
+            this.isLoading = true;
+            this.error = null;
+            
+            try {
+                const response = await fetch('/hub/frontend/follow', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({
+                        user_id: this.userId,
+                        action: this.isFollowing ? 'unfollow' : 'follow',
+                        csrf_token: '{$wa->csrf()}'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.isFollowing = !this.isFollowing;
+                    this.followCount = data.follow_count || this.followCount;
+                    
+                    // Обновляем счетчик в других местах на странице
+                    const countElements = document.querySelectorAll(`[data-follow-count="${this.userId}"]`);
+                    countElements.forEach(el => {
+                        el.textContent = this.followCount;
+                    });
+                } else {
+                    this.error = data.error || 'An error occurred';
+                }
+            } catch (err) {
+                this.error = 'Network error occurred';
+                console.error('Follow button error:', err);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+        
+        getFollowButtonText() {
+            if (this.isLoading) return '{_w("Loading...")}';
+            return this.isFollowing ? '{_w("Following")}' : '{_w("Follow")}';
+        },
+        
+        getFollowButtonLabel() {
+            if (this.isLoading) return '{_w("Loading follow status")}';
+            return this.isFollowing ? 
+                '{_w("Unfollow user")} (currently following)' : 
+                '{_w("Follow user")} (not currently following)';
+        },
+        
+        getFollowCountLabel() {
+            return `{_w("Number of followers")}: ${this.followCount}`;
+        },
+        
+        getFollowStatusText() {
+            if (this.isLoading) return '{_w("Loading follow status")}';
+            return this.isFollowing ? 
+                '{_w("You are following this user")}' : 
+                '{_w("You are not following this user")}';
+        }
+    };
+}
+</script>
+{/strip} 

@@ -1,0 +1,37 @@
+{*
+ * Organization Schema for Hub
+ * Implements schema.org Organization markup for Hub application
+ *}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "{$wa->getUrl('/', [], true)}#organization",
+  "name": "{$wa->accountName()|escape}",
+  "url": "{$wa->getUrl('/', [], true)}",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "{$wa->getDataUrl('logo.png', true)}",
+    "width": "200",
+    "height": "60"
+  },
+  "description": "{$wa->account()->description|default:'Community platform and discussion forum'|escape}",
+  "sameAs": [
+    {if $wa->setting('social_facebook')}"https://www.facebook.com/{$wa->setting('social_facebook')|escape}"{/if}
+    {if $wa->setting('social_instagram')}", "https://www.instagram.com/{$wa->setting('social_instagram')|escape}"{/if}
+    {if $wa->setting('social_twitter')}", "https://twitter.com/{$wa->setting('social_twitter')|escape}"{/if}
+    {if $wa->setting('social_linkedin')}", "https://www.linkedin.com/company/{$wa->setting('social_linkedin')|escape}"{/if}
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "{$wa->setting('contact_phone')|default:'+1-555-555-5555'|escape}",
+    "contactType": "customer service",
+    "areaServed": "{$wa->setting('contact_country')|default:'US'|escape}",
+    "availableLanguage": "{$wa->setting('contact_language')|default:'English'|escape}"
+  },
+  "foundingDate": "{$wa->setting('founding_date')|default:'2020-01-01'|escape}",
+  "numberOfEmployees": "{$wa->setting('employees_count')|default:'10'|escape}",
+  "serviceType": "Community Platform"
+}
+</script> 

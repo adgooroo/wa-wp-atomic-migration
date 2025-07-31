@@ -1,99 +1,137 @@
-<?xml version="1.0" encoding="utf-8"?>
-<theme id="waboot" app="hub">
-    <name>Waboot Hub</name>
-    <description>A modern, fully-local Webasyst hub theme inheriting from site:waboot. Built with Bootstrap 5, Alpine.js, and BEM methodology for outstanding social network performance.</description>
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+    <name>Hub Waboot</name>
+    <description>Hub application theme based on Site Waboot with Discourse-style design and full WCAG 2.1 AA accessibility support</description>
     <version>1.0.0</version>
-    <vendor>Waboot Team</vendor>
-    <author>WordPress to Webasyst Migration Project</author>
-    <url>https://github.com/wp-wa-migration/waboot</url>
-    
-    <!-- Parent theme - inherits from site:waboot -->
     <parent_theme>site:waboot</parent_theme>
+    <author>Webasyst Team</author>
+    <license>MIT</license>
     
-    <!-- LOCALIZATION SECTION -->
+    <!-- Theme Files Structure -->
+    <files>
+        <!-- CSS Files -->
+        <file path="css/waboot-hub.css" type="stylesheet"/>
+        <file path="css/hub-atoms.css" type="stylesheet"/>
+        <file path="css/hub-molecules.css" type="stylesheet"/>
+        <file path="css/hub-organisms.css" type="stylesheet"/>
+        <file path="css/hub-accessibility.css" type="stylesheet"/>
+        <!-- JavaScript Files -->
+        <file path="js/waboot-hub.js" type="javascript"/>
+        <!-- Template Files -->
+        <file path="home.html" type="template"/>
+        <file path="search.html" type="template"/>
+        <file path="topic.html" type="template"/>
+        <file path="category.html" type="template"/>
+        <file path="list-topics.html" type="template"/>
+        <file path="comment.html" type="template"/>
+        <file path="author.html" type="template"/>
+        <file path="templates/atoms/user-avatar.html" type="template"/>
+        <file path="templates/atoms/follow-button.html" type="template"/>
+        <file path="templates/molecules/user-card.html" type="template"/>
+        <file path="templates/organisms/activity-feed.html" type="template"/>
+    </files>
+    
     <locales>
-        <!-- Social Network Elements -->
         <locale>
-            <msgid>Profile</msgid>
-            <msgstr locale="ru_RU">Профиль</msgstr>
-            <msgstr locale="en_US">Profile</msgstr>
+            <msgid>Categories</msgid>
+            <msgstr locale="en_US">Categories</msgstr>
+            <msgstr locale="ru_RU">Категории</msgstr>
         </locale>
         <locale>
-            <msgid>Friends</msgid>
-            <msgstr locale="ru_RU">Друзья</msgstr>
-            <msgstr locale="en_US">Friends</msgstr>
+            <msgid>Search results</msgid>
+            <msgstr locale="en_US">Search results</msgstr>
+            <msgstr locale="ru_RU">Результаты поиска</msgstr>
         </locale>
         <locale>
-            <msgid>Messages</msgid>
-            <msgstr locale="ru_RU">Сообщения</msgstr>
-            <msgstr locale="en_US">Messages</msgstr>
+            <msgid>Search query</msgid>
+            <msgstr locale="en_US">Search query</msgstr>
+            <msgstr locale="ru_RU">Поисковый запрос</msgstr>
         </locale>
         <locale>
-            <msgid>Notifications</msgid>
-            <msgstr locale="ru_RU">Уведомления</msgstr>
-            <msgstr locale="en_US">Notifications</msgstr>
+            <msgid>Author</msgid>
+            <msgstr locale="en_US">Author</msgstr>
+            <msgstr locale="ru_RU">Автор</msgstr>
         </locale>
         <locale>
-            <msgid>Like</msgid>
-            <msgstr locale="ru_RU">Нравится</msgstr>
-            <msgstr locale="en_US">Like</msgstr>
+            <msgid>Published on</msgid>
+            <msgstr locale="en_US">Published on</msgstr>
+            <msgstr locale="ru_RU">Опубликовано</msgstr>
         </locale>
         <locale>
-            <msgid>Comment</msgid>
-            <msgstr locale="ru_RU">Комментировать</msgstr>
-            <msgstr locale="en_US">Comment</msgstr>
+            <msgid>Comments</msgid>
+            <msgstr locale="en_US">Comments</msgstr>
+            <msgstr locale="ru_RU">Комментарии</msgstr>
         </locale>
         <locale>
-            <msgid>Share</msgid>
-            <msgstr locale="ru_RU">Поделиться</msgstr>
-            <msgstr locale="en_US">Share</msgstr>
+            <msgid>Add a comment</msgid>
+            <msgstr locale="en_US">Add a comment</msgstr>
+            <msgstr locale="ru_RU">Добавить комментарий</msgstr>
         </locale>
         <locale>
-            <msgid>Follow</msgid>
-            <msgstr locale="ru_RU">Подписаться</msgstr>
-            <msgstr locale="en_US">Follow</msgstr>
+            <msgid>Your name</msgid>
+            <msgstr locale="en_US">Your name</msgstr>
+            <msgstr locale="ru_RU">Ваше имя</msgstr>
         </locale>
         <locale>
-            <msgid>Unfollow</msgid>
-            <msgstr locale="ru_RU">Отписаться</msgstr>
-            <msgstr locale="en_US">Unfollow</msgstr>
-        </locale>
-        
-        <!-- Activity Feed -->
-        <locale>
-            <msgid>Activity Feed</msgid>
-            <msgstr locale="ru_RU">Лента активности</msgstr>
-            <msgstr locale="en_US">Activity Feed</msgstr>
+            <msgid>Your email</msgid>
+            <msgstr locale="en_US">Your email</msgstr>
+            <msgstr locale="ru_RU">Ваш email</msgstr>
         </locale>
         <locale>
-            <msgid>What's on your mind?</msgid>
-            <msgstr locale="ru_RU">О чем вы думаете?</msgstr>
-            <msgstr locale="en_US">What's on your mind?</msgstr>
+            <msgid>Comment text</msgid>
+            <msgstr locale="en_US">Comment text</msgstr>
+            <msgstr locale="ru_RU">Текст комментария</msgstr>
         </locale>
         <locale>
-            <msgid>Post</msgid>
-            <msgstr locale="ru_RU">Опубликовать</msgstr>
-            <msgstr locale="en_US">Post</msgstr>
-        </locale>
-        
-        <!-- User Actions -->
-        <locale>
-            <msgid>Edit Profile</msgid>
-            <msgstr locale="ru_RU">Редактировать профиль</msgstr>
-            <msgstr locale="en_US">Edit Profile</msgstr>
+            <msgid>Submit comment</msgid>
+            <msgstr locale="en_US">Submit comment</msgstr>
+            <msgstr locale="ru_RU">Отправить комментарий</msgstr>
         </locale>
         <locale>
-            <msgid>Settings</msgid>
-            <msgstr locale="ru_RU">Настройки</msgstr>
-            <msgstr locale="en_US">Settings</msgstr>
+            <msgid>All authors</msgid>
+            <msgstr locale="en_US">All authors</msgstr>
+            <msgstr locale="ru_RU">Все авторы</msgstr>
         </locale>
         <locale>
-            <msgid>Logout</msgid>
-            <msgstr locale="ru_RU">Выйти</msgstr>
-            <msgstr locale="en_US">Logout</msgstr>
+            <msgid>Topics by</msgid>
+            <msgstr locale="en_US">Topics by</msgstr>
+            <msgstr locale="ru_RU">Топики от</msgstr>
         </locale>
-        
-        <!-- Plurals Support -->
+        <locale>
+            <msgid>Comments by</msgid>
+            <msgstr locale="en_US">Comments by</msgstr>
+            <msgstr locale="ru_RU">Комментарии от</msgstr>
+        </locale>
+        <locale>
+            <msgid>No topics found.</msgid>
+            <msgstr locale="en_US">No topics found.</msgstr>
+            <msgstr locale="ru_RU">Топики не найдены.</msgstr>
+        </locale>
+        <locale>
+            <msgid>No comments found.</msgid>
+            <msgstr locale="en_US">No comments found.</msgstr>
+            <msgstr locale="ru_RU">Комментарии не найдены.</msgstr>
+        </locale>
+        <locale>
+            <msgid>Read more</msgid>
+            <msgstr locale="en_US">Read more</msgstr>
+            <msgstr locale="ru_RU">Читать далее</msgstr>
+        </locale>
+        <locale>
+            <msgid>Views</msgid>
+            <msgstr locale="en_US">Views</msgstr>
+            <msgstr locale="ru_RU">Просмотры</msgstr>
+        </locale>
+        <locale>
+            <msgid>Topics</msgid>
+            <msgstr locale="en_US">Topics</msgstr>
+            <msgstr locale="ru_RU">Топики</msgstr>
+        </locale>
+        <locale>
+            <msgid>No categories found.</msgid>
+            <msgstr locale="en_US">No categories found.</msgstr>
+            <msgstr locale="ru_RU">Категории не найдены.</msgstr>
+        </locale>
         <locale>
             <msgid>friend</msgid>
             <msgid_plural>friends</msgid_plural>
@@ -112,112 +150,256 @@
             <msgstr locale="en_US">message</msgstr>
             <msgstr_plural locale="en_US">messages</msgstr_plural>
         </locale>
+        <!-- Accessibility strings -->
+        <locale>
+            <msgid>Skip to main content</msgid>
+            <msgstr locale="en_US">Skip to main content</msgstr>
+            <msgstr locale="ru_RU">Перейти к основному содержимому</msgstr>
+        </locale>
+        <locale>
+            <msgid>Skip to navigation</msgid>
+            <msgstr locale="en_US">Skip to navigation</msgstr>
+            <msgstr locale="ru_RU">Перейти к навигации</msgstr>
+        </locale>
+        <locale>
+            <msgid>Main Navigation</msgid>
+            <msgstr locale="en_US">Main Navigation</msgstr>
+            <msgstr locale="ru_RU">Главная навигация</msgstr>
+        </locale>
+        <locale>
+            <msgid>Current page</msgid>
+            <msgstr locale="en_US">Current page</msgstr>
+            <msgstr locale="ru_RU">Текущая страница</msgstr>
+        </locale>
+        <locale>
+            <msgid>Hub Community</msgid>
+            <msgstr locale="en_US">Hub Community</msgstr>
+            <msgstr locale="ru_RU">Сообщество Hub</msgstr>
+        </locale>
+        <locale>
+            <msgid>Welcome to our community forum. Connect, share, and learn together.</msgid>
+            <msgstr locale="en_US">Welcome to our community forum. Connect, share, and learn together.</msgstr>
+            <msgstr locale="ru_RU">Добро пожаловать в наше сообщество. Общайтесь, делитесь и учитесь вместе.</msgstr>
+        </locale>
+        <locale>
+            <msgid>Home</msgid>
+            <msgstr locale="en_US">Home</msgstr>
+            <msgstr locale="ru_RU">Главная</msgstr>
+        </locale>
+        <locale>
+            <msgid>Search</msgid>
+            <msgstr locale="en_US">Search</msgstr>
+            <msgstr locale="ru_RU">Поиск</msgstr>
+        </locale>
+        <locale>
+            <msgid>Guidelines</msgid>
+            <msgstr locale="en_US">Guidelines</msgstr>
+            <msgstr locale="ru_RU">Правила</msgstr>
+        </locale>
+        <locale>
+            <msgid>List of community categories with topic counts</msgid>
+            <msgstr locale="en_US">List of community categories with topic counts</msgstr>
+            <msgstr locale="ru_RU">Список категорий сообщества с количеством топиков</msgstr>
+        </locale>
+        <locale>
+            <msgid>Number of topics in</msgid>
+            <msgstr locale="en_US">Number of topics in</msgstr>
+            <msgstr locale="ru_RU">Количество топиков в</msgstr>
+        </locale>
+        <locale>
+            <msgid>Recent Topics</msgid>
+            <msgstr locale="en_US">Recent Topics</msgstr>
+            <msgstr locale="ru_RU">Последние топики</msgstr>
+        </locale>
+        <locale>
+            <msgid>Community forum for discussion and collaboration</msgid>
+            <msgstr locale="en_US">Community forum for discussion and collaboration</msgstr>
+            <msgstr locale="ru_RU">Форум сообщества для обсуждения и сотрудничества</msgstr>
+        </locale>
+        <locale>
+            <msgid>Hub Community Interface</msgid>
+            <msgstr locale="en_US">Hub Community Interface</msgstr>
+            <msgstr locale="ru_RU">Интерфейс сообщества Hub</msgstr>
+        </locale>
+        <locale>
+            <msgid>No Categories Available</msgid>
+            <msgstr locale="en_US">No Categories Available</msgstr>
+            <msgstr locale="ru_RU">Категории недоступны</msgstr>
+        </locale>
+        <locale>
+            <msgid>Topics List</msgid>
+            <msgstr locale="en_US">Topics List</msgstr>
+            <msgstr locale="ru_RU">Список топиков</msgstr>
+        </locale>
+        <locale>
+            <msgid>Topics Table</msgid>
+            <msgstr locale="en_US">Topics Table</msgstr>
+            <msgstr locale="ru_RU">Таблица топиков</msgstr>
+        </locale>
+        <locale>
+            <msgid>Topics list with categories, replies, views and activity</msgid>
+            <msgstr locale="en_US">Topics list with categories, replies, views and activity</msgstr>
+            <msgstr locale="ru_RU">Список топиков с категориями, ответами, просмотрами и активностью</msgstr>
+        </locale>
+        <locale>
+            <msgid>Table showing topics with their categories, number of replies, views and last activity</msgid>
+            <msgstr locale="en_US">Table showing topics with their categories, number of replies, views and last activity</msgstr>
+            <msgstr locale="ru_RU">Таблица, показывающая топики с их категориями, количеством ответов, просмотров и последней активностью</msgstr>
+        </locale>
+        <locale>
+            <msgid>Number of replies</msgid>
+            <msgstr locale="en_US">Number of replies</msgstr>
+            <msgstr locale="ru_RU">Количество ответов</msgstr>
+        </locale>
+        <locale>
+            <msgid>Number of views</msgid>
+            <msgstr locale="en_US">Number of views</msgstr>
+            <msgstr locale="ru_RU">Количество просмотров</msgstr>
+        </locale>
+        <locale>
+            <msgid>Topic status</msgid>
+            <msgstr locale="en_US">Topic status</msgstr>
+            <msgstr locale="ru_RU">Статус топика</msgstr>
+        </locale>
+        <locale>
+            <msgid>Topic tags</msgid>
+            <msgstr locale="en_US">Topic tags</msgstr>
+            <msgstr locale="ru_RU">Теги топика</msgstr>
+        </locale>
+        <locale>
+            <msgid>View topics by</msgid>
+            <msgstr locale="en_US">View topics by</msgstr>
+            <msgstr locale="ru_RU">Просмотреть топики от</msgstr>
+        </locale>
+        <locale>
+            <msgid>Created on</msgid>
+            <msgstr locale="en_US">Created on</msgstr>
+            <msgstr locale="ru_RU">Создано</msgstr>
+        </locale>
+        <locale>
+            <msgid>View category</msgid>
+            <msgstr locale="en_US">View category</msgstr>
+            <msgstr locale="ru_RU">Просмотреть категорию</msgstr>
+        </locale>
+        <locale>
+            <msgid>No category assigned</msgid>
+            <msgstr locale="en_US">No category assigned</msgstr>
+            <msgstr locale="ru_RU">Категория не назначена</msgstr>
+        </locale>
+        <locale>
+            <msgid>Last activity</msgid>
+            <msgstr locale="en_US">Last activity</msgstr>
+            <msgstr locale="ru_RU">Последняя активность</msgstr>
+        </locale>
+        <locale>
+            <msgid>Topics pagination</msgid>
+            <msgstr locale="en_US">Topics pagination</msgstr>
+            <msgstr locale="ru_RU">Пагинация топиков</msgstr>
+        </locale>
+        <locale>
+            <msgid>Previous page</msgid>
+            <msgstr locale="en_US">Previous page</msgstr>
+            <msgstr locale="ru_RU">Предыдущая страница</msgstr>
+        </locale>
+        <locale>
+            <msgid>Previous</msgid>
+            <msgstr locale="en_US">Previous</msgstr>
+            <msgstr locale="ru_RU">Предыдущая</msgstr>
+        </locale>
+        <locale>
+            <msgid>Page</msgid>
+            <msgstr locale="en_US">Page</msgstr>
+            <msgstr locale="ru_RU">Страница</msgstr>
+        </locale>
+        <locale>
+            <msgid>current page</msgid>
+            <msgstr locale="en_US">current page</msgstr>
+            <msgstr locale="ru_RU">текущая страница</msgstr>
+        </locale>
+        <locale>
+            <msgid>Next page</msgid>
+            <msgstr locale="en_US">Next page</msgstr>
+            <msgstr locale="ru_RU">Следующая страница</msgstr>
+        </locale>
+        <locale>
+            <msgid>Next</msgid>
+            <msgstr locale="en_US">Next</msgstr>
+            <msgstr locale="ru_RU">Следующая</msgstr>
+        </locale>
+        <locale>
+            <msgid>No topics found</msgid>
+            <msgstr locale="en_US">No topics found</msgstr>
+            <msgstr locale="ru_RU">Топики не найдены</msgstr>
+        </locale>
+        <locale>
+            <msgid>Be the first to start a discussion!</msgid>
+            <msgstr locale="en_US">Be the first to start a discussion!</msgstr>
+            <msgstr locale="ru_RU">Будьте первым, кто начнет обсуждение!</msgstr>
+        </locale>
+        <locale>
+            <msgid>Create New Topic</msgid>
+            <msgstr locale="en_US">Create New Topic</msgstr>
+            <msgstr locale="ru_RU">Создать новый топик</msgstr>
+        </locale>
+        <locale>
+            <msgid>Follow user options</msgid>
+            <msgstr locale="en_US">Follow user options</msgstr>
+            <msgstr locale="ru_RU">Опции подписки на пользователя</msgstr>
+        </locale>
+        <locale>
+            <msgid>Loading...</msgid>
+            <msgstr locale="en_US">Loading...</msgstr>
+            <msgstr locale="ru_RU">Загрузка...</msgstr>
+        </locale>
+        <locale>
+            <msgid>Following</msgid>
+            <msgstr locale="en_US">Following</msgstr>
+            <msgstr locale="ru_RU">Подписан</msgstr>
+        </locale>
+        <locale>
+            <msgid>Follow</msgid>
+            <msgstr locale="en_US">Follow</msgstr>
+            <msgstr locale="ru_RU">Подписаться</msgstr>
+        </locale>
+        <locale>
+            <msgid>Loading follow status</msgid>
+            <msgstr locale="en_US">Loading follow status</msgstr>
+            <msgstr locale="ru_RU">Загрузка статуса подписки</msgstr>
+        </locale>
+        <locale>
+            <msgid>Unfollow user</msgid>
+            <msgstr locale="en_US">Unfollow user</msgstr>
+            <msgstr locale="ru_RU">Отписаться от пользователя</msgstr>
+        </locale>
+        <locale>
+            <msgid>currently following</msgid>
+            <msgstr locale="en_US">currently following</msgstr>
+            <msgstr locale="ru_RU">в настоящее время подписан</msgstr>
+        </locale>
+        <locale>
+            <msgid>Follow user</msgid>
+            <msgstr locale="en_US">Follow user</msgstr>
+            <msgstr locale="ru_RU">Подписаться на пользователя</msgstr>
+        </locale>
+        <locale>
+            <msgid>not currently following</msgid>
+            <msgstr locale="en_US">not currently following</msgstr>
+            <msgstr locale="ru_RU">в настоящее время не подписан</msgstr>
+        </locale>
+        <locale>
+            <msgid>Number of followers</msgid>
+            <msgstr locale="en_US">Number of followers</msgstr>
+            <msgstr locale="ru_RU">Количество подписчиков</msgstr>
+        </locale>
+        <locale>
+            <msgid>You are following this user</msgid>
+            <msgstr locale="en_US">You are following this user</msgstr>
+            <msgstr locale="ru_RU">Вы подписаны на этого пользователя</msgstr>
+        </locale>
+        <locale>
+            <msgid>You are not following this user</msgid>
+            <msgstr locale="en_US">You are not following this user</msgstr>
+            <msgstr locale="ru_RU">Вы не подписаны на этого пользователя</msgstr>
+        </locale>
     </locales>
-    
-    <!-- Theme Settings -->
-    <settings>
-        <!-- Hub-specific Layout Options -->
-        <setting var="hub_layout_type" control_type="select" name="Hub Layout Type">
-            <option value="feed">Feed Layout</option>
-            <option value="grid">Grid Layout</option>
-            <option value="list">List Layout</option>
-        </setting>
-        
-        <!-- Activity Display Options -->
-        <setting var="posts_per_page" control_type="input" name="Posts per Page">
-            <description>Number of posts to display per page</description>
-        </setting>
-        
-        <!-- Privacy Options -->
-        <setting var="default_privacy" control_type="select" name="Default Privacy">
-            <option value="public">Public</option>
-            <option value="friends">Friends Only</option>
-            <option value="private">Private</option>
-        </setting>
-        
-        <!-- Notifications -->
-        <setting var="enable_notifications" control_type="checkbox" name="Enable Notifications">
-            <description>Enable real-time notifications</description>
-        </setting>
-        
-        <!-- Friend Suggestions -->
-        <setting var="show_friend_suggestions" control_type="checkbox" name="Show Friend Suggestions">
-            <description>Display friend suggestions</description>
-        </setting>
-        
-        <!-- Activity Feed -->
-        <setting var="show_activity_feed" control_type="checkbox" name="Show Activity Feed">
-            <description>Display activity feed on homepage</description>
-        </setting>
-    </settings>
-    
-    <!-- Supported Features -->
-    <features>
-        <feature id="responsive">Fully responsive design</feature>
-        <feature id="bootstrap5">Bootstrap 5 framework</feature>
-        <feature id="alpinejs">Alpine.js micro-reactivity</feature>
-        <feature id="bem">BEM CSS methodology</feature>
-        <feature id="local_assets">No CDN dependencies</feature>
-        <feature id="social_network">Social network optimized</feature>
-        <feature id="real_time">Real-time updates</feature>
-        <feature id="friend_system">Friend system</feature>
-        <feature id="messaging">Messaging system</feature>
-        <feature id="activity_feed">Activity feed</feature>
-        <feature id="rtl">RTL language support</feature>
-        <feature id="accessibility">WCAG 2.1 compliant</feature>
-    </features>
-    
-    <!-- Required Webasyst Version -->
-    <requirements>
-        <app id="hub" version="2.0.0"/>
-        <php version="7.4.0"/>
-    </requirements>
-    
-    <!-- Theme Files Structure -->
-    <files>
-        <file path="css/hub-atoms.css" type="stylesheet"/>
-        <file path="css/hub-molecules.css" type="stylesheet"/>
-        <file path="css/hub-organisms.css" type="stylesheet"/>
-        <file path="js/waboot-hub.js" type="javascript"/>
-        <file path="templates/profile.html" type="template"/>
-        <file path="templates/activity-feed.html" type="template"/>
-        <file path="templates/friends.html" type="template"/>
-        <file path="templates/messages.html" type="template"/>
-    </files>
-    
-    <!-- Theme Compatibility -->
-    <compatibility>
-        <app id="hub" version="2.0.0"/>
-    </compatibility>
-    
-    <!-- Theme Preview Screenshots -->
-    <screenshots>
-        <screenshot path="img/screenshots/activity-feed.png">Activity Feed</screenshot>
-        <screenshot path="img/screenshots/profile.png">User Profile</screenshot>
-        <screenshot path="img/screenshots/friends.png">Friends List</screenshot>
-        <screenshot path="img/screenshots/mobile.png">Mobile View</screenshot>
-    </screenshots>
-    
-    <!-- Theme Categories -->
-    <categories>
-        <category>Social Network</category>
-        <category>Bootstrap</category>
-        <category>Responsive</category>
-        <category>Modern</category>
-    </categories>
-    
-    <!-- License Information -->
-    <license>MIT</license>
-    
-    <!-- Theme Changelog -->
-    <changelog>
-        <version number="1.0.0" date="2024-12-19">
-            <change>Initial release as hub theme</change>
-            <change>Inherits from site:waboot base theme</change>
-            <change>Social network specific components</change>
-            <change>Activity feed and profile templates</change>
-            <change>Friend system functionality</change>
-            <change>Messaging system</change>
-        </version>
-    </changelog>
 </theme> 

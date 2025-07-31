@@ -1,0 +1,67 @@
+{*
+ * Event Schema for Community Events
+ * Implements schema.org Event markup for Hub community events
+ *}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "@id": "{$wa->getUrl('hub')}event/{$event.id}/#event",
+  "name": "{$event.name|escape}",
+  "description": "{$event.description|escape}",
+  "startDate": "{$event.start_datetime}",
+  "endDate": "{$event.end_datetime}",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "{if $event.is_online}https://schema.org/OnlineEventAttendanceMode{else}https://schema.org/OfflineEventAttendanceMode{/if}",
+  "location": {
+    "@type": "{if $event.is_online}VirtualLocation{else}Place{/if}",
+    {if $event.is_online}
+    "url": "{$event.online_url|escape}"
+    {else}
+    "name": "{$event.location_name|escape}",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{$event.location_address|escape}",
+      "addressLocality": "{$event.location_city|escape}",
+      "addressRegion": "{$event.location_state|escape}",
+      "postalCode": "{$event.location_zip|escape}",
+      "addressCountry": "{$event.location_country|escape}"
+    }
+    {/if}
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "{$event.image_url|escape}",
+    "width": "1200",
+    "height": "630"
+  },
+  "organizer": {
+    "@type": "Organization",
+    "@id": "{$wa->getUrl('/', [], true)}#organization"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{$wa->getUrl('hub')}event/{$event.id}/",
+    "price": "{$event.price|default:'0'}",
+    "priceCurrency": "{$event.currency|default:'USD'}",
+    "availability": "https://schema.org/InStock"
+  },
+  "performer": [
+    {foreach $event.speakers as $speaker}
+    {
+      "@type": "Person",
+      "name": "{$speaker.name|escape}",
+      "image": {
+        "@type": "ImageObject",
+        "url": "{$speaker.photo_url|escape}"
+      }
+    }{if !$speaker@last},{/if}
+    {/foreach}
+  ],
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "{$event.audience_type|escape|default:'General Public'}"
+  }
+}
+</script> 

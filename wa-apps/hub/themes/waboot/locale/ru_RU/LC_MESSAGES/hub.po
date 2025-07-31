@@ -1,0 +1,283 @@
+# Russian translations for Hub theme
+# Copyright (C) 2025 AdGooroo
+# This file is distributed under the same license as the Hub theme package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Hub theme 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/adgooroo/wa-wp-atomic-migration\n"
+"POT-Creation-Date: 2025-01-16 12:00+0000\n"
+"PO-Revision-Date: 2025-01-16 12:00+0000\n"
+"Last-Translator: AdGooroo <info@adgooroo.com>\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: templates/atoms/user-avatar.html:45
+msgid "Avatar for"
+msgstr "Аватар для"
+
+#: templates/atoms/user-avatar.html:52
+msgid "Default avatar for"
+msgstr "Аватар по умолчанию для"
+
+#: templates/atoms/user-avatar.html:58
+msgid "User is online"
+msgstr "Пользователь в сети"
+
+#: templates/atoms/user-avatar.html:58
+msgid "User is offline"
+msgstr "Пользователь не в сети"
+
+#: templates/atoms/follow-button.html:42
+msgid "Unfollow"
+msgstr "Отписаться"
+
+#: templates/atoms/follow-button.html:42
+msgid "Follow"
+msgstr "Подписаться"
+
+#: templates/atoms/follow-button.html:45
+msgid "Processing..."
+msgstr "Обработка..."
+
+#: templates/atoms/follow-button.html:50
+msgid "Click to unfollow this user"
+msgstr "Нажмите, чтобы отписаться от пользователя"
+
+#: templates/atoms/follow-button.html:50
+msgid "Click to follow this user"
+msgstr "Нажмите, чтобы подписаться на пользователя"
+
+#: templates/atoms/follow-button.html:85
+msgid "Successfully followed user"
+msgstr "Успешно подписались на пользователя"
+
+#: templates/atoms/follow-button.html:85
+msgid "Successfully unfollowed user"
+msgstr "Успешно отписались от пользователя"
+
+#: templates/atoms/follow-button.html:89
+msgid "Operation failed"
+msgstr "Операция не удалась"
+
+#: templates/atoms/follow-button.html:93
+msgid "Network error"
+msgstr "Ошибка сети"
+
+#: templates/molecules/user-card.html:89
+msgid "Member since"
+msgstr "Участник с"
+
+#: templates/molecules/user-card.html:108
+msgid "Send message to"
+msgstr "Отправить сообщение"
+
+#: templates/molecules/user-card.html:111
+msgid "Message"
+msgstr "Сообщение"
+
+#: templates/organisms/activity-feed.html:67
+msgid "Activity feed"
+msgstr "Лента активности"
+
+#: templates/organisms/activity-feed.html:75
+msgid "Following Activity"
+msgstr "Активность подписок"
+
+#: templates/organisms/activity-feed.html:77
+msgid "Your Activity"
+msgstr "Ваша активность"
+
+#: templates/organisms/activity-feed.html:79
+msgid "Community Activity"
+msgstr "Активность сообщества"
+
+#: templates/organisms/activity-feed.html:87
+msgid "Filter activity feed"
+msgstr "Фильтр ленты активности"
+
+#: templates/organisms/activity-feed.html:89
+msgid "All Activity"
+msgstr "Вся активность"
+
+#: templates/organisms/activity-feed.html:90
+msgid "Following"
+msgstr "Подписки"
+
+#: templates/organisms/activity-feed.html:92
+msgid "Your Activity"
+msgstr "Ваша активность"
+
+#: templates/organisms/activity-feed.html:99
+msgid "Refresh activity feed"
+msgstr "Обновить ленту активности"
+
+#: templates/organisms/activity-feed.html:115
+msgid "Loading activities..."
+msgstr "Загрузка активности..."
+
+#: templates/organisms/activity-feed.html:123
+msgid "No activity from people you follow"
+msgstr "Нет активности от людей, на которых вы подписаны"
+
+#: templates/organisms/activity-feed.html:125
+msgid "You haven't posted anything yet"
+msgstr "Вы еще ничего не опубликовали"
+
+#: templates/organisms/activity-feed.html:127
+msgid "No community activity yet"
+msgstr "Пока нет активности в сообществе"
+
+#: templates/organisms/activity-feed.html:133
+msgid "Start sharing your thoughts with the community!"
+msgstr "Начните делиться своими мыслями с сообществом!"
+
+#: templates/organisms/activity-feed.html:135
+msgid "Be the first to share something!"
+msgstr "Будьте первым, кто поделится чем-то!"
+
+#: templates/organisms/activity-feed.html:145
+msgid "Load more activities"
+msgstr "Загрузить больше активности"
+
+#: templates/organisms/activity-feed.html:147
+msgid "Load More"
+msgstr "Загрузить еще"
+
+#: templates/organisms/activity-feed.html:175
+msgid "Unlike this activity"
+msgstr "Убрать лайк с этой активности"
+
+#: templates/organisms/activity-feed.html:175
+msgid "Like this activity"
+msgstr "Поставить лайк этой активности"
+
+#: templates/organisms/activity-feed.html:185
+msgid "Comment on this activity"
+msgstr "Прокомментировать эту активность"
+
+#: templates/organisms/activity-feed.html:195
+msgid "Share this activity"
+msgstr "Поделиться этой активностью"
+
+#: templates/organisms/activity-feed.html:215
+msgid "Write a comment..."
+msgstr "Написать комментарий..."
+
+#: templates/organisms/activity-feed.html:220
+msgid "Post"
+msgstr "Опубликовать"
+
+#: templates/organisms/activity-feed.html:280
+msgid "Failed to load activities"
+msgstr "Не удалось загрузить активность"
+
+#: templates/organisms/activity-feed.html:320
+msgid "Check out this activity"
+msgstr "Посмотрите эту активность"
+
+#: templates/organisms/activity-feed.html:325
+msgid "Link copied to clipboard"
+msgstr "Ссылка скопирована в буфер обмена"
+
+#: templates/organisms/activity-feed.html:340
+msgid "Just now"
+msgstr "Только что"
+
+#: templates/organisms/activity-feed.html:341
+msgid "m ago"
+msgstr "мин назад"
+
+#: templates/organisms/activity-feed.html:342
+msgid "h ago"
+msgstr "ч назад"
+
+#: templates/organisms/activity-feed.html:343
+msgid "d ago"
+msgstr "дн назад"
+
+#: js/waboot-hub.js:85
+msgid "Failed to load current user"
+msgstr "Не удалось загрузить текущего пользователя"
+
+#: js/waboot-hub.js:120
+msgid "Hub WebSocket connected"
+msgstr "Hub WebSocket подключен"
+
+#: js/waboot-hub.js:130
+msgid "Hub WebSocket disconnected"
+msgstr "Hub WebSocket отключен"
+
+#: js/waboot-hub.js:135
+msgid "WebSocket error"
+msgstr "Ошибка WebSocket"
+
+#: js/waboot-hub.js:140
+msgid "Failed to connect WebSocket"
+msgstr "Не удалось подключиться к WebSocket"
+
+#: js/waboot-hub.js:155
+msgid "EventSource error"
+msgstr "Ошибка EventSource"
+
+#: js/waboot-hub.js:160
+msgid "Failed to connect EventSource"
+msgstr "Не удалось подключиться к EventSource"
+
+#: js/waboot-hub.js:220
+msgid "Failed to load notifications"
+msgstr "Не удалось загрузить уведомления"
+
+#: js/waboot-hub.js:250
+msgid "Failed to mark notification as read"
+msgstr "Не удалось отметить уведомление как прочитанное"
+
+#: js/waboot-hub.js:290
+msgid "Failed to load user profile"
+msgstr "Не удалось загрузить профиль пользователя"
+
+#: js/waboot-hub.js:310
+msgid "Failed to load user activities"
+msgstr "Не удалось загрузить активность пользователя"
+
+#: js/waboot-hub.js:330
+msgid "Failed to load user connections"
+msgstr "Не удалось загрузить связи пользователя"
+
+#: js/waboot-hub.js:360
+msgid "Failed to load conversations"
+msgstr "Не удалось загрузить беседы"
+
+#: js/waboot-hub.js:385
+msgid "Failed to load messages"
+msgstr "Не удалось загрузить сообщения"
+
+#: js/waboot-hub.js:410
+msgid "Failed to send message"
+msgstr "Не удалось отправить сообщение"
+
+#: js/waboot-hub.js:460
+msgid "Search failed"
+msgstr "Поиск не удался"
+
+#: js/waboot-hub.js:490
+msgid "Failed to load notifications"
+msgstr "Не удалось загрузить уведомления"
+
+#: js/waboot-hub.js:520
+msgid "Failed to mark all as read"
+msgstr "Не удалось отметить все как прочитанные"
+
+#: js/waboot-hub.js:580
+msgid "Close notification"
+msgstr "Закрыть уведомление"
+
+#: js/waboot-hub.js:600
+msgid "Close lightbox"
+msgstr "Закрыть лайтбокс"
+
+#: js/waboot-hub.js:620
+msgid "Open message dialog for"
+msgstr "Открыть диалог сообщения для" 

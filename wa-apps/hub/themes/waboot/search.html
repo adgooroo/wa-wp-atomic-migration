@@ -1,0 +1,42 @@
+{* Hub Search Page - Страница поиска Hub приложения *}
+{strip}
+{* Наследуем от родительской темы Site waboot *}
+{include file="`$wa_parent_theme_path`/index.html" inline}
+
+{* Устанавливаем заголовок страницы *}
+{$wa->title($title|escape)}
+
+{* Основной контент поиска *}
+<div class="hub-search">
+    <div class="hub-search__header">
+        <h1 class="hub-search__title">{_w("Search results")}</h1>
+        {if !empty($query)}
+            <p class="hub-search__query">{_w("Search query")}: <strong>{$query|escape}</strong></p>
+        {/if}
+    </div>
+    
+    {* @event frontend_search.%plugin_id% *}
+    {foreach $frontend_search as $_}{$_}{/foreach}
+    
+    {* Результаты поиска *}
+    <div class="hub-search__results">
+        {include file="./list-topics.html" inline}
+    </div>
+</div>
+
+{* JSON-LD разметка для поиска *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "SearchResultsPage",
+    "name": "{_w('Search results')}",
+    "description": "{_w('Search results for')}: {$query|escape}",
+    "url": "{$wa->getUrl('hub/frontend/search')}?query={$query|escape}",
+    "mainEntity": {
+        "@type": "ItemList",
+        "name": "{_w('Search results')}",
+        "numberOfItems": {$topics|count}
+    }
+}
+</script>
+{/strip} 

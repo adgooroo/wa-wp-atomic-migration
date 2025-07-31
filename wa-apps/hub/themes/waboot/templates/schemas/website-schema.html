@@ -1,0 +1,33 @@
+{*
+ * Website Schema for Hub Homepage
+ * Implements schema.org WebSite markup for Hub application
+ *}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "{$wa->getUrl('hub')}#website",
+  "url": "{$wa->getUrl('hub')}",
+  "name": "{$wa->accountName()|escape} - Community Hub",
+  "description": "{$wa->account()->description|default:'Community forum and discussion platform'|escape}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{$wa->getUrl('hub')}search/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "{$wa->getUrl('/', [], true)}#organization"
+  },
+  "inLanguage": "{$locale}",
+  "isAccessibleForFree": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Community Members"
+  }
+}
+</script> 

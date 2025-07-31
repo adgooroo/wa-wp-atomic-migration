@@ -1,0 +1,112 @@
+{* Hub Comment - Шаблон комментария Hub приложения *}
+{strip}
+<div class="hub-comment" data-comment-id="{$comment.id}">
+    <div class="hub-comment__header">
+        {* Аватар автора *}
+        <div class="hub-comment__avatar">
+            {if !empty($comment.author.photo_url)}
+                <img src="{$comment.author.photo_url}" alt="{$comment.author.name|escape}" class="hub-comment__avatar-img">
+            {else}
+                <div class="hub-comment__avatar-placeholder">
+                    {$comment.author.name|substr:0:1|upper}
+                </div>
+            {/if}
+        </div>
+        
+        {* Информация об авторе *}
+        <div class="hub-comment__author">
+            <a href="{$wa->getUrl('hub/frontend/author')}/{$comment.contact_id}/" class="hub-comment__author-link">
+                {$comment.author.name|default:$comment.author.login|escape}
+            </a>
+            {if !empty($comment.author.badge)}
+                <span class="hub-comment__author-badge">{$comment.author.badge|escape}</span>
+            {/if}
+        </div>
+        
+        {* Дата комментария *}
+        <div class="hub-comment__date">
+            {$comment.datetime|wa_datetime:"humandatetime"}
+        </div>
+        
+        {* Действия с комментарием *}
+        {if $wa->isAuth()}
+            <div class="hub-comment__actions">
+                {* Лайк комментария *}
+                <button class="hub-comment__action hub-comment__action--like" data-comment-id="{$comment.id}">
+                    <span class="hub-comment__action-icon">👍</span>
+                    {if !empty($comment.likes_count)}
+                        <span class="hub-comment__action-count">{$comment.likes_count}</span>
+                    {/if}
+                </button>
+                
+                {* Ответ на комментарий *}
+                <button class="hub-comment__action hub-comment__action--reply" data-comment-id="{$comment.id}">
+                    <span class="hub-comment__action-icon">💬</span>
+                    <span class="hub-comment__action-text">{_w("Reply")}</span>
+                </button>
+                
+                {* Редактирование/удаление (только для автора) *}
+                {if $wa->userId() == $comment.contact_id}
+                    <button class="hub-comment__action hub-comment__action--edit" data-comment-id="{$comment.id}">
+                        <span class="hub-comment__action-icon">✏️</span>
+                    </button>
+                    <button class="hub-comment__action hub-comment__action--delete" data-comment-id="{$comment.id}">
+                        <span class="hub-comment__action-icon">🗑️</span>
+                    </button>
+                {/if}
+            </div>
+        {/if}
+    </div>
+    
+    {* Содержимое комментария *}
+    <div class="hub-comment__content">
+        {if !empty($comment.text)}
+            <div class="hub-comment__text">
+                {$comment.text}
+            </div>
+        {/if}
+        
+        {* Вложения (если есть) *}
+        {if !empty($comment.attachments)}
+            <div class="hub-comment__attachments">
+                {foreach $comment.attachments as $attachment}
+                    <div class="hub-comment__attachment">
+                        <a href="{$attachment.url}" class="hub-comment__attachment-link" target="_blank">
+                            📎 {$attachment.name|escape}
+                        </a>
+                    </div>
+                {/foreach}
+            </div>
+        {/if}
+    </div>
+    
+    {* Форма ответа (скрыта по умолчанию) *}
+    {if $wa->isAuth()}
+        <div class="hub-comment__reply-form" style="display: none;">
+            <form action="{$wa->getUrl('hub/frontend/comment/add')}" method="post" class="hub-comment-reply-form">
+                <input type="hidden" name="topic_id" value="{$comment.topic_id}">
+                <input type="hidden" name="parent_id" value="{$comment.id}">
+                <input type="hidden" name="csrf_token" value="{$wa->csrf()}">
+                
+                <div class="hub-comment-reply-form__field">
+                    <textarea name="text" class="hub-comment-reply-form__textarea" placeholder="{_w('Write your reply...')}" required></textarea>
+                </div>
+                
+                <div class="hub-comment-reply-form__actions">
+                    <button type="submit" class="hub-comment-reply-form__submit">{_w("Reply")}</button>
+                    <button type="button" class="hub-comment-reply-form__cancel">{_w("Cancel")}</button>
+                </div>
+            </form>
+        </div>
+    {/if}
+    
+    {* Вложенные комментарии *}
+    {if !empty($comment.children)}
+        <div class="hub-comment__replies">
+            {foreach $comment.children as $reply}
+                {include file="./comment.html" comment=$reply inline}
+            {/foreach}
+        </div>
+    {/if}
+</div>
+{/strip} 

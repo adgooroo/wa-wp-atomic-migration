@@ -1,0 +1,69 @@
+{*
+ * User Avatar Atom Component
+ * Displays user avatar with online status indicator
+ * @param user - User object with photo, name, id
+ * @param size - Avatar size (small, medium, large, xlarge)
+ * @param online - Online status (true/false)
+ * @param show_status - Show online status indicator (true/false)
+ *}
+
+{* Set default values with security *}
+{$size = $size|default:'medium'}
+{$online = $online|default:false}
+{$show_status = $show_status|default:true}
+
+{* Security: Validate size parameter *}
+{if !in_array($size, ['small', 'medium', 'large', 'xlarge'])}
+    {$size = 'medium'}
+{/if}
+
+{* JSON-LD Schema for Person *}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "{$wa_domain}/hub/user/{$user.id}/#person",
+  "name": "{$user.name|escape:'javascript'}",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{$user.photo|default:$wa_theme_url|escape:'javascript'}images/default-avatar.png"
+  },
+  "url": "{$wa_domain}/hub/user/{$user.id}/"
+}
+</script>
+
+{* Avatar Component *}
+<div class="waboot-hub__avatar waboot-hub__avatar--{$size}" 
+     itemscope itemtype="https://schema.org/Person"
+     data-user-id="{$user.id|escape}"
+     role="img" 
+     aria-label="Avatar for {$user.name|escape}">
+    
+    {* User Photo *}
+    {if $user.photo}
+        <img src="{$user.photo|escape:'url'}" 
+             alt="{$user.name|escape}" 
+             class="waboot-hub__avatar__image"
+             itemprop="image"
+             loading="lazy"
+             onerror="this.src='{$wa_theme_url|escape:'url'}images/default-avatar.png'">
+    {else}
+        {* Default Avatar Placeholder *}
+        <div class="waboot-hub__avatar__placeholder" 
+             aria-label="Default avatar for {$user.name|escape}">
+            {$user.name|truncate:1:'':true|escape}
+        </div>
+    {/if}
+    
+    {* Online Status Indicator *}
+    {if $show_status}
+        <span class="waboot-hub__activity-indicator waboot-hub__activity-indicator--{if $online}online{else}offline{/if}"
+              aria-label="{if $online}User is online{else}User is offline{/if}">
+            <span class="waboot-hub__activity-indicator__dot"></span>
+        </span>
+    {/if}
+    
+    {* Schema.org microdata *}
+    <meta itemprop="name" content="{$user.name|escape}">
+    <meta itemprop="url" content="{$wa_domain}/hub/user/{$user.id}/">
+</div> 

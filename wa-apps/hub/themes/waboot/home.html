@@ -1,0 +1,461 @@
+{* Hub Home Page - Главная страница Hub приложения с полной поддержкой WCAG 2.1 AA *}
+{strip}
+{* Наследуем от родительской темы Site waboot *}
+{include file="`$wa_parent_theme_path`/index.html" inline}
+
+{* JSON-LD Structured Data for Hub Homepage *}
+{include file="schemas/website-schema.html"}
+{include file="schemas/organization-schema.html"}
+{include file="schemas/localbusiness-schema.html"}
+
+{* Устанавливаем глобальные переменные для Hub *}
+{$wa->globals("showWidgets", true)}
+{$wa->globals("isHubPage", true)}
+
+{* @event frontend_homepage.%plugin_id% *}
+{foreach $frontend_homepage as $_}{$_}{/foreach}
+
+{* Получаем категории Hub *}
+{$_categories = $wa->hub->categories(true)}
+
+{* Skip Links для навигации с клавиатуры (WCAG 2.1 AA) *}
+<a href="#main-content" class="hub-skip-link" id="skip-to-main">
+    {_w("Skip to main content")}
+</a>
+<a href="#hub-navigation" class="hub-skip-link" id="skip-to-navigation">
+    {_w("Skip to navigation")}
+</a>
+
+{* Основной контент Hub в стиле Discourse с полной доступностью *}
+<div class="hub-home discourse-style hub-discourse-style" role="main" id="main-content" aria-labelledby="hub-main-title">
+    {* Заголовок страницы *}
+    <header class="hub-home__header" role="banner">
+        <h1 class="hub-home__title" id="hub-main-title">{_w("Hub Community")}</h1>
+        <p class="hub-home__description" id="hub-main-description">{_w("Welcome to our community forum. Connect, share, and learn together.")}</p>
+    </header>
+
+    {* Навигационное меню в стиле Discourse с ARIA *}
+    <nav class="hub-navigation" role="navigation" aria-labelledby="hub-navigation-title" id="hub-navigation">
+        <h2 class="hub-navigation__title visually-hidden" id="hub-navigation-title">{_w("Main Navigation")}</h2>
+        <ul class="hub-navigation__list" role="menubar">
+            <li class="hub-navigation__item" role="none">
+                <a href="{$wa->getUrl('hub/frontend/')}" 
+                   class="hub-navigation__link hub-navigation__link--active" 
+                   role="menuitem" 
+                   aria-current="page"
+                   aria-describedby="current-page-description">
+                    {_w("Home")}
+                    <span class="visually-hidden" id="current-page-description">{_w("Current page")}</span>
+                </a>
+            </li>
+            <li class="hub-navigation__item" role="none">
+                <a href="{$wa->getUrl('hub/frontend/categories')}" 
+                   class="hub-navigation__link" 
+                   role="menuitem">
+                    {_w("Categories")}
+                </a>
+            </li>
+            <li class="hub-navigation__item" role="none">
+                <a href="{$wa->getUrl('hub/frontend/search')}" 
+                   class="hub-navigation__link" 
+                   role="menuitem">
+                    {_w("Search")}
+                </a>
+            </li>
+            <li class="hub-navigation__item" role="none">
+                <a href="{$wa->getUrl('hub/frontend/guidelines')}" 
+                   class="hub-navigation__link" 
+                   role="menuitem">
+                    {_w("Guidelines")}
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    {* Категории в табличном стиле Discourse с ARIA *}
+    {if !empty($_categories)}
+        <section class="hub-categories discourse-categories" aria-labelledby="hub-categories-title">
+            <h2 class="hub-categories__title" id="hub-categories-title">{_w("Categories")}</h2>
+            
+            <div class="hub-categories__table-wrapper" role="region" aria-labelledby="hub-categories-title">
+                <table class="hub-categories__table" role="table" aria-describedby="hub-categories-description">
+                    <caption class="visually-hidden" id="hub-categories-description">
+                        {_w("List of community categories with topic counts")}
+                    </caption>
+                    <thead class="hub-categories__thead" role="rowgroup">
+                        <tr class="hub-categories__tr" role="row">
+                            <th class="hub-categories__th hub-categories__th--category" 
+                                scope="col" 
+                                role="columnheader">
+                                {_w("Category")}
+                            </th>
+                            <th class="hub-categories__th hub-categories__th--topics" 
+                                scope="col" 
+                                role="columnheader">
+                                {_w("Topics")}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="hub-categories__tbody" role="rowgroup">
+                        {foreach $_categories as $_category name="categories"}
+                            <tr class="hub-categories__tr" role="row">
+                                <td class="hub-categories__td hub-categories__td--category" role="cell">
+                                    <div class="hub-category-item">
+                                        <a href="{$wa->getUrl('hub/frontend/category')}/{$_category.url}/" 
+                                           class="hub-category-item__link"
+                                           aria-describedby="category-{$smarty.foreach.categories.index}-description">
+                                            <h3 class="hub-category-item__title">{$_category.name|escape}</h3>
+                                            {if !empty($_category.description)}
+                                                <p class="hub-category-item__description" 
+                                                   id="category-{$smarty.foreach.categories.index}-description">
+                                                    {$_category.description|escape}
+                                                </p>
+                                            {/if}
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="hub-categories__td hub-categories__td--topics" role="cell">
+                                    <span class="hub-category-topics-count" 
+                                          aria-label="{_w("Number of topics in")} {$_category.name|escape}: {$_category.topics_count|default:0}">
+                                        {$_category.topics_count|default:0}
+                                    </span>
+                                </td>
+                            </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    {else}
+        <section class="hub-categories-empty" aria-labelledby="hub-categories-empty-title">
+            <h2 class="hub-categories-empty__title" id="hub-categories-empty-title">{_w("No Categories Available")}</h2>
+            <p class="hub-categories-empty__description">{_w("No categories found.")}</p>
+        </section>
+    {/if}
+
+    {* Последние топики *}
+    <section class="hub-recent-topics" aria-labelledby="hub-recent-topics-title">
+        <h2 class="hub-recent-topics__title" id="hub-recent-topics-title">{_w("Recent Topics")}</h2>
+        <div role="region" aria-labelledby="hub-recent-topics-title" aria-live="polite">
+            {include file="./list-topics.html" inline}
+        </div>
+    </section>
+
+    {* Live region для уведомлений *}
+    <div id="hub-notifications" 
+         class="hub-notifications" 
+         role="status" 
+         aria-live="polite" 
+         aria-atomic="true"
+         aria-relevant="additions removals">
+    </div>
+
+    {* JSON-LD структурированные данные *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "{$wa->accountName()} Hub",
+        "description": "{_w("Community forum for discussion and collaboration")}",
+        "url": "{$wa->getUrl('hub/frontend/')}",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{$wa->getUrl('hub/frontend/search')}?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+</div>
+
+{* Alpine.js компонент для интерактивности с доступностью *}
+<div x-data="hubHome()" x-init="init()" role="application" aria-label="{_w("Hub Community Interface")}">
+    {* Здесь можно добавить интерактивные элементы с ARIA *}
+</div>
+
+{* CSS классы для стилизации в стиле Discourse с поддержкой доступности *}
+<style>
+/* Skip Links (WCAG 2.1 AA) */
+.hub-skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--discourse-primary);
+    color: var(--discourse-white);
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: top 0.3s;
+}
+
+.hub-skip-link:focus {
+    top: 6px;
+    outline: 2px solid var(--discourse-white);
+    outline-offset: 2px;
+}
+
+/* Visually Hidden (для screen readers) */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Улучшенные стили фокуса (WCAG 2.1 AA) */
+.hub-discourse-style *:focus {
+    outline: 2px solid var(--discourse-primary);
+    outline-offset: 2px;
+}
+
+.hub-discourse-style *:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.hub-discourse-style *:focus-visible {
+    outline: 2px solid var(--discourse-primary);
+    outline-offset: 2px;
+}
+
+/* Улучшенная контрастность (WCAG 2.1 AA) */
+.hub-discourse-style {
+    color: #2c2c2c; /* Улучшенный контраст */
+    background: var(--discourse-white);
+}
+
+.hub-discourse-style h1,
+.hub-discourse-style h2,
+.hub-discourse-style h3,
+.hub-discourse-style h4,
+.hub-discourse-style h5,
+.hub-discourse-style h6 {
+    color: #1a1a1a; /* Высокий контраст для заголовков */
+}
+
+.hub-discourse-style a {
+    color: #005a87; /* Улучшенный контраст для ссылок */
+}
+
+.hub-discourse-style a:hover {
+    color: #003d5a;
+}
+
+/* Улучшенные стили навигации */
+.hub-navigation__link {
+    color: #4a4a4a; /* Улучшенный контраст */
+}
+
+.hub-navigation__link:hover,
+.hub-navigation__link--active {
+    color: #1a1a1a;
+}
+
+/* Улучшенные стили таблиц */
+.hub-categories__th {
+    color: #1a1a1a;
+    background: #f0f0f0; /* Улучшенный контраст */
+}
+
+.hub-category-item__title {
+    color: #005a87;
+}
+
+.hub-category-item__description {
+    color: #4a4a4a;
+}
+
+/* Уведомления */
+.hub-notifications {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 400px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .hub-discourse-style {
+        color: #000;
+        background: #fff;
+    }
+    
+    .hub-discourse-style a {
+        color: #000;
+        text-decoration: underline;
+    }
+    
+    .hub-discourse-style *:focus {
+        outline: 3px solid #000;
+        outline-offset: 1px;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .hub-discourse-style * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .hub-skip-link {
+        transition: none;
+    }
+}
+
+/* Остальные стили остаются без изменений */
+.hub-home.discourse-style {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.hub-home__header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hub-home__title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.hub-home__description {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hub-navigation {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.hub-navigation__list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 30px;
+}
+
+.hub-navigation__link {
+    display: block;
+    padding: 15px 0;
+    color: #666;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.hub-navigation__link:hover,
+.hub-navigation__link--active {
+    color: #333;
+    border-bottom-color: #007cba;
+}
+
+.hub-categories__table-wrapper {
+    overflow-x: auto;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+}
+
+.hub-categories__table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.hub-categories__thead {
+    background: #f8f9fa;
+}
+
+.hub-categories__th {
+    padding: 15px 20px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.hub-categories__th--topics {
+    text-align: center;
+    width: 100px;
+}
+
+.hub-categories__td {
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+}
+
+.hub-categories__td--topics {
+    text-align: center;
+    font-weight: 500;
+    color: #666;
+}
+
+.hub-category-item__link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.hub-category-item__title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #007cba;
+    margin: 0 0 8px 0;
+}
+
+.hub-category-item__description {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.hub-category-topics-count {
+    font-size: 1rem;
+    color: #666;
+}
+
+.hub-recent-topics {
+    margin-top: 40px;
+}
+
+.hub-recent-topics__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .hub-navigation__list {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .hub-categories__th,
+    .hub-categories__td {
+        padding: 10px;
+    }
+    
+    .hub-category-item__title {
+        font-size: 1rem;
+    }
+}
+</style>
+{/strip} 

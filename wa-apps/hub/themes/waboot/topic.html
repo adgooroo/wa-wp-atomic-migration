@@ -1,0 +1,138 @@
+{* Hub Topic Page - Страница отдельного топика Hub приложения *}
+{strip}
+{* Наследуем от родительской темы Site waboot *}
+{include file="`$wa_parent_theme_path`/index.html" inline}
+
+{* JSON-LD Structured Data for Topic Page *}
+{include file="schemas/social-media-posting-schema.html" post=$topic}
+
+{* Устанавливаем заголовок и мета-данные *}
+{$wa->title($topic.title|escape)}
+{$wa->globals("topicPage", $topic)}
+
+{* Основной контент топика *}
+<div class="hub-topic">
+    {* Заголовок топика *}
+    <div class="hub-topic__header">
+        <h1 class="hub-topic__title">{$topic.title|escape}</h1>
+        
+        {* Мета-информация топика *}
+        <div class="hub-topic__meta">
+            <span class="hub-topic__author">
+                {_w("Author")}: 
+                <a href="{$wa->getUrl('hub/frontend/author')}/{$topic.contact_id}/" class="hub-topic__author-link">
+                    {$topic.author.name|default:$topic.author.login|escape}
+                </a>
+            </span>
+            <span class="hub-topic__date">
+                {_w("Date")}: {$topic.datetime|wa_datetime:"humandatetime"}
+            </span>
+            {if !empty($topic.category)}
+                <span class="hub-topic__category">
+                    {_w("Category")}: 
+                    <a href="{$topic.category.url}" class="hub-topic__category-link">
+                        {$topic.category.name|escape}
+                    </a>
+                </span>
+            {/if}
+        </div>
+        
+        {* Теги топика *}
+        {if !empty($topic.tags)}
+            <div class="hub-topic__tags">
+                {foreach $topic.tags as $tag}
+                    <span class="hub-topic__tag">{$tag|escape}</span>
+                {/foreach}
+            </div>
+        {/if}
+    </div>
+    
+    {* Содержимое топика *}
+    <div class="hub-topic__content">
+        {$topic.text}
+    </div>
+    
+    {* Действия с топиком *}
+    <div class="hub-topic__actions">
+        {if $wa->isAuth()}
+            <button class="hub-topic__action hub-topic__action--like" data-topic-id="{$topic.id}">
+                <span class="hub-topic__action-icon">👍</span>
+                <span class="hub-topic__action-text">{_w("Like")}</span>
+                {if !empty($topic.likes_count)}
+                    <span class="hub-topic__action-count">{$topic.likes_count}</span>
+                {/if}
+            </button>
+            
+            <button class="hub-topic__action hub-topic__action--share" data-topic-id="{$topic.id}">
+                <span class="hub-topic__action-icon">📤</span>
+                <span class="hub-topic__action-text">{_w("Share")}</span>
+            </button>
+        {/if}
+    </div>
+    
+    {* Комментарии к топику *}
+    <div class="hub-topic__comments">
+        <h2 class="hub-topic__comments-title">{_w("Comments")}</h2>
+        
+        {* Форма добавления комментария *}
+        {if $wa->isAuth()}
+            <div class="hub-topic__comment-form">
+                <form action="{$wa->getUrl('hub/frontend/comment/add')}" method="post" class="hub-comment-form">
+                    <input type="hidden" name="topic_id" value="{$topic.id}">
+                    <input type="hidden" name="csrf_token" value="{$wa->csrf()}">
+                    
+                    <div class="hub-comment-form__field">
+                        <textarea name="text" class="hub-comment-form__textarea" placeholder="{_w('Write your comment...')}" required></textarea>
+                    </div>
+                    
+                    <div class="hub-comment-form__actions">
+                        <button type="submit" class="hub-comment-form__submit">{_w("Add comment")}</button>
+                    </div>
+                </form>
+            </div>
+        {/if}
+        
+        {* Список комментариев *}
+        <div class="hub-topic__comments-list">
+            {if !empty($comments)}
+                {foreach $comments as $comment}
+                    {include file="./comment.html" comment=$comment inline}
+                {/foreach}
+            {else}
+                <p class="hub-topic__comments-empty">{_w("No comments yet. Be the first to comment!")}</p>
+            {/if}
+        </div>
+        
+        {* Пагинация комментариев *}
+        {if isset($pages_count) && $pages_count > 1}
+            <div class="hub-topic__comments-pagination">
+                {wa_pagination total=$pages_count attrs=['class' => "pagination"]}
+            </div>
+        {/if}
+    </div>
+</div>
+
+{* JSON-LD разметка для топика *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "DiscussionForumPosting",
+    "headline": "{$topic.title|escape}",
+    "author": {
+        "@type": "Person",
+        "name": "{$topic.author.name|default:$topic.author.login|escape}",
+        "url": "{$wa->getUrl('hub/frontend/author')}/{$topic.contact_id}/"
+    },
+    "datePublished": "{$topic.datetime|date_format:'Y-m-d\TH:i:sP'}",
+    "dateModified": "{$topic.update_datetime|date_format:'Y-m-d\TH:i:sP'}",
+    "text": "{$topic.text|strip_tags|escape}",
+    "url": "{$wa->getUrl('hub/frontend/topic')}/{$topic.url}/",
+    "commentCount": {$comments|count},
+    "interactionStatistic": {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/LikeAction",
+        "userInteractionCount": {$topic.likes_count|default:0}
+    }
+}
+</script>
+{/strip} 

@@ -1,0 +1,453 @@
+/* Hub Molecules CSS - Inherits from site:waboot */
+/* BEM Methodology: .waboot-hub__component__element--modifier */
+
+/* Import parent theme molecules */
+@import url('../../../../site/themes/waboot/css/molecules/molecules.css');
+
+/* ========================================
+   HUB-SPECIFIC MOLECULES
+   ======================================== */
+
+/* User Card Molecule */
+.waboot-hub__user-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.5rem;
+    background-color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+.waboot-hub__user-card:hover {
+    border-color: var(--bs-gray-300);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.waboot-hub__user-card--compact {
+    padding: 0.75rem;
+}
+
+.waboot-hub__user-card--featured {
+    border-color: var(--bs-primary);
+    background-color: var(--bs-primary-bg-subtle);
+}
+
+.waboot-hub__user-card__avatar {
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.waboot-hub__user-card__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.waboot-hub__user-card__name {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--bs-dark);
+    text-decoration: none;
+}
+
+.waboot-hub__user-card__name:hover {
+    color: var(--bs-primary);
+    text-decoration: none;
+}
+
+.waboot-hub__user-card__username {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__user-card__bio {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.875rem;
+    color: var(--bs-gray-700);
+    line-height: 1.4;
+}
+
+.waboot-hub__user-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.waboot-hub__user-card__meta-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__user-card__meta-icon {
+    margin-right: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.waboot-hub__user-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+/* Activity Feed Item Molecule */
+.waboot-hub__activity-item {
+    padding: 1rem;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.5rem;
+    background-color: white;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.waboot-hub__activity-item:hover {
+    border-color: var(--bs-gray-300);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.waboot-hub__activity-item--highlighted {
+    border-color: var(--bs-primary);
+    background-color: var(--bs-primary-bg-subtle);
+}
+
+.waboot-hub__activity-item__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.waboot-hub__activity-item__avatar {
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+}
+
+.waboot-hub__activity-item__user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.waboot-hub__activity-item__user-name {
+    margin: 0 0 0.125rem 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--bs-dark);
+    text-decoration: none;
+}
+
+.waboot-hub__activity-item__user-name:hover {
+    color: var(--bs-primary);
+    text-decoration: none;
+}
+
+.waboot-hub__activity-item__timestamp {
+    font-size: 0.75rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__activity-item__content {
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.waboot-hub__activity-item__text {
+    margin: 0 0 0.5rem 0;
+    color: var(--bs-gray-800);
+}
+
+.waboot-hub__activity-item__media {
+    margin-bottom: 0.75rem;
+    border-radius: 0.375rem;
+    overflow: hidden;
+}
+
+.waboot-hub__activity-item__image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.waboot-hub__activity-item__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--bs-gray-200);
+}
+
+.waboot-hub__activity-item__action-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.waboot-hub__activity-item__action-count {
+    font-size: 0.75rem;
+    color: var(--bs-gray-600);
+}
+
+/* Friend Suggestion Molecule */
+.waboot-hub__friend-suggestion {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.5rem;
+    background-color: white;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.waboot-hub__friend-suggestion:hover {
+    border-color: var(--bs-gray-300);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.waboot-hub__friend-suggestion__avatar {
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+}
+
+.waboot-hub__friend-suggestion__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.waboot-hub__friend-suggestion__name {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--bs-dark);
+    text-decoration: none;
+}
+
+.waboot-hub__friend-suggestion__name:hover {
+    color: var(--bs-primary);
+    text-decoration: none;
+}
+
+.waboot-hub__friend-suggestion__mutual-friends {
+    font-size: 0.75rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__friend-suggestion__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+/* Message Preview Molecule */
+.waboot-hub__message-preview {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.75rem;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.5rem;
+    background-color: white;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.waboot-hub__message-preview:hover {
+    border-color: var(--bs-gray-300);
+    background-color: var(--bs-gray-50);
+}
+
+.waboot-hub__message-preview--unread {
+    border-color: var(--bs-primary);
+    background-color: var(--bs-primary-bg-subtle);
+}
+
+.waboot-hub__message-preview__avatar {
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+}
+
+.waboot-hub__message-preview__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.waboot-hub__message-preview__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+
+.waboot-hub__message-preview__sender {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--bs-dark);
+}
+
+.waboot-hub__message-preview__timestamp {
+    font-size: 0.75rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__message-preview__subject {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--bs-gray-800);
+}
+
+.waboot-hub__message-preview__excerpt {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--bs-gray-600);
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.waboot-hub__message-preview__unread-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+    margin-left: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* Notification Item Molecule */
+.waboot-hub__notification-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--bs-gray-200);
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.waboot-hub__notification-item:hover {
+    background-color: var(--bs-gray-50);
+}
+
+.waboot-hub__notification-item--unread {
+    background-color: var(--bs-primary-bg-subtle);
+}
+
+.waboot-hub__notification-item__icon {
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: white;
+}
+
+.waboot-hub__notification-item__icon--like {
+    background-color: var(--bs-danger);
+}
+
+.waboot-hub__notification-item__icon--comment {
+    background-color: var(--bs-info);
+}
+
+.waboot-hub__notification-item__icon--follow {
+    background-color: var(--bs-success);
+}
+
+.waboot-hub__notification-item__icon--message {
+    background-color: var(--bs-warning);
+}
+
+.waboot-hub__notification-item__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.waboot-hub__notification-item__text {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.875rem;
+    color: var(--bs-gray-800);
+    line-height: 1.4;
+}
+
+.waboot-hub__notification-item__timestamp {
+    font-size: 0.75rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__notification-item__unread-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+    margin-left: 0.5rem;
+    flex-shrink: 0;
+    align-self: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .waboot-hub__user-card {
+        padding: 0.75rem;
+    }
+    
+    .waboot-hub__user-card__actions {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .waboot-hub__activity-item {
+        padding: 0.75rem;
+    }
+    
+    .waboot-hub__activity-item__actions {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .waboot-hub__friend-suggestion__actions {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+
+/* Accessibility */
+.waboot-hub__user-card:focus,
+.waboot-hub__activity-item:focus,
+.waboot-hub__friend-suggestion:focus,
+.waboot-hub__message-preview:focus,
+.waboot-hub__notification-item:focus {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .waboot-hub__user-card,
+    .waboot-hub__activity-item,
+    .waboot-hub__friend-suggestion,
+    .waboot-hub__message-preview {
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .waboot-hub__user-card,
+    .waboot-hub__activity-item,
+    .waboot-hub__friend-suggestion,
+    .waboot-hub__message-preview,
+    .waboot-hub__notification-item {
+        transition: none;
+    }
+} 

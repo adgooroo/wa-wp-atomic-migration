@@ -1,0 +1,841 @@
+/* Waboot Hub Theme - Main CSS File */
+/* Inherits from site:waboot parent theme */
+
+/* ========================================
+   IMPORTS
+   ======================================== */
+
+/* Import parent theme CSS */
+@import url('../../../../site/themes/waboot/css/waboot.css');
+
+/* Import Hub-specific components */
+@import url('hub-atoms.css');
+@import url('hub-molecules.css');
+@import url('hub-organisms.css');
+
+/* Import components for accessibility */
+@import url('./hub-accessibility.css');
+
+/* ========================================
+   HUB THEME CUSTOMIZATION
+   ======================================== */
+
+/* Hub-specific CSS custom properties */
+:root {
+    /* Hub color palette */
+    --hub-primary: var(--bs-primary);
+    --hub-secondary: var(--bs-secondary);
+    --hub-success: var(--bs-success);
+    --hub-warning: var(--bs-warning);
+    --hub-danger: var(--bs-danger);
+    --hub-info: var(--bs-info);
+    
+    /* Hub spacing */
+    --hub-spacing-xs: 0.25rem;
+    --hub-spacing-sm: 0.5rem;
+    --hub-spacing-md: 1rem;
+    --hub-spacing-lg: 1.5rem;
+    --hub-spacing-xl: 2rem;
+    
+    /* Hub border radius */
+    --hub-border-radius-sm: 0.25rem;
+    --hub-border-radius-md: 0.375rem;
+    --hub-border-radius-lg: 0.5rem;
+    --hub-border-radius-xl: 0.75rem;
+    
+    /* Hub shadows */
+    --hub-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --hub-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --hub-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --hub-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   HUB LAYOUT OVERRIDES
+   ======================================== */
+
+/* Hub-specific layout adjustments */
+.hub-layout {
+    background-color: var(--bs-gray-100);
+    min-height: 100vh;
+}
+
+.hub-layout__main {
+    padding: var(--hub-spacing-lg) 0;
+}
+
+.hub-layout__sidebar {
+    position: sticky;
+    top: var(--hub-spacing-lg);
+}
+
+/* ========================================
+   HUB COMPONENT OVERRIDES
+   ======================================== */
+
+/* Override parent theme components for Hub context */
+.waboot__button--hub-primary {
+    background-color: var(--hub-primary);
+    border-color: var(--hub-primary);
+    color: white;
+}
+
+.waboot__button--hub-primary:hover {
+    background-color: var(--hub-primary-dark);
+    border-color: var(--hub-primary-dark);
+}
+
+.waboot__button--hub-secondary {
+    background-color: var(--hub-secondary);
+    border-color: var(--hub-secondary);
+    color: white;
+}
+
+.waboot__button--hub-secondary:hover {
+    background-color: var(--hub-secondary-dark);
+    border-color: var(--hub-secondary-dark);
+}
+
+/* ========================================
+   RTL LANGUAGE SUPPORT
+   ======================================== */
+
+/* RTL (Right-to-Left) language support */
+[dir="rtl"] .hub-layout__sidebar {
+    order: -1;
+}
+
+[dir="rtl"] .hub-navigation__list {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hub-author__back-link {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hub-topic__meta {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hub-comment-form__actions {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hub-pagination {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hub-text-left {
+    text-align: right;
+}
+
+[dir="rtl"] .hub-text-right {
+    text-align: left;
+}
+
+[dir="rtl"] .hub-mb-1 { margin-left: 0.5rem; margin-right: 0; }
+[dir="rtl"] .hub-mb-2 { margin-left: 1rem; margin-right: 0; }
+[dir="rtl"] .hub-mb-3 { margin-left: 1.5rem; margin-right: 0; }
+[dir="rtl"] .hub-mb-4 { margin-left: 2rem; margin-right: 0; }
+
+[dir="rtl"] .hub-mt-1 { margin-right: 0.5rem; margin-left: 0; }
+[dir="rtl"] .hub-mt-2 { margin-right: 1rem; margin-left: 0; }
+[dir="rtl"] .hub-mt-3 { margin-right: 1.5rem; margin-left: 0; }
+[dir="rtl"] .hub-mt-4 { margin-right: 2rem; margin-left: 0; }
+
+[dir="rtl"] .hub-p-1 { padding-left: 0.5rem; padding-right: 0; }
+[dir="rtl"] .hub-p-2 { padding-left: 1rem; padding-right: 0; }
+[dir="rtl"] .hub-p-3 { padding-left: 1.5rem; padding-right: 0; }
+[dir="rtl"] .hub-p-4 { padding-left: 2rem; padding-right: 0; }
+
+/* ========================================
+   HUB UTILITIES
+   ======================================== */
+
+/* Hub-specific utility classes */
+.hub-text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hub-text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hub-text-truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hub-avatar-circle {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.hub-avatar-square {
+    border-radius: var(--hub-border-radius-md);
+    overflow: hidden;
+}
+
+.hub-card-hover {
+    transition: all 0.2s ease-in-out;
+}
+
+.hub-card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--hub-shadow-lg);
+}
+
+.hub-fade-in {
+    animation: hubFadeIn 0.3s ease-in-out;
+}
+
+@keyframes hubFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hub-slide-in {
+    animation: hubSlideIn 0.3s ease-in-out;
+}
+
+@keyframes hubSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ========================================
+   HUB RESPONSIVE UTILITIES
+   ======================================== */
+
+/* Hub-specific responsive utilities */
+@media (max-width: 768px) {
+    .hub-mobile-hidden {
+        display: none !important;
+    }
+    
+    .hub-mobile-full {
+        width: 100% !important;
+    }
+    
+    .hub-mobile-stack {
+        flex-direction: column !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .hub-desktop-hidden {
+        display: none !important;
+    }
+}
+
+/* ========================================
+   HUB ACCESSIBILITY
+   ======================================== */
+
+/* Hub-specific accessibility improvements */
+.hub-focus-visible:focus-visible {
+    outline: 2px solid var(--hub-primary);
+    outline-offset: 2px;
+}
+
+.hub-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ========================================
+   HUB PRINT STYLES
+   ======================================== */
+
+@media print {
+    .hub-no-print {
+        display: none !important;
+    }
+    
+    .hub-print-break {
+        page-break-before: always;
+    }
+    
+    .hub-print-break-inside {
+        page-break-inside: avoid;
+    }
+}
+
+/* ========================================
+   HUB DARK MODE SUPPORT
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --hub-primary: var(--bs-primary);
+        --hub-secondary: var(--bs-secondary);
+    }
+    
+    .hub-layout {
+        background-color: var(--bs-dark);
+        color: var(--bs-light);
+    }
+    
+    .waboot-hub__user-card,
+    .waboot-hub__activity-item,
+    .waboot-hub__friends-list,
+    .waboot-hub__messages-list,
+    .waboot-hub__notifications-panel,
+    .waboot-hub__community-dashboard {
+        background-color: var(--bs-dark);
+        border-color: var(--bs-gray-700);
+        color: var(--bs-light);
+    }
+    
+    .waboot-hub__user-card:hover,
+    .waboot-hub__activity-item:hover,
+    .waboot-hub__friends-list:hover,
+    .waboot-hub__messages-list:hover,
+    .waboot-hub__notifications-panel:hover,
+    .waboot-hub__community-dashboard:hover {
+        border-color: var(--bs-gray-600);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* ========================================
+   HUB PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+/* Optimize animations for performance */
+.hub-will-change-transform {
+    will-change: transform;
+}
+
+.hub-will-change-opacity {
+    will-change: opacity;
+}
+
+.hub-contain-layout {
+    contain: layout;
+}
+
+.hub-contain-paint {
+    contain: paint;
+}
+
+.hub-contain-strict {
+    contain: strict;
+}
+
+/* ========================================
+   HUB BROWSER SUPPORT
+   ======================================== */
+
+/* Fallbacks for older browsers */
+@supports not (display: grid) {
+    .waboot-hub__user-profile__stats,
+    .waboot-hub__community-dashboard__stats,
+    .waboot-hub__community-dashboard__sections {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .waboot-hub__user-profile__stat,
+    .waboot-hub__community-dashboard__stat-card {
+        flex: 1;
+        min-width: 200px;
+        margin: 0.5rem;
+    }
+}
+
+@supports not (gap: 1rem) {
+    .waboot-hub__user-card__meta,
+    .waboot-hub__activity-item__actions,
+    .waboot-hub__friend-suggestion__actions {
+        margin: -0.25rem;
+    }
+    
+    .waboot-hub__user-card__meta-item,
+    .waboot-hub__activity-item__action-group,
+    .waboot-hub__friend-suggestion__actions > * {
+        margin: 0.25rem;
+    }
+}
+
+/* ========================================
+   HUB THEME COMPLETION
+   ======================================== */
+
+/* Hub theme is now complete and ready for use */
+.hub-theme-ready {
+    /* This class indicates the theme is fully loaded */
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.hub-theme-loading {
+    opacity: 0.7;
+} 
+
+/* Hub Theme CSS - Discourse Style */
+/* Основные стили для Hub темы в стиле Discourse */
+
+/* Импорт компонентов доступности */
+@import url('./hub-accessibility.css');
+
+/* Глобальные переменные в стиле Discourse */
+:root {
+    --discourse-primary: #007cba;
+    --discourse-primary-hover: #005a87;
+    --discourse-secondary: #666;
+    --discourse-text: #333;
+    --discourse-text-light: #666;
+    --discourse-border: #e1e1e1;
+    --discourse-border-light: #f0f0f0;
+    --discourse-bg: #f8f9fa;
+    --discourse-white: #ffffff;
+    --discourse-success: #28a745;
+    --discourse-warning: #ffd700;
+    --discourse-danger: #dc3545;
+    --discourse-radius: 8px;
+    --discourse-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --discourse-transition: all 0.2s ease;
+}
+
+/* Базовые стили */
+.hub-discourse-style {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--discourse-text);
+    background: var(--discourse-white);
+}
+
+/* Типографика в стиле Discourse */
+.hub-discourse-style h1,
+.hub-discourse-style h2,
+.hub-discourse-style h3,
+.hub-discourse-style h4,
+.hub-discourse-style h5,
+.hub-discourse-style h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.5em;
+    color: var(--discourse-text);
+}
+
+.hub-discourse-style h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+}
+
+.hub-discourse-style h2 {
+    font-size: 1.8rem;
+}
+
+.hub-discourse-style h3 {
+    font-size: 1.4rem;
+}
+
+.hub-discourse-style p {
+    margin-bottom: 1em;
+    color: var(--discourse-text-light);
+}
+
+/* Ссылки в стиле Discourse */
+.hub-discourse-style a {
+    color: var(--discourse-primary);
+    text-decoration: none;
+    transition: var(--discourse-transition);
+}
+
+.hub-discourse-style a:hover {
+    color: var(--discourse-primary-hover);
+    text-decoration: underline;
+}
+
+/* Кнопки в стиле Discourse */
+.hub-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--discourse-primary);
+    color: var(--discourse-white);
+    text-decoration: none;
+    border-radius: var(--discourse-radius);
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: var(--discourse-transition);
+    font-size: 0.9rem;
+}
+
+.hub-btn:hover {
+    background: var(--discourse-primary-hover);
+    color: var(--discourse-white);
+    text-decoration: none;
+}
+
+.hub-btn--secondary {
+    background: var(--discourse-secondary);
+}
+
+.hub-btn--secondary:hover {
+    background: var(--discourse-text);
+}
+
+.hub-btn--small {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+}
+
+.hub-btn--large {
+    padding: 16px 32px;
+    font-size: 1rem;
+}
+
+/* Бейджи в стиле Discourse */
+.hub-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hub-badge--success {
+    background: var(--discourse-success);
+    color: var(--discourse-white);
+}
+
+.hub-badge--warning {
+    background: var(--discourse-warning);
+    color: var(--discourse-text);
+}
+
+.hub-badge--danger {
+    background: var(--discourse-danger);
+    color: var(--discourse-white);
+}
+
+.hub-badge--info {
+    background: var(--discourse-primary);
+    color: var(--discourse-white);
+}
+
+/* Карточки в стиле Discourse */
+.hub-card {
+    background: var(--discourse-white);
+    border: 1px solid var(--discourse-border);
+    border-radius: var(--discourse-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--discourse-shadow);
+}
+
+.hub-card__header {
+    border-bottom: 1px solid var(--discourse-border-light);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.hub-card__title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.hub-card__body {
+    margin-bottom: 15px;
+}
+
+.hub-card__footer {
+    border-top: 1px solid var(--discourse-border-light);
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+/* Алерты в стиле Discourse */
+.hub-alert {
+    padding: 15px 20px;
+    border-radius: var(--discourse-radius);
+    margin-bottom: 20px;
+    border-left: 4px solid;
+}
+
+.hub-alert--success {
+    background: #d4edda;
+    border-color: var(--discourse-success);
+    color: #155724;
+}
+
+.hub-alert--warning {
+    background: #fff3cd;
+    border-color: var(--discourse-warning);
+    color: #856404;
+}
+
+.hub-alert--danger {
+    background: #f8d7da;
+    border-color: var(--discourse-danger);
+    color: #721c24;
+}
+
+.hub-alert--info {
+    background: #d1ecf1;
+    border-color: var(--discourse-primary);
+    color: #0c5460;
+}
+
+/* Формы в стиле Discourse */
+.hub-form-group {
+    margin-bottom: 20px;
+}
+
+.hub-form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--discourse-text);
+}
+
+.hub-form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--discourse-border);
+    border-radius: var(--discourse-radius);
+    font-size: 0.9rem;
+    transition: var(--discourse-transition);
+}
+
+.hub-form-input:focus {
+    outline: none;
+    border-color: var(--discourse-primary);
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+}
+
+.hub-form-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Навигация в стиле Discourse */
+.hub-nav {
+    background: var(--discourse-white);
+    border-bottom: 1px solid var(--discourse-border);
+    margin-bottom: 30px;
+}
+
+.hub-nav__list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 30px;
+}
+
+.hub-nav__link {
+    display: block;
+    padding: 15px 0;
+    color: var(--discourse-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: var(--discourse-transition);
+}
+
+.hub-nav__link:hover,
+.hub-nav__link--active {
+    color: var(--discourse-text);
+    border-bottom-color: var(--discourse-primary);
+}
+
+/* Пагинация в стиле Discourse */
+.hub-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 30px 0;
+}
+
+.hub-pagination__item {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid var(--discourse-border);
+    border-radius: var(--discourse-radius);
+    color: var(--discourse-secondary);
+    text-decoration: none;
+    transition: var(--discourse-transition);
+}
+
+.hub-pagination__item:hover {
+    background: var(--discourse-bg);
+    color: var(--discourse-text);
+}
+
+.hub-pagination__item--active {
+    background: var(--discourse-primary);
+    color: var(--discourse-white);
+    border-color: var(--discourse-primary);
+}
+
+.hub-pagination__item--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Утилиты в стиле Discourse */
+.hub-text-center {
+    text-align: center;
+}
+
+.hub-text-left {
+    text-align: left;
+}
+
+.hub-text-right {
+    text-align: right;
+}
+
+.hub-mb-0 { margin-bottom: 0; }
+.hub-mb-1 { margin-bottom: 0.5rem; }
+.hub-mb-2 { margin-bottom: 1rem; }
+.hub-mb-3 { margin-bottom: 1.5rem; }
+.hub-mb-4 { margin-bottom: 2rem; }
+
+.hub-mt-0 { margin-top: 0; }
+.hub-mt-1 { margin-top: 0.5rem; }
+.hub-mt-2 { margin-top: 1rem; }
+.hub-mt-3 { margin-top: 1.5rem; }
+.hub-mt-4 { margin-top: 2rem; }
+
+.hub-p-0 { padding: 0; }
+.hub-p-1 { padding: 0.5rem; }
+.hub-p-2 { padding: 1rem; }
+.hub-p-3 { padding: 1.5rem; }
+.hub-p-4 { padding: 2rem; }
+
+/* Responsive дизайн */
+@media (max-width: 768px) {
+    .hub-nav__list {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .hub-nav__link {
+        padding: 12px 0;
+    }
+    
+    .hub-card {
+        padding: 15px;
+    }
+    
+    .hub-btn {
+        padding: 10px 20px;
+    }
+    
+    .hub-discourse-style h1 {
+        font-size: 2rem;
+    }
+    
+    .hub-discourse-style h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hub-discourse-style h1 {
+        font-size: 1.8rem;
+    }
+    
+    .hub-card {
+        padding: 10px;
+    }
+    
+    .hub-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Анимации в стиле Discourse */
+@keyframes hub-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hub-fade-in {
+    animation: hub-fade-in 0.3s ease-out;
+}
+
+/* Состояния загрузки */
+.hub-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.hub-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--discourse-border);
+    border-top-color: var(--discourse-primary);
+    border-radius: 50%;
+    animation: hub-spin 1s linear infinite;
+}
+
+@keyframes hub-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Темная тема (базовая поддержка) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --discourse-text: #e1e1e1;
+        --discourse-text-light: #b0b0b0;
+        --discourse-bg: #2d2d2d;
+        --discourse-white: #1a1a1a;
+        --discourse-border: #404040;
+        --discourse-border-light: #333;
+    }
+    
+    .hub-discourse-style {
+        background: var(--discourse-white);
+        color: var(--discourse-text);
+    }
+} 

@@ -1,0 +1,44 @@
+{*
+ * Person Schema for User Profiles
+ * Implements schema.org Person markup for Hub user profiles
+ *}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "{$wa->getUrl('hub')}user/{$user.id}/#person",
+  "name": "{$user.name|escape}",
+  "givenName": "{$user.firstname|escape}",
+  "familyName": "{$user.lastname|escape}",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{$user.photo_url|default:''}",
+    "width": "200",
+    "height": "200"
+  },
+  "description": "{$user.about|escape|default:''}",
+  "url": "{$wa->getUrl('hub')}user/{$user.id}/",
+  "sameAs": [
+    {if $user.social_facebook}"https://www.facebook.com/{$user.social_facebook|escape}"{/if}
+    {if $user.social_twitter}", "https://twitter.com/{$user.social_twitter|escape}"{/if}
+    {if $user.social_linkedin}", "https://www.linkedin.com/in/{$user.social_linkedin|escape}"{/if}
+    {if $user.social_instagram}", "https://www.instagram.com/{$user.social_instagram|escape}"{/if}
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "@id": "{$wa->getUrl('/', [], true)}#organization"
+  },
+  "jobTitle": "{$user.job_title|escape|default:'Community Member'}",
+  "knowsAbout": [
+    {foreach $user.interests as $interest}
+    "{$interest|escape}"{if !$interest@last},{/if}
+    {/foreach}
+  ],
+  "memberOf": {
+    "@type": "Organization",
+    "name": "{$wa->accountName()|escape}",
+    "@id": "{$wa->getUrl('/', [], true)}#organization"
+  }
+}
+</script> 

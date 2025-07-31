@@ -1,0 +1,156 @@
+# Waboot Blog Theme - Russian Translation
+msgid ""
+msgstr ""
+"Project-Id-Version: Waboot Blog Theme 1.0.0\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# Blog Navigation
+msgid "Search posts..."
+msgstr "Поиск записей..."
+
+msgid "Search"
+msgstr "Поиск"
+
+# Blog Content
+msgid "posts"
+msgstr "записей"
+
+msgid "categories"
+msgstr "категорий"
+
+msgid "tags"
+msgstr "тегов"
+
+# Comments
+msgid "Comments"
+msgstr "Комментарии"
+
+msgid "Reply"
+msgstr "Ответить"
+
+msgid "Edit"
+msgstr "Редактировать"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Write your reply..."
+msgstr "Напишите ваш ответ..."
+
+msgid "Submit Reply"
+msgstr "Отправить ответ"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+msgid "Leave a Comment"
+msgstr "Оставить комментарий"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Website"
+msgstr "Веб-сайт"
+
+msgid "Comment"
+msgstr "Комментарий"
+
+msgid "Write your comment here..."
+msgstr "Напишите ваш комментарий здесь..."
+
+msgid "Post Comment"
+msgstr "Отправить комментарий"
+
+msgid "Posting..."
+msgstr "Отправка..."
+
+# Social Sharing
+msgid "Share"
+msgstr "Поделиться"
+
+msgid "shares"
+msgstr "поделились"
+
+# Navigation
+msgid "Previous Post"
+msgstr "Предыдущая запись"
+
+msgid "Next Post"
+msgstr "Следующая запись"
+
+msgid "Related Posts"
+msgstr "Похожие записи"
+
+# Sidebar
+msgid "Subscribe to Newsletter"
+msgstr "Подписаться на рассылку"
+
+msgid "Stay updated with our latest posts and news."
+msgstr "Будьте в курсе наших последних записей и новостей."
+
+msgid "Your email address"
+msgstr "Ваш email адрес"
+
+msgid "Subscribe"
+msgstr "Подписаться"
+
+msgid "Subscribing..."
+msgstr "Подписка..."
+
+msgid "Recent Posts"
+msgstr "Последние записи"
+
+msgid "Categories"
+msgstr "Категории"
+
+msgid "Popular Tags"
+msgstr "Популярные теги"
+
+msgid "Authors"
+msgstr "Авторы"
+
+msgid "Follow Us"
+msgstr "Подписывайтесь на нас"
+
+msgid "Archive"
+msgstr "Архив"
+
+# Plural Forms
+msgid "post"
+msgid_plural "posts"
+msgstr[0] "запись"
+msgstr[1] "записи"
+msgstr[2] "записей"
+
+msgid "comment"
+msgid_plural "comments"
+msgstr[0] "комментарий"
+msgstr[1] "комментария"
+msgstr[2] "комментариев"
+
+# Error Messages
+msgid "No posts found"
+msgstr "Записи не найдены"
+
+msgid "There are no blog posts available at the moment."
+msgstr "В данный момент нет доступных записей блога."
+
+msgid "No comments yet. Be the first to comment!"
+msgstr "Пока нет комментариев. Будьте первым!"
+
+msgid "Comments are disabled for this post."
+msgstr "Комментарии отключены для этой записи."
+
+# Notify on Reply
+msgid "Notify me when someone replies to my comment"
+msgstr "Уведомить меня, когда кто-то ответит на мой комментарий" 

@@ -1,0 +1,46 @@
+{*
+ * LocalBusiness Schema for Hub
+ * Implements schema.org LocalBusiness markup for Hub application
+ *}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "{$wa->getUrl('/', [], true)}#localbusiness",
+  "name": "{$wa->accountName()|escape}",
+  "image": "{$wa->getDataUrl('business-photo.jpg', true)}",
+  "description": "{$wa->setting('business_description')|default:'Community platform and discussion forum'|escape}",
+  "url": "{$wa->getUrl('/', [], true)}",
+  "telephone": "{$wa->setting('contact_phone')|default:'+1-555-555-5555'|escape}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{$wa->setting('business_address')|default:'123 Main Street'|escape}",
+    "addressLocality": "{$wa->setting('business_city')|default:'City'|escape}",
+    "addressRegion": "{$wa->setting('business_state')|default:'State'|escape}",
+    "postalCode": "{$wa->setting('business_zip')|default:'12345'|escape}",
+    "addressCountry": "{$wa->setting('business_country')|default:'US'|escape}"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "{$wa->setting('business_latitude')|default:'40.7128'|escape}",
+    "longitude": "{$wa->setting('business_longitude')|default:'-74.0060'|escape}"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "17:00"
+    }
+  ],
+  "priceRange": "{$wa->setting('business_price_range')|default:'Free'|escape}",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{$wa->setting('business_rating')|default:'4.5'|escape}",
+    "reviewCount": "{$wa->setting('business_review_count')|default:'25'|escape}"
+  },
+  "serviceType": "Community Platform",
+  "areaServed": "{$wa->setting('business_area_served')|default:'Worldwide'|escape}"
+}
+</script> 

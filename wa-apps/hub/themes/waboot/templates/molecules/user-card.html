@@ -1,0 +1,191 @@
+{*
+ * User Card Molecule Component
+ * Displays user information in a card format
+ * @param user - User object with all user data
+ * @param compact - Compact display mode (true/false)
+ * @param featured - Featured user styling (true/false)
+ * @param show_actions - Show action buttons (true/false)
+ *}
+
+{* Set default values with security *}
+{$compact = $compact|default:false}
+{$featured = $featured|default:false}
+{$show_actions = $show_actions|default:true}
+
+{* Security: Validate user object *}
+{if !isset($user) || !is_array($user)}
+    {$user = []}
+{/if}
+
+{* JSON-LD Schema for Person *}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "{$wa_domain}/hub/user/{$user.id}/#person",
+  "name": "{$user.name|escape:'javascript'}",
+  "givenName": "{$user.firstname|escape:'javascript'}",
+  "familyName": "{$user.lastname|escape:'javascript'}",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{$user.photo|default:$wa_theme_url|escape:'javascript'}images/default-avatar.png"
+  },
+  "description": "{$user.bio|default:''|escape:'javascript'}",
+  "url": "{$wa_domain}/hub/user/{$user.id}/",
+  "sameAs": [
+    {if $user.social_facebook}"https://www.facebook.com/{$user.social_facebook|escape:'javascript'}"{/if}
+    {if $user.social_twitter}",https://twitter.com/{$user.social_twitter|escape:'javascript'}"{/if}
+    {if $user.social_linkedin}",https://www.linkedin.com/in/{$user.social_linkedin|escape:'javascript'}"{/if}
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "@id": "{$wa_domain}/#organization"
+  },
+  "jobTitle": "{$user.job_title|default:''|escape:'javascript'}"
+}
+</script>
+
+{* User Card Component *}
+<article class="waboot-hub__user-card {if $compact}waboot-hub__user-card--compact{/if} {if $featured}waboot-hub__user-card--featured{/if}"
+         itemscope itemtype="https://schema.org/Person"
+         x-data="userCard({$user.id|json_encode})"
+         data-user-id="{$user.id|escape}"
+         role="article"
+         aria-labelledby="user-card-{$user.id|escape}">
+    
+    {* User Avatar *}
+    <div class="waboot-hub__user-card__avatar">
+        {include file="atoms/user-avatar.html" 
+                 user=$user 
+                 size="{if $compact}small{else}medium{/if}" 
+                 online=$user.online 
+                 show_status=true}
+    </div>
+    
+    {* User Content *}
+    <div class="waboot-hub__user-card__content">
+        {* User Name *}
+        <h3 class="waboot-hub__user-card__name" id="user-card-{$user.id|escape}">
+            <a href="{$wa_domain}/hub/user/{$user.id}/" 
+               itemprop="name"
+               class="waboot-hub__user-card__name-link"
+               x-on:click="viewProfile()">
+                {$user.name|escape}
+            </a>
+        </h3>
+        
+        {* Username *}
+        {if $user.username}
+            <p class="waboot-hub__user-card__username" itemprop="alternateName">
+                @{$user.username|escape}
+            </p>
+        {/if}
+        
+        {* User Bio *}
+        {if $user.bio && !$compact}
+            <p class="waboot-hub__user-card__bio" itemprop="description">
+                {$user.bio|truncate:100|escape}
+            </p>
+        {/if}
+        
+        {* User Meta Information *}
+        <div class="waboot-hub__user-card__meta">
+            {* Location *}
+            {if $user.location}
+                <div class="waboot-hub__user-card__meta-item">
+                    <span class="waboot-hub__user-card__meta-icon" aria-hidden="true">📍</span>
+                    <span class="waboot-hub__user-card__meta-text">{$user.location|escape}</span>
+                </div>
+            {/if}
+            
+            {* Job Title *}
+            {if $user.job_title}
+                <div class="waboot-hub__user-card__meta-item">
+                    <span class="waboot-hub__user-card__meta-icon" aria-hidden="true">💼</span>
+                    <span class="waboot-hub__user-card__meta-text" itemprop="jobTitle">{$user.job_title|escape}</span>
+                </div>
+            {/if}
+            
+            {* Member Since *}
+            {if $user.created_datetime}
+                <div class="waboot-hub__user-card__meta-item">
+                    <span class="waboot-hub__user-card__meta-icon" aria-hidden="true">📅</span>
+                    <span class="waboot-hub__user-card__meta-text">
+                        [_w('Member since')] {$user.created_datetime|wa_date:'humandate'}
+                    </span>
+                </div>
+            {/if}
+        </div>
+    </div>
+    
+    {* User Actions *}
+    {if $show_actions && $wa->user()->getId() != $user.id}
+        <div class="waboot-hub__user-card__actions">
+            {* Follow Button *}
+            {include file="atoms/follow-button.html" 
+                     user_id=$user.id 
+                     is_following=$user.is_following 
+                     size="{if $compact}sm{else}md{/if}"}
+            
+            {* Message Button (if not compact) *}
+            {if !$compact}
+                <button class="waboot-hub__message-btn waboot-hub__message-btn--{if $compact}sm{else}md{/if}"
+                        x-on:click="sendMessage()"
+                        type="button"
+                        role="button"
+                        aria-label="[_w('Send message to')] {$user.name|escape}">
+                    <span class="waboot-hub__message-btn__icon" aria-hidden="true">💬</span>
+                    <span class="waboot-hub__message-btn__text">[_w('Message')]</span>
+                </button>
+            {/if}
+        </div>
+    {/if}
+    
+    {* Schema.org microdata *}
+    <meta itemprop="url" content="{$wa_domain}/hub/user/{$user.id}/">
+    {if $user.job_title}<meta itemprop="jobTitle" content="{$user.job_title|escape}">{/if}
+    {if $user.bio}<meta itemprop="description" content="{$user.bio|escape}">{/if}
+</article>
+
+{* Alpine.js Component Script *}
+<script nonce="{$wa->cspNonce()}" x-data="userCardScript()">
+document.addEventListener('alpine:init', () => {
+    Alpine.data('userCard', (userId) => ({
+        userId: userId,
+        
+        viewProfile() {
+            // Track profile view
+            this.trackEvent('profile_view', { user_id: this.userId });
+        },
+        
+        sendMessage() {
+            // Open message dialog
+            window.dispatchEvent(new CustomEvent('openMessageDialog', {
+                detail: { 
+                    recipient_id: this.userId,
+                    recipient_name: this.getUserName()
+                }
+            }));
+            
+            // Track message action
+            this.trackEvent('message_button_click', { user_id: this.userId });
+        },
+        
+        getUserName() {
+            const nameElement = this.$el.querySelector('.waboot-hub__user-card__name');
+            return nameElement ? nameElement.textContent.trim() : '';
+        },
+        
+        trackEvent(eventName, data) {
+            // Track user interactions
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, {
+                    'event_category': 'hub_user_interaction',
+                    'event_label': this.userId,
+                    ...data
+                });
+            }
+        }
+    }));
+});
+</script> 

@@ -1,0 +1,490 @@
+{*
+ * Activity Feed Organism Component
+ * Displays user activity feed with real-time updates
+ * @param activities - Array of activity objects
+ * @param user_id - Current user ID for filtering
+ * @param feed_type - Feed type (all, following, user)
+ * @param pagination - Pagination object
+ *}
+
+{* Set default values with security *}
+{$user_id = $user_id|default:$wa->user()->getId()}
+{$feed_type = $feed_type|default:'all'}
+{$activities = $activities|default:[]}
+{$pagination = $pagination|default:null}
+
+{* Security: Validate feed_type parameter *}
+{if !in_array($feed_type, ['all', 'following', 'user'])}
+    {$feed_type = 'all'}
+{/if}
+
+{* Security: Validate user_id *}
+{if !is_numeric($user_id)}
+    {$user_id = 0}
+{/if}
+
+{* JSON-LD Schema for Activity Feed *}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": "{$wa_domain}/hub/activity/#activity-feed",
+  "name": "Activity Feed",
+  "description": "Community activity feed",
+  "numberOfItems": {$activities|count},
+  "itemListElement": [
+    {foreach $activities as $index => $activity}
+    {
+      "@type": "ListItem",
+      "position": {$index + 1},
+      "item": {
+        "@type": "SocialMediaPosting",
+        "@id": "{$wa_domain}/hub/activity/{$activity.id}/#activity",
+        "headline": "{$activity.title|escape:'javascript'}",
+        "text": "{$activity.text|escape:'javascript'}",
+        "datePublished": "{$activity.datetime}",
+        "author": {
+          "@type": "Person",
+          "@id": "{$wa_domain}/hub/user/{$activity.user.id}/#person",
+          "name": "{$activity.user.name|escape:'javascript'}"
+        }
+        {if $activity.image},
+        "image": {
+          "@type": "ImageObject",
+          "url": "{$activity.image|escape:'javascript'}"
+        }
+        {/if}
+      }
+    }{if !$activity@last},{/if}
+    {/foreach}
+  ]
+}
+</script>
+
+{* Activity Feed Component *}
+<section class="waboot-hub__activity-feed"
+         x-data="activityFeed('{$feed_type}', {$user_id|json_encode})"
+         itemscope itemtype="https://schema.org/ItemList"
+         role="feed"
+         aria-label="[_w('Activity feed')]"
+         data-feed-type="{$feed_type|escape}"
+         data-user-id="{$user_id|escape}">
+    
+    {* Feed Header *}
+    <header class="waboot-hub__activity-feed__header">
+        <h2 class="waboot-hub__activity-feed__title" itemprop="name">
+            {if $feed_type == 'following'}
+                [_w('Following Activity')]
+            {elseif $feed_type == 'user'}
+                [_w('Your Activity')]
+            {else}
+                [_w('Community Activity')]
+            {/if}
+        </h2>
+        
+        {* Feed Actions *}
+        <div class="waboot-hub__activity-feed__actions">
+            {* Filter Dropdown *}
+            <select class="waboot-hub__feed-filter" 
+                    x-model="feedType" 
+                    x-on:change="changeFeedType()"
+                    aria-label="[_w('Filter activity feed')]">
+                <option value="all">[_w('All Activity')]</option>
+                <option value="following">[_w('Following')]</option>
+                {if $wa->user()->isAuth()}
+                    <option value="user">[_w('Your Activity')]</option>
+                {/if}
+            </select>
+            
+            {* Refresh Button *}
+            <button class="waboot-hub__refresh-btn"
+                    x-on:click="refreshFeed()"
+                    x-bind:disabled="loading"
+                    type="button"
+                    role="button"
+                    aria-label="[_w('Refresh activity feed')]">
+                <span class="waboot-hub__refresh-btn__icon" 
+                      x-bind:class="{'waboot-hub__refresh-btn__icon--spinning': loading}"
+                      aria-hidden="true">🔄</span>
+            </button>
+        </div>
+    </header>
+    
+    {* Feed Content *}
+    <div class="waboot-hub__activity-feed__content" 
+         x-ref="feedContent"
+         itemprop="itemListElement">
+        
+        {* Loading State *}
+        <div class="waboot-hub__activity-feed__loading" 
+             x-show="loading && activities.length === 0"
+             role="status"
+             aria-live="polite">
+            <div class="waboot-hub__spinner" aria-hidden="true"></div>
+            <span>[_w('Loading activities...')]</span>
+        </div>
+        
+        {* Empty State *}
+        <div class="waboot-hub__activity-feed__empty" 
+             x-show="!loading && activities.length === 0"
+             role="status"
+             aria-live="polite">
+            <div class="waboot-hub__activity-feed__empty-icon" aria-hidden="true">📝</div>
+            <h3 class="waboot-hub__activity-feed__empty-text">
+                {if $feed_type == 'following'}
+                    [_w('No activity from people you follow')]
+                {elseif $feed_type == 'user'}
+                    [_w('You haven\'t posted anything yet')]
+                {else}
+                    [_w('No community activity yet')]
+                {/if}
+            </h3>
+            <p class="waboot-hub__activity-feed__empty-subtext">
+                {if $feed_type == 'user'}
+                    [_w('Start sharing your thoughts with the community!')]
+                {else}
+                    [_w('Be the first to share something!')]
+                {/if}
+            </p>
+        </div>
+        
+        {* Activity Items *}
+        <template x-for="(activity, index) in activities" :key="activity.id">
+            <article class="waboot-hub__activity-item"
+                     :class="{'waboot-hub__activity-item--highlighted': activity.is_new}"
+                     :data-activity-id="activity.id"
+                     role="article"
+                     :aria-label="`Activity by ${activity.user.name}`">
+                
+                {* Activity Header *}
+                <header class="waboot-hub__activity-item__header">
+                    {* User Avatar *}
+                    <div class="waboot-hub__activity-item__avatar">
+                        <img :src="activity.user.photo || '/themes/waboot/images/default-avatar.png'"
+                             :alt="activity.user.name"
+                             class="waboot-hub__avatar__image waboot-hub__avatar--small"
+                             loading="lazy">
+                    </div>
+                    
+                    {* User Info *}
+                    <div class="waboot-hub__activity-item__user-info">
+                        <h4 class="waboot-hub__activity-item__user-name">
+                            <a :href="`/hub/user/${activity.user.id}/`" 
+                               x-text="activity.user.name"
+                               class="waboot-hub__activity-item__user-link"></a>
+                        </h4>
+                        
+                        <time class="waboot-hub__activity-item__timestamp" 
+                              :datetime="activity.datetime"
+                              x-text="formatTimestamp(activity.datetime)"
+                              aria-label="Posted on"></time>
+                    </div>
+                    
+                    {* Activity Actions *}
+                    <div class="waboot-hub__activity-item__actions">
+                        {* Like Button *}
+                        <button class="waboot-hub__like-btn"
+                                :class="{'waboot-hub__like-btn--liked': activity.is_liked}"
+                                x-on:click="toggleLike(activity)"
+                                type="button"
+                                role="button"
+                                :aria-label="activity.is_liked ? 'Unlike this activity' : 'Like this activity'">
+                            <span class="waboot-hub__like-btn__icon" aria-hidden="true">❤️</span>
+                            <span class="waboot-hub__like-btn__count" x-text="activity.likes_count"></span>
+                        </button>
+                        
+                        {* Comment Button *}
+                        <button class="waboot-hub__comment-btn"
+                                x-on:click="showComments(activity)"
+                                type="button"
+                                role="button"
+                                aria-label="Comment on this activity">
+                            <span class="waboot-hub__comment-btn__icon" aria-hidden="true">💬</span>
+                            <span class="waboot-hub__comment-btn__count" x-text="activity.comments_count"></span>
+                        </button>
+                        
+                        {* Share Button *}
+                        <button class="waboot-hub__share-btn"
+                                x-on:click="shareActivity(activity)"
+                                type="button"
+                                role="button"
+                                aria-label="Share this activity">
+                            <span class="waboot-hub__share-btn__icon" aria-hidden="true">📤</span>
+                        </button>
+                    </div>
+                </header>
+                
+                {* Activity Content *}
+                <div class="waboot-hub__activity-item__content">
+                    {* Activity Text *}
+                    <div class="waboot-hub__activity-item__text" x-html="activity.text"></div>
+                    
+                    {* Activity Media *}
+                    <div class="waboot-hub__activity-item__media" x-show="activity.image">
+                        <img :src="activity.image" 
+                             :alt="activity.image_alt || 'Activity image'"
+                             class="waboot-hub__activity-item__image"
+                             loading="lazy"
+                             x-on:click="viewImage(activity.image)">
+                    </div>
+                </div>
+                
+                {* Comments Section *}
+                <div class="waboot-hub__activity-item__comments" 
+                     x-show="activity.show_comments"
+                     x-transition>
+                    {* Comment Form *}
+                    <form class="waboot-hub__comment-form" 
+                          x-on:submit.prevent="addComment(activity)">
+                        <textarea class="waboot-hub__comment-input"
+                                  x-model="activity.new_comment"
+                                  placeholder="[_w('Write a comment...')]"
+                                  rows="2"
+                                  maxlength="500"
+                                  required></textarea>
+                        <button type="submit" 
+                                class="waboot-hub__comment-submit"
+                                :disabled="!activity.new_comment.trim()">
+                            [_w('Post')]
+                        </button>
+                    </form>
+                    
+                    {* Comments List *}
+                    <div class="waboot-hub__comments-list">
+                        <template x-for="comment in activity.comments" :key="comment.id">
+                            <div class="waboot-hub__comment">
+                                <img :src="comment.user.photo || '/themes/waboot/images/default-avatar.png'"
+                                     :alt="comment.user.name"
+                                     class="waboot-hub__comment__avatar">
+                                <div class="waboot-hub__comment__content">
+                                    <strong x-text="comment.user.name"></strong>
+                                    <span x-text="comment.text"></span>
+                                    <time :datetime="comment.datetime" 
+                                          x-text="formatTimestamp(comment.datetime)"></time>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </article>
+        </template>
+    </div>
+    
+    {* Load More Button *}
+    <div class="waboot-hub__activity-feed__load-more" 
+         x-show="hasMore && !loading">
+        <button class="waboot-hub__load-more-btn"
+                x-on:click="loadMore()"
+                type="button"
+                role="button"
+                aria-label="[_w('Load more activities')]">
+            [_w('Load More')]
+        </button>
+    </div>
+</section>
+
+{* Alpine.js Component Script *}
+<script nonce="{$wa->cspNonce()}" x-data="activityFeedScript()">
+document.addEventListener('alpine:init', () => {
+    Alpine.data('activityFeed', (feedType, userId) => ({
+        feedType: feedType,
+        userId: userId,
+        activities: [],
+        loading: false,
+        hasMore: true,
+        page: 1,
+        
+        init() {
+            this.loadActivities();
+            this.setupRealTimeUpdates();
+        },
+        
+        async loadActivities(refresh = false) {
+            if (this.loading) return;
+            
+            this.loading = true;
+            
+            if (refresh) {
+                this.activities = [];
+                this.page = 1;
+                this.hasMore = true;
+            }
+            
+            try {
+                const response = await fetch(`/hub/activity/?type=${this.feedType}&page=${this.page}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (refresh) {
+                        this.activities = data.activities;
+                    } else {
+                        this.activities.push(...data.activities);
+                    }
+                    
+                    this.hasMore = data.has_more;
+                    this.page++;
+                }
+            } catch (error) {
+                console.error('Failed to load activities:', error);
+                this.showNotification('[_w("Failed to load activities")]', 'error');
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        async refreshFeed() {
+            await this.loadActivities(true);
+        },
+        
+        changeFeedType() {
+            this.loadActivities(true);
+        },
+        
+        async loadMore() {
+            await this.loadActivities();
+        },
+        
+        async toggleLike(activity) {
+            try {
+                const response = await fetch('/hub/activity/like/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': this.getCsrfToken(),
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({
+                        activity_id: activity.id,
+                        action: activity.is_liked ? 'unlike' : 'like'
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    activity.is_liked = !activity.is_liked;
+                    activity.likes_count = result.likes_count;
+                }
+            } catch (error) {
+                console.error('Failed to toggle like:', error);
+            }
+        },
+        
+        showComments(activity) {
+            activity.show_comments = !activity.show_comments;
+            
+            if (activity.show_comments && !activity.comments_loaded) {
+                this.loadComments(activity);
+            }
+        },
+        
+        async loadComments(activity) {
+            try {
+                const response = await fetch(`/hub/activity/${activity.id}/comments/`);
+                const data = await response.json();
+                activity.comments = data.comments;
+                activity.comments_loaded = true;
+            } catch (error) {
+                console.error('Failed to load comments:', error);
+            }
+        },
+        
+        async addComment(activity) {
+            if (!activity.new_comment.trim()) return;
+            
+            try {
+                const response = await fetch('/hub/activity/comment/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': this.getCsrfToken(),
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({
+                        activity_id: activity.id,
+                        text: activity.new_comment
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    activity.comments.unshift(result.comment);
+                    activity.comments_count++;
+                    activity.new_comment = '';
+                }
+            } catch (error) {
+                console.error('Failed to add comment:', error);
+            }
+        },
+        
+        shareActivity(activity) {
+            if (navigator.share) {
+                navigator.share({
+                    title: activity.title || '[_w("Check out this activity")]',
+                    text: activity.text,
+                    url: `/hub/activity/${activity.id}/`
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(`${window.location.origin}/hub/activity/${activity.id}/`);
+                this.showNotification('[_w("Link copied to clipboard")]', 'success');
+            }
+        },
+        
+        viewImage(imageUrl) {
+            // Open image in lightbox
+            window.dispatchEvent(new CustomEvent('openLightbox', {
+                detail: { imageUrl }
+            }));
+        },
+        
+        formatTimestamp(datetime) {
+            const date = new Date(datetime);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return '[_w("Just now")]';
+            if (minutes < 60) return `[_w("${minutes}m ago")]`;
+            if (hours < 24) return `[_w("${hours}h ago")]`;
+            if (days < 7) return `[_w("${days}d ago")]`;
+            
+            return date.toLocaleDateString();
+        },
+        
+        setupRealTimeUpdates() {
+            // Set up WebSocket or Server-Sent Events for real-time updates
+            if (typeof EventSource !== 'undefined') {
+                const eventSource = new EventSource('/hub/activity/stream/');
+                
+                eventSource.onmessage = (event) => {
+                    const activity = JSON.parse(event.data);
+                    this.activities.unshift(activity);
+                };
+                
+                eventSource.onerror = (error) => {
+                    console.error('EventSource error:', error);
+                    eventSource.close();
+                };
+            }
+        },
+        
+        getCsrfToken() {
+            return document.querySelector('meta[name="csrf-token"]')?.content || '';
+        },
+        
+        showNotification(message, type) {
+            window.dispatchEvent(new CustomEvent('showNotification', {
+                detail: { message, type }
+            }));
+        }
+    }));
+});
+</script> 

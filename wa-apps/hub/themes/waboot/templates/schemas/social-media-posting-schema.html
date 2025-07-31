@@ -1,0 +1,66 @@
+{*
+ * SocialMediaPosting Schema for Community Posts
+ * Implements schema.org SocialMediaPosting markup for Hub community content
+ *}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SocialMediaPosting",
+  "@id": "{$wa->getUrl('hub')}post/{$post.id}/#socialmediaposting",
+  "headline": "{$post.title|escape}",
+  "text": "{$post.text|escape|strip_tags}",
+  "datePublished": "{$post.datetime}",
+  "dateModified": "{$post.update_datetime|default:$post.datetime}",
+  "author": {
+    "@type": "Person",
+    "name": "{$post.user.name|escape}",
+    "image": {
+      "@type": "ImageObject",
+      "url": "{$post.user.photo_url|escape}"
+    },
+    "@id": "{$wa->getUrl('hub')}user/{$post.user.id}/#person"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "{$wa->getUrl('/', [], true)}#organization"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{$wa->getUrl('hub')}post/{$post.id}/"
+  },
+  "image": [
+    {foreach $post.images as $image}
+    {
+      "@type": "ImageObject",
+      "url": "{$image.url|escape}",
+      "width": "{$image.width|default:'800'}",
+      "height": "{$image.height|default:'600'}"
+    }{if !$image@last},{/if}
+    {/foreach}
+  ],
+  "commentCount": "{$post.comments_count|default:0}",
+  "interactionStatistic": [
+    {
+      "@type": "InteractionCounter",
+      "interactionType": "https://schema.org/LikeAction",
+      "userInteractionCount": "{$post.likes_count|default:0}"
+    },
+    {
+      "@type": "InteractionCounter",
+      "interactionType": "https://schema.org/CommentAction",
+      "userInteractionCount": "{$post.comments_count|default:0}"
+    },
+    {
+      "@type": "InteractionCounter",
+      "interactionType": "https://schema.org/ShareAction",
+      "userInteractionCount": "{$post.shares_count|default:0}"
+    }
+  ],
+  "keywords": [
+    {foreach $post.tags as $tag}
+    "{$tag.name|escape}"{if !$tag@last},{/if}
+    {/foreach}
+  ]
+}
+</script> 

@@ -1,0 +1,275 @@
+# English translations for Hub theme
+# Copyright (C) 2025 AdGooroo
+# This file is distributed under the same license as the Hub theme package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Hub theme 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/adgooroo/wa-wp-atomic-migration\n"
+"POT-Creation-Date: 2025-01-16 12:00+0000\n"
+"PO-Revision-Date: 2025-01-16 12:00+0000\n"
+"Last-Translator: AdGooroo <info@adgooroo.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/atoms/user-avatar.html:45
+msgid "Avatar for"
+msgstr "Avatar for"
+
+#: templates/atoms/user-avatar.html:52
+msgid "Default avatar for"
+msgstr "Default avatar for"
+
+#: templates/atoms/user-avatar.html:58
+msgid "User is online"
+msgstr "User is online"
+
+#: templates/atoms/user-avatar.html:58
+msgid "User is offline"
+msgstr "User is offline"
+
+#: templates/atoms/follow-button.html:42
+msgid "Unfollow"
+msgstr "Unfollow"
+
+#: templates/atoms/follow-button.html:42
+msgid "Follow"
+msgstr "Follow"
+
+#: templates/atoms/follow-button.html:45
+msgid "Processing..."
+msgstr "Processing..."
+
+#: templates/atoms/follow-button.html:50
+msgid "Click to unfollow this user"
+msgstr "Click to unfollow this user"
+
+#: templates/atoms/follow-button.html:50
+msgid "Click to follow this user"
+msgstr "Click to follow this user"
+
+#: templates/atoms/follow-button.html:85
+msgid "Successfully followed user"
+msgstr "Successfully followed user"
+
+#: templates/atoms/follow-button.html:85
+msgid "Successfully unfollowed user"
+msgstr "Successfully unfollowed user"
+
+#: templates/atoms/follow-button.html:89
+msgid "Operation failed"
+msgstr "Operation failed"
+
+#: templates/atoms/follow-button.html:93
+msgid "Network error"
+msgstr "Network error"
+
+#: templates/molecules/user-card.html:89
+msgid "Member since"
+msgstr "Member since"
+
+#: templates/molecules/user-card.html:108
+msgid "Send message to"
+msgstr "Send message to"
+
+#: templates/molecules/user-card.html:111
+msgid "Message"
+msgstr "Message"
+
+#: templates/organisms/activity-feed.html:67
+msgid "Activity feed"
+msgstr "Activity feed"
+
+#: templates/organisms/activity-feed.html:75
+msgid "Following Activity"
+msgstr "Following Activity"
+
+#: templates/organisms/activity-feed.html:77
+msgid "Your Activity"
+msgstr "Your Activity"
+
+#: templates/organisms/activity-feed.html:79
+msgid "Community Activity"
+msgstr "Community Activity"
+
+#: templates/organisms/activity-feed.html:87
+msgid "Filter activity feed"
+msgstr "Filter activity feed"
+
+#: templates/organisms/activity-feed.html:89
+msgid "All Activity"
+msgstr "All Activity"
+
+#: templates/organisms/activity-feed.html:90
+msgid "Following"
+msgstr "Following"
+
+#: templates/organisms/activity-feed.html:99
+msgid "Refresh activity feed"
+msgstr "Refresh activity feed"
+
+#: templates/organisms/activity-feed.html:115
+msgid "Loading activities..."
+msgstr "Loading activities..."
+
+#: templates/organisms/activity-feed.html:123
+msgid "No activity from people you follow"
+msgstr "No activity from people you follow"
+
+#: templates/organisms/activity-feed.html:125
+msgid "You haven't posted anything yet"
+msgstr "You haven't posted anything yet"
+
+#: templates/organisms/activity-feed.html:127
+msgid "No community activity yet"
+msgstr "No community activity yet"
+
+#: templates/organisms/activity-feed.html:133
+msgid "Start sharing your thoughts with the community!"
+msgstr "Start sharing your thoughts with the community!"
+
+#: templates/organisms/activity-feed.html:135
+msgid "Be the first to share something!"
+msgstr "Be the first to share something!"
+
+#: templates/organisms/activity-feed.html:145
+msgid "Load more activities"
+msgstr "Load more activities"
+
+#: templates/organisms/activity-feed.html:147
+msgid "Load More"
+msgstr "Load More"
+
+#: templates/organisms/activity-feed.html:175
+msgid "Unlike this activity"
+msgstr "Unlike this activity"
+
+#: templates/organisms/activity-feed.html:175
+msgid "Like this activity"
+msgstr "Like this activity"
+
+#: templates/organisms/activity-feed.html:185
+msgid "Comment on this activity"
+msgstr "Comment on this activity"
+
+#: templates/organisms/activity-feed.html:195
+msgid "Share this activity"
+msgstr "Share this activity"
+
+#: templates/organisms/activity-feed.html:215
+msgid "Write a comment..."
+msgstr "Write a comment..."
+
+#: templates/organisms/activity-feed.html:220
+msgid "Post"
+msgstr "Post"
+
+#: templates/organisms/activity-feed.html:280
+msgid "Failed to load activities"
+msgstr "Failed to load activities"
+
+#: templates/organisms/activity-feed.html:320
+msgid "Check out this activity"
+msgstr "Check out this activity"
+
+#: templates/organisms/activity-feed.html:325
+msgid "Link copied to clipboard"
+msgstr "Link copied to clipboard"
+
+#: templates/organisms/activity-feed.html:340
+msgid "Just now"
+msgstr "Just now"
+
+#: templates/organisms/activity-feed.html:341
+msgid "m ago"
+msgstr "m ago"
+
+#: templates/organisms/activity-feed.html:342
+msgid "h ago"
+msgstr "h ago"
+
+#: templates/organisms/activity-feed.html:343
+msgid "d ago"
+msgstr "d ago"
+
+#: js/waboot-hub.js:85
+msgid "Failed to load current user"
+msgstr "Failed to load current user"
+
+#: js/waboot-hub.js:120
+msgid "Hub WebSocket connected"
+msgstr "Hub WebSocket connected"
+
+#: js/waboot-hub.js:130
+msgid "Hub WebSocket disconnected"
+msgstr "Hub WebSocket disconnected"
+
+#: js/waboot-hub.js:135
+msgid "WebSocket error"
+msgstr "WebSocket error"
+
+#: js/waboot-hub.js:140
+msgid "Failed to connect WebSocket"
+msgstr "Failed to connect WebSocket"
+
+#: js/waboot-hub.js:155
+msgid "EventSource error"
+msgstr "EventSource error"
+
+#: js/waboot-hub.js:160
+msgid "Failed to connect EventSource"
+msgstr "Failed to connect EventSource"
+
+#: js/waboot-hub.js:220
+msgid "Failed to load notifications"
+msgstr "Failed to load notifications"
+
+#: js/waboot-hub.js:250
+msgid "Failed to mark notification as read"
+msgstr "Failed to mark notification as read"
+
+#: js/waboot-hub.js:290
+msgid "Failed to load user profile"
+msgstr "Failed to load user profile"
+
+#: js/waboot-hub.js:310
+msgid "Failed to load user activities"
+msgstr "Failed to load user activities"
+
+#: js/waboot-hub.js:330
+msgid "Failed to load user connections"
+msgstr "Failed to load user connections"
+
+#: js/waboot-hub.js:360
+msgid "Failed to load conversations"
+msgstr "Failed to load conversations"
+
+#: js/waboot-hub.js:385
+msgid "Failed to load messages"
+msgstr "Failed to load messages"
+
+#: js/waboot-hub.js:410
+msgid "Failed to send message"
+msgstr "Failed to send message"
+
+#: js/waboot-hub.js:460
+msgid "Search failed"
+msgstr "Search failed"
+
+#: js/waboot-hub.js:520
+msgid "Failed to mark all as read"
+msgstr "Failed to mark all as read"
+
+#: js/waboot-hub.js:580
+msgid "Close notification"
+msgstr "Close notification"
+
+#: js/waboot-hub.js:600
+msgid "Close lightbox"
+msgstr "Close lightbox"
+
+#: js/waboot-hub.js:620
+msgid "Open message dialog for"
+msgstr "Open message dialog for" 

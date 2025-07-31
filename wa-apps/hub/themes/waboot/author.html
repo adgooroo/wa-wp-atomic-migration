@@ -1,0 +1,140 @@
+{* Hub Author Page - Страница автора Hub приложения *}
+{strip}
+{* Наследуем от родительской темы Site waboot *}
+{include file="`$wa_parent_theme_path`/index.html" inline}
+
+{* JSON-LD Structured Data for Author Page *}
+{include file="schemas/person-schema.html" user=$author}
+
+{* Устанавливаем заголовок и мета-данные *}
+{$wa->title($author.name|default:$author.login|escape)}
+{$wa->globals("authorPage", $author)}
+
+{* Основной контент автора *}
+<div class="hub-author">
+    {* Заголовок страницы *}
+    <div class="hub-author__header">
+        <a href="{$wa->getUrl('hub/frontend/authors')}" class="hub-author__back-link">
+            ← {_w("All authors")}
+        </a>
+    </div>
+    
+    {* Профиль автора *}
+    <div class="hub-author__profile">
+        {* Аватар автора *}
+        <div class="hub-author__avatar">
+            {if !empty($author.photo_url_96)}
+                <img src="{$author.photo_url_96}" alt="{$author.name|escape}" class="hub-author__avatar-img">
+            {else}
+                <div class="hub-author__avatar-placeholder">
+                    {$author.name|substr:0:1|upper}
+                </div>
+            {/if}
+        </div>
+        
+        {* Информация об авторе *}
+        <div class="hub-author__info">
+            <h1 class="hub-author__name">
+                {$author.name|default:$author.login|escape}
+            </h1>
+            
+            {* Бейдж автора *}
+            {if !empty($author.badge)}
+                <div class="hub-author__badge">
+                    {$author.badge|escape}
+                </div>
+            {/if}
+            
+            {* Рейтинг автора *}
+            {if !empty($hub.params.kudos) && isset($author.rate)}
+                <div class="hub-author__rating">
+                    {if $author.rate >= 0}+{else}−{/if}{abs($author.rate)}
+                </div>
+            {/if}
+        </div>
+    </div>
+    
+    {* Навигация по профилю автора *}
+    <div class="hub-author__navigation">
+        <nav class="hub-author__nav">
+            <a href="{$wa->getUrl('hub/frontend/author')}/{$author.contact_id}/" class="hub-author__nav-link {if empty($author_replies)}hub-author__nav-link--active{/if}">
+                {if $wa->userId() == $author.contact_id}
+                    {_w("My topics")}
+                {else}
+                    {_w("Topics")}
+                {/if}
+                {if !empty($author.topics_count)}
+                    <span class="hub-author__nav-count">{$author.topics_count}</span>
+                {/if}
+            </a>
+            
+            <a href="{$wa->getUrl('hub/frontend/author')}/{$author.contact_id}/replies/" class="hub-author__nav-link {if !empty($author_replies)}hub-author__nav-link--active{/if}">
+                {if $wa->userId() == $author.contact_id}
+                    {_w("My replies")}
+                {else}
+                    {_w("Replies")}
+                {/if}
+                {if !empty($author.comments_count)}
+                    <span class="hub-author__nav-count">{$author.comments_count}</span>
+                {/if}
+            </a>
+            
+            {if $wa->userId() == $author.contact_id}
+                <a href="{$wa->getUrl('hub/frontend/author')}/{$author.contact_id}/following/" class="hub-author__nav-link">
+                    {_w("Favorites")}
+                </a>
+            {/if}
+        </nav>
+    </div>
+    
+    {* @event frontend_author.%plugin_id% *}
+    {foreach $frontend_author as $_}{$_}{/foreach}
+    
+    {* Контент автора *}
+    <div class="hub-author__content">
+        {if !empty($author_replies)}
+            {* Комментарии автора *}
+            {if empty($comments)}
+                <div class="hub-author__empty">
+                    <p class="hub-author__empty-message">
+                        {sprintf('[`%s did not post any comments yet.`]', $author.name|default:"[`Author`]")|escape}
+                    </p>
+                </div>
+            {else}
+                <div class="hub-author__comments">
+                    {foreach $comments as $comment}
+                        {include file="./comment.html" comment=$comment inline}
+                    {/foreach}
+                </div>
+                
+                {* Пагинация комментариев *}
+                {if isset($pages_count) && $pages_count > 1}
+                    <div class="hub-author__pagination">
+                        {wa_pagination total=$pages_count attrs=['class' => "pagination"]}
+                    </div>
+                {/if}
+            {/if}
+        {else}
+            {* Топики автора *}
+            {include file="./list-topics.html" inline}
+        {/if}
+    </div>
+</div>
+
+{* JSON-LD разметка для автора *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "{$author.name|default:$author.login|escape}",
+    "url": "{$wa->getUrl('hub/frontend/author')}/{$author.contact_id}/",
+    "image": "{$author.photo_url_96}",
+    "description": "{_w('Author profile')}",
+    "mainEntity": {
+        "@type": "ItemList",
+        "name": "{if $wa->userId() == $author.contact_id}{_w('My topics')}{else}{_w('Topics')}{/if}",
+        "numberOfItems": {$author.topics_count|default:0}
+    }
+}
+</script>
+{/strip} 

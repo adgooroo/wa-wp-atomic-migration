@@ -1,0 +1,154 @@
+# Waboot Blog Theme - English Translation
+msgid ""
+msgstr ""
+"Project-Id-Version: Waboot Blog Theme 1.0.0\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Blog Navigation
+msgid "Search posts..."
+msgstr "Search posts..."
+
+msgid "Search"
+msgstr "Search"
+
+# Blog Content
+msgid "posts"
+msgstr "posts"
+
+msgid "categories"
+msgstr "categories"
+
+msgid "tags"
+msgstr "tags"
+
+# Comments
+msgid "Comments"
+msgstr "Comments"
+
+msgid "Reply"
+msgstr "Reply"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Write your reply..."
+msgstr "Write your reply..."
+
+msgid "Submit Reply"
+msgstr "Submit Reply"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Save Changes"
+msgstr "Save Changes"
+
+msgid "Leave a Comment"
+msgstr "Leave a Comment"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Website"
+msgstr "Website"
+
+msgid "Comment"
+msgstr "Comment"
+
+msgid "Write your comment here..."
+msgstr "Write your comment here..."
+
+msgid "Post Comment"
+msgstr "Post Comment"
+
+msgid "Posting..."
+msgstr "Posting..."
+
+# Social Sharing
+msgid "Share"
+msgstr "Share"
+
+msgid "shares"
+msgstr "shares"
+
+# Navigation
+msgid "Previous Post"
+msgstr "Previous Post"
+
+msgid "Next Post"
+msgstr "Next Post"
+
+msgid "Related Posts"
+msgstr "Related Posts"
+
+# Sidebar
+msgid "Subscribe to Newsletter"
+msgstr "Subscribe to Newsletter"
+
+msgid "Stay updated with our latest posts and news."
+msgstr "Stay updated with our latest posts and news."
+
+msgid "Your email address"
+msgstr "Your email address"
+
+msgid "Subscribe"
+msgstr "Subscribe"
+
+msgid "Subscribing..."
+msgstr "Subscribing..."
+
+msgid "Recent Posts"
+msgstr "Recent Posts"
+
+msgid "Categories"
+msgstr "Categories"
+
+msgid "Popular Tags"
+msgstr "Popular Tags"
+
+msgid "Authors"
+msgstr "Authors"
+
+msgid "Follow Us"
+msgstr "Follow Us"
+
+msgid "Archive"
+msgstr "Archive"
+
+# Plural Forms
+msgid "post"
+msgid_plural "posts"
+msgstr[0] "post"
+msgstr[1] "posts"
+
+msgid "comment"
+msgid_plural "comments"
+msgstr[0] "comment"
+msgstr[1] "comments"
+
+# Error Messages
+msgid "No posts found"
+msgstr "No posts found"
+
+msgid "There are no blog posts available at the moment."
+msgstr "There are no blog posts available at the moment."
+
+msgid "No comments yet. Be the first to comment!"
+msgstr "No comments yet. Be the first to comment!"
+
+msgid "Comments are disabled for this post."
+msgstr "Comments are disabled for this post."
+
+# Notify on Reply
+msgid "Notify me when someone replies to my comment"
+msgstr "Notify me when someone replies to my comment" 

@@ -1,0 +1,82 @@
+{* Hub Category Page - Страница категории Hub приложения *}
+{strip}
+{* Наследуем от родительской темы Site waboot *}
+{include file="`$wa_parent_theme_path`/index.html" inline}
+
+{* Устанавливаем заголовок и мета-данные *}
+{$wa->title($category.name|escape)}
+{$wa->globals("categoryPage", $category)}
+
+{* Основной контент категории *}
+<div class="hub-category-page">
+    {* Заголовок категории *}
+    <div class="hub-category-page__header">
+        <h1 class="hub-category-page__title">{$category.name|escape}</h1>
+        
+        {if !empty($category.description)}
+            <div class="hub-category-page__description">
+                {$category.description}
+            </div>
+        {/if}
+        
+        {* Мета-информация категории *}
+        <div class="hub-category-page__meta">
+            <span class="hub-category-page__topics-count">
+                {_w("Topics")}: {$topics_count|default:0}
+            </span>
+            {if !empty($category.update_datetime)}
+                <span class="hub-category-page__update-date">
+                    {_w("Last update")}: {$category.update_datetime|wa_datetime:"humandatetime"}
+                </span>
+            {/if}
+        </div>
+    </div>
+    
+    {* Описание категории (если включено в настройках) *}
+    {if !empty($category.description) && $theme_settings.category_description_place === "content_top"}
+        <div class="hub-category-page__description-top">
+            {$category.description}
+        </div>
+    {/if}
+    
+    {* Список топиков в категории *}
+    <div class="hub-category-page__topics">
+        {if !empty($topics)}
+            {include file="./list-topics.html" inline}
+        {else}
+            <div class="hub-category-page__empty">
+                {if empty($short)}
+                    <p class="hub-category-page__empty-message">{_w("This category does not contain any topics yet.")}</p>
+                {else}
+                    <p class="hub-category-page__empty-message">{_w("No topics found in this category.")}</p>
+                {/if}
+            </div>
+        {/if}
+    </div>
+    
+    {* Описание категории (если включено в настройках) *}
+    {if !empty($category.description) && $theme_settings.category_description_place === "content_bottom"}
+        <div class="hub-category-page__description-bottom">
+            {$category.description}
+        </div>
+    {/if}
+</div>
+
+{* JSON-LD разметка для категории *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "{$category.name|escape}",
+    "description": "{$category.description|strip_tags|escape}",
+    "url": "{$wa->getUrl('hub/frontend/category')}/{$category.url}/",
+    "numberOfItems": {$topics_count|default:0},
+    "dateModified": "{$category.update_datetime|date_format:'Y-m-d\TH:i:sP'}",
+    "mainEntity": {
+        "@type": "ItemList",
+        "name": "{$category.name|escape} {_w('topics')}",
+        "numberOfItems": {$topics_count|default:0}
+    }
+}
+</script>
+{/strip} 

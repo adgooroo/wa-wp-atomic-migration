@@ -1,0 +1,118 @@
+# Waboot Theme - English (US) Translation
+# Copyright (C) 2025 Waboot Team
+# This file is distributed under the same license as the Waboot theme.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Waboot 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/adgooroo/wa-wp-atomic-migration\n"
+"POT-Creation-Date: 2025-01-16 12:00+0000\n"
+"PO-Revision-Date: 2025-01-16 12:00+0000\n"
+"Last-Translator: Waboot Team\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Navigation and UI Elements
+msgid "Home"
+msgstr "Home"
+
+msgid "About"
+msgstr "About"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Search products..."
+msgstr "Search products..."
+
+# E-commerce Elements
+msgid "Add to Cart"
+msgstr "Add to Cart"
+
+msgid "Shopping Cart"
+msgstr "Shopping Cart"
+
+msgid "Quick View"
+msgstr "Quick View"
+
+msgid "Add to Wishlist"
+msgstr "Add to Wishlist"
+
+msgid "Compare"
+msgstr "Compare"
+
+msgid "Product Details"
+msgstr "Product Details"
+
+# Form Elements
+msgid "Subscribe"
+msgstr "Subscribe"
+
+msgid "Newsletter"
+msgstr "Newsletter"
+
+msgid "Your email address"
+msgstr "Your email address"
+
+msgid "Submit"
+msgstr "Submit"
+
+# Product Properties
+msgid "Price"
+msgstr "Price"
+
+msgid "Availability"
+msgstr "Availability"
+
+msgid "In Stock"
+msgstr "In Stock"
+
+msgid "Out of Stock"
+msgstr "Out of Stock"
+
+# Accessibility and Error Messages
+msgid "Skip to main content"
+msgstr "Skip to main content"
+
+msgid "Close"
+msgstr "Close"
+
+msgid "Open menu"
+msgstr "Open menu"
+
+msgid "Close menu"
+msgstr "Close menu"
+
+# Categories and Filters
+msgid "Categories"
+msgstr "Categories"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Sort by"
+msgstr "Sort by"
+
+msgid "Show more"
+msgstr "Show more"
+
+msgid "Load more"
+msgstr "Load more"
+
+# Plurals
+msgid "item"
+msgid_plural "items"
+msgstr[0] "item"
+msgstr[1] "items"
+
+msgid "product"
+msgid_plural "products"
+msgstr[0] "product"
+msgstr[1] "products"

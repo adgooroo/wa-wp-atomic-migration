@@ -1,11 +1,30 @@
-# Waboot Theme - Webasyst Migration Project
-# Git ignore file for project-specific exclusions
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# ========================================
-# SYSTEM FILES
-# ========================================
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
 
-# macOS
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
 .DS_Store
 .DS_Store?
 ._*
@@ -14,379 +33,41 @@
 ehthumbs.db
 Thumbs.db
 
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-*.cab
-*.msi
-*.msm
-*.msp
-*.lnk
-
-# Linux
-*~
-.fuse_hidden*
-.directory
-.Trash-*
-.nfs*
-
-# ========================================
-# DEVELOPMENT TOOLS
-# ========================================
-
-# IDE and Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.project
-.settings/
-.classpath
-*.sublime-project
-*.sublime-workspace
-.cursor
-# ========================================
-# WEBASYST SPECIFIC
-# ========================================
-
-# Webasyst cache and temporary files
-wa-cache/
-wa-data/cache/
-wa-data/temp/
-wa-data/protected/
-wa-data/public/
-wa-data/thumbnails/
-wa-data/uploads/
-
-# Webasyst logs
-wa-data/logs/
+# Logs
+logs
 *.log
 
-# Webasyst config (contains sensitive data)
-wa-config/
-wa-config.php
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
 
-# Webasyst theme specific files
-wa-apps/*/themes/*/css/*.min.css
-wa-apps/*/themes/*/js/*.min.js
-wa-apps/*/themes/*/css/*.map
-wa-apps/*/themes/*/js/*.map
+# Coverage directory used by tools like istanbul
+coverage/
 
-# Webasyst locale files (if not needed in repo)
-wa-apps/*/themes/*/locale/
-wa-apps/*/locale/
+# Temporary folders
+tmp/
+temp/
 
-# Webasyst lib files (if auto-generated)
-wa-apps/*/themes/*/lib/autoload.php
-wa-apps/*/themes/*/lib/cache/
+# Compiled translation files (keep .po, ignore .mo)
+*.mo
 
-# Webasyst theme backups
-wa-apps/*/themes/*/backup/
-wa-apps/*/themes/*/old/
-
-# Webasyst plugin files (if not part of theme)
-wa-apps/*/plugins/*/lib/cache/
-wa-apps/*/plugins/*/css/*.min.css
-wa-apps/*/plugins/*/js/*.min.js
-
-# ========================================
-# ASSETS AND BUILD FILES
-# ========================================
-
-# Compiled CSS and JS
-*.min.css
-*.min.js
-*.map
-
-# Build directories
-dist/
-build/
-node_modules/
-vendor/
-
-# ========================================
-# BACKUP AND TEMPORARY FILES
-# ========================================
+# Cache files
+.cache/
+*.cache
 
 # Backup files
 *.bak
 *.backup
-*.old
-*.orig
-*.tmp
-*.temp
-
-# Archive files
-*.zip
-*.tar.gz
-*.rar
-*.7z
-
-# ========================================
-# DATABASE AND CONFIGURATION
-# ========================================
 
 # Database files
-*.sql
-*.sqlite
 *.db
+*.sqlite
 
 # Configuration files with sensitive data
-.env
-.env.local
-.env.production
-config.php
-database.php
+config.local.php
+settings.local.php
 
-# ========================================
-# MEDIA AND UPLOADS
-# ========================================
-
-# Uploaded files
-uploads/
-images/uploads/
-files/uploads/
-
-# Generated thumbnails
-thumbnails/
-cache/images/
-
-# ========================================
-# DOCUMENTATION AND NOTES
-# ========================================
-
-# Personal notes and drafts
-notes/
-drafts/
-TODO.md
-NOTES.md
-*.draft
-
-# ========================================
-# TESTING AND DEVELOPMENT
-# ========================================
-
-# Test files
-tests/
-test/
-spec/
-__tests__/
-*.test.js
-*.spec.js
-*.test.php
-*.spec.php
-
-# Coverage reports
-coverage/
-.nyc_output/
-*.lcov
-
-# ========================================
-# DEPLOYMENT AND CI/CD
-# ========================================
-
-# Deployment files
-deploy/
-deployment/
-*.deploy
-
-# CI/CD files
-.github/
-.gitlab-ci.yml
-.travis.yml
-.circleci/
-
-# ========================================
-# SECURITY AND SENSITIVE DATA
-# ========================================
-
-# API keys and secrets
-*.key
-*.pem
-*.crt
-*.p12
-secrets/
-keys/
-
-# ========================================
-# PROJECT SPECIFIC EXCLUSIONS
-# ========================================
-
-# Memory bank (contains AI-generated content)
-memory-bank/
-
-# Temporary development files
-temp/
-tmp/
-scratch/
-
-# Local development overrides
-local/
-dev/
-development/
-
-# ========================================
-# THEME SPECIFIC EXCLUSIONS
-# ========================================
-
-# Theme development files
-themes/*/node_modules/
-themes/*/package-lock.json
-themes/*/yarn.lock
-themes/*/composer.lock
-
-# Theme build artifacts
-themes/*/dist/
-themes/*/build/
-themes/*/assets/dist/
-
-# Theme source maps
-themes/*/css/*.map
-themes/*/js/*.map
-
-# Theme vendor files (if using package managers)
-themes/*/vendor/
-themes/*/node_modules/
-
-# Theme development configs
-themes/*/.sass-cache/
-themes/*/.browserslistrc
-themes/*/babel.config.js
-themes/*/webpack.config.js
-themes/*/gulpfile.js
-themes/*/package.json
-
-# ========================================
-# COMPONENT SPECIFIC EXCLUSIONS
-# ========================================
-
-# Atomic design component cache
-components/cache/
-components/temp/
-
-# Component build files
-components/*/dist/
-components/*/build/
-
-# Component dependencies
-components/*/node_modules/
-components/*/vendor/
-
-# ========================================
-# DEVELOPMENT ENVIRONMENT
-# ========================================
-
-# Local development overrides
-local/
-dev/
-development/
-
-# Development databases
-*.sqlite
-*.db
-
-# Development logs
-logs/
-*.log
-
-# Development cache
-cache/
-temp/
-tmp/
-
-# ========================================
-# GIT SPECIFIC
-# ========================================
-
-# Git hooks (if not needed in repo)
-.git/hooks/
-
-# Git submodules
-.gitmodules
-
-# ========================================
-# COMPILER AND TRANSPILER
-# ========================================
-
-# TypeScript
-*.tsbuildinfo
-
-# Sass/SCSS
-.sass-cache/
-*.css.map
-
-# ========================================
-# PACKAGE MANAGERS
-# ========================================
-
-# npm
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-
-# Composer
-composer.lock
-
-# ========================================
-# MISCELLANEOUS
-# ========================================
-
-# Large files that shouldn't be in repo
-*.mp4
-*.avi
-*.mov
-*.wmv
-*.flv
-*.webm
-
-# Font files (if not needed)
-*.woff
-*.woff2
-*.ttf
-*.otf
-*.eot
-
-# ========================================
-# JSON-LD AND STRUCTURED DATA
-# ========================================
-
-# JSON-LD cache files
-*.jsonld.cache
-*.schema.cache
-
-# Structured data validation reports
-schema-validation/
-jsonld-reports/
-
-# ========================================
-# PERFORMANCE AND OPTIMIZATION
-# ========================================
-
-# Performance monitoring files
-performance-logs/
-lighthouse-reports/
-pagespeed-reports/
-
-# Image optimization cache
-image-cache/
-optimized-images/
-
-# ========================================
-# SECURITY AND COMPLIANCE
-# ========================================
-
-# Security scan reports
-security-reports/
-vulnerability-scans/
-
-# Compliance documentation
-compliance/
-gdpr/
-privacy/
-
-# ========================================
-# END OF GITIGNORE
-# ======================================== 
+# Memory Bank files (if not needed in repo)
+.memory-bank/ 

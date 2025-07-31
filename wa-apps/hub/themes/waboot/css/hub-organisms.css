@@ -1,0 +1,505 @@
+/* Hub Organisms CSS - Inherits from site:waboot */
+/* BEM Methodology: .waboot-hub__component__element--modifier */
+
+/* Import parent theme organisms */
+@import url('../../../../site/themes/waboot/css/organisms/organisms.css');
+
+/* ========================================
+   HUB-SPECIFIC ORGANISMS
+   ======================================== */
+
+/* Activity Feed Organism */
+.waboot-hub__activity-feed {
+    background-color: white;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.waboot-hub__activity-feed__header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--bs-gray-200);
+    background-color: var(--bs-gray-50);
+}
+
+.waboot-hub__activity-feed__title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--bs-dark);
+}
+
+.waboot-hub__activity-feed__content {
+    padding: 1rem;
+}
+
+.waboot-hub__activity-feed__empty {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__activity-feed__empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.waboot-hub__activity-feed__empty-text {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.waboot-hub__activity-feed__empty-subtext {
+    font-size: 0.875rem;
+    color: var(--bs-gray-500);
+}
+
+.waboot-hub__activity-feed__load-more {
+    padding: 1rem;
+    text-align: center;
+    border-top: 1px solid var(--bs-gray-200);
+    background-color: var(--bs-gray-50);
+}
+
+/* User Profile Organism */
+.waboot-hub__user-profile {
+    background-color: white;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.waboot-hub__user-profile__header {
+    position: relative;
+    padding: 2rem 1rem 1rem;
+    background: linear-gradient(135deg, var(--bs-primary), var(--bs-secondary));
+    color: white;
+    text-align: center;
+}
+
+.waboot-hub__user-profile__cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: 1;
+}
+
+.waboot-hub__user-profile__header-content {
+    position: relative;
+    z-index: 2;
+}
+
+.waboot-hub__user-profile__avatar {
+    margin: 0 auto 1rem;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.waboot-hub__user-profile__name {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.waboot-hub__user-profile__username {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.waboot-hub__user-profile__bio {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    opacity: 0.8;
+}
+
+.waboot-hub__user-profile__actions {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 3;
+}
+
+.waboot-hub__user-profile__content {
+    padding: 1.5rem;
+}
+
+.waboot-hub__user-profile__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--bs-gray-200);
+}
+
+.waboot-hub__user-profile__stat {
+    text-align: center;
+}
+
+.waboot-hub__user-profile__stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--bs-dark);
+    margin-bottom: 0.25rem;
+}
+
+.waboot-hub__user-profile__stat-label {
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.waboot-hub__user-profile__info {
+    margin-bottom: 1.5rem;
+}
+
+.waboot-hub__user-profile__info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+}
+
+.waboot-hub__user-profile__info-icon {
+    margin-right: 0.5rem;
+    width: 16px;
+    color: var(--bs-gray-500);
+}
+
+.waboot-hub__user-profile__info-text {
+    color: var(--bs-gray-700);
+}
+
+/* Friends List Organism */
+.waboot-hub__friends-list {
+    background-color: white;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.waboot-hub__friends-list__header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--bs-gray-200);
+    background-color: var(--bs-gray-50);
+}
+
+.waboot-hub__friends-list__title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--bs-dark);
+}
+
+.waboot-hub__friends-list__count {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__friends-list__content {
+    padding: 1rem;
+}
+
+.waboot-hub__friends-list__empty {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__friends-list__empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.waboot-hub__friends-list__empty-text {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.waboot-hub__friends-list__empty-subtext {
+    font-size: 0.875rem;
+    color: var(--bs-gray-500);
+}
+
+/* Messages List Organism */
+.waboot-hub__messages-list {
+    background-color: white;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.waboot-hub__messages-list__header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--bs-gray-200);
+    background-color: var(--bs-gray-50);
+    flex-shrink: 0;
+}
+
+.waboot-hub__messages-list__title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--bs-dark);
+}
+
+.waboot-hub__messages-list__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+.waboot-hub__messages-list__empty {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__messages-list__empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.waboot-hub__messages-list__empty-text {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.waboot-hub__messages-list__empty-subtext {
+    font-size: 0.875rem;
+    color: var(--bs-gray-500);
+}
+
+/* Notifications Panel Organism */
+.waboot-hub__notifications-panel {
+    background-color: white;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    max-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.waboot-hub__notifications-panel__header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--bs-gray-200);
+    background-color: var(--bs-gray-50);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.waboot-hub__notifications-panel__title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--bs-dark);
+}
+
+.waboot-hub__notifications-panel__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.waboot-hub__notifications-panel__content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.waboot-hub__notifications-panel__empty {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__notifications-panel__empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.waboot-hub__notifications-panel__empty-text {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.waboot-hub__notifications-panel__empty-subtext {
+    font-size: 0.875rem;
+    color: var(--bs-gray-500);
+}
+
+/* Community Dashboard Organism */
+.waboot-hub__community-dashboard {
+    background-color: white;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.waboot-hub__community-dashboard__header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--bs-gray-200);
+    background-color: var(--bs-gray-50);
+}
+
+.waboot-hub__community-dashboard__title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--bs-dark);
+}
+
+.waboot-hub__community-dashboard__subtitle {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+}
+
+.waboot-hub__community-dashboard__content {
+    padding: 1.5rem;
+}
+
+.waboot-hub__community-dashboard__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.waboot-hub__community-dashboard__stat-card {
+    padding: 1rem;
+    border: 1px solid var(--bs-gray-200);
+    border-radius: 0.375rem;
+    background-color: var(--bs-gray-50);
+    text-align: center;
+}
+
+.waboot-hub__community-dashboard__stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--bs-primary);
+    margin-bottom: 0.25rem;
+}
+
+.waboot-hub__community-dashboard__stat-label {
+    font-size: 0.875rem;
+    color: var(--bs-gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.waboot-hub__community-dashboard__sections {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+.waboot-hub__community-dashboard__main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.waboot-hub__community-dashboard__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .waboot-hub__community-dashboard__sections {
+        grid-template-columns: 1fr;
+    }
+    
+    .waboot-hub__community-dashboard__stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .waboot-hub__user-profile__header {
+        padding: 1.5rem 1rem 1rem;
+    }
+    
+    .waboot-hub__user-profile__avatar {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .waboot-hub__user-profile__name {
+        font-size: 1.25rem;
+    }
+    
+    .waboot-hub__user-profile__stats {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .waboot-hub__community-dashboard__stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .waboot-hub__messages-list {
+        height: 400px;
+    }
+    
+    .waboot-hub__notifications-panel {
+        max-height: 400px;
+    }
+}
+
+/* Accessibility */
+.waboot-hub__activity-feed:focus,
+.waboot-hub__user-profile:focus,
+.waboot-hub__friends-list:focus,
+.waboot-hub__messages-list:focus,
+.waboot-hub__notifications-panel:focus,
+.waboot-hub__community-dashboard:focus {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .waboot-hub__activity-feed,
+    .waboot-hub__user-profile,
+    .waboot-hub__friends-list,
+    .waboot-hub__messages-list,
+    .waboot-hub__notifications-panel,
+    .waboot-hub__community-dashboard {
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .waboot-hub__activity-feed,
+    .waboot-hub__user-profile,
+    .waboot-hub__friends-list,
+    .waboot-hub__messages-list,
+    .waboot-hub__notifications-panel,
+    .waboot-hub__community-dashboard {
+        transition: none;
+    }
+} 

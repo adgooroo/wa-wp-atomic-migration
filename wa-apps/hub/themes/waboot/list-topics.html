@@ -1,0 +1,547 @@
+{* Hub List Topics - Шаблон списка топиков Hub приложения в стиле Discourse с полной поддержкой WCAG 2.1 AA *}
+{strip}
+{if !empty($topics)}
+    <div class="hub-topics-list discourse-topics" role="region" aria-labelledby="hub-topics-list-title">
+        <h3 class="visually-hidden" id="hub-topics-list-title">{_w("Topics List")}</h3>
+        
+        <div class="hub-topics__table-wrapper" role="region" aria-labelledby="hub-topics-table-title">
+            <h4 class="visually-hidden" id="hub-topics-table-title">{_w("Topics Table")}</h4>
+            
+            <table class="hub-topics__table" 
+                   role="table" 
+                   aria-describedby="hub-topics-table-description"
+                   aria-label="{_w("Topics list with categories, replies, views and activity")}">
+                <caption class="visually-hidden" id="hub-topics-table-description">
+                    {_w("Table showing topics with their categories, number of replies, views and last activity")}
+                </caption>
+                <thead class="hub-topics__thead" role="rowgroup">
+                    <tr class="hub-topics__tr" role="row">
+                        <th class="hub-topics__th hub-topics__th--topic" 
+                            scope="col" 
+                            role="columnheader"
+                            aria-sort="none">
+                            {_w("Topic")}
+                        </th>
+                        <th class="hub-topics__th hub-topics__th--category" 
+                            scope="col" 
+                            role="columnheader">
+                            {_w("Category")}
+                        </th>
+                        <th class="hub-topics__th hub-topics__th--replies" 
+                            scope="col" 
+                            role="columnheader"
+                            aria-label="{_w("Number of replies")}">
+                            {_w("Replies")}
+                        </th>
+                        <th class="hub-topics__th hub-topics__th--views" 
+                            scope="col" 
+                            role="columnheader"
+                            aria-label="{_w("Number of views")}">
+                            {_w("Views")}
+                        </th>
+                        <th class="hub-topics__th hub-topics__th--activity" 
+                            scope="col" 
+                            role="columnheader">
+                            {_w("Activity")}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="hub-topics__tbody" role="rowgroup">
+                    {foreach $topics as $topic name="topics"}
+                        <tr class="hub-topics__tr" role="row" aria-labelledby="topic-{$smarty.foreach.topics.index}-title">
+                            <td class="hub-topics__td hub-topics__td--topic" role="cell">
+                                <div class="hub-topic-item">
+                                    <div class="hub-topic-item__main">
+                                        <h4 class="hub-topic-item__title" id="topic-{$smarty.foreach.topics.index}-title">
+                                            <a href="{$wa->getUrl('hub/frontend/topic')}/{$topic.url}/" 
+                                               class="hub-topic-item__link"
+                                               aria-describedby="topic-{$smarty.foreach.topics.index}-meta">
+                                                {$topic.title|escape}
+                                            </a>
+                                        </h4>
+                                        
+                                        {* Статус топика (если есть) *}
+                                        {if !empty($topic.badge)}
+                                            <span class="hub-topic-item__badge hub-topic-item__badge--{$topic.badge.type}"
+                                                  role="status"
+                                                  aria-label="{_w("Topic status")}: {$topic.badge.name|escape}">
+                                                {$topic.badge.name|escape}
+                                            </span>
+                                        {/if}
+                                        
+                                        {* Теги топика *}
+                                        {if !empty($topic.tags)}
+                                            <div class="hub-topic-item__tags" role="group" aria-label="{_w("Topic tags")}">
+                                                {foreach $topic.tags as $tag}
+                                                    <span class="hub-topic-item__tag" role="tag">{$tag|escape}</span>
+                                                {/foreach}
+                                            </div>
+                                        {/if}
+                                    </div>
+                                    
+                                    <div class="hub-topic-item__meta" id="topic-{$smarty.foreach.topics.index}-meta">
+                                        <span class="hub-topic-item__author">
+                                            {_w("by")} 
+                                            <a href="{$wa->getUrl('hub/frontend/author')}/{$topic.contact_id}/" 
+                                               class="hub-topic-item__author-link"
+                                               aria-label="{_w("View topics by")} {$topic.author.name|escape}">
+                                                {$topic.author.name|escape}
+                                            </a>
+                                        </span>
+                                        <span class="hub-topic-item__date" aria-label="{_w("Created on")} {$topic.create_datetime|wa_datetime:"humandatetime"}">
+                                            {$topic.create_datetime|wa_datetime:"humandatetime"}
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <td class="hub-topics__td hub-topics__td--category" role="cell">
+                                {if !empty($topic.category)}
+                                    <a href="{$wa->getUrl('hub/frontend/category')}/{$topic.category.url}/" 
+                                       class="hub-topic-category"
+                                       aria-label="{_w("View category")}: {$topic.category.name|escape}">
+                                        {$topic.category.name|escape}
+                                    </a>
+                                {else}
+                                    <span class="hub-topic-no-category" aria-label="{_w("No category assigned")}">
+                                        —
+                                    </span>
+                                {/if}
+                            </td>
+                            
+                            <td class="hub-topics__td hub-topics__td--replies" role="cell">
+                                <span class="hub-topic-replies-count" 
+                                      aria-label="{_w("Number of replies")}: {$topic.replies_count|default:0}">
+                                    {$topic.replies_count|default:0}
+                                </span>
+                            </td>
+                            
+                            <td class="hub-topics__td hub-topics__td--views" role="cell">
+                                <span class="hub-topic-views-count" 
+                                      aria-label="{_w("Number of views")}: {$topic.views_count|default:0}">
+                                    {$topic.views_count|default:0}
+                                </span>
+                            </td>
+                            
+                            <td class="hub-topics__td hub-topics__td--activity" role="cell">
+                                <div class="hub-topic-activity">
+                                    <span class="hub-topic-activity__date" 
+                                          aria-label="{_w("Last activity")}: {$topic.last_post_datetime|wa_datetime:"humandatetime"}">
+                                        {$topic.last_post_datetime|wa_datetime:"humandatetime"}
+                                    </span>
+                                    {if !empty($topic.last_post_author)}
+                                        <span class="hub-topic-activity__author">
+                                            {_w("by")} 
+                                            <a href="{$wa->getUrl('hub/frontend/author')}/{$topic.last_post_author.contact_id}/" 
+                                               class="hub-topic-activity__author-link"
+                                               aria-label="{_w("View topics by")} {$topic.last_post_author.name|escape}">
+                                                {$topic.last_post_author.name|escape}
+                                            </a>
+                                        </span>
+                                    {/if}
+                                </div>
+                            </td>
+                        </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+        </div>
+        
+        {* Пагинация с доступностью *}
+        {if isset($pages_count) && $pages_count > 1}
+            <nav class="hub-topics-pagination" role="navigation" aria-label="{_w("Topics pagination")}">
+                <h4 class="visually-hidden">{_w("Topics pagination")}</h4>
+                <ul class="hub-pagination" role="list">
+                    {if isset($page) && $page > 1}
+                        <li role="listitem">
+                            <a href="?page={$page-1}" 
+                               class="hub-pagination__item hub-pagination__item--prev"
+                               aria-label="{_w("Previous page")}">
+                                ← {_w("Previous")}
+                            </a>
+                        </li>
+                    {/if}
+                    
+                    {for $i=1 to $pages_count}
+                        <li role="listitem">
+                            <a href="?page={$i}" 
+                               class="hub-pagination__item {if $i == $page}hub-pagination__item--active{/if}"
+                               aria-current="{if $i == $page}page{/if}"
+                               aria-label="{_w("Page")} {$i} {if $i == $page}({_w("current page")}){/if}">
+                                {$i}
+                            </a>
+                        </li>
+                    {/for}
+                    
+                    {if isset($page) && $page < $pages_count}
+                        <li role="listitem">
+                            <a href="?page={$page+1}" 
+                               class="hub-pagination__item hub-pagination__item--next"
+                               aria-label="{_w("Next page")}">
+                                {_w("Next")} →
+                            </a>
+                        </li>
+                    {/if}
+                </ul>
+            </nav>
+        {/if}
+    </div>
+{else}
+    <div class="hub-topics-empty" role="status" aria-live="polite">
+        <div class="hub-topics-empty__content">
+            <h3 class="hub-topics-empty__title" id="hub-topics-empty-title">{_w("No topics found")}</h3>
+            <p class="hub-topics-empty__description" aria-describedby="hub-topics-empty-title">
+                {_w("Be the first to start a discussion!")}
+            </p>
+            <a href="{$wa->getUrl('hub/frontend/create-topic')}" 
+               class="hub-topics-empty__button hub-btn"
+               aria-describedby="hub-topics-empty-title">
+                {_w("Create New Topic")}
+            </a>
+        </div>
+    </div>
+{/if}
+
+{* CSS стили в стиле Discourse с поддержкой доступности *}
+<style>
+/* Улучшенные стили для доступности */
+.hub-topics-list.discourse-topics {
+    margin-top: 20px;
+}
+
+.hub-topics__table-wrapper {
+    overflow-x: auto;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    background: white;
+}
+
+.hub-topics__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.hub-topics__thead {
+    background: #f0f0f0; /* Улучшенный контраст */
+}
+
+.hub-topics__th {
+    padding: 15px 20px;
+    text-align: left;
+    font-weight: 600;
+    color: #1a1a1a; /* Высокий контраст */
+    border-bottom: 1px solid #e1e1e1;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hub-topics__th--topic {
+    width: 40%;
+}
+
+.hub-topics__th--category {
+    width: 15%;
+}
+
+.hub-topics__th--replies,
+.hub-topics__th--views {
+    width: 10%;
+    text-align: center;
+}
+
+.hub-topics__th--activity {
+    width: 25%;
+}
+
+.hub-topics__td {
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+}
+
+.hub-topic-item__main {
+    margin-bottom: 10px;
+}
+
+.hub-topic-item__title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+}
+
+.hub-topic-item__link {
+    color: #005a87; /* Улучшенный контраст */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.hub-topic-item__link:hover {
+    color: #003d5a;
+    text-decoration: underline;
+}
+
+.hub-topic-item__link:focus {
+    outline: 2px solid #005a87;
+    outline-offset: 2px;
+}
+
+.hub-topic-item__badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 12px;
+    margin-right: 8px;
+}
+
+.hub-topic-item__badge--pinned {
+    background: #ffd700;
+    color: #333;
+}
+
+.hub-topic-item__badge--locked {
+    background: #dc3545;
+    color: white;
+}
+
+.hub-topic-item__badge--announcement {
+    background: #28a745;
+    color: white;
+}
+
+.hub-topic-item__tags {
+    margin-top: 8px;
+}
+
+.hub-topic-item__tag {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    background: #f8f9fa;
+    color: #4a4a4a; /* Улучшенный контраст */
+    border-radius: 4px;
+    margin-right: 4px;
+}
+
+.hub-topic-item__meta {
+    font-size: 0.85rem;
+    color: #4a4a4a; /* Улучшенный контраст */
+}
+
+.hub-topic-item__author-link {
+    color: #005a87;
+    text-decoration: none;
+}
+
+.hub-topic-item__author-link:hover {
+    text-decoration: underline;
+}
+
+.hub-topic-item__date {
+    margin-left: 10px;
+}
+
+.hub-topic-category {
+    color: #4a4a4a; /* Улучшенный контраст */
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.hub-topic-category:hover {
+    color: #005a87;
+    text-decoration: underline;
+}
+
+.hub-topic-no-category {
+    color: #999;
+    font-style: italic;
+}
+
+.hub-topic-replies-count,
+.hub-topic-views-count {
+    font-weight: 500;
+    color: #4a4a4a; /* Улучшенный контраст */
+}
+
+.hub-topic-activity {
+    font-size: 0.85rem;
+    color: #4a4a4a; /* Улучшенный контраст */
+}
+
+.hub-topic-activity__date {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.hub-topic-activity__author-link {
+    color: #005a87;
+    text-decoration: none;
+}
+
+.hub-topic-activity__author-link:hover {
+    text-decoration: underline;
+}
+
+.hub-topics-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e1e1;
+}
+
+.hub-topics-empty__title {
+    font-size: 1.5rem;
+    color: #1a1a1a; /* Высокий контраст */
+    margin-bottom: 10px;
+}
+
+.hub-topics-empty__description {
+    color: #4a4a4a; /* Улучшенный контраст */
+    margin-bottom: 20px;
+}
+
+.hub-topics-empty__button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #005a87; /* Улучшенный контраст */
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.hub-topics-empty__button:hover {
+    background: #003d5a;
+}
+
+.hub-topics-empty__button:focus {
+    outline: 2px solid #005a87;
+    outline-offset: 2px;
+}
+
+/* Пагинация с доступностью */
+.hub-topics-pagination {
+    margin-top: 30px;
+}
+
+.hub-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.hub-pagination__item {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    color: #4a4a4a; /* Улучшенный контраст */
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.hub-pagination__item:hover {
+    background: #f8f9fa;
+    color: #1a1a1a;
+}
+
+.hub-pagination__item:focus {
+    outline: 2px solid #005a87;
+    outline-offset: 2px;
+}
+
+.hub-pagination__item--active {
+    background: #005a87;
+    color: white;
+    border-color: #005a87;
+}
+
+.hub-pagination__item--prev,
+.hub-pagination__item--next {
+    font-weight: 500;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .hub-topics__th,
+    .hub-topics__td {
+        border-color: #000;
+    }
+    
+    .hub-topic-item__link,
+    .hub-topic-category,
+    .hub-topic-item__author-link,
+    .hub-topic-activity__author-link {
+        color: #000;
+        text-decoration: underline;
+    }
+    
+    .hub-topic-item__link:focus,
+    .hub-topic-category:focus,
+    .hub-topic-item__author-link:focus,
+    .hub-topic-activity__author-link:focus,
+    .hub-topics-empty__button:focus,
+    .hub-pagination__item:focus {
+        outline: 3px solid #000;
+        outline-offset: 1px;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .hub-topic-item__link,
+    .hub-topic-category,
+    .hub-topic-item__author-link,
+    .hub-topic-activity__author-link,
+    .hub-topics-empty__button,
+    .hub-pagination__item {
+        transition: none;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .hub-topics__th,
+    .hub-topics__td {
+        padding: 10px;
+    }
+    
+    .hub-topics__th--category,
+    .hub-topics__td--category {
+        display: none;
+    }
+    
+    .hub-topics__th--replies,
+    .hub-topics__td--replies {
+        display: none;
+    }
+    
+    .hub-topics__th--views,
+    .hub-topics__td--views {
+        display: none;
+    }
+    
+    .hub-topic-item__title {
+        font-size: 1rem;
+    }
+    
+    .hub-pagination {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .hub-pagination__item {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+    }
+}
+</style>
+{/strip} 
