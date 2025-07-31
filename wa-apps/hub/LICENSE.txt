@@ -39,7 +39,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 ### Font Awesome 7.x
 **License:** Font Awesome Free License  
-**Copyright:** 2023-2024 Fonticons, Inc.  
+**Copyright:** 2023-2025 Fonticons, Inc.  
 **Authors:** Fonticons, Inc.  
 **Website:** https://fontawesome.com/  
 **Source:** https://github.com/fortawesome/font-awesome  
@@ -135,7 +135,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### Bootscore (WordPress Theme)
 **License:** MIT License  
-**Copyright:** 2019-2024 Bootscore  
+**Copyright:** 2019-2025 Bootscore  
 **Authors:** Bootscore Development Team  
 **Website:** https://bootscore.me/  
 **Source:** https://github.com/bootscore/bootscore  
