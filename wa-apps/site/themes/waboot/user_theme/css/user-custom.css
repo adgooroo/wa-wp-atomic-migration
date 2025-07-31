@@ -1,21 +1,51 @@
+/*
+⚠️ ВНИМАНИЕ! Этот файл подключается глобально ко всем приложениям Webasyst. Любые изменения могут повлиять на весь проект, включая Shop, Blog, Hub, Helpdesk, Mailer.
+⚠️ WARNING! This file is included globally for all Webasyst applications. Any changes may affect the entire project, including Shop, Blog, Hub, Helpdesk, Mailer.
+*/
 /*!
- * User Custom CSS
- * Add your custom styles here
- * This file is loaded after all theme styles
+ * User Custom CSS - Site Application
+ * Пользовательский CSS - Приложение Site
+ * ⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ: Этот файл имеет ВЫСШИЙ ПРИОРИТЕТ / IMPORTANT WARNING: This file has HIGHEST PRIORITY
+ * 
+ * Подключенные фреймворки / Connected Frameworks:
+ * - Bootstrap: 5.3.2
+ * - Alpine.js: 3.13.3
+ * - AOS (Animate On Scroll): 2.3.4
+ * - Font Awesome: 7.x
+ * 
+ * ⚠️ КРИТИЧЕСКОЕ ПРЕДУПРЕЖДЕНИЕ / CRITICAL WARNING:
+ * Этот файл загружается ПОСЛЕ всех стилей темы и может переопределить любые стили.
+ * This file loads AFTER all theme styles and can override any styles.
+ * Любые изменения следует тщательно тестировать, так как конфликты могут привести
+ * Any changes should be thoroughly tested as conflicts may lead
+ * к потере изначальной функциональности темы.
+ * to loss of original theme functionality.
  */
 
 /* ==========================================================================
-   USER CUSTOM STYLES
+   USER CUSTOM CSS STYLES - SITE APPLICATION
+   ПОЛЬЗОВАТЕЛЬСКИЕ CSS СТИЛИ - ПРИЛОЖЕНИЕ SITE
    ========================================================================== */
 
-/* Add your custom CSS rules below */
+/*
+ * РЕКОМЕНДАЦИИ ПО ИСПОЛЬЗОВАНИЮ / USAGE RECOMMENDATIONS:
+ * 
+ * 1. Используйте специфичные селекторы для избежания конфликтов / Use specific selectors to avoid conflicts
+ * 2. Всегда тестируйте изменения в тестовой среде / Always test changes in a test environment
+ * 3. Делайте резервные копии перед внесением изменений / Make backups before making changes
+ * 4. Проверяйте совместимость с Bootstrap 5.3.2 / Check compatibility with Bootstrap 5.3.2
+ * 5. Следите за производительностью / Monitor performance
+ */
 
-/* Example custom styles:
-.custom-header {
+/* Пример безопасного использования / Safe usage example:
+.waboot-site .user-custom-button {
     background-color: #your-color;
-}
-
-.custom-button {
     border-radius: 25px;
 }
-*/ 
+
+.waboot-site .user-custom-header {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+}
+*/
+
+/* Добавьте ваши пользовательские стили ниже / Add your custom styles below */ 

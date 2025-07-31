@@ -1,25 +1,70 @@
+/*
+⚠️ ВНИМАНИЕ! Этот файл подключается глобально ко всем приложениям Webasyst. Любые изменения могут повлиять на весь проект, включая Shop, Blog, Hub, Helpdesk, Mailer.
+⚠️ WARNING! This file is included globally for all Webasyst applications. Any changes may affect the entire project, including Shop, Blog, Hub, Helpdesk, Mailer.
+*/
 /*!
- * User Custom SCSS
- * Add your custom SCSS styles here
- * This file can be compiled to CSS
+ * User Custom SCSS - Site Application
+ * Пользовательский SCSS - Приложение Site
+ * ⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ: Этот файл автоматически компилируется в CSS / IMPORTANT WARNING: This file is automatically compiled to CSS
+ * 
+ * Подключенные фреймворки / Connected Frameworks:
+ * - Bootstrap: 5.3.2
+ * - Alpine.js: 3.13.3
+ * - AOS (Animate On Scroll): 2.3.4
+ * - Font Awesome: 7.x
+ * 
+ * ⚠️ КРИТИЧЕСКОЕ ПРЕДУПРЕЖДЕНИЕ / CRITICAL WARNING:
+ * Этот файл автоматически компилируется в CSS и загружается с ВЫСШИМ ПРИОРИТЕТОМ.
+ * This file is automatically compiled to CSS and loads with HIGHEST PRIORITY.
+ * Любые изменения следует тщательно тестировать, так как конфликты могут привести
+ * Any changes should be thoroughly tested as conflicts may lead
+ * к потере изначальной функциональности темы.
+ * to loss of original theme functionality.
  */
 
 /* ==========================================================================
-   USER CUSTOM SCSS STYLES
+   USER CUSTOM SCSS STYLES - SITE APPLICATION
+   ПОЛЬЗОВАТЕЛЬСКИЕ SCSS СТИЛИ - ПРИЛОЖЕНИЕ SITE
    ========================================================================== */
 
-// Add your custom SCSS code below
-
-// Example custom SCSS:
 /*
+ * РЕКОМЕНДАЦИИ ПО ИСПОЛЬЗОВАНИЮ / USAGE RECOMMENDATIONS:
+ * 
+ * 1. Используйте переменные Bootstrap 5.3.2 для консистентности / Use Bootstrap 5.3.2 variables for consistency
+ * 2. Всегда тестируйте изменения в тестовой среде / Always test changes in a test environment
+ * 3. Делайте резервные копии перед внесением изменений / Make backups before making changes
+ * 4. Используйте миксины Bootstrap для переиспользования кода / Use Bootstrap mixins for code reuse
+ * 5. Следите за производительностью - избыточные стили могут замедлить загрузку / Monitor performance - excessive styles can slow down loading
+ */
+
+/*
+// Пример безопасного использования SCSS с Bootstrap переменными / Example of safe SCSS usage with Bootstrap variables
+// Использование переменных Bootstrap 5.3.2 / Using Bootstrap 5.3.2 variables
 $custom-primary: #your-color;
 $custom-secondary: #your-secondary-color;
 
-.custom-component {
+// Пользовательские компоненты / Custom components
+.user-custom-component {
     background-color: $custom-primary;
+    border-radius: $border-radius;
     
     &:hover {
         background-color: darken($custom-primary, 10%);
     }
 }
-*/ 
+
+// Использование миксинов Bootstrap / Using Bootstrap mixins
+.user-custom-button {
+    @include button-variant($custom-primary, $custom-primary);
+    @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-border-radius);
+}
+
+// Адаптивные стили / Responsive styles
+@include media-breakpoint-up(md) {
+    .user-custom-component {
+        padding: $spacer * 2;
+    }
+}
+*/
+
+// Добавьте ваши пользовательские SCSS стили ниже / Add your custom SCSS styles below 
