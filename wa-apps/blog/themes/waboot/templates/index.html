@@ -24,26 +24,31 @@
 {* Blog-specific body classes *}
 {block name="body_classes"}blog-page{/block}
 
+{* Skip Links for Accessibility *}
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<a href="#blog-navigation" class="skip-link">Skip to navigation</a>
+<a href="#blog-sidebar" class="skip-link">Skip to sidebar</a>
+
 {* Blog Header *}
 {block name="header"}
-    <header class="waboot-blog__header">
+    <header class="waboot-blog__header" role="banner" aria-labelledby="blog-title">
         <div class="container">
             <div class="waboot-blog__header__container">
-                <h1 class="waboot-blog__header__title">{$wa->blog->title()|escape:'html'}</h1>
+                <h1 class="waboot-blog__header__title" id="blog-title">{$wa->blog->title()|escape:'html'}</h1>
                 {if $wa->blog->description()}
                     <p class="waboot-blog__header__subtitle">{$wa->blog->description()|escape:'html'}</p>
                 {/if}
-                <div class="waboot-blog__header__meta">
+                <div class="waboot-blog__header__meta" role="contentinfo" aria-label="Blog statistics">
                     <div class="waboot-blog__header__meta-item">
-                        <i class="fas fa-file-alt"></i>
+                        <i class="fas fa-file-alt" aria-hidden="true"></i>
                         <span>{$wa->blog->posts()->count()} {_w('posts')}</span>
                     </div>
                     <div class="waboot-blog__header__meta-item">
-                        <i class="fas fa-folder"></i>
+                        <i class="fas fa-folder" aria-hidden="true"></i>
                         <span>{$wa->blog->categories()->count()} {_w('categories')}</span>
                     </div>
                     <div class="waboot-blog__header__meta-item">
-                        <i class="fas fa-tags"></i>
+                        <i class="fas fa-tags" aria-hidden="true"></i>
                         <span>{$wa->blog->tags()->count()} {_w('tags')}</span>
                     </div>
                 </div>
@@ -54,37 +59,50 @@
 
 {* Blog Main Content *}
 {block name="main"}
-    <main class="waboot-blog__main">
+    <main class="waboot-blog__main" id="main-content" role="main" aria-labelledby="blog-title">
         <div class="container">
             <div class="waboot-blog__container">
                 {* Blog Content Area *}
-                <div class="waboot-blog__content">
+                <div class="waboot-blog__content" role="region" aria-label="Blog posts">
                     {* Search Form *}
-                    <div class="waboot-blog__search" x-data="blogSearch()">
+                    <div class="waboot-blog__search" x-data="blogSearch()" role="search" aria-labelledby="search-label">
                         <form class="waboot-blog__search__form" @submit.prevent="search()">
                             {$wa->csrf()}
+                            <label for="blog-search-input" id="search-label" class="sr-only">{_w('Search posts')}</label>
                             <input 
                                 type="text" 
+                                id="blog-search-input"
                                 class="waboot-blog__search__input" 
                                 placeholder="{_w('Search posts...')}"
                                 x-model="query"
                                 @input="handleInput()"
+                                aria-describedby="search-suggestions"
+                                aria-expanded="false"
+                                aria-autocomplete="list"
                             >
-                            <button type="submit" class="waboot-blog__search__button">
-                                <i class="fas fa-search"></i>
+                            <button type="submit" class="waboot-blog__search__button" aria-label="{_w('Search')}">
+                                <i class="fas fa-search" aria-hidden="true"></i>
                             </button>
                         </form>
                         
                         {* Search Suggestions *}
                         <div 
                             class="waboot-blog__search__suggestions" 
+                            id="search-suggestions"
+                            role="listbox"
+                            aria-label="{_w('Search suggestions')}"
                             x-show="showSuggestions && suggestions.length > 0"
                             x-transition
                         >
-                            <template x-for="suggestion in suggestions" :key="suggestion">
+                            <template x-for="(suggestion, index) in suggestions" :key="suggestion">
                                 <div 
                                     class="waboot-blog__search__suggestion"
+                                    role="option"
+                                    :aria-selected="index === 0"
                                     @click="selectSuggestion(suggestion)"
+                                    @keydown.enter="selectSuggestion(suggestion)"
+                                    @keydown.space.prevent="selectSuggestion(suggestion)"
+                                    tabindex="0"
                                     x-text="suggestion"
                                 ></div>
                             </template>
@@ -92,17 +110,17 @@
                     </div>
                     
                     {* Blog Posts Grid *}
-                    <div class="waboot-blog__post-grid waboot-blog__post-grid--grid-3">
+                    <div class="waboot-blog__post-grid waboot-blog__post-grid--grid-3" role="feed" aria-label="{_w('Blog posts')}">
                         {foreach $wa->blog->posts() as $post}
                             {include file="`$wa_active_theme_path`/templates/molecules/post-card.html" post=$post}
                         {foreachelse}
-                            <div class="waboot-blog__post-grid__empty">
+                            <div class="waboot-blog__post-grid__empty" role="status" aria-live="polite">
                                 <div class="waboot-blog__post-grid__empty-icon">
-                                    <i class="fas fa-newspaper"></i>
+                                    <i class="fas fa-newspaper" aria-hidden="true"></i>
                                 </div>
-                                <h3 class="waboot-blog__post-grid__empty-title">No posts found</h3>
+                                <h3 class="waboot-blog__post-grid__empty-title">{_w('No posts found')}</h3>
                                 <p class="waboot-blog__post-grid__empty-text">
-                                    There are no blog posts available at the moment.
+                                    {_w('There are no blog posts available at the moment.')}
                                 </p>
                             </div>
                         {/foreach}
@@ -110,7 +128,7 @@
                     
                     {* Pagination *}
                     {if $wa->blog->posts()->pages() > 1}
-                        <div class="waboot-blog__pagination">
+                        <nav class="waboot-blog__pagination" role="navigation" aria-label="{_w('Blog pagination')}">
                             <ul class="waboot-blog__pagination__list">
                                 {* Previous Page *}
                                 {if $wa->blog->posts()->current_page() > 1}
@@ -118,9 +136,9 @@
                                         <a 
                                             href="{$wa->blog->posts()->prev_page_url()}" 
                                             class="waboot-blog__pagination__link"
-                                            aria-label="Previous page"
+                                            aria-label="{_w('Previous page')}"
                                         >
-                                            <i class="fas fa-chevron-left"></i>
+                                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
                                         </a>
                                     </li>
                                 {/if}
@@ -129,11 +147,12 @@
                                 {for $page = 1 to $wa->blog->posts()->pages()}
                                     <li class="waboot-blog__pagination__item">
                                         {if $page == $wa->blog->posts()->current_page()}
-                                            <span class="waboot-blog__pagination__current">{$page}</span>
+                                            <span class="waboot-blog__pagination__current" aria-current="page">{$page}</span>
                                         {else}
                                             <a 
                                                 href="{$wa->blog->posts()->page_url($page)}" 
                                                 class="waboot-blog__pagination__link"
+                                                aria-label="{_w('Page')} {$page}"
                                             >
                                                 {$page}
                                             </a>
@@ -147,21 +166,21 @@
                                         <a 
                                             href="{$wa->blog->posts()->next_page_url()}" 
                                             class="waboot-blog__pagination__link"
-                                            aria-label="Next page"
+                                            aria-label="{_w('Next page')}"
                                         >
-                                            <i class="fas fa-chevron-right"></i>
+                                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
                                         </a>
                                     </li>
                                 {/if}
                             </ul>
-                        </div>
+                        </nav>
                     {/if}
                 </div>
                 
                 {* Blog Sidebar *}
-                <div class="waboot-blog__sidebar-container">
+                <aside class="waboot-blog__sidebar-container" id="blog-sidebar" role="complementary" aria-label="{_w('Blog sidebar')}">
                     {include file="`$wa_active_theme_path`/templates/organisms/blog-sidebar.html"}
-                </div>
+                </aside>
             </div>
         </div>
     </main>
@@ -173,59 +192,68 @@
     {$smarty.block.parent}
     
     {* Blog-specific footer content *}
-    <footer class="waboot-blog__footer">
+    <footer class="waboot-blog__footer" role="contentinfo">
         <div class="container">
             <div class="waboot-blog__footer__container">
                 <div class="waboot-blog__footer__section">
-                    <h3 class="waboot-blog__footer__title">About Our Blog</h3>
+                    <h3 class="waboot-blog__footer__title">{_w('About Our Blog')}</h3>
                     <p class="waboot-blog__footer__text">
                         {$wa->blog->description()|escape:'html'}
                     </p>
                 </div>
                 
                 <div class="waboot-blog__footer__section">
-                    <h3 class="waboot-blog__footer__title">Quick Links</h3>
+                    <h3 class="waboot-blog__footer__title">{_w('Quick Links')}</h3>
                     <ul class="waboot-blog__footer__links">
                         <li class="waboot-blog__footer__link">
-                            <a href="{$wa->blog->url()}">All Posts</a>
+                            <a href="{$wa->blog->url()}">{_w('All Posts')}</a>
                         </li>
                         <li class="waboot-blog__footer__link">
-                            <a href="{$wa->blog->categories_url()}">Categories</a>
+                            <a href="{$wa->blog->categories_url()}">{_w('Categories')}</a>
                         </li>
                         <li class="waboot-blog__footer__link">
-                            <a href="{$wa->blog->tags_url()}">Tags</a>
+                            <a href="{$wa->blog->tags_url()}">{_w('Tags')}</a>
                         </li>
                         <li class="waboot-blog__footer__link">
-                            <a href="{$wa->blog->authors_url()}">Authors</a>
+                            <a href="{$wa->blog->authors_url()}">{_w('Authors')}</a>
                         </li>
                     </ul>
                 </div>
                 
                 <div class="waboot-blog__footer__section">
-                    <h3 class="waboot-blog__footer__title">Subscribe</h3>
+                    <h3 class="waboot-blog__footer__title">{_w('Subscribe')}</h3>
                     <p class="waboot-blog__footer__text">
-                        Stay updated with our latest posts and news.
+                        {_w('Stay updated with our latest posts and news.')}
                     </p>
-                    <form class="waboot-blog__sidebar__newsletter-form">
+                    <form class="waboot-blog__sidebar__newsletter-form" role="form" aria-labelledby="newsletter-title">
+                        <label for="newsletter-email" class="sr-only">{_w('Email address')}</label>
                         <input 
                             type="email" 
+                            id="newsletter-email"
                             class="waboot-blog__sidebar__newsletter-input" 
-                            placeholder="Your email address"
+                            placeholder="{_w('Your email address')}"
                             required
+                            aria-describedby="newsletter-description"
                         >
                         <button type="submit" class="waboot-blog__sidebar__newsletter-button">
-                            Subscribe
+                            {_w('Subscribe')}
                         </button>
+                        <div id="newsletter-description" class="sr-only">
+                            {_w('Subscribe to our newsletter to receive updates')}
+                        </div>
                     </form>
                 </div>
             </div>
             
             <div class="waboot-blog__footer__bottom">
-                <p>&copy; {date('Y')} {$wa->blog->title()|escape:'html'}. All rights reserved.</p>
+                <p>&copy; {date('Y')} {$wa->blog->title()|escape:'html'}. {_w('All rights reserved.')}</p>
             </div>
         </div>
     </footer>
 {/block}
+
+{* ARIA Live Region for Notifications *}
+<div id="notifications" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
 {* JSON-LD Schema for Blog *}
 {block name="json_ld"}

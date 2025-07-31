@@ -1,6 +1,7 @@
 /*!
  * Waboot Blog Child Theme JavaScript
  * Alpine.js components and store for blog functionality
+ * WCAG 2.1 AA compliant
  * @version 1.0.0
  * @author AdGooroo
  */
@@ -23,7 +24,8 @@ document.addEventListener('alpine:init', () => {
             query: '',
             results: [],
             loading: false,
-            suggestions: []
+            suggestions: [],
+            selectedIndex: -1
         },
         
         // Reading state
@@ -50,6 +52,13 @@ document.addEventListener('alpine:init', () => {
             replyTo: null
         },
         
+        // Accessibility state
+        accessibility: {
+            focusVisible: false,
+            reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+            highContrast: window.matchMedia('(prefers-contrast: high)').matches
+        },
+        
         // ============================================
         // SEARCH METHODS
         // ============================================
@@ -60,6 +69,9 @@ document.addEventListener('alpine:init', () => {
         async searchPosts(query) {
             this.search.query = query;
             this.search.loading = true;
+            
+            // Announce search start to screen readers
+            this.announceToScreenReader('Searching for posts...');
             
             try {
                 const response = await fetch(`/blog/search/?q=${encodeURIComponent(query)}`, {
@@ -72,10 +84,13 @@ document.addEventListener('alpine:init', () => {
                 
                 if (result.status === 'ok') {
                     this.search.results = result.data.posts || [];
+                    const count = this.search.results.length;
+                    this.announceToScreenReader(`Found ${count} post${count !== 1 ? 's' : ''}`);
                     return result;
                 }
             } catch (error) {
                 console.error('Search error:', error);
+                this.announceToScreenReader('Search failed. Please try again.');
             } finally {
                 this.search.loading = false;
             }
@@ -87,6 +102,7 @@ document.addEventListener('alpine:init', () => {
         async getSearchSuggestions(query) {
             if (query.length < 2) {
                 this.search.suggestions = [];
+                this.search.selectedIndex = -1;
                 return;
             }
             
@@ -101,10 +117,124 @@ document.addEventListener('alpine:init', () => {
                 
                 if (result.status === 'ok') {
                     this.search.suggestions = result.data.suggestions || [];
+                    this.search.selectedIndex = -1;
                 }
             } catch (error) {
                 console.error('Search suggestions error:', error);
             }
+        },
+        
+        /**
+         * Handle keyboard navigation in search suggestions
+         */
+        handleSearchKeyboard(event) {
+            const suggestions = this.search.suggestions;
+            const maxIndex = suggestions.length - 1;
+            
+            switch (event.key) {
+                case 'ArrowDown':
+                    event.preventDefault();
+                    this.search.selectedIndex = Math.min(this.search.selectedIndex + 1, maxIndex);
+                    break;
+                case 'ArrowUp':
+                    event.preventDefault();
+                    this.search.selectedIndex = Math.max(this.search.selectedIndex - 1, -1);
+                    break;
+                case 'Enter':
+                    event.preventDefault();
+                    if (this.search.selectedIndex >= 0 && suggestions[this.search.selectedIndex]) {
+                        this.selectSuggestion(suggestions[this.search.selectedIndex]);
+                    } else {
+                        this.search();
+                    }
+                    break;
+                case 'Escape':
+                    event.preventDefault();
+                    this.clearSearch();
+                    break;
+            }
+        },
+        
+        /**
+         * Clear search
+         */
+        clearSearch() {
+            this.search.query = '';
+            this.search.suggestions = [];
+            this.search.selectedIndex = -1;
+            this.search.results = [];
+        },
+        
+        // ============================================
+        // ACCESSIBILITY METHODS
+        // ============================================
+        
+        /**
+         * Announce message to screen readers
+         */
+        announceToScreenReader(message, priority = 'polite') {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', priority);
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            
+            document.body.appendChild(announcement);
+            
+            // Remove after announcement
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
+        },
+        
+        /**
+         * Manage focus for dynamic content
+         */
+        manageFocus(element) {
+            if (element && typeof element.focus === 'function') {
+                element.focus();
+            }
+        },
+        
+        /**
+         * Trap focus within a container
+         */
+        trapFocus(container) {
+            const focusableElements = container.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+            
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+            
+            container.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstElement) {
+                            e.preventDefault();
+                            lastElement.focus();
+                        }
+                    } else {
+                        if (document.activeElement === lastElement) {
+                            e.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                }
+            });
+        },
+        
+        /**
+         * Handle escape key
+         */
+        handleEscape(callback) {
+            const handleKeydown = (event) => {
+                if (event.key === 'Escape') {
+                    callback();
+                    document.removeEventListener('keydown', handleKeydown);
+                }
+            };
+            document.addEventListener('keydown', handleKeydown);
         },
         
         // ============================================
@@ -136,6 +266,7 @@ document.addEventListener('alpine:init', () => {
             if (!this.reading.bookmarks.includes(postId)) {
                 this.reading.bookmarks.push(postId);
                 localStorage.setItem('blog_bookmarks', JSON.stringify(this.reading.bookmarks));
+                this.announceToScreenReader('Post bookmarked');
             }
         },
         
@@ -147,6 +278,7 @@ document.addEventListener('alpine:init', () => {
             if (index > -1) {
                 this.reading.bookmarks.splice(index, 1);
                 localStorage.setItem('blog_bookmarks', JSON.stringify(this.reading.bookmarks));
+                this.announceToScreenReader('Bookmark removed');
             }
         },
         
@@ -178,7 +310,15 @@ document.addEventListener('alpine:init', () => {
             };
             
             if (shareUrls[platform]) {
-                window.open(shareUrls[platform], '_blank', 'width=600,height=400');
+                const shareWindow = window.open(shareUrls[platform], '_blank', 'width=600,height=400');
+                this.announceToScreenReader(`Opening ${platform} share dialog`);
+                
+                // Focus management
+                if (shareWindow) {
+                    this.handleEscape(() => {
+                        shareWindow.close();
+                    });
+                }
             }
         },
         
@@ -188,6 +328,7 @@ document.addEventListener('alpine:init', () => {
         async copyToClipboard(text) {
             try {
                 await navigator.clipboard.writeText(text);
+                this.announceToScreenReader('URL copied to clipboard!');
                 this.$store.notifications?.add({
                     type: 'success',
                     message: 'URL copied to clipboard!',
@@ -195,6 +336,7 @@ document.addEventListener('alpine:init', () => {
                 });
             } catch (error) {
                 console.error('Copy to clipboard error:', error);
+                this.announceToScreenReader('Failed to copy URL');
                 this.$store.notifications?.add({
                     type: 'error',
                     message: 'Failed to copy URL',
@@ -212,6 +354,7 @@ document.addEventListener('alpine:init', () => {
          */
         async loadComments(postId) {
             this.comments.loading = true;
+            this.announceToScreenReader('Loading comments...');
             
             try {
                 const response = await fetch(`/blog/comments/${postId}/`, {
@@ -224,9 +367,12 @@ document.addEventListener('alpine:init', () => {
                 
                 if (result.status === 'ok') {
                     this.comments.items = result.data.comments || [];
+                    const count = this.comments.items.length;
+                    this.announceToScreenReader(`Loaded ${count} comment${count !== 1 ? 's' : ''}`);
                 }
             } catch (error) {
                 console.error('Load comments error:', error);
+                this.announceToScreenReader('Failed to load comments');
             } finally {
                 this.comments.loading = false;
             }
@@ -237,6 +383,7 @@ document.addEventListener('alpine:init', () => {
          */
         async submitComment(postId, commentData) {
             this.comments.submitting = true;
+            this.announceToScreenReader('Submitting comment...');
             
             try {
                 const response = await fetch(`/blog/comments/${postId}/submit/`, {
@@ -254,6 +401,7 @@ document.addEventListener('alpine:init', () => {
                     await this.loadComments(postId);
                     this.comments.replyTo = null;
                     
+                    this.announceToScreenReader('Comment submitted successfully!');
                     this.$store.notifications?.add({
                         type: 'success',
                         message: 'Comment submitted successfully!',
@@ -266,6 +414,7 @@ document.addEventListener('alpine:init', () => {
                 }
             } catch (error) {
                 console.error('Submit comment error:', error);
+                this.announceToScreenReader('Failed to submit comment');
                 this.$store.notifications?.add({
                     type: 'error',
                     message: error.message,
@@ -282,6 +431,7 @@ document.addEventListener('alpine:init', () => {
          */
         replyToComment(commentId) {
             this.comments.replyTo = commentId;
+            this.announceToScreenReader('Reply mode activated');
         },
         
         /**
@@ -289,6 +439,7 @@ document.addEventListener('alpine:init', () => {
          */
         cancelReply() {
             this.comments.replyTo = null;
+            this.announceToScreenReader('Reply cancelled');
         },
         
         // ============================================
@@ -311,6 +462,9 @@ document.addEventListener('alpine:init', () => {
             
             // Set up event listeners
             this.setupEventListeners();
+            
+            // Announce page load to screen readers
+            this.announceToScreenReader('Blog page loaded');
         },
         
         /**
@@ -325,6 +479,17 @@ document.addEventListener('alpine:init', () => {
             // Listen for search updates
             document.addEventListener('blog:search-updated', (event) => {
                 this.searchPosts(event.detail.query);
+            });
+            
+            // Handle focus visible
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    this.accessibility.focusVisible = true;
+                }
+            });
+            
+            document.addEventListener('mousedown', () => {
+                this.accessibility.focusVisible = false;
             });
         }
     });
@@ -355,6 +520,10 @@ document.addEventListener('alpine:init', () => {
             }
         },
         
+        handleKeydown(event) {
+            this.$store.blog.handleSearchKeyboard(event);
+        },
+        
         search() {
             if (this.query.length > 0) {
                 this.$store.blog.searchPosts(this.query);
@@ -372,6 +541,10 @@ document.addEventListener('alpine:init', () => {
         
         get suggestions() {
             return this.$store.blog.search.suggestions;
+        },
+        
+        get selectedIndex() {
+            return this.$store.blog.search.selectedIndex;
         }
     }));
     
@@ -498,13 +671,42 @@ document.addEventListener('alpine:init', () => {
     
     Alpine.data('socialSharing', (post) => ({
         post: post,
+        linkCopied: false,
+        showMessage: false,
+        message: '',
         
-        shareOn(platform) {
-            this.$store.blog.sharePost(platform, this.post);
+        shareOnFacebook() {
+            this.$store.blog.sharePost('facebook', this.post);
         },
         
-        copyUrl() {
-            this.$store.blog.copyToClipboard(this.post.url);
+        shareOnTwitter() {
+            this.$store.blog.sharePost('twitter', this.post);
+        },
+        
+        shareOnLinkedIn() {
+            this.$store.blog.sharePost('linkedin', this.post);
+        },
+        
+        shareOnWhatsApp() {
+            this.$store.blog.sharePost('whatsapp', this.post);
+        },
+        
+        shareViaEmail() {
+            const subject = encodeURIComponent(this.post.title);
+            const body = encodeURIComponent(`${this.post.title}\n\n${this.post.excerpt}\n\nRead more: ${this.post.url}`);
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        },
+        
+        async copyLink() {
+            await this.$store.blog.copyToClipboard(this.post.url);
+            this.linkCopied = true;
+            this.showMessage = true;
+            this.message = 'Link copied to clipboard!';
+            
+            setTimeout(() => {
+                this.linkCopied = false;
+                this.showMessage = false;
+            }, 2000);
         }
     }));
     
@@ -575,4 +777,32 @@ window.debounce = function(func, wait, immediate) {
         timeout = setTimeout(later, wait);
         if (callNow) func(...args);
     };
+};
+
+/**
+ * Accessibility utility: Check if element is visible
+ */
+window.isElementVisible = function(element) {
+    const rect = element.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+};
+
+/**
+ * Accessibility utility: Get next focusable element
+ */
+window.getNextFocusableElement = function(currentElement, direction = 'forward') {
+    const focusableElements = document.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    
+    const currentIndex = Array.from(focusableElements).indexOf(currentElement);
+    let nextIndex;
+    
+    if (direction === 'forward') {
+        nextIndex = currentIndex + 1 >= focusableElements.length ? 0 : currentIndex + 1;
+    } else {
+        nextIndex = currentIndex - 1 < 0 ? focusableElements.length - 1 : currentIndex - 1;
+    }
+    
+    return focusableElements[nextIndex];
 }; 

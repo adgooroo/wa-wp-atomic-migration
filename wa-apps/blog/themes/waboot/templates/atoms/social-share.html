@@ -1,82 +1,107 @@
 {* Social Share Atom Component *}
 
-<div class="waboot-blog__social-share" x-data="socialSharing()">
+<div class="waboot-blog__social-share" x-data="socialSharing()" role="group" aria-label="{_w('Share this post')}">
     <div class="waboot-blog__social-share__container">
-        <span class="waboot-blog__social-share__label">Share:</span>
+        <span class="waboot-blog__social-share__label" id="share-label">{_w('Share')}:</span>
         
         {* Facebook *}
-        <a 
-            href="#" 
+        <button 
+            type="button"
             class="waboot-blog__social-share__button waboot-blog__social-share__button--facebook"
-            @click.prevent="shareOnFacebook()"
-            title="Share on Facebook"
-            aria-label="Share on Facebook"
+            @click="shareOnFacebook()"
+            @keydown.enter="shareOnFacebook()"
+            @keydown.space.prevent="shareOnFacebook()"
+            :aria-label="{_w('Share on Facebook')}"
+            :title="{_w('Share on Facebook')}"
+            aria-describedby="share-label"
         >
-            <i class="fab fa-facebook-f"></i>
-        </a>
+            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+            <span class="sr-only">{_w('Share on Facebook')}</span>
+        </button>
         
         {* Twitter/X *}
-        <a 
-            href="#" 
+        <button 
+            type="button"
             class="waboot-blog__social-share__button waboot-blog__social-share__button--twitter"
-            @click.prevent="shareOnTwitter()"
-            title="Share on Twitter"
-            aria-label="Share on Twitter"
+            @click="shareOnTwitter()"
+            @keydown.enter="shareOnTwitter()"
+            @keydown.space.prevent="shareOnTwitter()"
+            :aria-label="{_w('Share on Twitter')}"
+            :title="{_w('Share on Twitter')}"
+            aria-describedby="share-label"
         >
-            <i class="fab fa-twitter"></i>
-        </a>
+            <i class="fab fa-twitter" aria-hidden="true"></i>
+            <span class="sr-only">{_w('Share on Twitter')}</span>
+        </button>
         
         {* LinkedIn *}
-        <a 
-            href="#" 
+        <button 
+            type="button"
             class="waboot-blog__social-share__button waboot-blog__social-share__button--linkedin"
-            @click.prevent="shareOnLinkedIn()"
-            title="Share on LinkedIn"
-            aria-label="Share on LinkedIn"
+            @click="shareOnLinkedIn()"
+            @keydown.enter="shareOnLinkedIn()"
+            @keydown.space.prevent="shareOnLinkedIn()"
+            :aria-label="{_w('Share on LinkedIn')}"
+            :title="{_w('Share on LinkedIn')}"
+            aria-describedby="share-label"
         >
-            <i class="fab fa-linkedin-in"></i>
-        </a>
+            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+            <span class="sr-only">{_w('Share on LinkedIn')}</span>
+        </button>
         
         {* WhatsApp *}
-        <a 
-            href="#" 
+        <button 
+            type="button"
             class="waboot-blog__social-share__button waboot-blog__social-share__button--whatsapp"
-            @click.prevent="shareOnWhatsApp()"
-            title="Share on WhatsApp"
-            aria-label="Share on WhatsApp"
+            @click="shareOnWhatsApp()"
+            @keydown.enter="shareOnWhatsApp()"
+            @keydown.space.prevent="shareOnWhatsApp()"
+            :aria-label="{_w('Share on WhatsApp')}"
+            :title="{_w('Share on WhatsApp')}"
+            aria-describedby="share-label"
         >
-            <i class="fab fa-whatsapp"></i>
-        </a>
+            <i class="fab fa-whatsapp" aria-hidden="true"></i>
+            <span class="sr-only">{_w('Share on WhatsApp')}</span>
+        </button>
         
         {* Email *}
-        <a 
-            href="#" 
+        <button 
+            type="button"
             class="waboot-blog__social-share__button waboot-blog__social-share__button--email"
-            @click.prevent="shareViaEmail()"
-            title="Share via Email"
-            aria-label="Share via Email"
+            @click="shareViaEmail()"
+            @keydown.enter="shareViaEmail()"
+            @keydown.space.prevent="shareViaEmail()"
+            :aria-label="{_w('Share via Email')}"
+            :title="{_w('Share via Email')}"
+            aria-describedby="share-label"
         >
-            <i class="fas fa-envelope"></i>
-        </a>
+            <i class="fas fa-envelope" aria-hidden="true"></i>
+            <span class="sr-only">{_w('Share via Email')}</span>
+        </button>
         
         {* Copy Link *}
         <button 
+            type="button"
             class="waboot-blog__social-share__button waboot-blog__social-share__button--copy"
             @click="copyLink()"
-            title="Copy link"
-            aria-label="Copy link"
+            @keydown.enter="copyLink()"
+            @keydown.space.prevent="copyLink()"
+            :aria-label="linkCopied ? '{_w('Link copied')}' : '{_w('Copy link')}'"
+            :title="linkCopied ? '{_w('Link copied')}' : '{_w('Copy link')}'"
+            aria-describedby="share-label"
             :class="{ 'waboot-blog__social-share__button--copied': linkCopied }"
         >
-            <i class="fas fa-link" x-show="!linkCopied"></i>
-            <i class="fas fa-check" x-show="linkCopied"></i>
+            <i class="fas fa-link" x-show="!linkCopied" aria-hidden="true"></i>
+            <i class="fas fa-check" x-show="linkCopied" aria-hidden="true"></i>
+            <span class="sr-only" x-text="linkCopied ? '{_w('Link copied')}' : '{_w('Copy link')}'"></span>
         </button>
     </div>
     
     {* Share count *}
     {if $post.shares_count > 0}
-        <div class="waboot-blog__social-share__count">
-            <span class="waboot-blog__social-share__count-number">{$post.shares_count}</span>
-            <span class="waboot-blog__social-share__count-label">shares</span>
+        <div class="waboot-blog__social-share__count" aria-label="{_w('Share count')}">
+            <span class="waboot-blog__social-share__count-number" aria-live="polite">{$post.shares_count}</span>
+            <span class="waboot-blog__social-share__count-label">{_w('shares')}</span>
         </div>
     {/if}
     
@@ -86,5 +111,8 @@
         x-show="showMessage" 
         x-text="message"
         x-transition
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
     ></div>
 </div> 
