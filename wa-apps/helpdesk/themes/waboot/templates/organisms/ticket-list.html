@@ -1,0 +1,182 @@
+{*
+ * Ticket List Organism Component
+ * Displays list of tickets with filtering, sorting, and pagination
+ * @param tickets - Array of ticket objects
+ * @param filters - Current filter settings
+ * @param pagination - Pagination data
+ *}
+
+{* Component markup with BEM classes *}
+<div class="waboot-helpdesk__ticket-list" 
+     x-data="ticketList()"
+     itemscope 
+     itemtype="https://schema.org/ItemList">
+    
+    {* Header with filters and actions *}
+    <div class="waboot-helpdesk__ticket-list__header">
+        <div class="waboot-helpdesk__ticket-list__title">
+            <h2 itemprop="name">{_w('My Tickets')}</h2>
+            <span class="waboot-helpdesk__ticket-list__count">
+                {$tickets|count} {_w('ticket', 'tickets', $tickets|count)} {_w('found')}
+            </span>
+        </div>
+        
+        <div class="waboot-helpdesk__ticket-list__actions">
+            <a href="/helpdesk/new/" 
+               class="waboot-helpdesk__ticket-list__action waboot-helpdesk__ticket-list__action--new">
+                {_w('Submit Ticket')}
+            </a>
+        </div>
+    </div>
+    
+    {* Filters and sorting *}
+    <div class="waboot-helpdesk__ticket-list__filters">
+        <form class="waboot-helpdesk__ticket-list__filter-form" 
+              method="get" 
+              x-on:submit.prevent="applyFilters()">
+            
+            {* Status filter *}
+            <div class="waboot-helpdesk__ticket-list__filter-group">
+                <label for="status-filter">{_w('Status')}:</label>
+                <select id="status-filter" 
+                        name="status" 
+                        x-model="filters.status"
+                        class="waboot-helpdesk__ticket-list__filter-select">
+                    <option value="">{_w('All Statuses')}</option>
+                    <option value="open">{_w('Open')}</option>
+                    <option value="in_progress">{_w('In Progress')}</option>
+                    <option value="resolved">{_w('Resolved')}</option>
+                    <option value="closed">{_w('Closed')}</option>
+                </select>
+            </div>
+            
+            {* Priority filter *}
+            <div class="waboot-helpdesk__ticket-list__filter-group">
+                <label for="priority-filter">{_w('Priority')}:</label>
+                <select id="priority-filter" 
+                        name="priority" 
+                        x-model="filters.priority"
+                        class="waboot-helpdesk__ticket-list__filter-select">
+                    <option value="">{_w('All Priorities')}</option>
+                    <option value="low">{_w('Low')}</option>
+                    <option value="medium">{_w('Medium')}</option>
+                    <option value="high">{_w('High')}</option>
+                    <option value="critical">{_w('Critical')}</option>
+                </select>
+            </div>
+            
+            {* Sort by *}
+            <div class="waboot-helpdesk__ticket-list__filter-group">
+                <label for="sort-filter">{_w('Sort by')}:</label>
+                <select id="sort-filter" 
+                        name="sort" 
+                        x-model="filters.sort"
+                        class="waboot-helpdesk__ticket-list__filter-select">
+                    <option value="created_desc">{_w('Newest First')}</option>
+                    <option value="created_asc">{_w('Oldest First')}</option>
+                    <option value="updated_desc">{_w('Recently Updated')}</option>
+                    <option value="priority_desc">{_w('Priority (High to Low)')}</option>
+                    <option value="priority_asc">{_w('Priority (Low to High)')}</option>
+                </select>
+            </div>
+            
+            {* Search *}
+            <div class="waboot-helpdesk__ticket-list__filter-group">
+                <label for="search-filter">{_w('Search')}:</label>
+                <input type="text" 
+                       id="search-filter" 
+                       name="search" 
+                       x-model="filters.search"
+                       placeholder="{_w('Search tickets...')}"
+                       class="waboot-helpdesk__ticket-list__filter-input">
+            </div>
+            
+            <button type="submit" 
+                    class="waboot-helpdesk__ticket-list__filter-submit">
+                {_w('Apply Filters')}
+            </button>
+            
+            <button type="button" 
+                    class="waboot-helpdesk__ticket-list__filter-reset"
+                    x-on:click="resetFilters()">
+                {_w('Reset')}
+            </button>
+        </form>
+    </div>
+    
+    {* Ticket list content *}
+    <div class="waboot-helpdesk__ticket-list__content">
+        {if $tickets}
+            <div class="waboot-helpdesk__ticket-list__items" 
+                 itemprop="itemListElement" 
+                 itemscope 
+                 itemtype="https://schema.org/ListItem">
+                
+                {foreach $tickets as $ticket name=tickets}
+                    <div class="waboot-helpdesk__ticket-list__item" 
+                         itemprop="item" 
+                         itemscope 
+                         itemtype="https://schema.org/Thing">
+                        
+                        {* Include ticket card molecule *}
+                        {include file="molecules/ticket-card.html" 
+                                 ticket=$ticket 
+                                 show_actions=true}
+                        
+                        <meta itemprop="position" content="{$smarty.foreach.tickets.iteration}">
+                    </div>
+                {/foreach}
+            </div>
+            
+            {* Pagination *}
+            {if $pagination}
+                <div class="waboot-helpdesk__ticket-list__pagination">
+                    {include file="../../site-app/themes/default/templates/molecules/pagination.html" 
+                             pagination=$pagination}
+                </div>
+            {/if}
+            
+        {else}
+            <div class="waboot-helpdesk__ticket-list__empty">
+                <div class="waboot-helpdesk__ticket-list__empty__icon">📋</div>
+                <h3 class="waboot-helpdesk__ticket-list__empty__title">
+                    {_w('No tickets found')}
+                </h3>
+                <p class="waboot-helpdesk__ticket-list__empty__text">
+                    {_w('No tickets match your current filters. Try adjusting your search criteria.')}
+                </p>
+                <a href="/helpdesk/new/" 
+                   class="waboot-helpdesk__ticket-list__empty__action">
+                    {_w('Submit your first ticket')}
+                </a>
+            </div>
+        {/if}
+    </div>
+    
+    {* JSON-LD structured data for ticket list *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "ItemList",
+        "name": "{_w('My Tickets')|escape:'javascript'}",
+        "numberOfItems": {$tickets|count},
+        "itemListElement": [
+            {foreach $tickets as $ticket name=tickets}
+            {
+                "@type": "ListItem",
+                "position": {$smarty.foreach.tickets.iteration},
+                "item": {
+                    "@type": "Thing",
+                    "@id": "{$ticket.url|escape:'javascript'}#ticket",
+                    "name": "{$ticket.subject|escape:'javascript'}",
+                    "description": "{$ticket.description|truncate:200|escape:'javascript'}",
+                    "url": "{$ticket.url|escape:'javascript'}",
+                    "dateCreated": "{$ticket.created_datetime|date:'c'}",
+                    "dateModified": "{$ticket.updated_datetime|date:'c'}"
+                }
+            }{if !$ticket@last},{/if}
+            {/foreach}
+        ]
+    }
+    </script>
+</div> 

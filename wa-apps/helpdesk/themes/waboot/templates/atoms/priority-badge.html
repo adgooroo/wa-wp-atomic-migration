@@ -1,0 +1,49 @@
+{*
+ * Priority Badge Atom Component
+ * Displays ticket priority with color coding and JSON-LD structured data
+ * @param priority - Ticket priority (low, medium, high, critical)
+ * @param show_icon - Whether to show priority icon (default: true)
+ *}
+
+{* Set default values *}
+{$priority = $priority|default:'medium'}
+{$show_icon = $show_icon|default:true}
+
+{* Priority configuration *}
+{assign var="priority_config" value=[
+    'low' => ['class' => 'waboot-helpdesk__priority--low', 'icon' => '📉', 'text' => {_w('Low')}],
+    'medium' => ['class' => 'waboot-helpdesk__priority--medium', 'icon' => '📊', 'text' => {_w('Medium')}],
+    'high' => ['class' => 'waboot-helpdesk__priority--high', 'icon' => '📈', 'text' => {_w('High')}],
+    'critical' => ['class' => 'waboot-helpdesk__priority--critical', 'icon' => '🚨', 'text' => {_w('Critical')}]
+]}
+
+{* Get priority configuration *}
+{$current_priority = $priority_config[$priority]|default:$priority_config['medium']}
+
+{* Component markup with BEM classes *}
+<div class="waboot-helpdesk__priority {$current_priority.class}" 
+     data-priority="{$priority|escape}"
+     itemscope 
+     itemtype="https://schema.org/Thing">
+    
+    {if $show_icon}
+        <span class="waboot-helpdesk__priority__icon" aria-hidden="true">
+            {$current_priority.icon}
+        </span>
+    {/if}
+    
+    <span class="waboot-helpdesk__priority__text" itemprop="name">
+        {$current_priority.text|escape}
+    </span>
+    
+    {* JSON-LD structured data for ticket priority *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Thing",
+        "name": "{$current_priority.text|escape:'javascript'}",
+        "description": "Ticket priority: {$current_priority.text|escape:'javascript'}",
+        "identifier": "ticket-priority-{$priority|escape:'javascript'}"
+    }
+    </script>
+</div> 

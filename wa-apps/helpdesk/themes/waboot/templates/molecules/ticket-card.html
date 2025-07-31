@@ -1,0 +1,120 @@
+{*
+ * Ticket Card Molecule Component
+ * Displays ticket information in a card format with status and priority
+ * @param ticket - Ticket data object
+ * @param show_actions - Whether to show action buttons (default: true)
+ *}
+
+{* Set default values *}
+{$show_actions = $show_actions|default:true}
+
+{* Component markup with BEM classes *}
+<div class="waboot-helpdesk__ticket-card" 
+     x-data="ticketCard({$ticket.id})"
+     data-ticket-id="{$ticket.id|escape}"
+     itemscope 
+     itemtype="https://schema.org/Thing">
+    
+    <div class="waboot-helpdesk__ticket-card__header">
+        <div class="waboot-helpdesk__ticket-card__meta">
+            <h3 class="waboot-helpdesk__ticket-card__title" itemprop="name">
+                <a href="{$ticket.url|escape}" itemprop="url">
+                    {$ticket.subject|escape}
+                </a>
+            </h3>
+            
+            <div class="waboot-helpdesk__ticket-card__info">
+                <span class="waboot-helpdesk__ticket-card__number">
+                    #{_w('ticket', 'tickets', 1)} {$ticket.id|escape}
+                </span>
+                
+                <time class="waboot-helpdesk__ticket-card__date" 
+                      datetime="{$ticket.created_datetime|date:'c'}"
+                      itemprop="dateCreated">
+                    {$ticket.created_datetime|wa_date:'humandatetime'}
+                </time>
+            </div>
+        </div>
+        
+        <div class="waboot-helpdesk__ticket-card__badges">
+            {* Include status atom component *}
+            {include file="atoms/ticket-status.html" 
+                     status=$ticket.status 
+                     show_icon=true}
+            
+            {* Include priority atom component *}
+            {include file="atoms/priority-badge.html" 
+                     priority=$ticket.priority 
+                     show_icon=true}
+        </div>
+    </div>
+    
+    <div class="waboot-helpdesk__ticket-card__content">
+        <div class="waboot-helpdesk__ticket-card__description" itemprop="description">
+            {$ticket.description|truncate:200|escape}
+        </div>
+        
+        {if $ticket.assignee}
+            <div class="waboot-helpdesk__ticket-card__assignee">
+                <span class="waboot-helpdesk__ticket-card__assignee__label">
+                    {_w('Assigned to')}:
+                </span>
+                <span class="waboot-helpdesk__ticket-card__assignee__name">
+                    {$ticket.assignee.name|escape}
+                </span>
+            </div>
+        {/if}
+    </div>
+    
+    {if $show_actions}
+        <div class="waboot-helpdesk__ticket-card__actions">
+            <a href="{$ticket.url|escape}" 
+               class="waboot-helpdesk__ticket-card__action waboot-helpdesk__ticket-card__action--view"
+               title="{_w('View ticket')}">
+                {_w('View')}
+            </a>
+            
+            {if $ticket.can_edit}
+                <a href="{$ticket.edit_url|escape}" 
+                   class="waboot-helpdesk__ticket-card__action waboot-helpdesk__ticket-card__action--edit"
+                   title="{_w('Edit ticket')}">
+                    {_w('Edit')}
+                </a>
+            {/if}
+            
+            <button type="button" 
+                    class="waboot-helpdesk__ticket-card__action waboot-helpdesk__ticket-card__action--reply"
+                    x-on:click="showReplyForm()"
+                    title="{_w('Reply to ticket')}">
+                {_w('Reply')}
+            </button>
+        </div>
+    {/if}
+    
+    {* JSON-LD structured data for ticket *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Thing",
+        "@id": "{$ticket.url|escape:'javascript'}#ticket",
+        "name": "{$ticket.subject|escape:'javascript'}",
+        "description": "{$ticket.description|truncate:200|escape:'javascript'}",
+        "url": "{$ticket.url|escape:'javascript'}",
+        "dateCreated": "{$ticket.created_datetime|date:'c'}",
+        "dateModified": "{$ticket.updated_datetime|date:'c'}",
+        "identifier": "ticket-{$ticket.id|escape:'javascript'}",
+        "additionalProperty": [
+            {
+                "@type": "PropertyValue",
+                "name": "status",
+                "value": "{$ticket.status|escape:'javascript'}"
+            },
+            {
+                "@type": "PropertyValue", 
+                "name": "priority",
+                "value": "{$ticket.priority|escape:'javascript'}"
+            }
+        ]
+    }
+    </script>
+</div> 

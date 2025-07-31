@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<theme id="waboot-child" app="helpdesk" system="0" vendor="adgooroo">
+    <name>Waboot Child Helpdesk</name>
+    <description>Child theme inheriting from Site app Waboot theme with Helpdesk-specific functionality and comprehensive JSON-LD structured data</description>
+    <version>1.0.0</version>
+    <parent_theme app="site">waboot</parent_theme>
+    <author>AdGooroo</author>
+    <requirements>
+        <app id="site" version="*"/>
+        <theme app="site" id="waboot"/>
+    </requirements>
+    
+    <!-- LOCALIZATION CONFIGURATION -->
+    <locales>
+        <!-- Helpdesk Navigation -->
+        <locale>
+            <msgid>Support Center</msgid>
+            <msgstr locale="en_US">Support Center</msgstr>
+            <msgstr locale="ru_RU">Центр поддержки</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Knowledge Base</msgid>
+            <msgstr locale="en_US">Knowledge Base</msgstr>
+            <msgstr locale="ru_RU">База знаний</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Submit Ticket</msgid>
+            <msgstr locale="en_US">Submit Ticket</msgstr>
+            <msgstr locale="ru_RU">Создать тикет</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>My Tickets</msgid>
+            <msgstr locale="en_US">My Tickets</msgstr>
+            <msgstr locale="ru_RU">Мои тикеты</msgstr>
+        </locale>
+        
+        <!-- Ticket Status -->
+        <locale>
+            <msgid>Open</msgid>
+            <msgstr locale="en_US">Open</msgstr>
+            <msgstr locale="ru_RU">Открыт</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>In Progress</msgid>
+            <msgstr locale="en_US">In Progress</msgstr>
+            <msgstr locale="ru_RU">В работе</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Resolved</msgid>
+            <msgstr locale="en_US">Resolved</msgstr>
+            <msgstr locale="ru_RU">Решен</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Closed</msgid>
+            <msgstr locale="en_US">Closed</msgstr>
+            <msgstr locale="ru_RU">Закрыт</msgstr>
+        </locale>
+        
+        <!-- Priority Levels -->
+        <locale>
+            <msgid>Low</msgid>
+            <msgstr locale="en_US">Low</msgstr>
+            <msgstr locale="ru_RU">Низкий</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Medium</msgid>
+            <msgstr locale="en_US">Medium</msgstr>
+            <msgstr locale="ru_RU">Средний</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>High</msgid>
+            <msgstr locale="en_US">High</msgstr>
+            <msgstr locale="ru_RU">Высокий</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Critical</msgid>
+            <msgstr locale="en_US">Critical</msgstr>
+            <msgstr locale="ru_RU">Критический</msgstr>
+        </locale>
+        
+        <!-- Form Elements -->
+        <locale>
+            <msgid>Subject</msgid>
+            <msgstr locale="en_US">Subject</msgstr>
+            <msgstr locale="ru_RU">Тема</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Description</msgid>
+            <msgstr locale="en_US">Description</msgstr>
+            <msgstr locale="ru_RU">Описание</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Attachments</msgid>
+            <msgstr locale="en_US">Attachments</msgstr>
+            <msgstr locale="ru_RU">Вложения</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Submit</msgid>
+            <msgstr locale="en_US">Submit</msgstr>
+            <msgstr locale="ru_RU">Отправить</msgstr>
+        </locale>
+        
+        <!-- FAQ Elements -->
+        <locale>
+            <msgid>Frequently Asked Questions</msgid>
+            <msgstr locale="en_US">Frequently Asked Questions</msgstr>
+            <msgstr locale="ru_RU">Часто задаваемые вопросы</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Question</msgid>
+            <msgstr locale="en_US">Question</msgstr>
+            <msgstr locale="ru_RU">Вопрос</msgstr>
+        </locale>
+        
+        <locale>
+            <msgid>Answer</msgid>
+            <msgstr locale="en_US">Answer</msgstr>
+            <msgstr locale="ru_RU">Ответ</msgstr>
+        </locale>
+        
+        <!-- Plural Forms -->
+        <locale>
+            <msgid>ticket</msgid>
+            <msgid_plural>tickets</msgid_plural>
+            <msgstr locale="en_US">ticket</msgstr>
+            <msgstr_plural locale="en_US">tickets</msgstr_plural>
+            <msgstr locale="ru_RU">тикет</msgstr>
+            <msgstr_plural locale="ru_RU">тикета</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">тикетов</msgstr_plural2>
+        </locale>
+        
+        <locale>
+            <msgid>article</msgid>
+            <msgid_plural>articles</msgid_plural>
+            <msgstr locale="en_US">article</msgstr>
+            <msgstr_plural locale="en_US">articles</msgstr_plural>
+            <msgstr locale="ru_RU">статья</msgstr>
+            <msgstr_plural locale="ru_RU">статьи</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">статей</msgstr_plural2>
+        </locale>
+    </locales>
+</theme> 

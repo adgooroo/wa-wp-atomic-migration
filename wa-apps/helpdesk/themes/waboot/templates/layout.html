@@ -1,0 +1,225 @@
+{*
+ * Helpdesk Theme Layout Template
+ * Inherits from parent Site app Waboot theme with Helpdesk-specific modifications
+ *}
+
+{* Inherit from parent layout *}
+{extends file="../../site-app/themes/default/templates/layout.html"}
+
+{* Override title block *}
+{block name="title"}
+    {if $wa_title}
+        {$wa_title|escape} - {$wa->accountName()|escape}
+    {else}
+        {_w('Support Center')} - {$wa->accountName()|escape}
+    {/if}
+{/block}
+
+{* Override head block to add Helpdesk-specific assets *}
+{block name="head" append}
+    {* Helpdesk-specific CSS *}
+    <link rel="stylesheet" href="{$wa_theme_url}css/waboot-helpdesk.css">
+    
+    {* Helpdesk-specific JavaScript *}
+    <script src="{$wa_theme_url}js/waboot-helpdesk.js" defer></script>
+    
+    {* CSRF token for forms *}
+    <meta name="csrf-token" content="{$wa->csrf()}">
+    
+    {* Security headers *}
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    {* Content Security Policy *}
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; script-src 'self' 'nonce-{$wa->cspNonce()}'; style-src 'self' 'nonce-{$wa->cspNonce()}';">
+    
+    {* Core JSON-LD schemas - Always Present *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "{$wa_domain}/#website",
+                "url": "{$wa_domain}/",
+                "name": "{$wa->accountName()|escape:'javascript'}",
+                "description": "{$wa->account()->description|default:'Support Center powered by Webasyst'|escape:'javascript'}",
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "{$wa_domain}/helpdesk/search/?q={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "@id": "{$wa_domain}/#organization"
+                }
+            },
+            {
+                "@type": "Organization",
+                "@id": "{$wa_domain}/#organization",
+                "name": "{$wa->accountName()|escape:'javascript'}",
+                "url": "{$wa_domain}/",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{$wa_theme_url}images/logo.png",
+                    "width": "200",
+                    "height": "60"
+                },
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "{$contact_phone|default:'+1-555-555-5555'|escape:'javascript'}",
+                    "contactType": "customer service",
+                    "areaServed": ["{$contact_country|default:'US'|escape:'javascript'}"],
+                    "availableLanguage": ["{$contact_language|default:'English'|escape:'javascript'}"]
+                }
+            }
+            {if $business_address},
+            {
+                "@type": "LocalBusiness",
+                "@id": "{$wa_domain}/#localbusiness",
+                "name": "{$wa->accountName()|escape:'javascript'}",
+                "description": "{$business_description|escape:'javascript'}",
+                "url": "{$wa_domain}/",
+                "telephone": "{$contact_phone|escape:'javascript'}",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "{$business_address|escape:'javascript'}",
+                    "addressLocality": "{$business_city|escape:'javascript'}",
+                    "addressRegion": "{$business_state|escape:'javascript'}",
+                    "postalCode": "{$business_zip|escape:'javascript'}",
+                    "addressCountry": "{$business_country|escape:'javascript'}"
+                }
+            }
+            {/if}
+        ]
+    }
+    </script>
+    
+    {* Page-Specific JSON-LD *}
+    {block name="json_ld"}{/block}
+{/block}
+
+{* Override content block *}
+{block name="content"}
+    {* Helpdesk-specific content wrapper *}
+    <div class="waboot-helpdesk__layout">
+        {* Main content area *}
+        <main class="waboot-helpdesk__main" role="main">
+            {block name="helpdesk_content"}
+                {* Default content - can be overridden by child templates *}
+                <div class="waboot-helpdesk__content">
+                    {block name="content"}{/block}
+                </div>
+            {/block}
+        </main>
+        
+        {* Helpdesk-specific sidebar *}
+        <aside class="waboot-helpdesk__sidebar" role="complementary">
+            {block name="helpdesk_sidebar"}
+                {* Quick actions *}
+                <div class="waboot-helpdesk__sidebar__section">
+                    <h3 class="waboot-helpdesk__sidebar__title">{_w('Quick Actions')}</h3>
+                    <div class="waboot-helpdesk__sidebar__actions">
+                        <a href="/helpdesk/new/" 
+                           class="waboot-helpdesk__sidebar__action waboot-helpdesk__sidebar__action--primary">
+                            {_w('Submit Ticket')}
+                        </a>
+                        <a href="/helpdesk/faq/" 
+                           class="waboot-helpdesk__sidebar__action">
+                            {_w('Browse FAQ')}
+                        </a>
+                        <a href="/helpdesk/contact/" 
+                           class="waboot-helpdesk__sidebar__action">
+                            {_w('Contact Support')}
+                        </a>
+                    </div>
+                </div>
+                
+                {* Recent tickets (if user is logged in) *}
+                {if $wa->user()->isAuth()}
+                    <div class="waboot-helpdesk__sidebar__section">
+                        <h3 class="waboot-helpdesk__sidebar__title">{_w('Recent Tickets')}</h3>
+                        <div class="waboot-helpdesk__sidebar__tickets">
+                            {if $recent_tickets}
+                                {foreach $recent_tickets as $ticket}
+                                    <div class="waboot-helpdesk__sidebar__ticket">
+                                        <a href="{$ticket.url|escape}" 
+                                           class="waboot-helpdesk__sidebar__ticket__link">
+                                            {$ticket.subject|truncate:50|escape}
+                                        </a>
+                                        <div class="waboot-helpdesk__sidebar__ticket__meta">
+                                            {include file="atoms/ticket-status.html" 
+                                                     status=$ticket.status 
+                                                     show_icon=false}
+                                            <time datetime="{$ticket.created_datetime|date:'c'}">
+                                                {$ticket.created_datetime|wa_date:'humandate'}
+                                            </time>
+                                        </div>
+                                    </div>
+                                {/foreach}
+                            {else}
+                                <p class="waboot-helpdesk__sidebar__empty">
+                                    {_w('No recent tickets')}
+                                </p>
+                            {/if}
+                        </div>
+                    </div>
+                {/if}
+                
+                {* Help resources *}
+                <div class="waboot-helpdesk__sidebar__section">
+                    <h3 class="waboot-helpdesk__sidebar__title">{_w('Help Resources')}</h3>
+                    <ul class="waboot-helpdesk__sidebar__resources">
+                        <li>
+                            <a href="/helpdesk/faq/" class="waboot-helpdesk__sidebar__resource">
+                                📚 {_w('Knowledge Base')}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/helpdesk/tutorials/" class="waboot-helpdesk__sidebar__resource">
+                                🎥 {_w('Video Tutorials')}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/helpdesk/community/" class="waboot-helpdesk__sidebar__resource">
+                                👥 {_w('Community Forum')}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {/block}
+        </aside>
+    </div>
+{/block}
+
+{* Override footer block to add Helpdesk-specific footer content *}
+{block name="footer" append}
+    {* Helpdesk-specific footer content *}
+    <div class="waboot-helpdesk__footer">
+        <div class="waboot-helpdesk__footer__content">
+            <div class="waboot-helpdesk__footer__section">
+                <h4>{_w('Support Information')}</h4>
+                <p>{_w('Our support team is here to help you with any questions or issues.')}</p>
+                <p>
+                    {_w('Response time')}: <strong>{_w('Within 24 hours')}</strong><br>
+                    {_w('Support hours')}: <strong>{_w('Monday - Friday, 9 AM - 6 PM')}</strong>
+                </p>
+            </div>
+            
+            <div class="waboot-helpdesk__footer__section">
+                <h4>{_w('Contact Methods')}</h4>
+                <ul class="waboot-helpdesk__footer__contact">
+                    <li>📧 {_w('Email')}: <a href="mailto:support@{$wa->account()->domain}">support@{$wa->account()->domain}</a></li>
+                    <li>📞 {_w('Phone')}: <a href="tel:{$contact_phone|default:'+1-555-555-5555'}">{$contact_phone|default:'+1-555-555-5555'}</a></li>
+                    <li>💬 {_w('Live Chat')}: <a href="/helpdesk/chat/">{_w('Start Chat')}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{/block} 

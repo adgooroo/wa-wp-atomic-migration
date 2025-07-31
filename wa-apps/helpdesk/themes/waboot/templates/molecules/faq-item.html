@@ -1,0 +1,99 @@
+{*
+ * FAQ Item Molecule Component
+ * Displays FAQ question and answer with JSON-LD structured data
+ * @param faq - FAQ data object
+ * @param expanded - Whether FAQ is expanded by default (default: false)
+ *}
+
+{* Set default values *}
+{$expanded = $expanded|default:false}
+
+{* Component markup with BEM classes *}
+<div class="waboot-helpdesk__faq-item" 
+     x-data="faqItem({expanded: {$expanded|default:'false'}})"
+     data-faq-id="{$faq.id|escape}"
+     itemscope 
+     itemtype="https://schema.org/Question">
+    
+    <div class="waboot-helpdesk__faq-item__header">
+        <button type="button" 
+                class="waboot-helpdesk__faq-item__question"
+                x-on:click="toggle()"
+                x-bind:aria-expanded="expanded"
+                aria-controls="faq-answer-{$faq.id|escape}">
+            
+            <span class="waboot-helpdesk__faq-item__question__text" itemprop="name">
+                {$faq.question|escape}
+            </span>
+            
+            <span class="waboot-helpdesk__faq-item__question__icon" 
+                  x-bind:class="{'waboot-helpdesk__faq-item__question__icon--expanded': expanded}"
+                  aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 4l4 4-4 4V4z"/>
+                </svg>
+            </span>
+        </button>
+    </div>
+    
+    <div class="waboot-helpdesk__faq-item__answer" 
+         id="faq-answer-{$faq.id|escape}"
+         x-show="expanded"
+         x-transition:enter="waboot-helpdesk__faq-item__answer--enter"
+         x-transition:enter-start="waboot-helpdesk__faq-item__answer--enter-start"
+         x-transition:enter-end="waboot-helpdesk__faq-item__answer--enter-end"
+         x-transition:leave="waboot-helpdesk__faq-item__answer--leave"
+         x-transition:leave-start="waboot-helpdesk__faq-item__answer--leave-start"
+         x-transition:leave-end="waboot-helpdesk__faq-item__answer--leave-end"
+         itemscope 
+         itemtype="https://schema.org/Answer">
+        
+        <div class="waboot-helpdesk__faq-item__answer__content" itemprop="text">
+            {$faq.answer|escape|nl2br}
+        </div>
+        
+        {if $faq.category}
+            <div class="waboot-helpdesk__faq-item__answer__meta">
+                <span class="waboot-helpdesk__faq-item__answer__category">
+                    {_w('Category')}: {$faq.category.name|escape}
+                </span>
+            </div>
+        {/if}
+        
+        {if $faq.tags}
+            <div class="waboot-helpdesk__faq-item__answer__tags">
+                {foreach $faq.tags as $tag}
+                    <span class="waboot-helpdesk__faq-item__answer__tag">
+                        #{$tag.name|escape}
+                    </span>
+                {/foreach}
+            </div>
+        {/if}
+    </div>
+    
+    {* JSON-LD structured data for FAQ item *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Question",
+        "name": "{$faq.question|escape:'javascript'}",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "{$faq.answer|escape:'javascript'}"
+        }
+        {if $faq.category},
+        "about": {
+            "@type": "Thing",
+            "name": "{$faq.category.name|escape:'javascript'}"
+        }
+        {/if}
+        {if $faq.tags},
+        "keywords": [
+            {foreach $faq.tags as $tag}
+            "{$tag.name|escape:'javascript'}"{if !$tag@last},{/if}
+            {/foreach}
+        ]
+        {/if}
+    }
+    </script>
+</div> 

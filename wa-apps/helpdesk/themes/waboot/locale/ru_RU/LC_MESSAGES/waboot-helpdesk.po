@@ -1,0 +1,567 @@
+# Russian translations for Waboot Helpdesk Theme
+# Copyright (C) 2024 AdGooroo
+# This file is distributed under the same license as the Waboot Helpdesk Theme package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Waboot Helpdesk Theme 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/adgooroo/waboot-helpdesk/issues\n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"PO-Revision-Date: 2024-01-01 12:00+0000\n"
+"Last-Translator: AdGooroo <support@adgooroo.com>\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: templates/atoms/ticket-status.html:15
+msgid "Open"
+msgstr "Открыт"
+
+#: templates/atoms/ticket-status.html:16
+msgid "In Progress"
+msgstr "В работе"
+
+#: templates/atoms/ticket-status.html:17
+msgid "Resolved"
+msgstr "Решен"
+
+#: templates/atoms/ticket-status.html:18
+msgid "Closed"
+msgstr "Закрыт"
+
+#: templates/atoms/priority-badge.html:15
+msgid "Low"
+msgstr "Низкий"
+
+#: templates/atoms/priority-badge.html:16
+msgid "Medium"
+msgstr "Средний"
+
+#: templates/atoms/priority-badge.html:17
+msgid "High"
+msgstr "Высокий"
+
+#: templates/atoms/priority-badge.html:18
+msgid "Critical"
+msgstr "Критический"
+
+#: templates/molecules/ticket-card.html:25
+msgid "ticket"
+msgid_plural "tickets"
+msgstr[0] "тикет"
+msgstr[1] "тикета"
+msgstr[2] "тикетов"
+
+#: templates/molecules/ticket-card.html:45
+msgid "Assigned to"
+msgstr "Назначен"
+
+#: templates/molecules/ticket-card.html:55
+msgid "View"
+msgstr "Просмотр"
+
+#: templates/molecules/ticket-card.html:62
+msgid "Edit"
+msgstr "Редактировать"
+
+#: templates/molecules/ticket-card.html:69
+msgid "Reply"
+msgstr "Ответить"
+
+#: templates/molecules/faq-item.html:45
+msgid "Category"
+msgstr "Категория"
+
+#: templates/organisms/ticket-list.html:15
+msgid "My Tickets"
+msgstr "Мои тикеты"
+
+#: templates/organisms/ticket-list.html:17
+msgid "found"
+msgstr "найдено"
+
+#: templates/organisms/ticket-list.html:23
+msgid "Submit Ticket"
+msgstr "Создать тикет"
+
+#: templates/organisms/ticket-list.html:35
+msgid "Status"
+msgstr "Статус"
+
+#: templates/organisms/ticket-list.html:37
+msgid "All Statuses"
+msgstr "Все статусы"
+
+#: templates/organisms/ticket-list.html:47
+msgid "Priority"
+msgstr "Приоритет"
+
+#: templates/organisms/ticket-list.html:49
+msgid "All Priorities"
+msgstr "Все приоритеты"
+
+#: templates/organisms/ticket-list.html:59
+msgid "Sort by"
+msgstr "Сортировать по"
+
+#: templates/organisms/ticket-list.html:61
+msgid "Newest First"
+msgstr "Сначала новые"
+
+#: templates/organisms/ticket-list.html:62
+msgid "Oldest First"
+msgstr "Сначала старые"
+
+#: templates/organisms/ticket-list.html:63
+msgid "Recently Updated"
+msgstr "Недавно обновленные"
+
+#: templates/organisms/ticket-list.html:64
+msgid "Priority (High to Low)"
+msgstr "Приоритет (высокий к низкому)"
+
+#: templates/organisms/ticket-list.html:65
+msgid "Priority (Low to High)"
+msgstr "Приоритет (низкий к высокому)"
+
+#: templates/organisms/ticket-list.html:71
+msgid "Search"
+msgstr "Поиск"
+
+#: templates/organisms/ticket-list.html:74
+msgid "Search tickets..."
+msgstr "Поиск тикетов..."
+
+#: templates/organisms/ticket-list.html:79
+msgid "Apply Filters"
+msgstr "Применить фильтры"
+
+#: templates/organisms/ticket-list.html:84
+msgid "Reset"
+msgstr "Сбросить"
+
+#: templates/organisms/ticket-list.html:105
+msgid "No tickets found"
+msgstr "Тикеты не найдены"
+
+#: templates/organisms/ticket-list.html:108
+msgid "No tickets match your current filters. Try adjusting your search criteria."
+msgstr "По вашим фильтрам тикеты не найдены. Попробуйте изменить критерии поиска."
+
+#: templates/organisms/ticket-list.html:111
+msgid "Submit your first ticket"
+msgstr "Создать первый тикет"
+
+#: templates/organisms/faq-section.html:15
+msgid "Frequently Asked Questions"
+msgstr "Часто задаваемые вопросы"
+
+#: templates/organisms/faq-section.html:17
+msgid "Find answers to common questions and get help quickly"
+msgstr "Найдите ответы на частые вопросы и получите помощь быстро"
+
+#: templates/organisms/faq-section.html:25
+msgid "Search FAQ..."
+msgstr "Поиск в FAQ..."
+
+#: templates/organisms/faq-section.html:30
+msgid "Search frequently asked questions"
+msgstr "Поиск часто задаваемых вопросов"
+
+#: templates/organisms/faq-section.html:40
+msgid "Categories"
+msgstr "Категории"
+
+#: templates/organisms/faq-section.html:45
+msgid "All Categories"
+msgstr "Все категории"
+
+#: templates/organisms/faq-section.html:75
+msgid "article"
+msgid_plural "articles"
+msgstr[0] "статья"
+msgstr[1] "статьи"
+msgstr[2] "статей"
+
+#: templates/organisms/faq-section.html:82
+msgid "Still need help? Contact us"
+msgstr "Все еще нужна помощь? Свяжитесь с нами"
+
+#: templates/organisms/faq-section.html:88
+msgid "No FAQ articles found"
+msgstr "Статьи FAQ не найдены"
+
+#: templates/organisms/faq-section.html:91
+msgid "No FAQ articles match your search. Try different keywords or browse all categories."
+msgstr "По вашему поиску статьи FAQ не найдены. Попробуйте другие ключевые слова или просмотрите все категории."
+
+#: templates/organisms/faq-section.html:93
+msgid "No FAQ articles are available at the moment. Please check back later or contact support."
+msgstr "В данный момент статьи FAQ недоступны. Пожалуйста, загляните позже или обратитесь в поддержку."
+
+#: templates/organisms/faq-section.html:96
+msgid "Contact Support"
+msgstr "Связаться с поддержкой"
+
+#: templates/layout.html:12
+msgid "Support Center"
+msgstr "Центр поддержки"
+
+#: templates/layout.html:75
+msgid "Quick Actions"
+msgstr "Быстрые действия"
+
+#: templates/layout.html:79
+msgid "Browse FAQ"
+msgstr "Просмотр FAQ"
+
+#: templates/layout.html:83
+msgid "Contact Support"
+msgstr "Связаться с поддержкой"
+
+#: templates/layout.html:89
+msgid "Recent Tickets"
+msgstr "Недавние тикеты"
+
+#: templates/layout.html:105
+msgid "No recent tickets"
+msgstr "Нет недавних тикетов"
+
+#: templates/layout.html:111
+msgid "Help Resources"
+msgstr "Ресурсы помощи"
+
+#: templates/layout.html:115
+msgid "Knowledge Base"
+msgstr "База знаний"
+
+#: templates/layout.html:119
+msgid "Video Tutorials"
+msgstr "Видеоуроки"
+
+#: templates/layout.html:123
+msgid "Community Forum"
+msgstr "Форум сообщества"
+
+#: templates/layout.html:135
+msgid "Support Information"
+msgstr "Информация о поддержке"
+
+#: templates/layout.html:136
+msgid "Our support team is here to help you with any questions or issues."
+msgstr "Наша команда поддержки готова помочь вам с любыми вопросами или проблемами."
+
+#: templates/layout.html:138
+msgid "Response time"
+msgstr "Время ответа"
+
+#: templates/layout.html:138
+msgid "Within 24 hours"
+msgstr "В течение 24 часов"
+
+#: templates/layout.html:139
+msgid "Support hours"
+msgstr "Часы работы поддержки"
+
+#: templates/layout.html:139
+msgid "Monday - Friday, 9 AM - 6 PM"
+msgstr "Понедельник - Пятница, 9:00 - 18:00"
+
+#: templates/layout.html:144
+msgid "Contact Methods"
+msgstr "Способы связи"
+
+#: templates/layout.html:146
+msgid "Email"
+msgstr "Email"
+
+#: templates/layout.html:147
+msgid "Phone"
+msgstr "Телефон"
+
+#: templates/layout.html:148
+msgid "Live Chat"
+msgstr "Онлайн чат"
+
+#: templates/layout.html:148
+msgid "Start Chat"
+msgstr "Начать чат"
+
+#: theme.xml:15
+msgid "Support Center"
+msgstr "Центр поддержки"
+
+#: theme.xml:16
+msgid "Submit Ticket"
+msgstr "Создать тикет"
+
+#: theme.xml:17
+msgid "My Tickets"
+msgstr "Мои тикеты"
+
+#: theme.xml:18
+msgid "FAQ"
+msgstr "FAQ"
+
+#: theme.xml:19
+msgid "Contact Support"
+msgstr "Связаться с поддержкой"
+
+#: theme.xml:20
+msgid "Knowledge Base"
+msgstr "База знаний"
+
+#: theme.xml:21
+msgid "Video Tutorials"
+msgstr "Видеоуроки"
+
+#: theme.xml:22
+msgid "Community Forum"
+msgstr "Форум сообщества"
+
+#: theme.xml:23
+msgid "Quick Actions"
+msgstr "Быстрые действия"
+
+#: theme.xml:24
+msgid "Recent Tickets"
+msgstr "Недавние тикеты"
+
+#: theme.xml:25
+msgid "Help Resources"
+msgstr "Ресурсы помощи"
+
+#: theme.xml:26
+msgid "Support Information"
+msgstr "Информация о поддержке"
+
+#: theme.xml:27
+msgid "Contact Methods"
+msgstr "Способы связи"
+
+#: theme.xml:28
+msgid "Response time"
+msgstr "Время ответа"
+
+#: theme.xml:29
+msgid "Support hours"
+msgstr "Часы работы поддержки"
+
+#: theme.xml:30
+msgid "Within 24 hours"
+msgstr "В течение 24 часов"
+
+#: theme.xml:31
+msgid "Monday - Friday, 9 AM - 6 PM"
+msgstr "Понедельник - Пятница, 9:00 - 18:00"
+
+#: theme.xml:32
+msgid "Email"
+msgstr "Email"
+
+#: theme.xml:33
+msgid "Phone"
+msgstr "Телефон"
+
+#: theme.xml:34
+msgid "Live Chat"
+msgstr "Онлайн чат"
+
+#: theme.xml:35
+msgid "Start Chat"
+msgstr "Начать чат"
+
+#: theme.xml:36
+msgid "Browse FAQ"
+msgstr "Просмотр FAQ"
+
+#: theme.xml:37
+msgid "Frequently Asked Questions"
+msgstr "Часто задаваемые вопросы"
+
+#: theme.xml:38
+msgid "Find answers to common questions and get help quickly"
+msgstr "Найдите ответы на частые вопросы и получите помощь быстро"
+
+#: theme.xml:39
+msgid "Search FAQ..."
+msgstr "Поиск в FAQ..."
+
+#: theme.xml:40
+msgid "Search frequently asked questions"
+msgstr "Поиск часто задаваемых вопросов"
+
+#: theme.xml:41
+msgid "Categories"
+msgstr "Категории"
+
+#: theme.xml:42
+msgid "All Categories"
+msgstr "Все категории"
+
+#: theme.xml:43
+msgid "Still need help? Contact us"
+msgstr "Все еще нужна помощь? Свяжитесь с нами"
+
+#: theme.xml:44
+msgid "No FAQ articles found"
+msgstr "Статьи FAQ не найдены"
+
+#: theme.xml:45
+msgid "No FAQ articles match your search. Try different keywords or browse all categories."
+msgstr "По вашему поиску статьи FAQ не найдены. Попробуйте другие ключевые слова или просмотрите все категории."
+
+#: theme.xml:46
+msgid "No FAQ articles are available at the moment. Please check back later or contact support."
+msgstr "В данный момент статьи FAQ недоступны. Пожалуйста, загляните позже или обратитесь в поддержку."
+
+#: theme.xml:47
+msgid "Contact Support"
+msgstr "Связаться с поддержкой"
+
+#: theme.xml:48
+msgid "article"
+msgid_plural "articles"
+msgstr[0] "статья"
+msgstr[1] "статьи"
+msgstr[2] "статей"
+
+#: theme.xml:49
+msgid "found"
+msgstr "найдено"
+
+#: theme.xml:50
+msgid "Status"
+msgstr "Статус"
+
+#: theme.xml:51
+msgid "All Statuses"
+msgstr "Все статусы"
+
+#: theme.xml:52
+msgid "Open"
+msgstr "Открыт"
+
+#: theme.xml:53
+msgid "In Progress"
+msgstr "В работе"
+
+#: theme.xml:54
+msgid "Resolved"
+msgstr "Решен"
+
+#: theme.xml:55
+msgid "Closed"
+msgstr "Закрыт"
+
+#: theme.xml:56
+msgid "Priority"
+msgstr "Приоритет"
+
+#: theme.xml:57
+msgid "All Priorities"
+msgstr "Все приоритеты"
+
+#: theme.xml:58
+msgid "Low"
+msgstr "Низкий"
+
+#: theme.xml:59
+msgid "Medium"
+msgstr "Средний"
+
+#: theme.xml:60
+msgid "High"
+msgstr "Высокий"
+
+#: theme.xml:61
+msgid "Critical"
+msgstr "Критический"
+
+#: theme.xml:62
+msgid "Sort by"
+msgstr "Сортировать по"
+
+#: theme.xml:63
+msgid "Newest First"
+msgstr "Сначала новые"
+
+#: theme.xml:64
+msgid "Oldest First"
+msgstr "Сначала старые"
+
+#: theme.xml:65
+msgid "Recently Updated"
+msgstr "Недавно обновленные"
+
+#: theme.xml:66
+msgid "Priority (High to Low)"
+msgstr "Приоритет (высокий к низкому)"
+
+#: theme.xml:67
+msgid "Priority (Low to High)"
+msgstr "Приоритет (низкий к высокому)"
+
+#: theme.xml:68
+msgid "Search"
+msgstr "Поиск"
+
+#: theme.xml:69
+msgid "Search tickets..."
+msgstr "Поиск тикетов..."
+
+#: theme.xml:70
+msgid "Apply Filters"
+msgstr "Применить фильтры"
+
+#: theme.xml:71
+msgid "Reset"
+msgstr "Сбросить"
+
+#: theme.xml:72
+msgid "No tickets found"
+msgstr "Тикеты не найдены"
+
+#: theme.xml:73
+msgid "No tickets match your current filters. Try adjusting your search criteria."
+msgstr "По вашим фильтрам тикеты не найдены. Попробуйте изменить критерии поиска."
+
+#: theme.xml:74
+msgid "Submit your first ticket"
+msgstr "Создать первый тикет"
+
+#: theme.xml:75
+msgid "ticket"
+msgid_plural "tickets"
+msgstr[0] "тикет"
+msgstr[1] "тикета"
+msgstr[2] "тикетов"
+
+#: theme.xml:76
+msgid "Assigned to"
+msgstr "Назначен"
+
+#: theme.xml:77
+msgid "View"
+msgstr "Просмотр"
+
+#: theme.xml:78
+msgid "Edit"
+msgstr "Редактировать"
+
+#: theme.xml:79
+msgid "Reply"
+msgstr "Ответить"
+
+#: theme.xml:80
+msgid "Category"
+msgstr "Категория"
+
+#: theme.xml:81
+msgid "No recent tickets"
+msgstr "Нет недавних тикетов"
+
+#: theme.xml:82
+msgid "Our support team is here to help you with any questions or issues."
+msgstr "Наша команда поддержки готова помочь вам с любыми вопросами или проблемами." 

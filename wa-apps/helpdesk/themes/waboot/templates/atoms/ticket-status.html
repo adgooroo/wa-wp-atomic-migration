@@ -1,0 +1,49 @@
+{*
+ * Ticket Status Atom Component
+ * Displays ticket status with color coding and JSON-LD structured data
+ * @param status - Ticket status (open, in_progress, resolved, closed)
+ * @param show_icon - Whether to show status icon (default: true)
+ *}
+
+{* Set default values *}
+{$status = $status|default:'open'}
+{$show_icon = $show_icon|default:true}
+
+{* Status configuration *}
+{assign var="status_config" value=[
+    'open' => ['class' => 'waboot-helpdesk__status--open', 'icon' => '🔴', 'text' => {_w('Open')}],
+    'in_progress' => ['class' => 'waboot-helpdesk__status--in-progress', 'icon' => '🟡', 'text' => {_w('In Progress')}],
+    'resolved' => ['class' => 'waboot-helpdesk__status--resolved', 'icon' => '🟢', 'text' => {_w('Resolved')}],
+    'closed' => ['class' => 'waboot-helpdesk__status--closed', 'icon' => '⚫', 'text' => {_w('Closed')}]
+]}
+
+{* Get status configuration *}
+{$current_status = $status_config[$status]|default:$status_config['open']}
+
+{* Component markup with BEM classes *}
+<div class="waboot-helpdesk__status {$current_status.class}" 
+     data-status="{$status|escape}"
+     itemscope 
+     itemtype="https://schema.org/Thing">
+    
+    {if $show_icon}
+        <span class="waboot-helpdesk__status__icon" aria-hidden="true">
+            {$current_status.icon}
+        </span>
+    {/if}
+    
+    <span class="waboot-helpdesk__status__text" itemprop="name">
+        {$current_status.text|escape}
+    </span>
+    
+    {* JSON-LD structured data for ticket status *}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Thing",
+        "name": "{$current_status.text|escape:'javascript'}",
+        "description": "Ticket status: {$current_status.text|escape:'javascript'}",
+        "identifier": "ticket-status-{$status|escape:'javascript'}"
+    }
+    </script>
+</div> 

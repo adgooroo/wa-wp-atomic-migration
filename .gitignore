@@ -76,10 +76,6 @@ wa-apps/*/themes/*/js/*.min.js
 wa-apps/*/themes/*/css/*.map
 wa-apps/*/themes/*/js/*.map
 
-# Webasyst locale files (if not needed in repo)
-wa-apps/*/themes/*/locale/
-wa-apps/*/locale/
-
 # Webasyst lib files (if auto-generated)
 wa-apps/*/themes/*/lib/autoload.php
 wa-apps/*/themes/*/lib/cache/
@@ -96,11 +92,6 @@ wa-apps/*/plugins/*/js/*.min.js
 # ========================================
 # ASSETS AND BUILD FILES
 # ========================================
-
-# Compiled CSS and JS
-*.min.css
-*.min.js
-*.map
 
 # Build directories
 dist/
@@ -343,13 +334,6 @@ composer.lock
 *.wmv
 *.flv
 *.webm
-
-# Font files (if not needed)
-*.woff
-*.woff2
-*.ttf
-*.otf
-*.eot
 
 # ========================================
 # JSON-LD AND STRUCTURED DATA
