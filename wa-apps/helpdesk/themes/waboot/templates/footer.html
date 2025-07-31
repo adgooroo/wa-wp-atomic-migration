@@ -1,0 +1,146 @@
+{strip}
+{* Helpdesk Footer Template *}
+
+<footer class="waboot-helpdesk__footer bg-dark text-light py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            {* Helpdesk info *}
+            <div class="col-md-4">
+                <h5>{$wa->helpdesk->settings('name')|escape}</h5>
+                <p class="text-muted">
+                    {$wa->helpdesk->settings('description')|escape}
+                </p>
+                
+                {* Contact info *}
+                <ul class="list-unstyled text-muted">
+                    {if $wa->helpdesk->settings('support_email')}
+                        <li>
+                            <i class="fas fa-envelope me-2"></i>
+                            <a href="mailto:{$wa->helpdesk->settings('support_email')}" class="text-muted">
+                                {$wa->helpdesk->settings('support_email')|escape}
+                            </a>
+                        </li>
+                    {/if}
+                    
+                    {if $wa->helpdesk->settings('support_phone')}
+                        <li>
+                            <i class="fas fa-phone me-2"></i>
+                            <a href="tel:{$wa->helpdesk->settings('support_phone')}" class="text-muted">
+                                {$wa->helpdesk->settings('support_phone')|escape}
+                            </a>
+                        </li>
+                    {/if}
+                    
+                    {if $wa->helpdesk->settings('support_address')}
+                        <li>
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            {$wa->helpdesk->settings('support_address')|escape}
+                        </li>
+                    {/if}
+                </ul>
+            </div>
+            
+            {* Quick links *}
+            <div class="col-md-4">
+                <h5>Быстрые ссылки</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{$wa->helpdesk->url()}" class="text-muted">Главная</a></li>
+                    <li><a href="{$wa->helpdesk->url()}faq/" class="text-muted">FAQ</a></li>
+                    <li><a href="{$wa->helpdesk->url()}knowledge-base/" class="text-muted">База знаний</a></li>
+                    <li><a href="{$wa->helpdesk->url()}tickets/" class="text-muted">Мои тикеты</a></li>
+                    <li><a href="{$wa->helpdesk->url()}new-ticket/" class="text-muted">Создать тикет</a></li>
+                    <li><a href="{$wa->helpdesk->url()}status/" class="text-muted">Статус системы</a></li>
+                    
+                    {* Categories *}
+                    {$_categories = $wa->helpdesk->categories()}
+                    {if !empty($_categories)}
+                        {foreach $_categories as $_category}
+                            <li>
+                                <a href="{$_category.url}" class="text-muted">
+                                    {$_category.name|escape}
+                                </a>
+                            </li>
+                        {/foreach}
+                    {/if}
+                </ul>
+            </div>
+            
+            {* Support info *}
+            <div class="col-md-4">
+                <h5>Поддержка</h5>
+                <ul class="list-unstyled text-muted">
+                    <li>
+                        <i class="fas fa-clock me-2"></i>
+                        <span x-text="$store.helpdesk.stats.response_time">24ч</span> среднее время ответа
+                    </li>
+                    <li>
+                        <i class="fas fa-ticket-alt me-2"></i>
+                        <span x-text="$store.helpdesk.stats.open_tickets">0</span> открытых тикетов
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle me-2"></i>
+                        <span x-text="$store.helpdesk.stats.resolved_tickets">0</span> решенных тикетов
+                    </li>
+                </ul>
+                
+                {* Support hours *}
+                {if $wa->helpdesk->settings('support_hours')}
+                    <div class="mt-3">
+                        <h6>Часы работы поддержки</h6>
+                        <p class="text-muted mb-0">
+                            {$wa->helpdesk->settings('support_hours')|escape}
+                        </p>
+                    </div>
+                {/if}
+                
+                {* Emergency contact *}
+                {if $wa->helpdesk->settings('emergency_contact')}
+                    <div class="mt-3">
+                        <h6>Экстренная связь</h6>
+                        <p class="text-muted mb-0">
+                            {$wa->helpdesk->settings('emergency_contact')|escape}
+                        </p>
+                    </div>
+                {/if}
+                
+                {* Newsletter subscription *}
+                {if $wa->helpdesk->settings('newsletter_enabled')}
+                    <div class="mt-3">
+                        <h6>Подписка на обновления</h6>
+                        <form x-data="newsletterSubscription()" @submit.prevent="subscribe()">
+                            <div class="input-group">
+                                <input type="email" 
+                                       class="form-control" 
+                                       placeholder="Ваш email"
+                                       x-model="email"
+                                       required>
+                                <button class="btn btn-primary" type="submit" x-bind:disabled="loading">
+                                    <span x-show="!loading">Подписаться</span>
+                                    <span x-show="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                {/if}
+            </div>
+        </div>
+        
+        {* Copyright *}
+        <hr class="my-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0 text-muted">
+                    &copy; {date('Y')} {$wa->helpdesk->settings('name')|escape}. Все права защищены.
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-0 text-muted">
+                    Powered by <a href="https://webasyst.com" class="text-muted">Webasyst</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+{/strip} 

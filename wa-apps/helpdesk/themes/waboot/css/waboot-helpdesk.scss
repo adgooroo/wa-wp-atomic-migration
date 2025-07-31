@@ -1,1010 +1,685 @@
 /**
- * Waboot Helpdesk Theme Styles
- * Inherits from parent Site app Waboot theme with Helpdesk-specific customizations
- * Uses BEM methodology and follows Atomic Design principles
+ * Waboot Helpdesk Theme - Main Stylesheet
+ * Bootstrap 5 + Alpine.js + BEM Methodology
  */
 
-// Import parent theme variables and mixins
-@import "../../../site-app/themes/default/css/variables";
-@import "../../../site-app/themes/default/css/mixins";
+// Import Bootstrap customizations
+@import "bootstrap-custom";
+@import "bootstrap-utilities";
 
-// Helpdesk-specific variables
-$helpdesk-primary-color: #2563eb;
-$helpdesk-secondary-color: #64748b;
-$helpdesk-success-color: #059669;
-$helpdesk-warning-color: #d97706;
-$helpdesk-danger-color: #dc2626;
-$helpdesk-info-color: #0891b2;
+// Helpdesk Theme Variables
+$helpdesk-theme: (
+  'primary': #2563eb,
+  'secondary': #64748b,
+  'success': #059669,
+  'warning': #d97706,
+  'danger': #dc2626,
+  'info': #0891b2,
+  'light': #f8fafc,
+  'dark': #1e293b,
+  'white': #ffffff,
+  'black': #000000
+);
 
-// Status colors
-$helpdesk-status-open: #dc2626;
-$helpdesk-status-in-progress: #d97706;
-$helpdesk-status-resolved: #059669;
-$helpdesk-status-closed: #6b7280;
+// Status Colors
+$helpdesk-status: (
+  'open': #dc2626,
+  'in-progress': #d97706,
+  'resolved': #059669,
+  'closed': #6b7280
+);
 
-// Priority colors
-$helpdesk-priority-low: #6b7280;
-$helpdesk-priority-medium: #0891b2;
-$helpdesk-priority-high: #d97706;
-$helpdesk-priority-critical: #dc2626;
+// Priority Colors
+$helpdesk-priority: (
+  'low': #6b7280,
+  'medium': #0891b2,
+  'high': #d97706,
+  'critical': #dc2626
+);
 
-// Layout variables
-$helpdesk-sidebar-width: 300px;
-$helpdesk-content-max-width: 1200px;
-$helpdesk-border-radius: 8px;
-$helpdesk-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+// Typography
+$helpdesk-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$helpdesk-font-size-base: 1rem;
+$helpdesk-line-height-base: 1.6;
 
-// WCAG 2.1 AA Accessibility
-// High contrast colors for better accessibility
-$helpdesk-primary-color-high-contrast: #0056b3;
-$helpdesk-secondary-color-high-contrast: #4a5568;
-$helpdesk-success-color-high-contrast: #047857;
-$helpdesk-warning-color-high-contrast: #b45309;
-$helpdesk-danger-color-high-contrast: #b91c1c;
+// Spacing
+$helpdesk-spacer: 1rem;
+$helpdesk-spacers: (
+  0: 0,
+  1: $helpdesk-spacer * 0.25,
+  2: $helpdesk-spacer * 0.5,
+  3: $helpdesk-spacer,
+  4: $helpdesk-spacer * 1.5,
+  5: $helpdesk-spacer * 3,
+  6: $helpdesk-spacer * 4,
+  7: $helpdesk-spacer * 5,
+  8: $helpdesk-spacer * 6,
+);
 
-// Mixins
-@mixin helpdesk-card {
-  background: white;
-  border-radius: $helpdesk-border-radius;
-  box-shadow: $helpdesk-shadow;
-  border: 1px solid #e5e7eb;
-  transition: all 0.2s ease-in-out;
-  
-  &:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transform: translateY(-1px);
-  }
-}
+// Breakpoints
+$helpdesk-breakpoints: (
+  'xs': 0,
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px,
+  'xxl': 1400px
+);
 
-@mixin helpdesk-button($variant: 'primary') {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  border-radius: $helpdesk-border-radius;
-  font-weight: 500;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  
-  @if $variant == 'primary' {
-    background-color: $helpdesk-primary-color;
-    color: white;
-    
-    &:hover {
-      background-color: darken($helpdesk-primary-color, 10%);
-    }
-    
-    &:focus {
-      background-color: $helpdesk-primary-color-high-contrast;
-      outline: 2px solid #000;
-      outline-offset: 2px;
-    }
-  } @else if $variant == 'secondary' {
-    background-color: $helpdesk-secondary-color;
-    color: white;
-    
-    &:hover {
-      background-color: darken($helpdesk-secondary-color, 10%);
-    }
-    
-    &:focus {
-      background-color: $helpdesk-secondary-color-high-contrast;
-      outline: 2px solid #000;
-      outline-offset: 2px;
-    }
-  } @else if $variant == 'outline' {
-    background-color: transparent;
-    color: $helpdesk-primary-color;
-    border: 1px solid $helpdesk-primary-color;
-    
-    &:hover {
-      background-color: $helpdesk-primary-color;
-      color: white;
-    }
-    
-    &:focus {
-      background-color: $helpdesk-primary-color-high-contrast;
-      color: white;
-      outline: 2px solid #000;
-      outline-offset: 2px;
-    }
-  }
-}
+// Z-index scale
+$helpdesk-z-index: (
+  'dropdown': 1000,
+  'sticky': 1020,
+  'fixed': 1030,
+  'modal-backdrop': 1040,
+  'modal': 1050,
+  'popover': 1060,
+  'tooltip': 1070,
+  'toast': 1080
+);
 
-// WCAG 2.1 AA Accessibility Styles
-.waboot-helpdesk__sr-only {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-
-.waboot-helpdesk__skip-link {
-  position: absolute;
-  top: -40px;
-  left: 6px;
-  background: #000;
-  color: #fff;
-  padding: 8px 16px;
-  text-decoration: none;
-  z-index: 10000;
-  border-radius: 4px;
-  font-weight: 500;
-  
-  &:focus {
-    top: 6px;
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-  }
-}
-
-// High contrast mode support
-@media (prefers-contrast: high) {
-  .waboot-helpdesk {
-    &__status {
-      &--open {
-        background-color: rgba($helpdesk-danger-color-high-contrast, 0.2);
-        color: $helpdesk-danger-color-high-contrast;
-      }
-      
-      &--in-progress {
-        background-color: rgba($helpdesk-warning-color-high-contrast, 0.2);
-        color: $helpdesk-warning-color-high-contrast;
-      }
-      
-      &--resolved {
-        background-color: rgba($helpdesk-success-color-high-contrast, 0.2);
-        color: $helpdesk-success-color-high-contrast;
-      }
-    }
-    
-    &__priority {
-      &--critical {
-        background-color: rgba($helpdesk-danger-color-high-contrast, 0.2);
-        color: $helpdesk-danger-color-high-contrast;
-      }
-      
-      &--high {
-        background-color: rgba($helpdesk-warning-color-high-contrast, 0.2);
-        color: $helpdesk-warning-color-high-contrast;
-      }
-    }
-  }
-}
-
-// Reduced motion support
-@media (prefers-reduced-motion: reduce) {
-  .waboot-helpdesk {
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-    
-    &__faq-item__answer {
-      &--enter,
-      &--leave {
-        transition: none !important;
-      }
-    }
-  }
-}
-
-// Focus indicators for keyboard navigation
+// Base styles
 .waboot-helpdesk {
-  *:focus {
-    outline: 2px solid $helpdesk-primary-color;
-    outline-offset: 2px;
-  }
+  font-family: $helpdesk-font-family;
+  font-size: $helpdesk-font-size-base;
+  line-height: $helpdesk-line-height-base;
+  color: map-get($helpdesk-theme, 'dark');
+  background-color: map-get($helpdesk-theme, 'light');
   
-  button:focus,
-  a:focus,
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: 2px solid $helpdesk-primary-color;
-    outline-offset: 2px;
-  }
-}
-
-// Main layout
-.waboot-helpdesk {
-  &__layout {
-    display: grid;
-    grid-template-columns: 1fr $helpdesk-sidebar-width;
-    gap: 2rem;
-    max-width: $helpdesk-content-max-width;
-    margin: 0 auto;
-    padding: 2rem;
+  // Container
+  &__container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: map-get($helpdesk-spacers, 3);
+    padding-left: map-get($helpdesk-spacers, 3);
     
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      padding: 1rem;
+    @media (min-width: map-get($helpdesk-breakpoints, 'sm')) {
+      max-width: 540px;
+    }
+    
+    @media (min-width: map-get($helpdesk-breakpoints, 'md')) {
+      max-width: 720px;
+    }
+    
+    @media (min-width: map-get($helpdesk-breakpoints, 'lg')) {
+      max-width: 960px;
+    }
+    
+    @media (min-width: map-get($helpdesk-breakpoints, 'xl')) {
+      max-width: 1140px;
+    }
+    
+    @media (min-width: map-get($helpdesk-breakpoints, 'xxl')) {
+      max-width: 1320px;
     }
   }
   
-  &__main {
-    min-height: 500px;
-  }
-  
-  &__sidebar {
-    @include helpdesk-card;
-    padding: 1.5rem;
-    height: fit-content;
-    position: sticky;
-    top: 2rem;
+  // Button component
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: map-get($helpdesk-spacers, 2) map-get($helpdesk-spacers, 3);
+    font-size: $helpdesk-font-size-base;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    transition: all 0.15s ease-in-out;
     
-    @media (max-width: 768px) {
-      position: static;
-      order: -1;
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(map-get($helpdesk-theme, 'primary'), 0.25);
     }
-  }
-}
-
-// Status components
-.waboot-helpdesk__status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  
-  &--open {
-    background-color: rgba($helpdesk-status-open, 0.1);
-    color: $helpdesk-status-open;
-  }
-  
-  &--in-progress {
-    background-color: rgba($helpdesk-status-in-progress, 0.1);
-    color: $helpdesk-status-in-progress;
-  }
-  
-  &--resolved {
-    background-color: rgba($helpdesk-status-resolved, 0.1);
-    color: $helpdesk-status-resolved;
-  }
-  
-  &--closed {
-    background-color: rgba($helpdesk-status-closed, 0.1);
-    color: $helpdesk-status-closed;
-  }
-  
-  &__icon {
-    font-size: 0.875rem;
-  }
-  
-  &__text {
-    font-size: 0.75rem;
-  }
-}
-
-// Priority components
-.waboot-helpdesk__priority {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  
-  &--low {
-    background-color: rgba($helpdesk-priority-low, 0.1);
-    color: $helpdesk-priority-low;
-  }
-  
-  &--medium {
-    background-color: rgba($helpdesk-priority-medium, 0.1);
-    color: $helpdesk-priority-medium;
-  }
-  
-  &--high {
-    background-color: rgba($helpdesk-priority-high, 0.1);
-    color: $helpdesk-priority-high;
-  }
-  
-  &--critical {
-    background-color: rgba($helpdesk-priority-critical, 0.1);
-    color: $helpdesk-priority-critical;
-  }
-  
-  &__icon {
-    font-size: 0.875rem;
-  }
-  
-  &__text {
-    font-size: 0.75rem;
-  }
-}
-
-// Ticket card component
-.waboot-helpdesk__ticket-card {
-  @include helpdesk-card;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
     
-    @media (max-width: 640px) {
-      flex-direction: column;
-      gap: 1rem;
+    &:disabled {
+      opacity: 0.65;
+      pointer-events: none;
     }
-  }
-  
-  &__meta {
-    flex: 1;
-  }
-  
-  &__title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem 0;
     
-    a {
-      color: inherit;
-      text-decoration: none;
+    // Button variants
+    &--primary {
+      color: map-get($helpdesk-theme, 'white');
+      background-color: map-get($helpdesk-theme, 'primary');
+      border-color: map-get($helpdesk-theme, 'primary');
       
       &:hover {
-        color: $helpdesk-primary-color;
-        text-decoration: underline;
-      }
-      
-      &:focus {
-        color: $helpdesk-primary-color-high-contrast;
-        text-decoration: underline;
+        color: map-get($helpdesk-theme, 'white');
+        background-color: darken(map-get($helpdesk-theme, 'primary'), 10%);
+        border-color: darken(map-get($helpdesk-theme, 'primary'), 10%);
       }
     }
-  }
-  
-  &__info {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.875rem;
-    color: $helpdesk-secondary-color;
     
-    @media (max-width: 640px) {
-      flex-direction: column;
-      gap: 0.5rem;
+    &--secondary {
+      color: map-get($helpdesk-theme, 'white');
+      background-color: map-get($helpdesk-theme, 'secondary');
+      border-color: map-get($helpdesk-theme, 'secondary');
+      
+      &:hover {
+        color: map-get($helpdesk-theme, 'white');
+        background-color: darken(map-get($helpdesk-theme, 'secondary'), 10%);
+        border-color: darken(map-get($helpdesk-theme, 'secondary'), 10%);
+      }
+    }
+    
+    &--outline {
+      color: map-get($helpdesk-theme, 'primary');
+      background-color: transparent;
+      border-color: map-get($helpdesk-theme, 'primary');
+      
+      &:hover {
+        color: map-get($helpdesk-theme, 'white');
+        background-color: map-get($helpdesk-theme, 'primary');
+        border-color: map-get($helpdesk-theme, 'primary');
+      }
+    }
+    
+    &--success {
+      color: map-get($helpdesk-theme, 'white');
+      background-color: map-get($helpdesk-theme, 'success');
+      border-color: map-get($helpdesk-theme, 'success');
+      
+      &:hover {
+        color: map-get($helpdesk-theme, 'white');
+        background-color: darken(map-get($helpdesk-theme, 'success'), 10%);
+        border-color: darken(map-get($helpdesk-theme, 'success'), 10%);
+      }
+    }
+    
+    &--danger {
+      color: map-get($helpdesk-theme, 'white');
+      background-color: map-get($helpdesk-theme, 'danger');
+      border-color: map-get($helpdesk-theme, 'danger');
+      
+      &:hover {
+        color: map-get($helpdesk-theme, 'white');
+        background-color: darken(map-get($helpdesk-theme, 'danger'), 10%);
+        border-color: darken(map-get($helpdesk-theme, 'danger'), 10%);
+      }
+    }
+    
+    // Button sizes
+    &--sm {
+      padding: map-get($helpdesk-spacers, 1) map-get($helpdesk-spacers, 2);
+      font-size: 0.875rem;
+      border-radius: 0.25rem;
+    }
+    
+    &--lg {
+      padding: map-get($helpdesk-spacers, 3) map-get($helpdesk-spacers, 4);
+      font-size: 1.125rem;
+      border-radius: 0.5rem;
     }
   }
   
-  &__badges {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  
-  &__content {
-    margin-bottom: 1rem;
-  }
-  
-  &__description {
-    color: $helpdesk-secondary-color;
-    line-height: 1.5;
-    margin-bottom: 0.75rem;
-  }
-  
-  &__assignee {
-    font-size: 0.875rem;
+  // Form components
+  &__form-group {
+    margin-bottom: map-get($helpdesk-spacers, 3);
     
     &__label {
-      color: $helpdesk-secondary-color;
-    }
-    
-    &__name {
+      display: inline-block;
+      margin-bottom: map-get($helpdesk-spacers, 1);
       font-weight: 500;
-      color: $helpdesk-primary-color;
-    }
-  }
-  
-  &__actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  
-  &__action {
-    @include helpdesk-button('outline');
-    font-size: 0.875rem;
-    padding: 0.375rem 0.75rem;
-    
-    &--view {
-      @include helpdesk-button('primary');
+      color: map-get($helpdesk-theme, 'dark');
     }
     
-    &--edit {
-      @include helpdesk-button('secondary');
-    }
-    
-    &--reply {
-      @include helpdesk-button('outline');
-    }
-  }
-}
-
-// FAQ components
-.waboot-helpdesk__faq-item {
-  @include helpdesk-card;
-  margin-bottom: 1rem;
-  
-  &__header {
-    border-bottom: 1px solid #e5e7eb;
-  }
-  
-  &__question {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-align: left;
-    font-size: 1rem;
-    font-weight: 500;
-    color: inherit;
-    
-    &:hover {
-      background-color: #f9fafb;
-    }
-    
-    &:focus {
-      background-color: #f3f4f6;
-      outline: 2px solid $helpdesk-primary-color;
-      outline-offset: -2px;
-    }
-    
-    &__text {
-      flex: 1;
-    }
-    
-    &__icon {
-      transition: transform 0.2s ease-in-out;
-      
-      &--expanded {
-        transform: rotate(90deg);
-      }
-    }
-  }
-  
-  &__answer {
-    padding: 1rem 1.5rem;
-    
-    &__content {
-      line-height: 1.6;
-      color: $helpdesk-secondary-color;
-      margin-bottom: 1rem;
-    }
-    
-    &__meta {
-      font-size: 0.875rem;
-      color: $helpdesk-secondary-color;
-      margin-bottom: 0.75rem;
-    }
-    
-    &__tags {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-    
-    &__tag {
-      background-color: #f3f4f6;
-      color: $helpdesk-secondary-color;
-      padding: 0.25rem 0.5rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      text-decoration: none;
-      
-      &:hover {
-        background-color: $helpdesk-primary-color;
-        color: white;
-      }
-      
-      &:focus {
-        background-color: $helpdesk-primary-color-high-contrast;
-        color: white;
-        outline: 2px solid #000;
-        outline-offset: 2px;
-      }
-    }
-  }
-}
-
-// Ticket list component
-.waboot-helpdesk__ticket-list {
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    
-    @media (max-width: 640px) {
-      flex-direction: column;
-      gap: 1rem;
-      align-items: stretch;
-    }
-  }
-  
-  &__title {
-    h2 {
-      margin: 0 0 0.25rem 0;
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-  }
-  
-  &__count {
-    color: $helpdesk-secondary-color;
-    font-size: 0.875rem;
-  }
-  
-  &__action {
-    @include helpdesk-button('primary');
-    
-    &--new {
-      @include helpdesk-button('primary');
-    }
-  }
-  
-  &__filters {
-    @include helpdesk-card;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-  }
-  
-  &__filter-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    align-items: end;
-    
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  &__filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    
-    label {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: $helpdesk-secondary-color;
-    }
-  }
-  
-  &__filter-select,
-  &__filter-input {
-    padding: 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: $helpdesk-border-radius;
-    font-size: 0.875rem;
-    
-    &:focus {
-      outline: none;
-      border-color: $helpdesk-primary-color;
-      box-shadow: 0 0 0 3px rgba($helpdesk-primary-color, 0.1);
-    }
-  }
-  
-  &__filter-submit {
-    @include helpdesk-button('primary');
-  }
-  
-  &__filter-reset {
-    @include helpdesk-button('outline');
-  }
-  
-  &__empty {
-    text-align: center;
-    padding: 3rem 1rem;
-    
-    &__icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-    
-    &__title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin: 0 0 0.5rem 0;
-      color: $helpdesk-secondary-color;
-    }
-    
-    &__text {
-      color: $helpdesk-secondary-color;
-      margin-bottom: 1.5rem;
-    }
-    
-    &__action {
-      @include helpdesk-button('primary');
-    }
-  }
-}
-
-// FAQ section component
-.waboot-helpdesk__faq-section {
-  &__header {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  &__title {
-    h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin: 0 0 0.5rem 0;
-    }
-  }
-  
-  &__subtitle {
-    color: $helpdesk-secondary-color;
-    font-size: 1.125rem;
-    margin: 0;
-  }
-  
-  &__search {
-    max-width: 500px;
-    margin: 2rem auto 0;
-  }
-  
-  &__search__input-group {
-    display: flex;
-    border: 1px solid #d1d5db;
-    border-radius: $helpdesk-border-radius;
-    overflow: hidden;
-  }
-  
-  &__search__input {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    
-    &:focus {
-      box-shadow: 0 0 0 3px rgba($helpdesk-primary-color, 0.1);
-    }
-  }
-  
-  &__search__button {
-    padding: 0.75rem 1rem;
-    background-color: $helpdesk-primary-color;
-    color: white;
-    border: none;
-    cursor: pointer;
-    
-    &:hover {
-      background-color: darken($helpdesk-primary-color, 10%);
-    }
-    
-    &:focus {
-      background-color: $helpdesk-primary-color-high-contrast;
-      outline: 2px solid #000;
-      outline-offset: 2px;
-    }
-  }
-  
-  &__categories {
-    margin-bottom: 2rem;
-  }
-  
-  &__categories__title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin: 0 0 1rem 0;
-  }
-  
-  &__categories__list {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  
-  &__categories__item {
-    padding: 0.5rem 1rem;
-    border: 1px solid #d1d5db;
-    border-radius: $helpdesk-border-radius;
-    background: white;
-    color: $helpdesk-secondary-color;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    font-size: 0.875rem;
-    
-    &:hover {
-      border-color: $helpdesk-primary-color;
-      color: $helpdesk-primary-color;
-    }
-    
-    &:focus {
-      border-color: $helpdesk-primary-color-high-contrast;
-      color: $helpdesk-primary-color-high-contrast;
-      outline: 2px solid #000;
-      outline-offset: 2px;
-    }
-    
-    &--active {
-      background-color: $helpdesk-primary-color;
-      border-color: $helpdesk-primary-color;
-      color: white;
-    }
-    
-    &__count {
-      font-size: 0.75rem;
-      opacity: 0.7;
-    }
-  }
-  
-  &__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e5e7eb;
-    
-    @media (max-width: 640px) {
-      flex-direction: column;
-      gap: 1rem;
-    }
-  }
-  
-  &__count {
-    color: $helpdesk-secondary-color;
-    font-size: 0.875rem;
-  }
-  
-  &__action {
-    @include helpdesk-button('outline');
-  }
-}
-
-// Sidebar components
-.waboot-helpdesk__sidebar {
-  &__section {
-    margin-bottom: 2rem;
-    
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  
-  &__title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 0 0 1rem 0;
-    color: $helpdesk-secondary-color;
-  }
-  
-  &__actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  &__action {
-    @include helpdesk-button('outline');
-    justify-content: flex-start;
-    text-align: left;
-    
-    &--primary {
-      @include helpdesk-button('primary');
-      justify-content: flex-start;
-      text-align: left;
-    }
-  }
-  
-  &__tickets {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  &__ticket {
-    padding: 0.75rem;
-    border: 1px solid #e5e7eb;
-    border-radius: $helpdesk-border-radius;
-    
-    &__link {
+    &__input,
+    &__select,
+    &__textarea {
       display: block;
-      font-weight: 500;
-      color: inherit;
-      text-decoration: none;
-      margin-bottom: 0.5rem;
-      
-      &:hover {
-        color: $helpdesk-primary-color;
-        text-decoration: underline;
-      }
+      width: 100%;
+      padding: map-get($helpdesk-spacers, 2) map-get($helpdesk-spacers, 2);
+      font-size: $helpdesk-font-size-base;
+      font-weight: 400;
+      line-height: 1.5;
+      color: map-get($helpdesk-theme, 'dark');
+      background-color: map-get($helpdesk-theme, 'white');
+      background-clip: padding-box;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
       
       &:focus {
-        color: $helpdesk-primary-color-high-contrast;
-        text-decoration: underline;
+        color: map-get($helpdesk-theme, 'dark');
+        background-color: map-get($helpdesk-theme, 'white');
+        border-color: map-get($helpdesk-theme, 'primary');
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(map-get($helpdesk-theme, 'primary'), 0.25);
       }
-    }
-    
-    &__meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.75rem;
-      color: $helpdesk-secondary-color;
-    }
-  }
-  
-  &__empty {
-    color: $helpdesk-secondary-color;
-    font-size: 0.875rem;
-    text-align: center;
-    padding: 1rem;
-  }
-  
-  &__resources {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  &__resource {
-    display: block;
-    padding: 0.5rem 0;
-    color: inherit;
-    text-decoration: none;
-    font-size: 0.875rem;
-    
-    &:hover {
-      color: $helpdesk-primary-color;
-      text-decoration: underline;
-    }
-    
-    &:focus {
-      color: $helpdesk-primary-color-high-contrast;
-      text-decoration: underline;
-    }
-  }
-}
-
-// Footer component
-.waboot-helpdesk__footer {
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
-  margin-top: 3rem;
-  padding: 2rem 0;
-  
-  &__content {
-    max-width: $helpdesk-content-max-width;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    
-    @media (max-width: 768px) {
-      padding: 0 1rem;
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  &__section {
-    h4 {
-      font-size: 1.125rem;
-      font-weight: 600;
-      margin: 0 0 1rem 0;
-    }
-    
-    p {
-      color: $helpdesk-secondary-color;
-      line-height: 1.6;
-      margin: 0 0 0.75rem 0;
-    }
-  }
-  
-  &__contact {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    
-    li {
-      margin-bottom: 0.5rem;
       
-      a {
-        color: $helpdesk-primary-color;
-        text-decoration: none;
-        
-        &:hover {
-          text-decoration: underline;
-        }
+      &.is-invalid {
+        border-color: map-get($helpdesk-theme, 'danger');
         
         &:focus {
-          color: $helpdesk-primary-color-high-contrast;
-          text-decoration: underline;
+          border-color: map-get($helpdesk-theme, 'danger');
+          box-shadow: 0 0 0 0.2rem rgba(map-get($helpdesk-theme, 'danger'), 0.25);
         }
+      }
+    }
+    
+    &__textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    &__file {
+      display: block;
+      width: 100%;
+      padding: map-get($helpdesk-spacers, 2);
+      font-size: $helpdesk-font-size-base;
+      font-weight: 400;
+      line-height: 1.5;
+      color: map-get($helpdesk-theme, 'dark');
+      background-color: map-get($helpdesk-theme, 'white');
+      background-clip: padding-box;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      
+      &:focus {
+        border-color: map-get($helpdesk-theme, 'primary');
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(map-get($helpdesk-theme, 'primary'), 0.25);
+      }
+    }
+    
+    &__error {
+      display: block;
+      width: 100%;
+      margin-top: map-get($helpdesk-spacers, 1);
+      font-size: 0.875rem;
+      color: map-get($helpdesk-theme, 'danger');
+    }
+    
+    &__help {
+      display: block;
+      width: 100%;
+      margin-top: map-get($helpdesk-spacers, 1);
+      font-size: 0.875rem;
+      color: map-get($helpdesk-theme, 'secondary');
+    }
+  }
+  
+  // Card component
+  &__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: map-get($helpdesk-theme, 'white');
+    background-clip: border-box;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      transform: translateY(-1px);
+    }
+    
+    &__header {
+      padding: map-get($helpdesk-spacers, 3);
+      margin-bottom: 0;
+      background-color: rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid #e5e7eb;
+      border-top-left-radius: calc(0.5rem - 1px);
+      border-top-right-radius: calc(0.5rem - 1px);
+    }
+    
+    &__body {
+      flex: 1 1 auto;
+      padding: map-get($helpdesk-spacers, 3);
+    }
+    
+    &__footer {
+      padding: map-get($helpdesk-spacers, 3);
+      background-color: rgba(0, 0, 0, 0.03);
+      border-top: 1px solid #e5e7eb;
+      border-bottom-right-radius: calc(0.5rem - 1px);
+      border-bottom-left-radius: calc(0.5rem - 1px);
+    }
+  }
+  
+  // Alert component
+  &__alert {
+    position: relative;
+    padding: map-get($helpdesk-spacers, 3);
+    margin-bottom: map-get($helpdesk-spacers, 3);
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    
+    &--success {
+      color: darken(map-get($helpdesk-theme, 'success'), 10%);
+      background-color: rgba(map-get($helpdesk-theme, 'success'), 0.1);
+      border-color: rgba(map-get($helpdesk-theme, 'success'), 0.2);
+    }
+    
+    &--warning {
+      color: darken(map-get($helpdesk-theme, 'warning'), 10%);
+      background-color: rgba(map-get($helpdesk-theme, 'warning'), 0.1);
+      border-color: rgba(map-get($helpdesk-theme, 'warning'), 0.2);
+    }
+    
+    &--danger {
+      color: darken(map-get($helpdesk-theme, 'danger'), 10%);
+      background-color: rgba(map-get($helpdesk-theme, 'danger'), 0.1);
+      border-color: rgba(map-get($helpdesk-theme, 'danger'), 0.2);
+    }
+    
+    &--info {
+      color: darken(map-get($helpdesk-theme, 'info'), 10%);
+      background-color: rgba(map-get($helpdesk-theme, 'info'), 0.1);
+      border-color: rgba(map-get($helpdesk-theme, 'info'), 0.2);
+    }
+  }
+  
+  // Badge component
+  &__badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.375rem;
+    
+    &--primary {
+      color: map-get($helpdesk-theme, 'white');
+      background-color: map-get($helpdesk-theme, 'primary');
+    }
+    
+    &--secondary {
+      color: map-get($helpdesk-theme, 'white');
+      background-color: map-get($helpdesk-theme, 'secondary');
+    }
+    
+    &--success {
+      color: map-get($helpdesk-theme, 'white');
+      background-color: map-get($helpdesk-theme, 'success');
+    }
+    
+    &--danger {
+      color: map-get($helpdesk-theme, 'white');
+      background-color: map-get($helpdesk-theme, 'danger');
+    }
+    
+    &--warning {
+      color: map-get($helpdesk-theme, 'dark');
+      background-color: map-get($helpdesk-theme, 'warning');
+    }
+    
+    &--info {
+      color: map-get($helpdesk-theme, 'white');
+      background-color: map-get($helpdesk-theme, 'info');
+    }
+  }
+  
+  // Status badges
+  &__status {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.375rem;
+    color: map-get($helpdesk-theme, 'white');
+    
+    &--open {
+      background-color: map-get($helpdesk-status, 'open');
+    }
+    
+    &--in-progress {
+      background-color: map-get($helpdesk-status, 'in-progress');
+    }
+    
+    &--resolved {
+      background-color: map-get($helpdesk-status, 'resolved');
+    }
+    
+    &--closed {
+      background-color: map-get($helpdesk-status, 'closed');
+    }
+  }
+  
+  // Priority badges
+  &__priority {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.375rem;
+    color: map-get($helpdesk-theme, 'white');
+    
+    &--low {
+      background-color: map-get($helpdesk-priority, 'low');
+    }
+    
+    &--medium {
+      background-color: map-get($helpdesk-priority, 'medium');
+    }
+    
+    &--high {
+      background-color: map-get($helpdesk-priority, 'high');
+    }
+    
+    &--critical {
+      background-color: map-get($helpdesk-priority, 'critical');
+    }
+  }
+  
+  // Tag component
+  &__tag {
+    display: inline-block;
+    padding: 0.25em 0.75em;
+    font-size: 0.75em;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #f3f4f6;
+    color: #374151;
+    border-radius: 9999px;
+    text-decoration: none;
+    
+    &:hover {
+      background-color: #e5e7eb;
+      color: #1f2937;
+      text-decoration: none;
+    }
+  }
+  
+  // Pagination component
+  &__pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.375rem;
+    
+    &__list {
+      display: flex;
+      padding-left: 0;
+      list-style: none;
+      border-radius: 0.375rem;
+    }
+    
+    &__item {
+      &:first-child .waboot-helpdesk__pagination__link {
+        margin-left: 0;
+        border-top-left-radius: 0.375rem;
+        border-bottom-left-radius: 0.375rem;
+      }
+      
+      &:last-child .waboot-helpdesk__pagination__link {
+        border-top-right-radius: 0.375rem;
+        border-bottom-right-radius: 0.375rem;
+      }
+    }
+    
+    &__link {
+      position: relative;
+      display: block;
+      padding: map-get($helpdesk-spacers, 2) map-get($helpdesk-spacers, 3);
+      margin-left: -1px;
+      line-height: 1.25;
+      color: map-get($helpdesk-theme, 'primary');
+      background-color: map-get($helpdesk-theme, 'white');
+      border: 1px solid #dee2e6;
+      text-decoration: none;
+      
+      &:hover {
+        z-index: 2;
+        color: darken(map-get($helpdesk-theme, 'primary'), 15%);
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+      }
+      
+      &:focus {
+        z-index: 3;
+        color: darken(map-get($helpdesk-theme, 'primary'), 15%);
+        background-color: #e9ecef;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(map-get($helpdesk-theme, 'primary'), 0.25);
+      }
+      
+      &.active {
+        z-index: 3;
+        color: map-get($helpdesk-theme, 'white');
+        background-color: map-get($helpdesk-theme, 'primary');
+        border-color: map-get($helpdesk-theme, 'primary');
+      }
+      
+      &.disabled {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: map-get($helpdesk-theme, 'white');
+        border-color: #dee2e6;
+      }
+    }
+  }
+  
+  // Toast component
+  &__toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: map-get($helpdesk-z-index, 'toast');
+    padding: map-get($helpdesk-spacers, 3);
+    background-color: map-get($helpdesk-theme, 'white');
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    animation: slideInRight 0.3s ease-out;
+    
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
       }
     }
   }
 }
 
-// Transitions
-.waboot-helpdesk__faq-item__answer {
-  &--enter {
-    transition: all 0.3s ease-out;
-  }
-  
-  &--enter-start {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  
-  &--enter-end {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  &--leave {
-    transition: all 0.3s ease-in;
-  }
-  
-  &--leave-start {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  &--leave-end {
-    opacity: 0;
-    transform: translateY(-10px);
+// Dark mode support
+.theme-dark {
+  .waboot-helpdesk {
+    color: map-get($helpdesk-theme, 'light');
+    background-color: map-get($helpdesk-theme, 'dark');
+    
+    &__card {
+      background-color: lighten(map-get($helpdesk-theme, 'dark'), 5%);
+      border-color: lighten(map-get($helpdesk-theme, 'dark'), 10%);
+    }
+    
+    &__form-group {
+      &__input,
+      &__select,
+      &__textarea {
+        background-color: lighten(map-get($helpdesk-theme, 'dark'), 5%);
+        border-color: lighten(map-get($helpdesk-theme, 'dark'), 10%);
+        color: map-get($helpdesk-theme, 'light');
+        
+        &:focus {
+          background-color: lighten(map-get($helpdesk-theme, 'dark'), 5%);
+          color: map-get($helpdesk-theme, 'light');
+        }
+      }
+    }
   }
 }
 
 // Responsive utilities
-@media (max-width: 1024px) {
-  .waboot-helpdesk__layout {
-    grid-template-columns: 1fr;
-    
-    .waboot-helpdesk__sidebar {
-      order: -1;
-      position: static;
+@each $breakpoint, $value in $helpdesk-breakpoints {
+  @media (min-width: $value) {
+    .waboot-helpdesk {
+      &__d-#{$breakpoint}-none { display: none !important; }
+      &__d-#{$breakpoint}-block { display: block !important; }
+      &__d-#{$breakpoint}-flex { display: flex !important; }
+      &__d-#{$breakpoint}-inline-flex { display: inline-flex !important; }
+      
+      &__text-#{$breakpoint}-left { text-align: left !important; }
+      &__text-#{$breakpoint}-center { text-align: center !important; }
+      &__text-#{$breakpoint}-right { text-align: right !important; }
+      
+      &__justify-#{$breakpoint}-start { justify-content: flex-start !important; }
+      &__justify-#{$breakpoint}-center { justify-content: center !important; }
+      &__justify-#{$breakpoint}-end { justify-content: flex-end !important; }
+      &__justify-#{$breakpoint}-between { justify-content: space-between !important; }
+      
+      &__align-#{$breakpoint}-start { align-items: flex-start !important; }
+      &__align-#{$breakpoint}-center { align-items: center !important; }
+      &__align-#{$breakpoint}-end { align-items: flex-end !important; }
     }
   }
 }
 
-@media (max-width: 640px) {
+// Accessibility improvements
+@media (prefers-reduced-motion: reduce) {
   .waboot-helpdesk {
-    &__ticket-card__header,
-    &__ticket-list__header,
-    &__faq-section__footer {
-      flex-direction: column;
-      gap: 1rem;
+    &__card,
+    &__button {
+      transition: none;
+    }
+  }
+}
+
+@media (prefers-contrast: high) {
+  .waboot-helpdesk {
+    &__button {
+      border-width: 2px;
     }
     
-    &__ticket-card__info {
-      flex-direction: column;
-      gap: 0.5rem;
+    &__card {
+      border-width: 2px;
     }
     
-    &__ticket-list__filter-form {
-      grid-template-columns: 1fr;
+    &__form-group {
+      &__input,
+      &__select,
+      &__textarea {
+        border-width: 2px;
+      }
     }
   }
 }
@@ -1012,23 +687,12 @@ $helpdesk-danger-color-high-contrast: #b91c1c;
 // Print styles
 @media print {
   .waboot-helpdesk {
-    &__sidebar,
-    &__ticket-card__actions,
-    &__faq-item__question__icon {
+    &__button {
       display: none !important;
     }
     
-    &__layout {
-      grid-template-columns: 1fr;
-      gap: 0;
-      padding: 0;
-    }
-    
-    &__ticket-card,
-    &__faq-item {
-      box-shadow: none;
-      border: 1px solid #000;
-      break-inside: avoid;
+    &__toast {
+      display: none !important;
     }
   }
 } 

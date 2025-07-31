@@ -1,0 +1,130 @@
+{strip}
+{* Helpdesk Header Template *}
+
+<header class="waboot-helpdesk__header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            {* Logo/Brand *}
+            <a class="navbar-brand" href="{$wa->helpdesk->url()}">
+                {if $wa->helpdesk->settings('logo')}
+                    <img src="{$wa->helpdesk->settings('logo')}" alt="{$wa->helpdesk->settings('name')|escape}" class="waboot-helpdesk__logo">
+                {else}
+                    {$wa->helpdesk->settings('name')|escape}
+                {/if}
+            </a>
+            
+            {* Mobile menu button *}
+            <button class="navbar-toggler" type="button" x-on:click="$store.helpdesk.toggleMobileMenu()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            {* Navigation menu *}
+            <div class="collapse navbar-collapse" x-bind:class="{'show': $store.helpdesk.ui.mobileMenuOpen}">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{$wa->helpdesk->url()}">Главная</a>
+                    </li>
+                    
+                    {* Categories menu *}
+                    {$_categories = $wa->helpdesk->categories()}
+                    {if !empty($_categories)}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                Категории
+                            </a>
+                            <ul class="dropdown-menu">
+                                {foreach $_categories as $_category}
+                                    <li>
+                                        <a class="dropdown-item" href="{$_category.url}">
+                                            {$_category.name|escape}
+                                        </a>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        </li>
+                    {/if}
+                    
+                    {* Support menu *}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Поддержка
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{$wa->helpdesk->url()}faq/">FAQ</a></li>
+                            <li><a class="dropdown-item" href="{$wa->helpdesk->url()}tickets/">Мои тикеты</a></li>
+                            <li><a class="dropdown-item" href="{$wa->helpdesk->url()}new-ticket/">Создать тикет</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{$wa->helpdesk->url()}contact/">Связаться с поддержкой</a></li>
+                        </ul>
+                    </li>
+                    
+                    {* Knowledge base menu *}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{$wa->helpdesk->url()}knowledge-base/">База знаний</a>
+                    </li>
+                    
+                    {* Status page *}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{$wa->helpdesk->url()}status/">Статус системы</a>
+                    </li>
+                </ul>
+                
+                {* Search form *}
+                <form class="d-flex" x-data="helpdeskSearch()" @submit.prevent="search()">
+                    <input class="form-control me-2" 
+                           type="search" 
+                           placeholder="Поиск по базе знаний..." 
+                           x-model="query"
+                           @input="search()">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    
+                    {* Search results dropdown *}
+                    <div class="dropdown-menu w-100" x-show="showResults" x-transition>
+                        <template x-for="result in results" :key="result.id">
+                            <a class="dropdown-item" :href="result.url" x-text="result.title"></a>
+                        </template>
+                        <div x-show="results.length === 0 && query.length > 2" class="dropdown-item text-muted">
+                            Ничего не найдено
+                        </div>
+                    </div>
+                </form>
+                
+                {* User menu *}
+                {if $wa->user()->isAuth()}
+                    <ul class="navbar-nav ms-3">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user"></i>
+                                {$wa->user('name')|escape}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{$wa->helpdesk->url()}profile/">Профиль</a></li>
+                                <li><a class="dropdown-item" href="{$wa->helpdesk->url()}tickets/">Мои тикеты</a></li>
+                                <li><a class="dropdown-item" href="{$wa->helpdesk->url()}settings/">Настройки</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{$wa->url()}logout/">Выйти</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {else}
+                    <ul class="navbar-nav ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{$wa->url()}login/">Войти</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{$wa->url()}signup/">Регистрация</a>
+                        </li>
+                    </ul>
+                {/if}
+            </div>
+        </div>
+    </nav>
+    
+    {* Breadcrumbs *}
+    {if !empty($breadcrumbs)}
+        {include file="breadcrumbs.html" breadcrumbs=$breadcrumbs inline}
+    {/if}
+</header>
+{/strip} 

@@ -1,0 +1,17 @@
+{strip}
+{* Search Page Template for Shop-Script *}
+{* Inherits from parent site:waboot theme *}
+
+{* Set global variables for search page *}
+{$wa->globals("showBottomBanner", true)}
+{$_search_data = [
+    "query" => $query,
+    "products" => $products,
+    "pagination" => $pagination,
+    "total_results" => $total_results
+]}
+{$wa->globals("searchPageData", $_search_data)}
+
+{* Include parent theme layout *}
+{include file="`$wa_parent_theme_path`/page.html" inline}
+{/strip} 

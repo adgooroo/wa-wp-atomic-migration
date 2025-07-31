@@ -1,0 +1,36 @@
+{* Subscribe Form Molecule Component *}
+{* Combines email-input and subscribe-button atoms *}
+
+<div class="waboot-mailer__subscribe-form" x-data="subscribeForm()">
+    <form method="post" action="/mailer/subscribe/" class="waboot-mailer__subscribe-form__form">
+        {* CSRF Protection *}
+        {$wa->csrf()}
+        
+        <div class="waboot-mailer__subscribe-form__field">
+            {include file="atoms/email-input.html" 
+                     name="email" 
+                     placeholder="{_w('Your email address')}"}
+        </div>
+        
+        <div class="waboot-mailer__subscribe-form__actions">
+            {include file="atoms/subscribe-button.html"}
+        </div>
+        
+        <div class="waboot-mailer__subscribe-form__message" 
+             x-show="message" 
+             x-text="message"
+             x-bind:class="'waboot-mailer__subscribe-form__message--' + messageType"
+             role="alert"
+             aria-live="polite">
+        </div>
+        
+        <div class="waboot-mailer__subscribe-form__privacy">
+            <small class="waboot-mailer__subscribe-form__privacy__text">
+                {_w('By subscribing, you agree to our')} 
+                <a href="/privacy-policy/" class="waboot-mailer__subscribe-form__privacy__link">
+                    {_w('Privacy Policy')}
+                </a>
+            </small>
+        </div>
+    </form>
+</div> 

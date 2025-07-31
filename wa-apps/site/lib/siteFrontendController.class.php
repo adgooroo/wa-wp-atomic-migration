@@ -143,8 +143,9 @@ class siteFrontendController extends waController
         
         // Load CSS in order: vendor -> atoms -> molecules -> organisms -> templates -> utilities
         $css_files = array(
-            'css/vendor/bootstrap.min.css',
-            'css/vendor/aos.min.css',
+            'css/vendor/bootstrap-5.3.7.min.css',
+            'css/vendor/aos-2.3.4.css',
+            'css/vendor/fontawesome-7.0.0.all.min.css',
             'css/atoms/atoms.css',
             'css/molecules/molecules.css',
             'css/organisms/organisms.css',
@@ -161,9 +162,9 @@ class siteFrontendController extends waController
         
         // Load JavaScript: vendor first, then components
         $js_files = array(
-            'js/vendor/bootstrap.bundle.min.js',
-            'js/vendor/alpine.min.js',
-            'js/vendor/aos.min.js',
+            'js/vendor/bootstrap-5.3.7.bundle.min.js',
+            'js/vendor/alpine-3.14.9.min.js',
+            'js/vendor/aos-2.3.4.js',
             'js/components/site-components.js',
             'js/site.js'
         );

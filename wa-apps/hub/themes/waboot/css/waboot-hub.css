@@ -6,12 +6,16 @@
    ======================================== */
 
 /* Import parent theme CSS */
-@import url('../../../../site/themes/waboot/css/waboot.css');
+@import url('../../site/themes/waboot/css/waboot.css');
+
+/* Import Bootstrap 5 custom styles */
+@import url('bootstrap-custom.scss');
+@import url('bootstrap-utilities.scss');
 
 /* Import Hub-specific components */
-@import url('hub-atoms.css');
-@import url('hub-molecules.css');
-@import url('hub-organisms.css');
+@import url('atoms.css');
+@import url('molecules.css');
+@import url('organisms.css');
 
 /* Import components for accessibility */
 @import url('./hub-accessibility.css');

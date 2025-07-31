@@ -1,0 +1,285 @@
+{*
+ * Helpdesk Category Page Template
+ * Displays articles in a specific category with Article schema
+ *}
+
+{* Set page-specific variables *}
+{$wa->globals('htmlClass', 'is-helpdesk-category')}
+{$wa->globals('hideCrumbs', false)}
+
+{* Article Schema Data *}
+{$article_schema = []}
+{if !empty($articles)}
+    {foreach $articles as $article}
+        {$article_schema[] = [
+            '@type' => 'Article',
+            'headline' => $article.title|escape:'javascript',
+            'description' => $article.excerpt|strip_tags|escape:'javascript',
+            'author' => [
+                '@type' => 'Organization',
+                'name' => $wa->accountName()|escape:'javascript'
+            ],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => $wa->accountName()|escape:'javascript',
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => $wa_theme_url . 'images/logo.png'
+                ]
+            ],
+            'datePublished' => $article.datetime|date:'c',
+            'dateModified' => $article.update_datetime|date:'c',
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id' => $article.url
+            ],
+            'articleSection' => $category.name|escape:'javascript'
+        ]}
+    {/foreach}
+{/if}
+
+{* Include layout *}
+{include file="layout.html"}
+
+{* Main content *}
+<div class="waboot-helpdesk__category">
+    {* Category Header *}
+    <section class="waboot-helpdesk__category-header">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__category-header__content">
+                <h1 class="waboot-helpdesk__category-header__title">
+                    {$category.name|escape}
+                </h1>
+                
+                {if $category.description}
+                <p class="waboot-helpdesk__category-header__description">
+                    {$category.description|escape}
+                </p>
+                {/if}
+                
+                <div class="waboot-helpdesk__category-header__meta">
+                    <span class="waboot-helpdesk__category-header__count">
+                        {sprintf(_w('%d article', '%d articles', $articles|count), $articles|count)}
+                    </span>
+                    
+                    {if $category.parent}
+                    <a href="{$category.parent.url}" 
+                       class="waboot-helpdesk__category-header__parent">
+                        ← {$category.parent.name|escape}
+                    </a>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {* Category Content *}
+    <section class="waboot-helpdesk__category-content">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__category-content__layout">
+                {* Main Content *}
+                <main class="waboot-helpdesk__category-content__main">
+                    {* Articles List *}
+                    {if !empty($articles)}
+                    <div class="waboot-helpdesk__articles-list">
+                        {foreach $articles as $article}
+                        <article class="waboot-helpdesk__article-item">
+                            {if $article.image}
+                            <div class="waboot-helpdesk__article-item__image">
+                                <a href="{$article.url}">
+                                    <img src="{$article.image}" 
+                                         alt="{$article.title|escape}"
+                                         loading="lazy">
+                                </a>
+                            </div>
+                            {/if}
+                            
+                            <div class="waboot-helpdesk__article-item__content">
+                                <h2 class="waboot-helpdesk__article-item__title">
+                                    <a href="{$article.url}">{$article.title|escape}</a>
+                                </h2>
+                                
+                                <div class="waboot-helpdesk__article-item__meta">
+                                    <time datetime="{$article.datetime|date:'c'}">
+                                        {$article.datetime|wa_date:'humandate'}
+                                    </time>
+                                    
+                                    {if $article.author}
+                                    <span class="waboot-helpdesk__article-item__author">
+                                        {_w('by')} {$article.author.name|escape}
+                                    </span>
+                                    {/if}
+                                    
+                                    {if $article.tags}
+                                    <div class="waboot-helpdesk__article-item__tags">
+                                        {foreach $article.tags as $tag}
+                                        <span class="waboot-helpdesk__tag">
+                                            {$tag.name|escape}
+                                        </span>
+                                        {/foreach}
+                                    </div>
+                                    {/if}
+                                </div>
+                                
+                                <div class="waboot-helpdesk__article-item__excerpt">
+                                    {$article.excerpt|truncate:200}
+                                </div>
+                                
+                                <a href="{$article.url}" 
+                                   class="waboot-helpdesk__article-item__read-more">
+                                    {_w('Read More')} →
+                                </a>
+                            </div>
+                        </article>
+                        {/foreach}
+                    </div>
+                    
+                    {* Pagination *}
+                    {if $pagination}
+                    <div class="waboot-helpdesk__pagination">
+                        {wa_pagination total=$pagination.total 
+                                      attrs=["class" => "waboot-helpdesk__pagination__list"]}
+                    </div>
+                    {/if}
+                    
+                    {else}
+                    <div class="waboot-helpdesk__empty-state">
+                        <div class="waboot-helpdesk__empty-state__icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h3 class="waboot-helpdesk__empty-state__title">
+                            {_w('No Articles Found')}
+                        </h3>
+                        <p class="waboot-helpdesk__empty-state__description">
+                            {_w('There are no articles in this category yet.')}
+                        </p>
+                        <a href="{$wa->getUrl('helpdesk/frontend/kb')}" 
+                           class="waboot-helpdesk__empty-state__link">
+                            {_w('Browse All Articles')}
+                        </a>
+                    </div>
+                    {/if}
+                </main>
+                
+                {* Sidebar *}
+                <aside class="waboot-helpdesk__category-content__sidebar">
+                    {* Subcategories *}
+                    {if !empty($subcategories)}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Subcategories')}
+                        </h3>
+                        <ul class="waboot-helpdesk__sidebar-section__list">
+                            {foreach $subcategories as $subcategory}
+                            <li class="waboot-helpdesk__sidebar-section__item">
+                                <a href="{$subcategory.url}" 
+                                   class="waboot-helpdesk__sidebar-section__link">
+                                    {$subcategory.name|escape}
+                                    <span class="waboot-helpdesk__sidebar-section__count">
+                                        {$subcategory.article_count}
+                                    </span>
+                                </a>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    {/if}
+                    
+                    {* Related Categories *}
+                    {if !empty($related_categories)}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Related Categories')}
+                        </h3>
+                        <ul class="waboot-helpdesk__sidebar-section__list">
+                            {foreach $related_categories as $related}
+                            <li class="waboot-helpdesk__sidebar-section__item">
+                                <a href="{$related.url}" 
+                                   class="waboot-helpdesk__sidebar-section__link">
+                                    {$related.name|escape}
+                                </a>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    {/if}
+                    
+                    {* Popular Articles *}
+                    {if !empty($popular_articles)}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Popular Articles')}
+                        </h3>
+                        <ul class="waboot-helpdesk__sidebar-section__list">
+                            {foreach $popular_articles as $popular}
+                            <li class="waboot-helpdesk__sidebar-section__item">
+                                <a href="{$popular.url}" 
+                                   class="waboot-helpdesk__sidebar-section__link">
+                                    {$popular.title|escape}
+                                </a>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    {/if}
+                    
+                    {* Contact Support *}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Need Help?')}
+                        </h3>
+                        <p class="waboot-helpdesk__sidebar-section__description">
+                            {_w('Can\'t find what you\'re looking for? Contact our support team.')}
+                        </p>
+                        <a href="{$wa->getUrl('helpdesk/frontend/ticket')}" 
+                           class="waboot-helpdesk__sidebar-section__button">
+                            {_w('Submit Ticket')}
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+</div>
+
+{* Article Schema JSON-LD *}
+{if !empty($article_schema)}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "{$category.name|escape:'javascript'}",
+    "description": "{$category.description|escape:'javascript'}",
+    "url": "{$category.url}",
+    "mainEntity": {$article_schema|json_encode}
+}
+</script>
+{/if}
+
+{* BreadcrumbList Schema *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{$wa->accountName()|escape:'javascript'}",
+            "item": "{$wa_domain}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{_w('Knowledge Base')|escape:'javascript'}",
+            "item": "{$wa->getUrl('helpdesk/frontend/kb')}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{$category.name|escape:'javascript'}",
+            "item": "{$category.url}"
+        }
+    ]
+}
+</script> 

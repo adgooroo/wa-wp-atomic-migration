@@ -1,0 +1,256 @@
+{* Mailer Dashboard Template *}
+{extends file="layout.html"}
+
+{block name="content"}
+<div class="waboot-mailer__dashboard" x-data="mailerDashboard()">
+    <div class="waboot-mailer__dashboard__main">
+        {* Dashboard Header *}
+        <div class="waboot-mailer__dashboard__header">
+            <h1 class="waboot-mailer__dashboard__title">Email Marketing Dashboard</h1>
+            <p class="waboot-mailer__dashboard__subtitle">Manage your email campaigns and subscribers</p>
+            
+            <div class="waboot-mailer__dashboard__actions">
+                <a href="/mailer/campaigns/new/" class="waboot-mailer__dashboard__btn">
+                    <i class="fas fa-plus"></i>
+                    Create Campaign
+                </a>
+                <a href="/mailer/subscribers/add/" class="waboot-mailer__dashboard__btn waboot-mailer__dashboard__btn--secondary">
+                    <i class="fas fa-user-plus"></i>
+                    Add Subscriber
+                </a>
+                <a href="/mailer/templates/" class="waboot-mailer__dashboard__btn waboot-mailer__dashboard__btn--secondary">
+                    <i class="fas fa-palette"></i>
+                    Manage Templates
+                </a>
+            </div>
+        </div>
+        
+        {* Statistics Overview *}
+        <div class="waboot-mailer__campaign-stats">
+            <div class="waboot-mailer__stat-grid">
+                <div class="waboot-mailer__stat">
+                    <div class="waboot-mailer__stat__number" x-text="$store.mailer.formatNumber($store.mailer.statistics.overview.totalSubscribers)">0</div>
+                    <div class="waboot-mailer__stat__label">Total Subscribers</div>
+                </div>
+                
+                <div class="waboot-mailer__stat">
+                    <div class="waboot-mailer__stat__number" x-text="$store.mailer.formatNumber($store.mailer.statistics.overview.activeSubscribers)">0</div>
+                    <div class="waboot-mailer__stat__label">Active Subscribers</div>
+                </div>
+                
+                <div class="waboot-mailer__stat">
+                    <div class="waboot-mailer__stat__number" x-text="$store.mailer.formatNumber($store.mailer.statistics.overview.totalCampaigns)">0</div>
+                    <div class="waboot-mailer__stat__label">Total Campaigns</div>
+                </div>
+                
+                <div class="waboot-mailer__stat">
+                    <div class="waboot-mailer__stat__number" x-text="$store.mailer.formatNumber($store.mailer.statistics.overview.sentEmails)">0</div>
+                    <div class="waboot-mailer__stat__label">Emails Sent</div>
+                </div>
+                
+                <div class="waboot-mailer__stat">
+                    <div class="waboot-mailer__stat__number" x-text="$store.mailer.formatPercentage($store.mailer.statistics.overview.openRate, 100)">0%</div>
+                    <div class="waboot-mailer__stat__label">Open Rate</div>
+                </div>
+                
+                <div class="waboot-mailer__stat">
+                    <div class="waboot-mailer__stat__number" x-text="$store.mailer.formatPercentage($store.mailer.statistics.overview.clickRate, 100)">0%</div>
+                    <div class="waboot-mailer__stat__label">Click Rate</div>
+                </div>
+            </div>
+        </div>
+        
+        {* Recent Campaigns *}
+        <div class="waboot-mailer__campaign-list">
+            <div class="waboot-mailer__campaign-list__header">
+                <h2 class="waboot-mailer__campaign-list__title">Recent Campaigns</h2>
+                <div class="waboot-mailer__campaign-list__filters">
+                    <select class="waboot-mailer__campaign-list__filter" x-model="$store.mailer.campaigns.filters.status">
+                        <option value="all">All Status</option>
+                        <option value="draft">Draft</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="sent">Sent</option>
+                        <option value="failed">Failed</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="waboot-mailer__campaign-list__content">
+                <template x-if="$store.mailer.campaigns.loading">
+                    <div class="waboot-mailer__loading">Loading campaigns...</div>
+                </template>
+                
+                <template x-if="!$store.mailer.campaigns.loading && $store.mailer.campaigns.list.length === 0">
+                    <div class="waboot-mailer__campaign-list__empty">
+                        <div class="waboot-mailer__campaign-list__empty__icon">📧</div>
+                        <h3 class="waboot-mailer__campaign-list__empty__title">No campaigns yet</h3>
+                        <p class="waboot-mailer__campaign-list__empty__description">Create your first email campaign to get started</p>
+                        <a href="/mailer/campaigns/new/" class="waboot-mailer__dashboard__btn">Create Campaign</a>
+                    </div>
+                </template>
+                
+                <template x-for="campaign in $store.mailer.filterCampaigns()" :key="campaign.id">
+                    <div class="waboot-mailer__campaign-card">
+                        <div class="waboot-mailer__campaign-card__header">
+                            <h3 class="waboot-mailer__campaign-card__title" x-text="campaign.name"></h3>
+                            <div class="waboot-mailer__campaign-card__meta">
+                                <div class="waboot-mailer__campaign-card__status">
+                                    <span class="waboot-mailer__status-badge" 
+                                          x-bind:class="'waboot-mailer__status-badge--' + campaign.status"
+                                          x-text="campaign.status"></span>
+                                </div>
+                                <div class="waboot-mailer__campaign-card__date" x-text="$store.mailer.formatDate(campaign.created_at)"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="waboot-mailer__campaign-card__body">
+                            <div class="waboot-mailer__campaign-card__description" x-text="campaign.description"></div>
+                            
+                            <div class="waboot-mailer__campaign-card__stats">
+                                <div class="waboot-mailer__campaign-card__stat">
+                                    <div class="waboot-mailer__campaign-card__stat-number" x-text="$store.mailer.formatNumber(campaign.recipients)">0</div>
+                                    <div class="waboot-mailer__campaign-card__stat-label">Recipients</div>
+                                </div>
+                                <div class="waboot-mailer__campaign-card__stat">
+                                    <div class="waboot-mailer__campaign-card__stat-number" x-text="$store.mailer.formatNumber(campaign.opens)">0</div>
+                                    <div class="waboot-mailer__campaign-card__stat-label">Opens</div>
+                                </div>
+                                <div class="waboot-mailer__campaign-card__stat">
+                                    <div class="waboot-mailer__campaign-card__stat-number" x-text="$store.mailer.formatNumber(campaign.clicks)">0</div>
+                                    <div class="waboot-mailer__campaign-card__stat-label">Clicks</div>
+                                </div>
+                            </div>
+                            
+                            <div class="waboot-mailer__campaign-card__actions">
+                                <button class="waboot-mailer__campaign-card__btn" 
+                                        data-action="campaign" 
+                                        data-campaign-action="preview" 
+                                        x-bind:data-campaign-id="campaign.id">
+                                    <i class="fas fa-eye"></i>
+                                    Preview
+                                </button>
+                                <button class="waboot-mailer__campaign-card__btn" 
+                                        data-action="campaign" 
+                                        data-campaign-action="edit" 
+                                        x-bind:data-campaign-id="campaign.id">
+                                    <i class="fas fa-edit"></i>
+                                    Edit
+                                </button>
+                                <button class="waboot-mailer__campaign-card__btn waboot-mailer__campaign-card__btn--primary" 
+                                        x-show="campaign.status === 'draft'"
+                                        data-action="campaign" 
+                                        data-campaign-action="send" 
+                                        x-bind:data-campaign-id="campaign.id">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+    
+    {* Dashboard Sidebar *}
+    <div class="waboot-mailer__dashboard__sidebar">
+        {* Quick Actions Widget *}
+        <div class="waboot-mailer__dashboard__widget">
+            <h3 class="waboot-mailer__dashboard__widget__title">Quick Actions</h3>
+            <div class="waboot-mailer__dashboard__widget__content">
+                <a href="/mailer/campaigns/new/" class="waboot-mailer__dashboard__btn waboot-mailer__w-100">
+                    <i class="fas fa-plus"></i>
+                    New Campaign
+                </a>
+                <a href="/mailer/subscribers/import/" class="waboot-mailer__dashboard__btn waboot-mailer__dashboard__btn--secondary waboot-mailer__w-100">
+                    <i class="fas fa-upload"></i>
+                    Import Subscribers
+                </a>
+                <a href="/mailer/templates/new/" class="waboot-mailer__dashboard__btn waboot-mailer__dashboard__btn--secondary waboot-mailer__w-100">
+                    <i class="fas fa-palette"></i>
+                    Create Template
+                </a>
+            </div>
+        </div>
+        
+        {* Recent Activity Widget *}
+        <div class="waboot-mailer__dashboard__widget">
+            <h3 class="waboot-mailer__dashboard__widget__title">Recent Activity</h3>
+            <div class="waboot-mailer__dashboard__widget__content">
+                <template x-if="$store.mailer.statistics.recent.activities.length === 0">
+                    <p class="waboot-mailer__text-muted">No recent activity</p>
+                </template>
+                
+                <template x-for="activity in $store.mailer.statistics.recent.activities" :key="activity.id">
+                    <div class="waboot-mailer__activity-item">
+                        <div class="waboot-mailer__activity-item__content">
+                            <div class="waboot-mailer__activity-item__header">
+                                <strong x-text="activity.title"></strong>
+                                <time class="waboot-mailer__activity-item__time" x-text="$store.mailer.formatDateTime(activity.created_at)"></time>
+                            </div>
+                            <div class="waboot-mailer__activity-item__body" x-text="activity.description"></div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+        
+        {* System Status Widget *}
+        <div class="waboot-mailer__dashboard__widget">
+            <h3 class="waboot-mailer__dashboard__widget__title">System Status</h3>
+            <div class="waboot-mailer__dashboard__widget__content">
+                <div class="waboot-mailer__status-item">
+                    <span class="waboot-mailer__status-item__label">Email Service</span>
+                    <span class="waboot-mailer__status-item__status waboot-mailer__status-item__status--success">Connected</span>
+                </div>
+                <div class="waboot-mailer__status-item">
+                    <span class="waboot-mailer__status-item__label">Database</span>
+                    <span class="waboot-mailer__status-item__status waboot-mailer__status-item__status--success">Online</span>
+                </div>
+                <div class="waboot-mailer__status-item">
+                    <span class="waboot-mailer__status-item__label">Queue</span>
+                    <span class="waboot-mailer__status-item__status waboot-mailer__status-item__status--success">Running</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{* JSON-LD Schema for Dashboard *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Email Marketing Dashboard",
+    "description": "Manage email campaigns and subscribers",
+    "url": "{$wa->currentUrl()}",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+    }
+}
+</script>
+{/block}
+
+{block name="scripts" append}
+<script>
+// Alpine.js component for mailer dashboard
+Alpine.data('mailerDashboard', () => ({
+    init() {
+        // Initialize dashboard functionality
+        this.loadDashboardData();
+    },
+    
+    async loadDashboardData() {
+        // Load all dashboard data
+        await Promise.all([
+            this.$store.mailer.loadCampaigns(),
+            this.$store.mailer.loadStatistics()
+        ]);
+    }
+}));
+</script>
+{/block} 

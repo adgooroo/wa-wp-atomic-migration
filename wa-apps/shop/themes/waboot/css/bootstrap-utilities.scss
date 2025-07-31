@@ -1,0 +1,163 @@
+/* Bootstrap 5 Additional Utilities */
+/* Extends Bootstrap utilities with custom classes */
+
+// Import Bootstrap utilities
+@import "bootstrap/scss/utilities";
+
+// Custom utility classes
+.text-gradient {
+  background: linear-gradient(45deg, $primary, $secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(45deg, $primary, darken($primary, 10%));
+}
+
+.bg-gradient-secondary {
+  background: linear-gradient(45deg, $secondary, darken($secondary, 10%));
+}
+
+.shadow-custom {
+  box-shadow: 0 0.5rem 1rem rgba($black, 0.15);
+}
+
+.shadow-custom-lg {
+  box-shadow: 0 1rem 3rem rgba($black, 0.175);
+}
+
+.border-custom {
+  border: 2px solid $primary;
+}
+
+.rounded-custom {
+  border-radius: 1rem;
+}
+
+.transition-custom {
+  transition: all 0.3s ease-in-out;
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 3rem rgba($black, 0.175);
+  }
+}
+
+// Responsive utilities
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    .text-#{$breakpoint}-gradient {
+      background: linear-gradient(45deg, $primary, $secondary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .bg-#{$breakpoint}-gradient-primary {
+      background: linear-gradient(45deg, $primary, darken($primary, 10%));
+    }
+    
+    .shadow-#{$breakpoint}-custom {
+      box-shadow: 0 0.5rem 1rem rgba($black, 0.15);
+    }
+  }
+}
+
+// Animation utilities
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// E-commerce specific utilities
+.product-card {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 3rem rgba($black, 0.175);
+  }
+}
+
+.price-highlight {
+  color: $success;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.stock-status {
+  &--in-stock {
+    color: $success;
+  }
+  
+  &--out-of-stock {
+    color: $danger;
+  }
+  
+  &--low-stock {
+    color: $warning;
+  }
+}
+
+// Grid utilities for product layouts
+.product-grid {
+  display: grid;
+  gap: 1.5rem;
+  
+  &--2-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  &--3-cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  &--4-cols {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  @include media-breakpoint-down(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: 1fr;
+  }
+} 

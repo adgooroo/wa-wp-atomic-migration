@@ -1,0 +1,472 @@
+/* Mailer Theme - Organism Components */
+
+/* Email Builder Organism */
+.waboot-mailer__email-builder {
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    gap: 1.5rem;
+    height: calc(100vh - 200px);
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    overflow: hidden;
+    box-shadow: var(--waboot-mailer-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+}
+
+.waboot-mailer__builder-sidebar {
+    background: #f9fafb;
+    border-right: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.waboot-mailer__builder-section {
+    margin-bottom: 2rem;
+}
+
+.waboot-mailer__builder-section:last-child {
+    margin-bottom: 0;
+}
+
+.waboot-mailer__builder-section__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+}
+
+.waboot-mailer__block-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.waboot-mailer__block {
+    padding: 0.75rem 1rem;
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    font-size: 0.875rem;
+    color: #374151;
+    cursor: pointer;
+    transition: var(--waboot-mailer-transition, all 0.2s ease-in-out);
+    text-align: left;
+}
+
+.waboot-mailer__block:hover {
+    background: #f3f4f6;
+    border-color: var(--waboot-mailer-primary, #007bff);
+    color: var(--waboot-mailer-primary, #007bff);
+}
+
+.waboot-mailer__settings {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.waboot-mailer__form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.waboot-mailer__builder-canvas {
+    background: #ffffff;
+    padding: 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.waboot-mailer__email-container {
+    width: 100%;
+    max-width: 600px;
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    min-height: 400px;
+    padding: 2rem;
+    position: relative;
+}
+
+.waboot-mailer__email-block {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 2px dashed var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    position: relative;
+    cursor: pointer;
+    transition: var(--waboot-mailer-transition, all 0.2s ease-in-out);
+}
+
+.waboot-mailer__email-block:hover {
+    border-color: var(--waboot-mailer-primary, #007bff);
+    background: #f8fafc;
+}
+
+.waboot-mailer__email-block--selected {
+    border-color: var(--waboot-mailer-primary, #007bff);
+    background: #f0f9ff;
+}
+
+.waboot-mailer__email-block--text {
+    min-height: 100px;
+}
+
+.waboot-mailer__email-block--image {
+    text-align: center;
+}
+
+.waboot-mailer__email-block--image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+}
+
+.waboot-mailer__email-block--button {
+    text-align: center;
+}
+
+.waboot-mailer__email-block--button button {
+    padding: 0.75rem 2rem;
+    background: var(--waboot-mailer-primary, #007bff);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.waboot-mailer__block-controls {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.waboot-mailer__email-block:hover .waboot-mailer__block-controls {
+    opacity: 1;
+}
+
+.waboot-mailer__block-controls__btn {
+    padding: 0.25rem 0.5rem;
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: var(--waboot-mailer-transition, all 0.2s ease-in-out);
+}
+
+.waboot-mailer__block-controls__btn:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.waboot-mailer__block-controls__btn--delete:hover {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
+}
+
+.waboot-mailer__builder-properties {
+    background: #f9fafb;
+    border-left: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.waboot-mailer__properties-section {
+    margin-bottom: 2rem;
+}
+
+.waboot-mailer__properties-section:last-child {
+    margin-bottom: 0;
+}
+
+.waboot-mailer__properties-section__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+}
+
+.waboot-mailer__properties-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.waboot-mailer__properties-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.waboot-mailer__properties-form__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.waboot-mailer__properties-form__input {
+    padding: 0.5rem;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    font-size: 0.875rem;
+    background: #ffffff;
+}
+
+.waboot-mailer__properties-form__textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Dashboard Organism */
+.waboot-mailer__dashboard {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+    padding: 2rem;
+    background: #f9fafb;
+    min-height: calc(100vh - 200px);
+}
+
+.waboot-mailer__dashboard__main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.waboot-mailer__dashboard__header {
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    padding: 2rem;
+    box-shadow: var(--waboot-mailer-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.waboot-mailer__dashboard__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.waboot-mailer__dashboard__subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.waboot-mailer__dashboard__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.waboot-mailer__dashboard__btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--waboot-mailer-primary, #007bff);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--waboot-mailer-transition, all 0.2s ease-in-out);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.waboot-mailer__dashboard__btn:hover {
+    background: #0056b3;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.waboot-mailer__dashboard__btn--secondary {
+    background: #ffffff;
+    color: #374151;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+}
+
+.waboot-mailer__dashboard__btn--secondary:hover {
+    background: #f9fafb;
+    color: #111827;
+}
+
+.waboot-mailer__dashboard__content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.waboot-mailer__dashboard__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.waboot-mailer__dashboard__widget {
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    padding: 1.5rem;
+    box-shadow: var(--waboot-mailer-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.waboot-mailer__dashboard__widget__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+}
+
+.waboot-mailer__dashboard__widget__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Campaign List Organism */
+.waboot-mailer__campaign-list {
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    overflow: hidden;
+    box-shadow: var(--waboot-mailer-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.waboot-mailer__campaign-list__header {
+    padding: 1.5rem;
+    background: #f9fafb;
+    border-bottom: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.waboot-mailer__campaign-list__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.waboot-mailer__campaign-list__filters {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.waboot-mailer__campaign-list__filter {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    background: #ffffff;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.waboot-mailer__campaign-list__content {
+    padding: 1.5rem;
+    display: grid;
+    gap: 1.5rem;
+}
+
+.waboot-mailer__campaign-list__empty {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: #6b7280;
+}
+
+.waboot-mailer__campaign-list__empty__icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.waboot-mailer__campaign-list__empty__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.waboot-mailer__campaign-list__empty__description {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .waboot-mailer__email-builder {
+        grid-template-columns: 250px 1fr;
+    }
+    
+    .waboot-mailer__builder-properties {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 300px;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .waboot-mailer__builder-properties--open {
+        transform: translateX(0);
+    }
+    
+    .waboot-mailer__dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .waboot-mailer__email-builder {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .waboot-mailer__builder-sidebar {
+        order: 2;
+        border-right: none;
+        border-top: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    }
+    
+    .waboot-mailer__builder-canvas {
+        order: 1;
+    }
+    
+    .waboot-mailer__dashboard__actions {
+        flex-direction: column;
+    }
+    
+    .waboot-mailer__campaign-list__header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .waboot-mailer__campaign-list__filters {
+        flex-direction: column;
+    }
+} 

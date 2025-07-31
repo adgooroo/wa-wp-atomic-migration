@@ -1,312 +1,33 @@
-/*!
- * Waboot Child Shop Theme
- * E-commerce theme inheriting from Site app Waboot theme
- * Bootstrap 5 + Alpine.js + BEM + Atomic Design
- * @version 1.0.0
- * @author AdGooroo
- */
+/* Waboot Shop Child Theme CSS */
+/* Inherits from parent site:waboot theme */
 
-/* ============================================
-   PARENT THEME INHERITANCE
-   ============================================ */
-
-/* Import parent theme styles */
-@import url('../../site/themes/waboot/css/atoms/atoms.css');
-@import url('../../site/themes/waboot/css/molecules/molecules.css');
-@import url('../../site/themes/waboot/css/organisms/organisms.css');
+/* 1. Import parent theme styles */
 @import url('../../site/themes/waboot/css/waboot.css');
 
-/* Import child theme specific styles */
-@import url('shop-atoms.css');
-@import url('shop-molecules.css');
-@import url('shop-organisms.css');
+/* 2. Import Bootstrap 5 custom styles */
+@import url('bootstrap-custom.scss');
+@import url('bootstrap-utilities.scss');
 
-/* ============================================
-   SHOP THEME VARIABLES
-   ============================================ */
+/* 3. Import Atomic Design components */
+@import url('atoms.css');
+@import url('molecules.css');
+@import url('organisms.css');
 
-:root {
-    /* Inherit parent theme variables and extend */
-    
-    /* E-commerce specific colors */
-    --shop-price-color: #198754;
-    --shop-sale-color: #dc3545;
-    --shop-out-of-stock-color: #6c757d;
-    --shop-rating-color: #ffc107;
-    --shop-wishlist-color: #e91e63;
-    
-    /* Product card styling */
-    --shop-card-border-radius: 0.5rem;
-    --shop-card-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    --shop-card-hover-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    
-    /* Shopping cart styling */
-    --shop-cart-badge-bg: var(--shop-sale-color);
-    --shop-cart-total-bg: var(--bs-gray-100);
-    
-    /* Button variations */
-    --shop-add-to-cart-bg: var(--shop-price-color);
-    --shop-add-to-cart-hover-bg: #157347;
-    --shop-buy-now-bg: var(--bs-primary);
-    --shop-buy-now-hover-bg: var(--bs-primary-dark);
-    
-    /* Spacing for e-commerce layouts */
-    --shop-product-spacing: 1.5rem;
-    --shop-filter-spacing: 1rem;
-    --shop-checkout-spacing: 2rem;
+/* 4. Shop-specific overrides and customizations */
+.waboot-child__shop {
+    /* Shop-specific styles */
 }
 
-/* ============================================
-   GLOBAL SHOP OVERRIDES
-   ============================================ */
-
-/* Shop-specific body classes */
-.shop-page {
-    --primary-color: var(--shop-price-color);
-}
-
-.shop-page .btn-primary {
-    background-color: var(--shop-add-to-cart-bg);
-    border-color: var(--shop-add-to-cart-bg);
-}
-
-.shop-page .btn-primary:hover {
-    background-color: var(--shop-add-to-cart-hover-bg);
-    border-color: var(--shop-add-to-cart-hover-bg);
-}
-
-/* ============================================
-   SHOP LAYOUT SPECIFIC STYLES
-   ============================================ */
-
-/* Main shop layout */
-.shop__layout {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.shop__main {
-    flex: 1;
-    padding: var(--shop-product-spacing) 0;
-}
-
-/* Shop grid layout */
-.shop__grid {
-    display: grid;
-    gap: var(--shop-filter-spacing);
-    grid-template-columns: 1fr;
-}
-
-@media (min-width: 992px) {
-    .shop__grid {
-        grid-template-columns: 250px 1fr;
-    }
-    
-    .shop__grid--no-sidebar {
-        grid-template-columns: 1fr;
+/* 5. Responsive design */
+@media (max-width: 768px) {
+    .waboot-child__shop {
+        /* Mobile-specific styles */
     }
 }
 
-/* ============================================
-   UTILITY CLASSES FOR E-COMMERCE
-   ============================================ */
-
-/* Price display utilities */
-.price {
-    font-weight: 600;
-    color: var(--shop-price-color);
-}
-
-.price--sale {
-    color: var(--shop-sale-color);
-}
-
-.price--original {
-    text-decoration: line-through;
-    color: var(--bs-gray-500);
-    font-weight: 400;
-}
-
-.price--large {
-    font-size: 1.25rem;
-}
-
-.price--small {
-    font-size: 0.875rem;
-}
-
-/* Stock status utilities */
-.stock-status {
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.stock-status--in-stock {
-    color: var(--shop-price-color);
-}
-
-.stock-status--out-of-stock {
-    color: var(--shop-out-of-stock-color);
-}
-
-.stock-status--low-stock {
-    color: var(--shop-sale-color);
-}
-
-/* Sale badge */
-.sale-badge {
-    background-color: var(--shop-sale-color);
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-    z-index: 1;
-}
-
-/* Rating stars */
-.rating {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.rating__stars {
-    display: flex;
-    color: var(--shop-rating-color);
-}
-
-.rating__count {
-    font-size: 0.875rem;
-    color: var(--bs-gray-600);
-}
-
-/* Loading states */
-.loading {
-    opacity: 0.6;
-    pointer-events: none;
-    position: relative;
-}
-
-.loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1.5rem;
-    height: 1.5rem;
-    border: 2px solid var(--bs-gray-300);
-    border-top: 2px solid var(--bs-primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    transform: translate(-50%, -50%);
-}
-
-@keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
-
-/* Mobile optimizations */
-@media (max-width: 576px) {
-    .shop__main {
-        padding: 1rem 0;
-    }
-    
-    .shop__grid {
-        gap: 1rem;
-    }
-    
-    .price--large {
-        font-size: 1.125rem;
-    }
-}
-
-/* Tablet optimizations */
-@media (min-width: 768px) and (max-width: 991px) {
-    .shop__grid {
-        grid-template-columns: 200px 1fr;
-    }
-}
-
-/* ============================================
-   PRINT STYLES
-   ============================================ */
-
+/* 6. Print styles */
 @media print {
-    .shop__sidebar,
-    .shop__filters,
-    .btn,
-    .alert {
-        display: none !important;
-    }
-    
-    .shop__main {
-        width: 100% !important;
-    }
-    
-    .price {
-        color: #000 !important;
-    }
-}
-
-/* ============================================
-   ACCESSIBILITY ENHANCEMENTS
-   ============================================ */
-
-/* Focus indicators for e-commerce interactions */
-.shop__product-card:focus-within {
-    outline: 2px solid var(--bs-primary);
-    outline-offset: 2px;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .price {
-        color: #000;
-        background-color: #fff;
-        padding: 0.125rem 0.25rem;
-        border-radius: 0.25rem;
-    }
-    
-    .sale-badge {
-        border: 2px solid #000;
-    }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    .loading::after {
-        animation: none;
-    }
-    
-    .shop__product-card {
-        transition: none;
-    }
-}
-
-/* ============================================
-   DARK MODE SUPPORT
-   ============================================ */
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --shop-card-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.075);
-        --shop-card-hover-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.15);
-        --shop-cart-total-bg: var(--bs-gray-800);
-    }
-    
-    .shop__layout {
-        background-color: var(--bs-dark);
-        color: var(--bs-light);
+    .waboot-child__shop {
+        /* Print-specific styles */
     }
 }

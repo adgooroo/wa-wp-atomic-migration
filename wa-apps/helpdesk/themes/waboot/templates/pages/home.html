@@ -1,0 +1,273 @@
+{*
+ * Helpdesk Home Page Template
+ * Main landing page with FAQ schema and search functionality
+ *}
+
+{* Set page-specific variables *}
+{$wa->globals('htmlClass', 'is-helpdesk-home')}
+{$wa->globals('hideCrumbs', false)}
+
+{* FAQ Schema Data *}
+{$faq_schema = []}
+{if !empty($faq_items)}
+    {foreach $faq_items as $faq}
+        {$faq_schema[] = [
+            '@type' => 'Question',
+            'name' => $faq.question|escape:'javascript',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => $faq.answer|strip_tags|escape:'javascript'
+            ]
+        ]}
+    {/foreach}
+{/if}
+
+{* Include layout *}
+{include file="layout.html"}
+
+{* Main content *}
+<div class="waboot-helpdesk__home">
+    {* Hero Section *}
+    <section class="waboot-helpdesk__hero">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__hero__content">
+                <h1 class="waboot-helpdesk__hero__title">
+                    {_w('Support Center')}
+                </h1>
+                <p class="waboot-helpdesk__hero__description">
+                    {_w('Find answers to common questions or submit a support ticket')}
+                </p>
+                
+                {* Search Form *}
+                <div class="waboot-helpdesk__search" x-data="helpdeskSearch()">
+                    <form class="waboot-helpdesk__search__form" 
+                          x-on:submit.prevent="search()"
+                          role="search">
+                        <div class="waboot-helpdesk__search__input-group">
+                            <input type="text" 
+                                   class="waboot-helpdesk__search__input"
+                                   x-model="query"
+                                   placeholder="{_w('Search for answers...')}"
+                                   aria-label="{_w('Search helpdesk')}">
+                            <button type="submit" 
+                                    class="waboot-helpdesk__search__button"
+                                    x-bind:disabled="loading">
+                                <span x-show="!loading">{_w('Search')}</span>
+                                <span x-show="loading">{_w('Searching...')}</span>
+                            </button>
+                        </div>
+                    </form>
+                    
+                    {* Search Results *}
+                    <div class="waboot-helpdesk__search__results" 
+                         x-show="results.length > 0"
+                         x-transition>
+                        <template x-for="result in results" :key="result.id">
+                            <div class="waboot-helpdesk__search__result">
+                                <h3 x-text="result.title"></h3>
+                                <p x-text="result.excerpt"></p>
+                                <a x-bind:href="result.url" x-text="result.title"></a>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {* Quick Actions *}
+    <section class="waboot-helpdesk__quick-actions">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__quick-actions__grid">
+                <div class="waboot-helpdesk__quick-action">
+                    <div class="waboot-helpdesk__quick-action__icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3 class="waboot-helpdesk__quick-action__title">
+                        {_w('Knowledge Base')}
+                    </h3>
+                    <p class="waboot-helpdesk__quick-action__description">
+                        {_w('Browse our comprehensive knowledge base')}
+                    </p>
+                    <a href="{$wa->getUrl('helpdesk/frontend/kb')}" 
+                       class="waboot-helpdesk__quick-action__link">
+                        {_w('Browse Articles')}
+                    </a>
+                </div>
+                
+                <div class="waboot-helpdesk__quick-action">
+                    <div class="waboot-helpdesk__quick-action__icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3 class="waboot-helpdesk__quick-action__title">
+                        {_w('Submit Ticket')}
+                    </h3>
+                    <p class="waboot-helpdesk__quick-action__description">
+                        {_w('Create a new support ticket')}
+                    </p>
+                    <a href="{$wa->getUrl('helpdesk/frontend/ticket')}" 
+                       class="waboot-helpdesk__quick-action__link">
+                        {_w('Create Ticket')}
+                    </a>
+                </div>
+                
+                <div class="waboot-helpdesk__quick-action">
+                    <div class="waboot-helpdesk__quick-action__icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h3 class="waboot-helpdesk__quick-action__title">
+                        {_w('My Tickets')}
+                    </h3>
+                    <p class="waboot-helpdesk__quick-action__description">
+                        {_w('View and manage your support tickets')}
+                    </p>
+                    <a href="{$wa->getUrl('helpdesk/frontend/my')}" 
+                       class="waboot-helpdesk__quick-action__link">
+                        {_w('View Tickets')}
+                    </a>
+                </div>
+                
+                <div class="waboot-helpdesk__quick-action">
+                    <div class="waboot-helpdesk__quick-action__icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3 class="waboot-helpdesk__quick-action__title">
+                        {_w('Contact Us')}
+                    </h3>
+                    <p class="waboot-helpdesk__quick-action__description">
+                        {_w('Get in touch with our support team')}
+                    </p>
+                    <a href="{$wa->getUrl('helpdesk/frontend/contact')}" 
+                       class="waboot-helpdesk__quick-action__link">
+                        {_w('Contact Support')}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {* FAQ Section *}
+    {if !empty($faq_items)}
+    <section class="waboot-helpdesk__faq">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__faq__header">
+                <h2 class="waboot-helpdesk__faq__title">
+                    {_w('Frequently Asked Questions')}
+                </h2>
+                <p class="waboot-helpdesk__faq__description">
+                    {_w('Find quick answers to common questions')}
+                </p>
+            </div>
+            
+            <div class="waboot-helpdesk__faq__list" x-data="faqAccordion()">
+                {foreach $faq_items as $faq}
+                <div class="waboot-helpdesk__faq__item">
+                    <button class="waboot-helpdesk__faq__question"
+                            x-on:click="toggleItem('faq-{$faq.id}')"
+                            x-bind:aria-expanded="isOpen('faq-{$faq.id}')"
+                            aria-controls="faq-answer-{$faq.id}">
+                        <span class="waboot-helpdesk__faq__question__text">
+                            {$faq.question|escape}
+                        </span>
+                        <span class="waboot-helpdesk__faq__question__icon"
+                              x-bind:class="{'is-open': isOpen('faq-{$faq.id}')}">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </button>
+                    
+                    <div class="waboot-helpdesk__faq__answer"
+                         x-show="isOpen('faq-{$faq.id}')"
+                         x-transition
+                         id="faq-answer-{$faq.id}">
+                        <div class="waboot-helpdesk__faq__answer__content">
+                            {$faq.answer}
+                        </div>
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+        </div>
+    </section>
+    {/if}
+
+    {* Recent Articles *}
+    {if !empty($recent_articles)}
+    <section class="waboot-helpdesk__recent-articles">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__recent-articles__header">
+                <h2 class="waboot-helpdesk__recent-articles__title">
+                    {_w('Recent Articles')}
+                </h2>
+                <a href="{$wa->getUrl('helpdesk/frontend/kb')}" 
+                   class="waboot-helpdesk__recent-articles__link">
+                    {_w('View All Articles')}
+                </a>
+            </div>
+            
+            <div class="waboot-helpdesk__recent-articles__grid">
+                {foreach $recent_articles as $article}
+                <article class="waboot-helpdesk__article-card">
+                    {if $article.image}
+                    <div class="waboot-helpdesk__article-card__image">
+                        <img src="{$article.image}" 
+                             alt="{$article.title|escape}"
+                             loading="lazy">
+                    </div>
+                    {/if}
+                    
+                    <div class="waboot-helpdesk__article-card__content">
+                        <h3 class="waboot-helpdesk__article-card__title">
+                            <a href="{$article.url}">{$article.title|escape}</a>
+                        </h3>
+                        
+                        <div class="waboot-helpdesk__article-card__meta">
+                            <time datetime="{$article.datetime|date:'c'}">
+                                {$article.datetime|wa_date:'humandate'}
+                            </time>
+                            {if $article.category}
+                            <span class="waboot-helpdesk__article-card__category">
+                                {$article.category.name|escape}
+                            </span>
+                            {/if}
+                        </div>
+                        
+                        <p class="waboot-helpdesk__article-card__excerpt">
+                            {$article.excerpt|truncate:150}
+                        </p>
+                        
+                        <a href="{$article.url}" 
+                           class="waboot-helpdesk__article-card__read-more">
+                            {_w('Read More')}
+                        </a>
+                    </div>
+                </article>
+                {/foreach}
+            </div>
+        </div>
+    </section>
+    {/if}
+</div>
+
+{* FAQ Schema JSON-LD *}
+{if !empty($faq_schema)}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": {$faq_schema|json_encode}
+}
+</script>
+{/if}
+
+{* SearchAction Schema *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "SearchAction",
+    "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "{$wa_domain}/helpdesk/search/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+}
+</script> 

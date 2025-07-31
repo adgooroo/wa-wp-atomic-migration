@@ -1,123 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<theme id="waboot" app="mailer">
-    <name>Waboot Mailer</name>
-    <description>A modern, fully-local Webasyst mailer theme inheriting from site:waboot. Built with Bootstrap 5, Alpine.js, and BEM methodology for outstanding email marketing performance.</description>
+<!DOCTYPE theme SYSTEM "theme.dtd">
+{* Mailer Theme Configuration *}
+<theme id="waboot" app="mailer" version="1.0.0">
+    <name>Waboot Mailer Theme</name>
+    <description>Modern email marketing theme for Webasyst Mailer app, built on Bootstrap 5 and Alpine.js</description>
+    <author>Webasyst Team</author>
     <version>1.0.0</version>
-    <vendor>Waboot Team</vendor>
-    <author>WordPress to Webasyst Migration Project</author>
-    <url>https://github.com/wp-wa-migration/waboot</url>
+    <vendor>webasyst</vendor>
     
-    <!-- Parent theme - inherits from site:waboot -->
-    <parent_theme>site:waboot</parent_theme>
+    <!-- Parent Theme Inheritance -->
+    <parent app="site" theme="waboot"/>
     
-    <!-- LOCALIZATION SECTION -->
+    <!-- Theme Features -->
+    <features>
+        <feature>responsive</feature>
+        <feature>email_marketing</feature>
+        <feature>campaign_management</feature>
+        <feature>subscriber_management</feature>
+        <feature>template_system</feature>
+        <feature>statistics</feature>
+        <feature>dark_mode</feature>
+        <feature>accessibility</feature>
+    </features>
+    
+    <!-- Theme Dependencies -->
+    <dependencies>
+        <!-- Bootstrap 5 CSS Framework -->
+        <dependency type="css" url="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"/>
+        
+        <!-- Alpine.js JavaScript Framework -->
+        <dependency type="js" url="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js" integrity="sha384-7QlqWp3GSehXz0KdtfPl1cEpF1gI4wJmBy+s6LZGmFMygSxTjKJ9oN6v9e3wFm" crossorigin="anonymous"/>
+        
+        <!-- Font Awesome Icons -->
+        <dependency type="css" url="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous"/>
+        
+        <!-- Inter Font -->
+        <dependency type="css" url="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"/>
+    </dependencies>
+    
+    <!-- Theme Localization -->
     <locales>
-        <!-- Email Marketing Elements -->
-        <locale>
-            <msgid>Newsletter</msgid>
-            <msgstr locale="ru_RU">Рассылка</msgstr>
-            <msgstr locale="en_US">Newsletter</msgstr>
-        </locale>
-        <locale>
-            <msgid>Subscribe</msgid>
-            <msgstr locale="ru_RU">Подписаться</msgstr>
-            <msgstr locale="en_US">Subscribe</msgstr>
-        </locale>
-        <locale>
-            <msgid>Unsubscribe</msgid>
-            <msgstr locale="ru_RU">Отписаться</msgstr>
-            <msgstr locale="en_US">Unsubscribe</msgstr>
-        </locale>
-        <locale>
-            <msgid>Your email address</msgid>
-            <msgstr locale="ru_RU">Ваш email адрес</msgstr>
-            <msgstr locale="en_US">Your email address</msgstr>
-        </locale>
-        <locale>
-            <msgid>Campaign</msgid>
-            <msgstr locale="ru_RU">Кампания</msgstr>
-            <msgstr locale="en_US">Campaign</msgstr>
-        </locale>
-        <locale>
-            <msgid>Template</msgid>
-            <msgstr locale="ru_RU">Шаблон</msgstr>
-            <msgstr locale="en_US">Template</msgstr>
-        </locale>
-        <locale>
-            <msgid>Send</msgid>
-            <msgstr locale="ru_RU">Отправить</msgstr>
-            <msgstr locale="en_US">Send</msgstr>
-        </locale>
-        <locale>
-            <msgid>Draft</msgid>
-            <msgstr locale="ru_RU">Черновик</msgstr>
-            <msgstr locale="en_US">Draft</msgstr>
-        </locale>
-        <locale>
-            <msgid>Schedule</msgid>
-            <msgstr locale="ru_RU">Запланировать</msgstr>
-            <msgstr locale="en_US">Schedule</msgstr>
-        </locale>
-        
-        <!-- Statistics -->
-        <locale>
-            <msgid>Statistics</msgid>
-            <msgstr locale="ru_RU">Статистика</msgstr>
-            <msgstr locale="en_US">Statistics</msgstr>
-        </locale>
-        <locale>
-            <msgid>Opened</msgid>
-            <msgstr locale="ru_RU">Открыто</msgstr>
-            <msgstr locale="en_US">Opened</msgstr>
-        </locale>
-        <locale>
-            <msgid>Clicked</msgid>
-            <msgstr locale="ru_RU">Переходы</msgstr>
-            <msgstr locale="en_US">Clicked</msgstr>
-        </locale>
-        <locale>
-            <msgid>Bounced</msgid>
-            <msgstr locale="ru_RU">Отказы</msgstr>
-            <msgstr locale="en_US">Bounced</msgstr>
-        </locale>
-        <locale>
-            <msgid>Subscribers</msgid>
-            <msgstr locale="ru_RU">Подписчики</msgstr>
-            <msgstr locale="en_US">Subscribers</msgstr>
-        </locale>
-        
-        <!-- Lists -->
-        <locale>
-            <msgid>Mailing Lists</msgid>
-            <msgstr locale="ru_RU">Списки рассылки</msgstr>
-            <msgstr locale="en_US">Mailing Lists</msgstr>
-        </locale>
-        <locale>
-            <msgid>Create List</msgid>
-            <msgstr locale="ru_RU">Создать список</msgstr>
-            <msgstr locale="en_US">Create List</msgstr>
-        </locale>
-        <locale>
-            <msgid>Import Contacts</msgid>
-            <msgstr locale="ru_RU">Импорт контактов</msgstr>
-            <msgstr locale="en_US">Import Contacts</msgstr>
-        </locale>
-        <locale>
-            <msgid>Export Contacts</msgid>
-            <msgstr locale="ru_RU">Экспорт контактов</msgstr>
-            <msgstr locale="en_US">Export Contacts</msgstr>
-        </locale>
-        
-        <!-- Plurals Support -->
-        <locale>
-            <msgid>subscriber</msgid>
-            <msgid_plural>subscribers</msgid_plural>
-            <msgstr locale="ru_RU">подписчик</msgstr>
-            <msgstr_plural locale="ru_RU">подписчика</msgstr_plural>
-            <msgstr_plural2 locale="ru_RU">подписчиков</msgstr_plural2>
-            <msgstr locale="en_US">subscriber</msgstr>
-            <msgstr_plural locale="en_US">subscribers</msgstr_plural>
-        </locale>
         <locale>
             <msgid>campaign</msgid>
             <msgid_plural>campaigns</msgid_plural>
@@ -126,6 +48,36 @@
             <msgstr_plural2 locale="ru_RU">кампаний</msgstr_plural2>
             <msgstr locale="en_US">campaign</msgstr>
             <msgstr_plural locale="en_US">campaigns</msgstr_plural>
+        </locale>
+        
+        <locale>
+            <msgid>subscriber</msgid>
+            <msgid_plural>subscribers</msgid_plural>
+            <msgstr locale="ru_RU">подписчик</msgstr>
+            <msgstr_plural locale="ru_RU">подписчики</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">подписчиков</msgstr_plural2>
+            <msgstr locale="en_US">subscriber</msgstr>
+            <msgstr_plural locale="en_US">subscribers</msgstr_plural>
+        </locale>
+        
+        <locale>
+            <msgid>template</msgid>
+            <msgid_plural>templates</msgid_plural>
+            <msgstr locale="ru_RU">шаблон</msgstr>
+            <msgstr_plural locale="ru_RU">шаблоны</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">шаблонов</msgstr_plural2>
+            <msgstr locale="en_US">template</msgstr>
+            <msgstr_plural locale="en_US">templates</msgstr_plural>
+        </locale>
+        
+        <locale>
+            <msgid>email</msgid>
+            <msgid_plural>emails</msgid_plural>
+            <msgstr locale="ru_RU">письмо</msgstr>
+            <msgstr_plural locale="ru_RU">письма</msgstr_plural>
+            <msgstr_plural2 locale="ru_RU">писем</msgstr_plural2>
+            <msgstr locale="en_US">email</msgstr>
+            <msgstr_plural locale="en_US">emails</msgstr_plural>
         </locale>
     </locales>
     
@@ -164,38 +116,30 @@
         </setting>
     </settings>
     
-    <!-- Supported Features -->
-    <features>
-        <feature id="responsive">Fully responsive design</feature>
-        <feature id="bootstrap5">Bootstrap 5 framework</feature>
-        <feature id="alpinejs">Alpine.js micro-reactivity</feature>
-        <feature id="bem">BEM CSS methodology</feature>
-        <feature id="local_assets">No CDN dependencies</feature>
-        <feature id="email_marketing">Email marketing optimized</feature>
-        <feature id="campaign_management">Campaign management</feature>
-        <feature id="subscriber_management">Subscriber management</feature>
-        <feature id="email_templates">Email templates</feature>
-        <feature id="statistics">Campaign statistics</feature>
-        <feature id="rtl">RTL language support</feature>
-        <feature id="accessibility">WCAG 2.1 compliant</feature>
-    </features>
-    
     <!-- Required Webasyst Version -->
     <requirements>
         <app id="mailer" version="2.0.0"/>
+        <app id="site" version="*"/>
+        <theme app="site" id="waboot"/>
         <php version="7.4.0"/>
     </requirements>
     
     <!-- Theme Files Structure -->
     <files>
-        <file path="css/mailer-atoms.css" type="stylesheet"/>
-        <file path="css/mailer-molecules.css" type="stylesheet"/>
-        <file path="css/mailer-organisms.css" type="stylesheet"/>
+        <file path="css/waboot-mailer.css" type="stylesheet"/>
+        <file path="css/atoms.css" type="stylesheet"/>
+        <file path="css/molecules.css" type="stylesheet"/>
+        <file path="css/organisms.css" type="stylesheet"/>
+        <file path="css/utilities.css" type="stylesheet"/>
         <file path="js/waboot-mailer.js" type="javascript"/>
+        <file path="js/mailer-store.js" type="javascript"/>
+        <file path="js/mailer-components.js" type="javascript"/>
+        <file path="templates/layout.html" type="template"/>
         <file path="templates/dashboard.html" type="template"/>
         <file path="templates/campaign.html" type="template"/>
         <file path="templates/subscribers.html" type="template"/>
         <file path="templates/templates.html" type="template"/>
+        <file path="img/template-placeholder.png" type="image"/>
     </files>
     
     <!-- Theme Compatibility -->

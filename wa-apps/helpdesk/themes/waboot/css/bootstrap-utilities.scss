@@ -1,0 +1,256 @@
+/**
+ * Bootstrap 5 Utilities for Helpdesk Theme
+ * Additional utility classes and helpers
+ */
+
+// Import Bootstrap utilities
+@import "bootstrap/scss/utilities";
+
+// Custom utility classes for Helpdesk
+
+// Text utilities
+.text-helpdesk-primary { color: $helpdesk-primary !important; }
+.text-helpdesk-secondary { color: $helpdesk-secondary !important; }
+.text-helpdesk-success { color: $helpdesk-success !important; }
+.text-helpdesk-warning { color: $helpdesk-warning !important; }
+.text-helpdesk-danger { color: $helpdesk-danger !important; }
+.text-helpdesk-info { color: $helpdesk-info !important; }
+
+// Background utilities
+.bg-helpdesk-primary { background-color: $helpdesk-primary !important; }
+.bg-helpdesk-secondary { background-color: $helpdesk-secondary !important; }
+.bg-helpdesk-success { background-color: $helpdesk-success !important; }
+.bg-helpdesk-warning { background-color: $helpdesk-warning !important; }
+.bg-helpdesk-danger { background-color: $helpdesk-danger !important; }
+.bg-helpdesk-info { background-color: $helpdesk-info !important; }
+
+// Border utilities
+.border-helpdesk-primary { border-color: $helpdesk-primary !important; }
+.border-helpdesk-secondary { border-color: $helpdesk-secondary !important; }
+.border-helpdesk-success { border-color: $helpdesk-success !important; }
+.border-helpdesk-warning { border-color: $helpdesk-warning !important; }
+.border-helpdesk-danger { border-color: $helpdesk-danger !important; }
+.border-helpdesk-info { border-color: $helpdesk-info !important; }
+
+// Status utilities
+.text-status-open { color: $helpdesk-status-open !important; }
+.text-status-in-progress { color: $helpdesk-status-in-progress !important; }
+.text-status-resolved { color: $helpdesk-status-resolved !important; }
+.text-status-closed { color: $helpdesk-status-closed !important; }
+
+.bg-status-open { background-color: $helpdesk-status-open !important; }
+.bg-status-in-progress { background-color: $helpdesk-status-in-progress !important; }
+.bg-status-resolved { background-color: $helpdesk-status-resolved !important; }
+.bg-status-closed { background-color: $helpdesk-status-closed !important; }
+
+// Priority utilities
+.text-priority-low { color: $helpdesk-priority-low !important; }
+.text-priority-medium { color: $helpdesk-priority-medium !important; }
+.text-priority-high { color: $helpdesk-priority-high !important; }
+.text-priority-critical { color: $helpdesk-priority-critical !important; }
+
+.bg-priority-low { background-color: $helpdesk-priority-low !important; }
+.bg-priority-medium { background-color: $helpdesk-priority-medium !important; }
+.bg-priority-high { background-color: $helpdesk-priority-high !important; }
+.bg-priority-critical { background-color: $helpdesk-priority-critical !important; }
+
+// Spacing utilities
+@each $size, $value in $spacers {
+  .m-helpdesk-#{$size} { margin: $value !important; }
+  .mt-helpdesk-#{$size} { margin-top: $value !important; }
+  .mr-helpdesk-#{$size} { margin-right: $value !important; }
+  .mb-helpdesk-#{$size} { margin-bottom: $value !important; }
+  .ml-helpdesk-#{$size} { margin-left: $value !important; }
+  .mx-helpdesk-#{$size} { 
+    margin-left: $value !important;
+    margin-right: $value !important;
+  }
+  .my-helpdesk-#{$size} { 
+    margin-top: $value !important;
+    margin-bottom: $value !important;
+  }
+  
+  .p-helpdesk-#{$size} { padding: $value !important; }
+  .pt-helpdesk-#{$size} { padding-top: $value !important; }
+  .pr-helpdesk-#{$size} { padding-right: $value !important; }
+  .pb-helpdesk-#{$size} { padding-bottom: $value !important; }
+  .pl-helpdesk-#{$size} { padding-left: $value !important; }
+  .px-helpdesk-#{$size} { 
+    padding-left: $value !important;
+    padding-right: $value !important;
+  }
+  .py-helpdesk-#{$size} { 
+    padding-top: $value !important;
+    padding-bottom: $value !important;
+  }
+}
+
+// Display utilities
+.d-helpdesk-none { display: none !important; }
+.d-helpdesk-inline { display: inline !important; }
+.d-helpdesk-inline-block { display: inline-block !important; }
+.d-helpdesk-block { display: block !important; }
+.d-helpdesk-table { display: table !important; }
+.d-helpdesk-table-cell { display: table-cell !important; }
+.d-helpdesk-table-row { display: table-row !important; }
+.d-helpdesk-flex { display: flex !important; }
+.d-helpdesk-inline-flex { display: inline-flex !important; }
+
+// Flex utilities
+.flex-helpdesk-row { flex-direction: row !important; }
+.flex-helpdesk-column { flex-direction: column !important; }
+.flex-helpdesk-wrap { flex-wrap: wrap !important; }
+.flex-helpdesk-nowrap { flex-wrap: nowrap !important; }
+.flex-helpdesk-1 { flex: 1 1 0% !important; }
+.flex-helpdesk-auto { flex: 1 1 auto !important; }
+.flex-helpdesk-none { flex: none !important; }
+
+// Justify content utilities
+.justify-helpdesk-start { justify-content: flex-start !important; }
+.justify-helpdesk-end { justify-content: flex-end !important; }
+.justify-helpdesk-center { justify-content: center !important; }
+.justify-helpdesk-between { justify-content: space-between !important; }
+.justify-helpdesk-around { justify-content: space-around !important; }
+.justify-helpdesk-evenly { justify-content: space-evenly !important; }
+
+// Align items utilities
+.align-helpdesk-start { align-items: flex-start !important; }
+.align-helpdesk-end { align-items: flex-end !important; }
+.align-helpdesk-center { align-items: center !important; }
+.align-helpdesk-baseline { align-items: baseline !important; }
+.align-helpdesk-stretch { align-items: stretch !important; }
+
+// Position utilities
+.position-helpdesk-static { position: static !important; }
+.position-helpdesk-relative { position: relative !important; }
+.position-helpdesk-absolute { position: absolute !important; }
+.position-helpdesk-fixed { position: fixed !important; }
+.position-helpdesk-sticky { position: sticky !important; }
+
+// Border radius utilities
+.rounded-helpdesk { border-radius: $border-radius !important; }
+.rounded-helpdesk-sm { border-radius: $border-radius-sm !important; }
+.rounded-helpdesk-lg { border-radius: $border-radius-lg !important; }
+.rounded-helpdesk-circle { border-radius: 50% !important; }
+.rounded-helpdesk-pill { border-radius: 9999px !important; }
+
+// Shadow utilities
+.shadow-helpdesk-sm { box-shadow: $box-shadow-sm !important; }
+.shadow-helpdesk { box-shadow: $box-shadow !important; }
+.shadow-helpdesk-lg { box-shadow: $box-shadow-lg !important; }
+.shadow-helpdesk-none { box-shadow: none !important; }
+
+// Text alignment utilities
+.text-helpdesk-left { text-align: left !important; }
+.text-helpdesk-right { text-align: right !important; }
+.text-helpdesk-center { text-align: center !important; }
+.text-helpdesk-justify { text-align: justify !important; }
+
+// Text transform utilities
+.text-helpdesk-lowercase { text-transform: lowercase !important; }
+.text-helpdesk-uppercase { text-transform: uppercase !important; }
+.text-helpdesk-capitalize { text-transform: capitalize !important; }
+
+// Font weight utilities
+.fw-helpdesk-light { font-weight: 300 !important; }
+.fw-helpdesk-normal { font-weight: 400 !important; }
+.fw-helpdesk-medium { font-weight: 500 !important; }
+.fw-helpdesk-semibold { font-weight: 600 !important; }
+.fw-helpdesk-bold { font-weight: 700 !important; }
+
+// Font size utilities
+.fs-helpdesk-1 { font-size: 2.5rem !important; }
+.fs-helpdesk-2 { font-size: 2rem !important; }
+.fs-helpdesk-3 { font-size: 1.75rem !important; }
+.fs-helpdesk-4 { font-size: 1.5rem !important; }
+.fs-helpdesk-5 { font-size: 1.25rem !important; }
+.fs-helpdesk-6 { font-size: 1rem !important; }
+.fs-helpdesk-sm { font-size: 0.875rem !important; }
+.fs-helpdesk-lg { font-size: 1.125rem !important; }
+
+// Line height utilities
+.lh-helpdesk-1 { line-height: 1 !important; }
+.lh-helpdesk-sm { line-height: 1.25 !important; }
+.lh-helpdesk-base { line-height: 1.5 !important; }
+.lh-helpdesk-lg { line-height: 2 !important; }
+
+// Width utilities
+.w-helpdesk-25 { width: 25% !important; }
+.w-helpdesk-50 { width: 50% !important; }
+.w-helpdesk-75 { width: 75% !important; }
+.w-helpdesk-100 { width: 100% !important; }
+.w-helpdesk-auto { width: auto !important; }
+
+// Height utilities
+.h-helpdesk-25 { height: 25% !important; }
+.h-helpdesk-50 { height: 50% !important; }
+.h-helpdesk-75 { height: 75% !important; }
+.h-helpdesk-100 { height: 100% !important; }
+.h-helpdesk-auto { height: auto !important; }
+
+// Overflow utilities
+.overflow-helpdesk-auto { overflow: auto !important; }
+.overflow-helpdesk-hidden { overflow: hidden !important; }
+.overflow-helpdesk-visible { overflow: visible !important; }
+.overflow-helpdesk-scroll { overflow: scroll !important; }
+
+// Cursor utilities
+.cursor-helpdesk-pointer { cursor: pointer !important; }
+.cursor-helpdesk-default { cursor: default !important; }
+.cursor-helpdesk-not-allowed { cursor: not-allowed !important; }
+.cursor-helpdesk-help { cursor: help !important; }
+
+// User select utilities
+.user-select-helpdesk-none { user-select: none !important; }
+.user-select-helpdesk-auto { user-select: auto !important; }
+.user-select-helpdesk-all { user-select: all !important; }
+
+// Visibility utilities
+.visible-helpdesk { visibility: visible !important; }
+.invisible-helpdesk { visibility: hidden !important; }
+
+// Opacity utilities
+.opacity-helpdesk-0 { opacity: 0 !important; }
+.opacity-helpdesk-25 { opacity: 0.25 !important; }
+.opacity-helpdesk-50 { opacity: 0.5 !important; }
+.opacity-helpdesk-75 { opacity: 0.75 !important; }
+.opacity-helpdesk-100 { opacity: 1 !important; }
+
+// Z-index utilities
+.z-helpdesk-0 { z-index: 0 !important; }
+.z-helpdesk-10 { z-index: 10 !important; }
+.z-helpdesk-20 { z-index: 20 !important; }
+.z-helpdesk-30 { z-index: 30 !important; }
+.z-helpdesk-40 { z-index: 40 !important; }
+.z-helpdesk-50 { z-index: 50 !important; }
+
+// Responsive utilities
+@each $breakpoint in map-keys($grid-breakpoints) {
+  $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+  
+  @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+    // Display utilities
+    .d#{$infix}-helpdesk-none { display: none !important; }
+    .d#{$infix}-helpdesk-inline { display: inline !important; }
+    .d#{$infix}-helpdesk-inline-block { display: inline-block !important; }
+    .d#{$infix}-helpdesk-block { display: block !important; }
+    .d#{$infix}-helpdesk-flex { display: flex !important; }
+    .d#{$infix}-helpdesk-inline-flex { display: inline-flex !important; }
+    
+    // Text alignment utilities
+    .text#{$infix}-helpdesk-left { text-align: left !important; }
+    .text#{$infix}-helpdesk-right { text-align: right !important; }
+    .text#{$infix}-helpdesk-center { text-align: center !important; }
+    
+    // Flex utilities
+    .flex#{$infix}-helpdesk-row { flex-direction: row !important; }
+    .flex#{$infix}-helpdesk-column { flex-direction: column !important; }
+    .justify#{$infix}-helpdesk-start { justify-content: flex-start !important; }
+    .justify#{$infix}-helpdesk-end { justify-content: flex-end !important; }
+    .justify#{$infix}-helpdesk-center { justify-content: center !important; }
+    .justify#{$infix}-helpdesk-between { justify-content: space-between !important; }
+    .align#{$infix}-helpdesk-start { align-items: flex-start !important; }
+    .align#{$infix}-helpdesk-end { align-items: flex-end !important; }
+    .align#{$infix}-helpdesk-center { align-items: center !important; }
+  }
+} 

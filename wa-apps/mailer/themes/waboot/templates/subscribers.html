@@ -1,0 +1,250 @@
+{* Mailer Subscribers Template *}
+{extends file="layout.html"}
+
+{block name="content"}
+<div class="waboot-mailer__subscribers-page" x-data="subscribersPage()">
+    {* Page Header *}
+    <div class="waboot-mailer__page-header">
+        <div class="waboot-mailer__page-header__content">
+            <h1 class="waboot-mailer__page-header__title">Subscribers</h1>
+            <p class="waboot-mailer__page-header__subtitle">Manage your email subscribers and lists</p>
+        </div>
+        
+        <div class="waboot-mailer__page-header__actions">
+            <a href="/mailer/subscribers/add/" class="waboot-mailer__btn">
+                <i class="fas fa-user-plus"></i>
+                Add Subscriber
+            </a>
+            <a href="/mailer/subscribers/import/" class="waboot-mailer__btn waboot-mailer__btn--secondary">
+                <i class="fas fa-upload"></i>
+                Import
+            </a>
+            <button class="waboot-mailer__btn waboot-mailer__btn--secondary" @click="exportSubscribers()">
+                <i class="fas fa-download"></i>
+                Export
+            </button>
+        </div>
+    </div>
+    
+    {* Filters and Search *}
+    <div class="waboot-mailer__subscribers-filters">
+        <div class="waboot-mailer__subscribers-filters__search">
+            <input type="text" 
+                   class="waboot-mailer__input" 
+                   placeholder="Search subscribers..."
+                   x-model="$store.mailer.subscribers.filters.search"
+                   @input="$store.mailer.loadSubscribers()">
+        </div>
+        
+        <div class="waboot-mailer__subscribers-filters__controls">
+            <select class="waboot-mailer__select" x-model="$store.mailer.subscribers.filters.status">
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="unsubscribed">Unsubscribed</option>
+            </select>
+            
+            <select class="waboot-mailer__select" x-model="$store.mailer.subscribers.filters.source">
+                <option value="all">All Sources</option>
+                <option value="signup">Website Signup</option>
+                <option value="import">Import</option>
+                <option value="manual">Manual</option>
+            </select>
+        </div>
+    </div>
+    
+    {* Subscribers List *}
+    <div class="waboot-mailer__subscribers-list">
+        <div class="waboot-mailer__subscribers-list__header">
+            <div class="waboot-mailer__subscribers-list__count">
+                <span x-text="$store.mailer.formatNumber($store.mailer.subscribers.pagination.total)">0</span> subscribers
+            </div>
+            
+            <div class="waboot-mailer__subscribers-list__bulk-actions">
+                <button class="waboot-mailer__btn waboot-mailer__btn--small" @click="bulkAction('activate')">
+                    Activate Selected
+                </button>
+                <button class="waboot-mailer__btn waboot-mailer__btn--small waboot-mailer__btn--danger" @click="bulkAction('delete')">
+                    Delete Selected
+                </button>
+            </div>
+        </div>
+        
+        <div class="waboot-mailer__subscribers-list__content">
+            <template x-if="$store.mailer.subscribers.loading">
+                <div class="waboot-mailer__loading">Loading subscribers...</div>
+            </template>
+            
+            <template x-if="!$store.mailer.subscribers.loading && $store.mailer.subscribers.list.length === 0">
+                <div class="waboot-mailer__subscribers-list__empty">
+                    <div class="waboot-mailer__subscribers-list__empty__icon">👥</div>
+                    <h3 class="waboot-mailer__subscribers-list__empty__title">No subscribers found</h3>
+                    <p class="waboot-mailer__subscribers-list__empty__description">Start building your email list by adding subscribers</p>
+                    <a href="/mailer/subscribers/add/" class="waboot-mailer__btn">Add First Subscriber</a>
+                </div>
+            </template>
+            
+            <template x-for="subscriber in $store.mailer.filterSubscribers()" :key="subscriber.id">
+                <div class="waboot-mailer__subscriber-card">
+                    <div class="waboot-mailer__subscriber-card__header">
+                        <div class="waboot-mailer__subscriber-card__info">
+                            <div class="waboot-mailer__subscriber-card__name" x-text="subscriber.name || subscriber.email"></div>
+                            <div class="waboot-mailer__subscriber-card__email" x-text="subscriber.email"></div>
+                        </div>
+                        
+                        <div class="waboot-mailer__subscriber-card__meta">
+                            <span class="waboot-mailer__status-badge" 
+                                  x-bind:class="'waboot-mailer__status-badge--' + subscriber.status"
+                                  x-text="subscriber.status"></span>
+                            <div class="waboot-mailer__subscriber-card__date" x-text="$store.mailer.formatDate(subscriber.created_at)"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="waboot-mailer__subscriber-card__body">
+                        <div class="waboot-mailer__subscriber-card__details">
+                            <div class="waboot-mailer__subscriber-card__detail">
+                                <label>Source:</label>
+                                <span x-text="subscriber.source"></span>
+                            </div>
+                            <div class="waboot-mailer__subscriber-card__detail">
+                                <label>Lists:</label>
+                                <span x-text="subscriber.lists.join(', ')"></span>
+                            </div>
+                            <div class="waboot-mailer__subscriber-card__detail">
+                                <label>Last Activity:</label>
+                                <span x-text="$store.mailer.formatDateTime(subscriber.last_activity)"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="waboot-mailer__subscriber-card__actions">
+                            <button class="waboot-mailer__subscriber-card__btn" 
+                                    data-action="subscriber" 
+                                    data-subscriber-action="edit" 
+                                    x-bind:data-subscriber-id="subscriber.id">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="waboot-mailer__subscriber-card__btn" 
+                                    data-action="subscriber" 
+                                    data-subscriber-action="export" 
+                                    x-bind:data-subscriber-id="subscriber.id">
+                                <i class="fas fa-download"></i>
+                                Export
+                            </button>
+                            <button class="waboot-mailer__subscriber-card__btn waboot-mailer__subscriber-card__btn--danger" 
+                                    data-action="subscriber" 
+                                    data-subscriber-action="delete" 
+                                    x-bind:data-subscriber-id="subscriber.id">
+                                <i class="fas fa-trash"></i>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+        
+        {* Pagination *}
+        <div class="waboot-mailer__pagination" x-show="$store.mailer.subscribers.pagination.total > $store.mailer.subscribers.pagination.perPage">
+            <button class="waboot-mailer__pagination__btn" 
+                    x-bind:disabled="$store.mailer.subscribers.pagination.page <= 1"
+                    @click="$store.mailer.subscribers.pagination.page--; $store.mailer.loadSubscribers()">
+                Previous
+            </button>
+            
+            <div class="waboot-mailer__pagination__info">
+                Page <span x-text="$store.mailer.subscribers.pagination.page"></span> of 
+                <span x-text="Math.ceil($store.mailer.subscribers.pagination.total / $store.mailer.subscribers.pagination.perPage)"></span>
+            </div>
+            
+            <button class="waboot-mailer__pagination__btn" 
+                    x-bind:disabled="$store.mailer.subscribers.pagination.page >= Math.ceil($store.mailer.subscribers.pagination.total / $store.mailer.subscribers.pagination.perPage)"
+                    @click="$store.mailer.subscribers.pagination.page++; $store.mailer.loadSubscribers()">
+                Next
+            </button>
+        </div>
+    </div>
+</div>
+
+{* JSON-LD Schema for Subscribers *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Email Subscribers",
+    "description": "Manage email subscribers and lists",
+    "url": "{$wa->currentUrl()}",
+    "mainEntity": {
+        "@type": "ItemList",
+        "name": "Email Subscribers",
+        "numberOfItems": "{$subscribers_count|default:0}"
+    }
+}
+</script>
+{/block}
+
+{block name="scripts" append}
+<script>
+// Alpine.js component for subscribers page
+Alpine.data('subscribersPage', () => ({
+    init() {
+        // Initialize subscribers page functionality
+        this.loadSubscribers();
+    },
+    
+    async loadSubscribers() {
+        await this.$store.mailer.loadSubscribers();
+    },
+    
+    async exportSubscribers() {
+        await this.$store.mailer.exportSubscribers();
+    },
+    
+    async bulkAction(action) {
+        const selectedSubscribers = this.getSelectedSubscribers();
+        
+        if (selectedSubscribers.length === 0) {
+            this.$store.mailer.showNotification('Please select subscribers first', 'warning');
+            return;
+        }
+        
+        if (action === 'delete') {
+            if (!confirm(`Are you sure you want to delete ${selectedSubscribers.length} subscribers?`)) {
+                return;
+            }
+        }
+        
+        try {
+            const response = await fetch('/mailer/subscribers/bulk-action/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-Token': this.$store.mailer.getCsrfToken()
+                },
+                body: JSON.stringify({
+                    action: action,
+                    subscriber_ids: selectedSubscribers
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'ok') {
+                this.$store.mailer.showNotification(`Bulk action completed successfully`, 'success');
+                await this.loadSubscribers();
+            } else {
+                throw new Error(result.errors || 'Failed to perform bulk action');
+            }
+        } catch (error) {
+            this.$store.mailer.showNotification('Failed to perform bulk action', 'error');
+        }
+    },
+    
+    getSelectedSubscribers() {
+        const checkboxes = document.querySelectorAll('.waboot-mailer__subscriber-checkbox:checked');
+        return Array.from(checkboxes).map(cb => cb.value);
+    }
+}));
+</script>
+{/block} 

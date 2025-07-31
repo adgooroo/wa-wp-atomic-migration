@@ -1,0 +1,17 @@
+{strip}
+{* Checkout Template for Shop-Script *}
+{* Inherits from parent site:waboot theme *}
+
+{* Set global variables for checkout page *}
+{$wa->globals("showBottomBanner", true)}
+{$_checkout_data = [
+    "cart" => $cart,
+    "customer" => $customer,
+    "shipping" => $shipping,
+    "payment" => $payment
+]}
+{$wa->globals("checkoutPageData", $_checkout_data)}
+
+{* Include parent theme layout *}
+{include file="`$wa_parent_theme_path`/page.html" inline}
+{/strip} 

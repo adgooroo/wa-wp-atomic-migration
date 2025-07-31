@@ -1,0 +1,117 @@
+{strip}
+{* Blog Footer Template *}
+
+<footer class="waboot-blog__footer bg-dark text-light py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            {* Blog info *}
+            <div class="col-md-4">
+                <h5>{$wa->blog->settings('name')|escape}</h5>
+                <p class="text-muted">
+                    {$wa->blog->settings('description')|escape}
+                </p>
+                
+                {* Social links *}
+                {if $wa->blog->settings('social_links')}
+                    <div class="waboot-blog__social-links">
+                        {foreach $wa->blog->settings('social_links') as $_social}
+                            <a href="{$_social.url}" class="btn btn-outline-light btn-sm me-2" target="_blank">
+                                <i class="{$_social.icon}"></i>
+                                {$_social.name|escape}
+                            </a>
+                        {/foreach}
+                    </div>
+                {/if}
+            </div>
+            
+            {* Quick links *}
+            <div class="col-md-4">
+                <h5>Быстрые ссылки</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{$wa->blog->url()}" class="text-muted">Главная</a></li>
+                    
+                    {* Categories *}
+                    {$_categories = $wa->blog->categories()}
+                    {if !empty($_categories)}
+                        {foreach $_categories as $_category}
+                            <li>
+                                <a href="{$_category.url}" class="text-muted">
+                                    {$_category.name|escape}
+                                </a>
+                            </li>
+                        {/foreach}
+                    {/if}
+                </ul>
+            </div>
+            
+            {* Contact info *}
+            <div class="col-md-4">
+                <h5>Контакты</h5>
+                <ul class="list-unstyled text-muted">
+                    {if $wa->blog->settings('contact_email')}
+                        <li>
+                            <i class="fas fa-envelope me-2"></i>
+                            <a href="mailto:{$wa->blog->settings('contact_email')}" class="text-muted">
+                                {$wa->blog->settings('contact_email')|escape}
+                            </a>
+                        </li>
+                    {/if}
+                    
+                    {if $wa->blog->settings('contact_phone')}
+                        <li>
+                            <i class="fas fa-phone me-2"></i>
+                            <a href="tel:{$wa->blog->settings('contact_phone')}" class="text-muted">
+                                {$wa->blog->settings('contact_phone')|escape}
+                            </a>
+                        </li>
+                    {/if}
+                    
+                    {if $wa->blog->settings('contact_address')}
+                        <li>
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            {$wa->blog->settings('contact_address')|escape}
+                        </li>
+                    {/if}
+                </ul>
+                
+                {* Newsletter subscription *}
+                {if $wa->blog->settings('newsletter_enabled')}
+                    <div class="mt-3">
+                        <h6>Подписка на новости</h6>
+                        <form x-data="newsletterSubscription()" @submit.prevent="subscribe()">
+                            <div class="input-group">
+                                <input type="email" 
+                                       class="form-control" 
+                                       placeholder="Ваш email"
+                                       x-model="email"
+                                       required>
+                                <button class="btn btn-primary" type="submit" x-bind:disabled="loading">
+                                    <span x-show="!loading">Подписаться</span>
+                                    <span x-show="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                {/if}
+            </div>
+        </div>
+        
+        {* Copyright *}
+        <hr class="my-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0 text-muted">
+                    &copy; {date('Y')} {$wa->blog->settings('name')|escape}. Все права защищены.
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-0 text-muted">
+                    Powered by <a href="https://webasyst.com" class="text-muted">Webasyst</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+{/strip} 

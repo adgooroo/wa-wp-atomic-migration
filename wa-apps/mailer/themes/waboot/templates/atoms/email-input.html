@@ -1,0 +1,24 @@
+{* Email Input Atom Component *}
+{* @param name - Input name attribute *}
+{* @param placeholder - Input placeholder text *}
+{* @param required - Whether input is required *}
+{* @param value - Input value *}
+
+{$name = $name|default:'email'}
+{$placeholder = $placeholder|default:'{_w("Your email address")}'}
+{$required = $required|default:true}
+
+<div class="waboot-mailer__email-input">
+    <input type="email" 
+           class="waboot-mailer__email-input__field"
+           name="{$name|escape}"
+           placeholder="{$placeholder}"
+           value="{$value|default:''|escape}"
+           required="{$required}"
+           aria-describedby="{$name|escape}-validation">
+    
+    <div class="waboot-mailer__email-input__validation" 
+         id="{$name|escape}-validation" 
+         role="alert" 
+         aria-live="polite"></div>
+</div> 

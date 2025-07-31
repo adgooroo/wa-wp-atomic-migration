@@ -1,0 +1,238 @@
+{strip}
+{* Hub Sidebar Template *}
+
+<aside class="waboot-hub__sidebar">
+    {* Search widget *}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-search"></i>
+                Поиск
+            </h5>
+        </div>
+        <div class="card-body">
+            <form x-data="hubSearch()" @submit.prevent="search()">
+                <div class="input-group">
+                    <input type="search" 
+                           class="form-control" 
+                           placeholder="Поиск по сообществу..."
+                           x-model="query"
+                           @input="search()">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    {* Categories widget *}
+    {$_categories = $wa->hub->categories()}
+    {if !empty($_categories)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-folder"></i>
+                    Категории
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    {foreach $_categories as $_category}
+                        <li class="mb-2">
+                            <a href="{$_category.url}" class="text-decoration-none">
+                                {$_category.name|escape}
+                                <span class="badge bg-secondary float-end">
+                                    {$_category.count}
+                                </span>
+                            </a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
+    
+    {* Recent topics widget *}
+    {$_recent_topics = $wa->hub->topics(['limit' => 5])}
+    {if !empty($_recent_topics)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-clock"></i>
+                    Последние темы
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    {foreach $_recent_topics as $_topic}
+                        <li class="mb-3">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">
+                                        <a href="{$_topic.url}" class="text-decoration-none">
+                                            {$_topic.title|escape}
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">
+                                        {$_topic.datetime|wa_date:'humandate'}
+                                    </small>
+                                </div>
+                            </div>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
+    
+    {* Popular authors widget *}
+    {$_popular_authors = $wa->hub->authors(['limit' => 5])}
+    {if !empty($_popular_authors)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-users"></i>
+                    Популярные авторы
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    {foreach $_popular_authors as $_author}
+                        <li class="mb-3">
+                            <div class="d-flex align-items-center">
+                                {if $_author.photo}
+                                    <img src="{$_author.photo}" 
+                                         alt="{$_author.name|escape}" 
+                                         class="waboot-hub__sidebar-avatar me-3"
+                                         style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                                {/if}
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">
+                                        <a href="{$_author.url}" class="text-decoration-none">
+                                            {$_author.name|escape}
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">
+                                        {$_author.topics_count} тем
+                                    </small>
+                                </div>
+                            </div>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
+    
+    {* Community stats widget *}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-chart-bar"></i>
+                Статистика
+            </h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mb-0">
+                <li class="mb-2">
+                    <i class="fas fa-users me-2"></i>
+                    <span x-text="$store.hub.stats.members">0</span> участников
+                </li>
+                <li class="mb-2">
+                    <i class="fas fa-comments me-2"></i>
+                    <span x-text="$store.hub.stats.topics">0</span> тем
+                </li>
+                <li class="mb-2">
+                    <i class="fas fa-reply me-2"></i>
+                    <span x-text="$store.hub.stats.comments">0</span> комментариев
+                </li>
+                <li class="mb-2">
+                    <i class="fas fa-eye me-2"></i>
+                    <span x-text="$store.hub.stats.views">0</span> просмотров
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    {* Tags cloud widget *}
+    {$_tags = $wa->hub->tags()}
+    {if !empty($_tags)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-tags"></i>
+                    Популярные теги
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="waboot-hub__tag-cloud">
+                    {foreach $_tags as $_tag}
+                        <a href="{$_tag.url}" 
+                           class="badge bg-light text-dark text-decoration-none me-1 mb-1"
+                           style="font-size: {$_tag.size}rem;">
+                            {$_tag.name|escape}
+                        </a>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    {/if}
+    
+    {* Newsletter subscription widget *}
+    {if $wa->hub->settings('newsletter_enabled')}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-envelope"></i>
+                    Подписка на новости
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Получайте уведомления о новых темах
+                </p>
+                <form x-data="newsletterSubscription()" @submit.prevent="subscribe()">
+                    <div class="mb-3">
+                        <input type="email" 
+                               class="form-control" 
+                               placeholder="Ваш email"
+                               x-model="email"
+                               required>
+                    </div>
+                    <button class="btn btn-primary w-100" type="submit" x-bind:disabled="loading">
+                        <span x-show="!loading">Подписаться</span>
+                        <span x-show="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    {/if}
+    
+    {* Social links widget *}
+    {if $wa->hub->settings('social_links')}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-share-alt"></i>
+                    Мы в соцсетях
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-2">
+                    {foreach $wa->hub->settings('social_links') as $_social}
+                        <a href="{$_social.url}" 
+                           class="btn btn-outline-primary btn-sm"
+                           target="_blank"
+                           title="{$_social.name|escape}">
+                            <i class="{$_social.icon}"></i>
+                        </a>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    {/if}
+</aside>
+{/strip} 

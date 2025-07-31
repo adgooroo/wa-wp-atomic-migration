@@ -1,0 +1,334 @@
+{*
+ * Helpdesk FAQ Page Template
+ * Frequently Asked Questions with FAQ schema
+ *}
+
+{* Set page-specific variables *}
+{$wa->globals('htmlClass', 'is-helpdesk-faq')}
+{$wa->globals('hideCrumbs', false)}
+
+{* FAQ Schema Data *}
+{$faq_schema = []}
+{if !empty($faq_items)}
+    {foreach $faq_items as $faq}
+        {$faq_schema[] = [
+            '@type' => 'Question',
+            'name' => $faq.question|escape:'javascript',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => $faq.answer|strip_tags|escape:'javascript'
+            ]
+        ]}
+    {/foreach}
+{/if}
+
+{* Include layout *}
+{include file="layout.html"}
+
+{* Main content *}
+<div class="waboot-helpdesk__faq-page">
+    {* FAQ Header *}
+    <section class="waboot-helpdesk__faq-header">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__faq-header__content">
+                <h1 class="waboot-helpdesk__faq-header__title">
+                    {_w('Frequently Asked Questions')}
+                </h1>
+                <p class="waboot-helpdesk__faq-header__description">
+                    {_w('Find quick answers to the most common questions')}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    {* FAQ Content *}
+    <section class="waboot-helpdesk__faq-content">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__faq-content__layout">
+                {* Main Content *}
+                <main class="waboot-helpdesk__faq-content__main">
+                    {* Search FAQ *}
+                    <div class="waboot-helpdesk__faq-search" x-data="faqSearch()">
+                        <div class="waboot-helpdesk__faq-search__input-group">
+                            <input type="text" 
+                                   class="waboot-helpdesk__faq-search__input"
+                                   x-model="query"
+                                   placeholder="{_w('Search FAQ...')}"
+                                   aria-label="{_w('Search FAQ')}">
+                            <button type="button" 
+                                    class="waboot-helpdesk__faq-search__button"
+                                    x-on:click="search()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    {* FAQ Categories *}
+                    {if !empty($faq_categories)}
+                    <div class="waboot-helpdesk__faq-categories">
+                        <h2 class="waboot-helpdesk__faq-categories__title">
+                            {_w('Browse by Category')}
+                        </h2>
+                        
+                        <div class="waboot-helpdesk__faq-categories__grid">
+                            {foreach $faq_categories as $category}
+                            <div class="waboot-helpdesk__faq-category">
+                                <div class="waboot-helpdesk__faq-category__icon">
+                                    <i class="fas fa-{$category.icon|default:'question-circle'}"></i>
+                                </div>
+                                
+                                <h3 class="waboot-helpdesk__faq-category__title">
+                                    <a href="#category-{$category.id}">{$category.name|escape}</a>
+                                </h3>
+                                
+                                <p class="waboot-helpdesk__faq-category__description">
+                                    {$category.description|escape}
+                                </p>
+                                
+                                <span class="waboot-helpdesk__faq-category__count">
+                                    {$category.question_count} {_w('questions')}
+                                </span>
+                            </div>
+                            {/foreach}
+                        </div>
+                    </div>
+                    {/if}
+
+                    {* FAQ List *}
+                    {if !empty($faq_items)}
+                    <div class="waboot-helpdesk__faq-list" x-data="faqAccordion()">
+                        {foreach $faq_items as $faq}
+                        <div class="waboot-helpdesk__faq-item" 
+                             x-bind:class="{'is-open': isOpen('faq-{$faq.id}')}">
+                            <button class="waboot-helpdesk__faq-item__question"
+                                    x-on:click="toggleItem('faq-{$faq.id}')"
+                                    x-bind:aria-expanded="isOpen('faq-{$faq.id}')"
+                                    aria-controls="faq-answer-{$faq.id}">
+                                <span class="waboot-helpdesk__faq-item__question__text">
+                                    {$faq.question|escape}
+                                </span>
+                                <span class="waboot-helpdesk__faq-item__question__icon"
+                                      x-bind:class="{'is-open': isOpen('faq-{$faq.id}')}">
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
+                            </button>
+                            
+                            <div class="waboot-helpdesk__faq-item__answer"
+                                 x-show="isOpen('faq-{$faq.id}')"
+                                 x-transition
+                                 id="faq-answer-{$faq.id}">
+                                <div class="waboot-helpdesk__faq-item__answer__content">
+                                    {$faq.answer}
+                                </div>
+                                
+                                {* FAQ Actions *}
+                                <div class="waboot-helpdesk__faq-item__answer__actions">
+                                    <button class="waboot-helpdesk__button waboot-helpdesk__button--outline waboot-helpdesk__button--sm"
+                                            x-data="faqFeedback()"
+                                            x-on:click="rateFAQ({$faq.id}, 'helpful')">
+                                        <i class="fas fa-thumbs-up"></i>
+                                        {_w('Helpful')}
+                                        <span x-text="helpfulCount"></span>
+                                    </button>
+                                    
+                                    <button class="waboot-helpdesk__button waboot-helpdesk__button--outline waboot-helpdesk__button--sm"
+                                            x-data="faqFeedback()"
+                                            x-on:click="rateFAQ({$faq.id}, 'not-helpful')">
+                                        <i class="fas fa-thumbs-down"></i>
+                                        {_w('Not Helpful')}
+                                        <span x-text="notHelpfulCount"></span>
+                                    </button>
+                                    
+                                    <button class="waboot-helpdesk__button waboot-helpdesk__button--outline waboot-helpdesk__button--sm"
+                                            x-data="shareFAQ()"
+                                            x-on:click="share({$faq.id})">
+                                        <i class="fas fa-share"></i>
+                                        {_w('Share')}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {/foreach}
+                    </div>
+                    
+                    {* Load More *}
+                    {if $has_more}
+                    <div class="waboot-helpdesk__faq-load-more">
+                        <button class="waboot-helpdesk__button waboot-helpdesk__button--outline"
+                                x-data="loadMoreFAQ()"
+                                x-on:click="loadMore()"
+                                x-bind:disabled="loading">
+                            <span x-show="!loading">{_w('Load More Questions')}</span>
+                            <span x-show="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                {_w('Loading...')}
+                            </span>
+                        </button>
+                    </div>
+                    {/if}
+                    
+                    {else}
+                    <div class="waboot-helpdesk__faq-empty">
+                        <div class="waboot-helpdesk__faq-empty__icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        
+                        <h3 class="waboot-helpdesk__faq-empty__title">
+                            {_w('No FAQ Found')}
+                        </h3>
+                        
+                        <p class="waboot-helpdesk__faq-empty__description">
+                            {_w('We couldn\'t find any FAQ items. Try searching for something else or contact our support team.')}
+                        </p>
+                        
+                        <div class="waboot-helpdesk__faq-empty__actions">
+                            <a href="{$wa->getUrl('helpdesk/frontend/contact')}" 
+                               class="waboot-helpdesk__button">
+                                {_w('Contact Support')}
+                            </a>
+                        </div>
+                    </div>
+                    {/if}
+                </main>
+                
+                {* Sidebar *}
+                <aside class="waboot-helpdesk__faq-content__sidebar">
+                    {* Popular Questions *}
+                    {if !empty($popular_questions)}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Popular Questions')}
+                        </h3>
+                        
+                        <ul class="waboot-helpdesk__sidebar-section__list">
+                            {foreach $popular_questions as $popular}
+                            <li class="waboot-helpdesk__sidebar-section__item">
+                                <a href="#faq-{$popular.id}" 
+                                   class="waboot-helpdesk__sidebar-section__link">
+                                    {$popular.question|escape}
+                                </a>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    {/if}
+                    
+                    {* Recent Questions *}
+                    {if !empty($recent_questions)}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Recently Added')}
+                        </h3>
+                        
+                        <ul class="waboot-helpdesk__sidebar-section__list">
+                            {foreach $recent_questions as $recent}
+                            <li class="waboot-helpdesk__sidebar-section__item">
+                                <a href="#faq-{$recent.id}" 
+                                   class="waboot-helpdesk__sidebar-section__link">
+                                    {$recent.question|escape}
+                                </a>
+                                <time datetime="{$recent.datetime|date:'c'}" 
+                                      class="waboot-helpdesk__sidebar-section__date">
+                                    {$recent.datetime|wa_date:'humandate'}
+                                </time>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    {/if}
+                    
+                    {* FAQ Stats *}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('FAQ Statistics')}
+                        </h3>
+                        
+                        <div class="waboot-helpdesk__faq-stats">
+                            <div class="waboot-helpdesk__faq-stats__item">
+                                <span class="waboot-helpdesk__faq-stats__number">
+                                    {$total_questions|number_format}
+                                </span>
+                                <span class="waboot-helpdesk__faq-stats__label">
+                                    {_w('Total Questions')}
+                                </span>
+                            </div>
+                            
+                            <div class="waboot-helpdesk__faq-stats__item">
+                                <span class="waboot-helpdesk__faq-stats__number">
+                                    {$total_categories|number_format}
+                                </span>
+                                <span class="waboot-helpdesk__faq-stats__label">
+                                    {_w('Categories')}
+                                </span>
+                            </div>
+                            
+                            <div class="waboot-helpdesk__faq-stats__item">
+                                <span class="waboot-helpdesk__faq-stats__number">
+                                    {$total_views|number_format}
+                                </span>
+                                <span class="waboot-helpdesk__faq-stats__label">
+                                    {_w('Total Views')}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {* Contact Support *}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Still Need Help?')}
+                        </h3>
+                        
+                        <p class="waboot-helpdesk__sidebar-section__description">
+                            {_w('Can\'t find the answer you\'re looking for? Contact our support team.')}
+                        </p>
+                        
+                        <a href="{$wa->getUrl('helpdesk/frontend/contact')}" 
+                           class="waboot-helpdesk__sidebar-section__button">
+                            {_w('Contact Support')}
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+</div>
+
+{* FAQ Schema JSON-LD *}
+{if !empty($faq_schema)}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": {$faq_schema|json_encode}
+}
+</script>
+{/if}
+
+{* BreadcrumbList Schema *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{$wa->accountName()|escape:'javascript'}",
+            "item": "{$wa_domain}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{_w('Support')|escape:'javascript'}",
+            "item": "{$wa->getUrl('helpdesk/frontend/')}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{_w('FAQ')|escape:'javascript'}",
+            "item": "{$wa->getUrl('helpdesk/frontend/faq')}"
+        }
+    ]
+}
+</script> 

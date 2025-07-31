@@ -1,0 +1,217 @@
+{* Mailer Templates Template *}
+{extends file="layout.html"}
+
+{block name="content"}
+<div class="waboot-mailer__templates-page" x-data="templatesPage()">
+    {* Page Header *}
+    <div class="waboot-mailer__page-header">
+        <div class="waboot-mailer__page-header__content">
+            <h1 class="waboot-mailer__page-header__title">Email Templates</h1>
+            <p class="waboot-mailer__page-header__subtitle">Create and manage email templates for your campaigns</p>
+        </div>
+        
+        <div class="waboot-mailer__page-header__actions">
+            <a href="/mailer/templates/new/" class="waboot-mailer__btn">
+                <i class="fas fa-plus"></i>
+                Create Template
+            </a>
+            <a href="/mailer/templates/import/" class="waboot-mailer__btn waboot-mailer__btn--secondary">
+                <i class="fas fa-upload"></i>
+                Import Template
+            </a>
+        </div>
+    </div>
+    
+    {* Template Categories *}
+    <div class="waboot-mailer__template-categories">
+        <div class="waboot-mailer__template-categories__header">
+            <h3>Categories</h3>
+        </div>
+        
+        <div class="waboot-mailer__template-categories__list">
+            <button class="waboot-mailer__template-category" 
+                    x-bind:class="{ 'waboot-mailer__template-category--active': $store.mailer.templates.selectedCategory === 'all' }"
+                    @click="$store.mailer.templates.selectedCategory = 'all'">
+                <span class="waboot-mailer__template-category__name">All Templates</span>
+                <span class="waboot-mailer__template-category__count" x-text="$store.mailer.templates.list.length">0</span>
+            </button>
+            
+            <template x-for="category in $store.mailer.templates.categories" :key="category.id">
+                <button class="waboot-mailer__template-category" 
+                        x-bind:class="{ 'waboot-mailer__template-category--active': $store.mailer.templates.selectedCategory === category.id }"
+                        @click="$store.mailer.templates.selectedCategory = category.id">
+                    <span class="waboot-mailer__template-category__name" x-text="category.name"></span>
+                    <span class="waboot-mailer__template-category__count" x-text="category.count">0</span>
+                </button>
+            </template>
+        </div>
+    </div>
+    
+    {* Templates Grid *}
+    <div class="waboot-mailer__templates-grid">
+        <div class="waboot-mailer__templates-grid__header">
+            <div class="waboot-mailer__templates-grid__count">
+                <span x-text="getFilteredTemplates().length">0</span> templates
+            </div>
+            
+            <div class="waboot-mailer__templates-grid__view-controls">
+                <button class="waboot-mailer__view-toggle" 
+                        x-bind:class="{ 'waboot-mailer__view-toggle--active': viewMode === 'grid' }"
+                        @click="viewMode = 'grid'">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button class="waboot-mailer__view-toggle" 
+                        x-bind:class="{ 'waboot-mailer__view-toggle--active': viewMode === 'list' }"
+                        @click="viewMode = 'list'">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="waboot-mailer__templates-grid__content" x-bind:class="'waboot-mailer__templates-grid__content--' + viewMode">
+            <template x-if="$store.mailer.templates.loading">
+                <div class="waboot-mailer__loading">Loading templates...</div>
+            </template>
+            
+            <template x-if="!$store.mailer.templates.loading && getFilteredTemplates().length === 0">
+                <div class="waboot-mailer__templates-grid__empty">
+                    <div class="waboot-mailer__templates-grid__empty__icon">📧</div>
+                    <h3 class="waboot-mailer__templates-grid__empty__title">No templates found</h3>
+                    <p class="waboot-mailer__templates-grid__empty__description">Create your first email template to get started</p>
+                    <a href="/mailer/templates/new/" class="waboot-mailer__btn">Create Template</a>
+                </div>
+            </template>
+            
+            <template x-for="template in getFilteredTemplates()" :key="template.id">
+                <div class="waboot-mailer__template-card" x-bind:class="'waboot-mailer__template-card--' + viewMode">
+                    <div class="waboot-mailer__template-card__preview">
+                        <div class="waboot-mailer__template-card__preview__image">
+                            <img x-bind:src="template.preview_image || '/wa-apps/mailer/themes/waboot/img/template-placeholder.png'" 
+                                 x-bind:alt="template.name"
+                                 class="waboot-mailer__template-card__preview__img">
+                        </div>
+                        
+                        <div class="waboot-mailer__template-card__preview__overlay">
+                            <div class="waboot-mailer__template-card__preview__actions">
+                                <button class="waboot-mailer__template-card__preview__btn" 
+                                        data-action="template" 
+                                        data-template-action="preview" 
+                                        x-bind:data-template-id="template.id">
+                                    <i class="fas fa-eye"></i>
+                                    Preview
+                                </button>
+                                <button class="waboot-mailer__template-card__preview__btn" 
+                                        data-action="template" 
+                                        data-template-action="use" 
+                                        x-bind:data-template-id="template.id">
+                                    <i class="fas fa-plus"></i>
+                                    Use Template
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="waboot-mailer__template-card__content">
+                        <div class="waboot-mailer__template-card__header">
+                            <h3 class="waboot-mailer__template-card__title" x-text="template.name"></h3>
+                            <div class="waboot-mailer__template-card__meta">
+                                <span class="waboot-mailer__template-card__category" x-text="template.category_name"></span>
+                                <span class="waboot-mailer__template-card__date" x-text="$store.mailer.formatDate(template.created_at)"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="waboot-mailer__template-card__body">
+                            <p class="waboot-mailer__template-card__description" x-text="template.description"></p>
+                            
+                            <div class="waboot-mailer__template-card__stats">
+                                <div class="waboot-mailer__template-card__stat">
+                                    <span class="waboot-mailer__template-card__stat-label">Used</span>
+                                    <span class="waboot-mailer__template-card__stat-value" x-text="template.usage_count">0</span>
+                                </div>
+                                <div class="waboot-mailer__template-card__stat">
+                                    <span class="waboot-mailer__template-card__stat-label">Last Used</span>
+                                    <span class="waboot-mailer__template-card__stat-value" x-text="$store.mailer.formatDate(template.last_used)">Never</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="waboot-mailer__template-card__actions">
+                            <button class="waboot-mailer__template-card__btn" 
+                                    data-action="template" 
+                                    data-template-action="use" 
+                                    x-bind:data-template-id="template.id">
+                                <i class="fas fa-plus"></i>
+                                Use Template
+                            </button>
+                            <button class="waboot-mailer__template-card__btn" 
+                                    data-action="template" 
+                                    data-template-action="preview" 
+                                    x-bind:data-template-id="template.id">
+                                <i class="fas fa-eye"></i>
+                                Preview
+                            </button>
+                            <button class="waboot-mailer__template-card__btn" 
+                                    data-action="template" 
+                                    data-template-action="duplicate" 
+                                    x-bind:data-template-id="template.id">
+                                <i class="fas fa-copy"></i>
+                                Duplicate
+                            </button>
+                            <a x-bind:href="'/mailer/templates/' + template.id + '/edit/'" 
+                               class="waboot-mailer__template-card__btn">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</div>
+
+{* JSON-LD Schema for Templates *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Email Templates",
+    "description": "Create and manage email templates for campaigns",
+    "url": "{$wa->currentUrl()}",
+    "mainEntity": {
+        "@type": "ItemList",
+        "name": "Email Templates",
+        "numberOfItems": "{$templates_count|default:0}"
+    }
+}
+</script>
+{/block}
+
+{block name="scripts" append}
+<script>
+// Alpine.js component for templates page
+Alpine.data('templatesPage', () => ({
+    viewMode: 'grid',
+    
+    init() {
+        // Initialize templates page functionality
+        this.loadTemplates();
+    },
+    
+    async loadTemplates() {
+        await this.$store.mailer.loadTemplates();
+    },
+    
+    getFilteredTemplates() {
+        const templates = this.$store.mailer.templates.list;
+        const selectedCategory = this.$store.mailer.templates.selectedCategory;
+        
+        if (selectedCategory === 'all') {
+            return templates;
+        }
+        
+        return templates.filter(template => template.category_id === selectedCategory);
+    }
+}));
+</script>
+{/block} 

@@ -1,0 +1,65 @@
+/* Mailer Theme CSS - Main File */
+
+/* 1. Import parent theme styles */
+@import url('../../site/themes/waboot/css/waboot.css');
+
+/* 2. Import Atomic Design components */
+@import url('atoms.css');
+@import url('molecules.css');
+@import url('organisms.css');
+
+/* 3. Import utilities */
+@import url('utilities.css');
+
+/* 4. Mailer-specific CSS variables */
+:root {
+    /* Mailer-specific colors */
+    --waboot-mailer-primary: #007bff;
+    --waboot-mailer-success: #28a745;
+    --waboot-mailer-warning: #ffc107;
+    --waboot-mailer-danger: #dc3545;
+    --waboot-mailer-info: #17a2b8;
+    
+    /* Typography */
+    --waboot-mailer-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --waboot-mailer-font-size-base: 1rem;
+    --waboot-mailer-line-height-base: 1.5;
+    
+    /* Spacing */
+    --waboot-mailer-spacing-unit: 0.5rem;
+    --waboot-mailer-border-radius: 0.375rem;
+    
+    /* Shadows */
+    --waboot-mailer-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --waboot-mailer-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --waboot-mailer-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    
+    /* Transitions */
+    --waboot-mailer-transition: all 0.2s ease-in-out;
+}
+
+/* 5. Base Mailer styles */
+.waboot-mailer__content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.waboot-mailer__main {
+    min-height: 60vh;
+}
+
+/* 6. Responsive design */
+@media (max-width: 768px) {
+    .waboot-mailer__content-wrapper {
+        padding: 0.5rem;
+    }
+}
+
+/* 7. Print styles */
+@media print {
+    .waboot-mailer__subscribe-form,
+    .waboot-mailer__breadcrumbs {
+        display: none;
+    }
+} 

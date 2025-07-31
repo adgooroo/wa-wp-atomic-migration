@@ -4,7 +4,8 @@
 **Project**: Webasyst Child Theme Development System  
 **Methodology**: Bootstrap 5 + Alpine.js + BEM + Atomic Design  
 **Parent Theme**: Site App Waboot Theme  
-**Target Apps**: Shop-Script, Blog, Hub, Mailer  
+**Target Apps**: Shop-Script, Blog, Hub, Mailer
+**File Structure pattern**: use context7 /webasyst/hypermarket-theme/{apps}  
 
 ---
 

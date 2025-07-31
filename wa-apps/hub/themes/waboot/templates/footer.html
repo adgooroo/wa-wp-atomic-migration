@@ -1,0 +1,118 @@
+{strip}
+{* Hub Footer Template *}
+
+<footer class="waboot-hub__footer bg-dark text-light py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            {* Hub info *}
+            <div class="col-md-4">
+                <h5>{$wa->hub->settings('name')|escape}</h5>
+                <p class="text-muted">
+                    {$wa->hub->settings('description')|escape}
+                </p>
+                
+                {* Social links *}
+                {if $wa->hub->settings('social_links')}
+                    <div class="waboot-hub__social-links">
+                        {foreach $wa->hub->settings('social_links') as $_social}
+                            <a href="{$_social.url}" class="btn btn-outline-light btn-sm me-2" target="_blank">
+                                <i class="{$_social.icon}"></i>
+                                {$_social.name|escape}
+                            </a>
+                        {/foreach}
+                    </div>
+                {/if}
+            </div>
+            
+            {* Quick links *}
+            <div class="col-md-4">
+                <h5>Быстрые ссылки</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{$wa->hub->url()}" class="text-muted">Главная</a></li>
+                    <li><a href="{$wa->hub->url()}topics/" class="text-muted">Темы</a></li>
+                    <li><a href="{$wa->hub->url()}authors/" class="text-muted">Авторы</a></li>
+                    <li><a href="{$wa->hub->url()}members/" class="text-muted">Участники</a></li>
+                    
+                    {* Categories *}
+                    {$_categories = $wa->hub->categories()}
+                    {if !empty($_categories)}
+                        {foreach $_categories as $_category}
+                            <li>
+                                <a href="{$_category.url}" class="text-muted">
+                                    {$_category.name|escape}
+                                </a>
+                            </li>
+                        {/foreach}
+                    {/if}
+                </ul>
+            </div>
+            
+            {* Community info *}
+            <div class="col-md-4">
+                <h5>Сообщество</h5>
+                <ul class="list-unstyled text-muted">
+                    <li>
+                        <i class="fas fa-users me-2"></i>
+                        <span x-text="$store.hub.stats.members">0</span> участников
+                    </li>
+                    <li>
+                        <i class="fas fa-comments me-2"></i>
+                        <span x-text="$store.hub.stats.topics">0</span> тем
+                    </li>
+                    <li>
+                        <i class="fas fa-reply me-2"></i>
+                        <span x-text="$store.hub.stats.comments">0</span> комментариев
+                    </li>
+                </ul>
+                
+                {* Community links *}
+                <div class="mt-3">
+                    <h6>Полезные ссылки</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{$wa->hub->url()}rules/" class="text-muted">Правила сообщества</a></li>
+                        <li><a href="{$wa->hub->url()}faq/" class="text-muted">Часто задаваемые вопросы</a></li>
+                        <li><a href="{$wa->hub->url()}contact/" class="text-muted">Связаться с администрацией</a></li>
+                    </ul>
+                </div>
+                
+                {* Newsletter subscription *}
+                {if $wa->hub->settings('newsletter_enabled')}
+                    <div class="mt-3">
+                        <h6>Подписка на новости</h6>
+                        <form x-data="newsletterSubscription()" @submit.prevent="subscribe()">
+                            <div class="input-group">
+                                <input type="email" 
+                                       class="form-control" 
+                                       placeholder="Ваш email"
+                                       x-model="email"
+                                       required>
+                                <button class="btn btn-primary" type="submit" x-bind:disabled="loading">
+                                    <span x-show="!loading">Подписаться</span>
+                                    <span x-show="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                {/if}
+            </div>
+        </div>
+        
+        {* Copyright *}
+        <hr class="my-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0 text-muted">
+                    &copy; {date('Y')} {$wa->hub->settings('name')|escape}. Все права защищены.
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-0 text-muted">
+                    Powered by <a href="https://webasyst.com" class="text-muted">Webasyst</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+{/strip} 

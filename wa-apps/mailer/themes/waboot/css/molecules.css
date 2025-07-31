@@ -1,0 +1,343 @@
+/* Mailer Theme - Molecular Components */
+
+/* Campaign Stats Molecule */
+.waboot-mailer__campaign-stats {
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    padding: 1.5rem;
+    box-shadow: var(--waboot-mailer-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.waboot-mailer__stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.waboot-mailer__stat {
+    text-align: center;
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    transition: var(--waboot-mailer-transition, all 0.2s ease-in-out);
+}
+
+.waboot-mailer__stat:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+    box-shadow: var(--waboot-mailer-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+}
+
+.waboot-mailer__stat__number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--waboot-mailer-primary, #007bff);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.waboot-mailer__stat__label {
+    display: block;
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.waboot-mailer__stat__percentage {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--waboot-mailer-success, #28a745);
+    font-weight: 600;
+}
+
+/* Subscribe Form Molecule */
+.waboot-mailer__subscribe-form {
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    padding: 2rem;
+    box-shadow: var(--waboot-mailer-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.waboot-mailer__subscribe-form__header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.waboot-mailer__subscribe-form__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.waboot-mailer__subscribe-form__description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.waboot-mailer__subscribe-form__fields {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.waboot-mailer__subscribe-form__field {
+    flex: 1;
+}
+
+.waboot-mailer__subscribe-form__actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.waboot-mailer__subscribe-form__message {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.waboot-mailer__subscribe-form__message--success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.waboot-mailer__subscribe-form__message--error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+/* Campaign Card Molecule */
+.waboot-mailer__campaign-card {
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    overflow: hidden;
+    transition: var(--waboot-mailer-transition, all 0.2s ease-in-out);
+    box-shadow: var(--waboot-mailer-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.waboot-mailer__campaign-card:hover {
+    box-shadow: var(--waboot-mailer-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+    transform: translateY(-2px);
+}
+
+.waboot-mailer__campaign-card__header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+}
+
+.waboot-mailer__campaign-card__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.waboot-mailer__campaign-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.waboot-mailer__campaign-card__status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.waboot-mailer__campaign-card__date {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.waboot-mailer__campaign-card__body {
+    padding: 1.5rem;
+}
+
+.waboot-mailer__campaign-card__description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.waboot-mailer__campaign-card__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.waboot-mailer__campaign-card__stat {
+    text-align: center;
+}
+
+.waboot-mailer__campaign-card__stat-number {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--waboot-mailer-primary, #007bff);
+    margin-bottom: 0.25rem;
+}
+
+.waboot-mailer__campaign-card__stat-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.waboot-mailer__campaign-card__actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.waboot-mailer__campaign-card__btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    background: #ffffff;
+    color: #374151;
+    cursor: pointer;
+    transition: var(--waboot-mailer-transition, all 0.2s ease-in-out);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.waboot-mailer__campaign-card__btn:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    color: #111827;
+    text-decoration: none;
+}
+
+.waboot-mailer__campaign-card__btn--primary {
+    background: var(--waboot-mailer-primary, #007bff);
+    border-color: var(--waboot-mailer-primary, #007bff);
+    color: #ffffff;
+}
+
+.waboot-mailer__campaign-card__btn--primary:hover {
+    background: #0056b3;
+    border-color: #0056b3;
+    color: #ffffff;
+}
+
+/* Subscriber List Molecule */
+.waboot-mailer__subscriber-list {
+    background: #ffffff;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    overflow: hidden;
+    box-shadow: var(--waboot-mailer-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.waboot-mailer__subscriber-list__header {
+    padding: 1rem 1.5rem;
+    background: #f9fafb;
+    border-bottom: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.waboot-mailer__subscriber-list__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.waboot-mailer__subscriber-list__count {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.waboot-mailer__subscriber-list__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.waboot-mailer__subscriber-list__thead {
+    background: #f9fafb;
+}
+
+.waboot-mailer__subscriber-list__th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+}
+
+.waboot-mailer__subscriber-list__td {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #374151;
+    border-bottom: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+}
+
+.waboot-mailer__subscriber-list__tr:hover {
+    background: #f9fafb;
+}
+
+.waboot-mailer__subscriber-list__email {
+    font-weight: 500;
+    color: var(--waboot-mailer-primary, #007bff);
+}
+
+.waboot-mailer__subscriber-list__date {
+    color: #6b7280;
+}
+
+.waboot-mailer__subscriber-list__status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .waboot-mailer__stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .waboot-mailer__subscribe-form__fields {
+        flex-direction: column;
+    }
+    
+    .waboot-mailer__campaign-card__stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .waboot-mailer__campaign-card__actions {
+        flex-direction: column;
+    }
+    
+    .waboot-mailer__subscriber-list__table {
+        font-size: 0.75rem;
+    }
+    
+    .waboot-mailer__subscriber-list__th,
+    .waboot-mailer__subscriber-list__td {
+        padding: 0.5rem;
+    }
+} 

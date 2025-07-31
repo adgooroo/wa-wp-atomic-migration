@@ -1,0 +1,284 @@
+/* Bootstrap 5 Additional Utilities for Hub Theme */
+/* Extends Bootstrap utilities with hub-specific classes */
+
+// Import Bootstrap utilities
+@import "bootstrap/scss/utilities";
+
+// Custom utility classes for hub
+.text-gradient {
+  background: linear-gradient(45deg, $primary, $secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, $primary 0%, darken($primary, 15%) 100%);
+}
+
+.bg-gradient-secondary {
+  background: linear-gradient(135deg, $secondary 0%, darken($secondary, 15%) 100%);
+}
+
+// Custom shadows
+.shadow-soft {
+  box-shadow: 0 0.125rem 0.25rem rgba($black, 0.075);
+}
+
+.shadow-medium {
+  box-shadow: 0 0.5rem 1rem rgba($black, 0.15);
+}
+
+.shadow-strong {
+  box-shadow: 0 1rem 3rem rgba($black, 0.175);
+}
+
+// Custom borders
+.border-soft {
+  border: 1px solid rgba($primary, 0.1);
+}
+
+.border-medium {
+  border: 2px solid rgba($primary, 0.2);
+}
+
+// Custom rounded corners
+.rounded-soft {
+  border-radius: 0.375rem;
+}
+
+.rounded-medium {
+  border-radius: 0.5rem;
+}
+
+.rounded-strong {
+  border-radius: 1rem;
+}
+
+// Custom transitions
+.transition-fast {
+  transition: all 0.15s ease-in-out;
+}
+
+.transition-medium {
+  transition: all 0.3s ease-in-out;
+}
+
+.transition-slow {
+  transition: all 0.5s ease-in-out;
+}
+
+// Hover effects
+.hover-lift {
+  transition: transform 0.3s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.hover-scale {
+  transition: transform 0.3s ease-in-out;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.hover-shadow {
+  transition: box-shadow 0.3s ease-in-out;
+  
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba($black, 0.15);
+  }
+}
+
+// Hub-specific utilities
+.hub-topic-card {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 3rem rgba($black, 0.175);
+  }
+}
+
+.hub-sidebar-widget {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba($black, 0.15);
+  }
+}
+
+.hub-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  margin: 0.125rem;
+  background-color: $light;
+  color: $dark;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: $primary;
+    color: $white;
+    text-decoration: none;
+  }
+}
+
+.hub-meta {
+  color: $secondary;
+  font-size: $font-size-sm;
+  
+  .hub-meta__item {
+    margin-right: 1rem;
+    
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.hub-excerpt {
+  color: $secondary;
+  line-height: $line-height-base;
+  margin-bottom: 1rem;
+}
+
+.hub-read-more {
+  color: $primary;
+  font-weight: 500;
+  text-decoration: none;
+  
+  &:hover {
+    color: darken($primary, 10%);
+    text-decoration: underline;
+  }
+}
+
+.hub-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid $light;
+  
+  &.hub-user-avatar--large {
+    width: 80px;
+    height: 80px;
+  }
+  
+  &.hub-user-avatar--small {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.hub-status {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  
+  &.hub-status--online {
+    background-color: $success;
+    color: $white;
+  }
+  
+  &.hub-status--offline {
+    background-color: $secondary;
+    color: $white;
+  }
+  
+  &.hub-status--moderator {
+    background-color: $warning;
+    color: $white;
+  }
+  
+  &.hub-status--admin {
+    background-color: $danger;
+    color: $white;
+  }
+}
+
+.hub-reputation {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  background-color: $light;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  
+  .hub-reputation__icon {
+    margin-right: 0.25rem;
+    color: $warning;
+  }
+  
+  .hub-reputation__value {
+    font-weight: 600;
+    color: $dark;
+  }
+}
+
+.hub-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  margin: 0.125rem;
+  background-color: $primary;
+  color: $white;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  
+  &.hub-badge--gold {
+    background-color: #fbbf24;
+    color: $dark;
+  }
+  
+  &.hub-badge--silver {
+    background-color: #9ca3af;
+    color: $white;
+  }
+  
+  &.hub-badge--bronze {
+    background-color: #d97706;
+    color: $white;
+  }
+}
+
+// Responsive utilities
+@media (max-width: 768px) {
+  .hub-topic-card {
+    margin-bottom: 2rem;
+  }
+  
+  .hub-sidebar {
+    margin-top: 2rem;
+  }
+  
+  .hub-user-avatar--large {
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
+// Print utilities
+@media print {
+  .hub-sidebar,
+  .hub-navigation,
+  .hub-footer {
+    display: none;
+  }
+  
+  .hub-topic {
+    margin-bottom: 1rem;
+  }
+  
+  .hub-topic__title {
+    font-size: 1.25rem;
+  }
+} 

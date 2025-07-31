@@ -1,0 +1,74 @@
+{strip}
+{* Main Layout Template for Hub Theme *}
+{* Inherits from parent site:waboot theme *}
+
+<!DOCTYPE html>
+<html lang="{$wa->locale()}" class="hub-layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{$wa->title()|escape}</title>
+    
+    {* Meta tags *}
+    {if $wa->globals('meta_description')}
+        <meta name="description" content="{$wa->globals('meta_description')|escape}">
+    {/if}
+    {if $wa->globals('meta_keywords')}
+        <meta name="keywords" content="{$wa->globals('meta_keywords')|escape}">
+    {/if}
+    
+    {* Open Graph tags *}
+    {if $wa->globals('og_title')}
+        <meta property="og:title" content="{$wa->globals('og_title')|escape}">
+    {/if}
+    {if $wa->globals('og_description')}
+        <meta property="og:description" content="{$wa->globals('og_description')|escape}">
+    {/if}
+    {if $wa->globals('og_image')}
+        <meta property="og:image" content="{$wa->globals('og_image')|escape}">
+    {/if}
+    
+    {* CSS and JS *}
+    {$wa->css()}
+    {$wa->js()}
+    
+    {* Include parent theme head *}
+    {include file="`$wa_parent_theme_path`/head.html" inline}
+    
+    {* Hub-specific styles *}
+    <link rel="stylesheet" href="{$theme_url}css/waboot-child.css">
+</head>
+
+<body class="waboot-hub">
+    {* Header *}
+    {include file="header.html" inline}
+    
+    {* Main content *}
+    <main class="waboot-hub__main">
+        <div class="container">
+            <div class="row">
+                {* Main content area *}
+                <div class="col-lg-8">
+                    {block name="content"}
+                        {* Content will be injected here *}
+                    {/block}
+                </div>
+                
+                {* Sidebar *}
+                <div class="col-lg-4">
+                    {include file="sidebar.html" inline}
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    {* Footer *}
+    {include file="footer.html" inline}
+    
+    {* Hub-specific scripts *}
+    <script src="{$theme_url}js/waboot-hub.js"></script>
+    <script src="{$theme_url}js/alpine-components.js"></script>
+    <script src="{$theme_url}js/alpine-store.js"></script>
+</body>
+</html>
+{/strip} 

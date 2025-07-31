@@ -1,0 +1,328 @@
+{*
+ * Helpdesk Article Page Template
+ * Displays individual article with Article schema and HowTo schema
+ *}
+
+{* Set page-specific variables *}
+{$wa->globals('htmlClass', 'is-helpdesk-article')}
+{$wa->globals('hideCrumbs', false)}
+
+{* Article Schema Data *}
+{$article_schema = [
+    '@type' => 'Article',
+    'headline' => $article.title|escape:'javascript',
+    'description' => $article.excerpt|strip_tags|escape:'javascript',
+    'author' => [
+        '@type' => 'Organization',
+        'name' => $wa->accountName()|escape:'javascript'
+    ],
+    'publisher' => [
+        '@type' => 'Organization',
+        'name' => $wa->accountName()|escape:'javascript',
+        'logo' => [
+            '@type' => 'ImageObject',
+            'url' => $wa_theme_url . 'images/logo.png'
+        ]
+    ],
+    'datePublished' => $article.datetime|date:'c',
+    'dateModified' => $article.update_datetime|date:'c',
+    'mainEntityOfPage' => [
+        '@type' => 'WebPage',
+        '@id' => $article.url
+    ],
+    'articleSection' => $article.category.name|escape:'javascript',
+    'image' => $article.image ? $article.image : null,
+    'keywords' => $article.tags ? implode(', ', array_column($article.tags, 'name'))|escape:'javascript' : null
+]}
+
+{* HowTo Schema Data *}
+{$howto_schema = null}
+{if $article.type == 'howto' && !empty($article.steps)}
+    {$howto_schema = [
+        '@type' => 'HowTo',
+        'name' => $article.title|escape:'javascript',
+        'description' => $article.excerpt|strip_tags|escape:'javascript',
+        'image' => $article.image ? $article.image : null,
+        'totalTime' => $article.estimated_time ? 'PT' . $article.estimated_time . 'M' : null,
+        'step' => []
+    ]}
+    
+    {foreach $article.steps as $index => $step}
+        {$howto_schema.step[] = [
+            '@type' => 'HowToStep',
+            'position' => $index + 1,
+            'name' => $step.title|escape:'javascript',
+            'text' => $step.content|strip_tags|escape:'javascript',
+            'image' => $step.image ? $step.image : null
+        ]}
+    {/foreach}
+{/if}
+
+{* Include layout *}
+{include file="layout.html"}
+
+{* Main content *}
+<div class="waboot-helpdesk__article">
+    {* Article Header *}
+    <section class="waboot-helpdesk__article-header">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__article-header__content">
+                <div class="waboot-helpdesk__article-header__meta">
+                    {if $article.category}
+                    <a href="{$article.category.url}" 
+                       class="waboot-helpdesk__article-header__category">
+                        {$article.category.name|escape}
+                    </a>
+                    {/if}
+                    
+                    <time datetime="{$article.datetime|date:'c'}" 
+                          class="waboot-helpdesk__article-header__date">
+                        {$article.datetime|wa_date:'humandate'}
+                    </time>
+                    
+                    {if $article.author}
+                    <span class="waboot-helpdesk__article-header__author">
+                        {_w('by')} {$article.author.name|escape}
+                    </span>
+                    {/if}
+                </div>
+                
+                <h1 class="waboot-helpdesk__article-header__title">
+                    {$article.title|escape}
+                </h1>
+                
+                {if $article.excerpt}
+                <p class="waboot-helpdesk__article-header__excerpt">
+                    {$article.excerpt|escape}
+                </p>
+                {/if}
+                
+                {if $article.tags}
+                <div class="waboot-helpdesk__article-header__tags">
+                    {foreach $article.tags as $tag}
+                    <span class="waboot-helpdesk__tag">
+                        {$tag.name|escape}
+                    </span>
+                    {/foreach}
+                </div>
+                {/if}
+            </div>
+        </div>
+    </section>
+
+    {* Article Content *}
+    <section class="waboot-helpdesk__article-content">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__article-content__layout">
+                {* Main Content *}
+                <main class="waboot-helpdesk__article-content__main">
+                    {* Article Image *}
+                    {if $article.image}
+                    <div class="waboot-helpdesk__article-content__image">
+                        <img src="{$article.image}" 
+                             alt="{$article.title|escape}"
+                             loading="lazy">
+                    </div>
+                    {/if}
+                    
+                    {* Article Body *}
+                    <div class="waboot-helpdesk__article-content__body">
+                        {$article.content}
+                    </div>
+                    
+                    {* Article Actions *}
+                    <div class="waboot-helpdesk__article-content__actions">
+                        <div class="waboot-helpdesk__article-content__actions__left">
+                            <button class="waboot-helpdesk__button waboot-helpdesk__button--outline"
+                                    x-data="articleFeedback()"
+                                    x-on:click="rateArticle('helpful')">
+                                <i class="fas fa-thumbs-up"></i>
+                                {_w('Helpful')}
+                                <span x-text="helpfulCount"></span>
+                            </button>
+                            
+                            <button class="waboot-helpdesk__button waboot-helpdesk__button--outline"
+                                    x-data="articleFeedback()"
+                                    x-on:click="rateArticle('not-helpful')">
+                                <i class="fas fa-thumbs-down"></i>
+                                {_w('Not Helpful')}
+                                <span x-text="notHelpfulCount"></span>
+                            </button>
+                        </div>
+                        
+                        <div class="waboot-helpdesk__article-content__actions__right">
+                            <button class="waboot-helpdesk__button waboot-helpdesk__button--outline"
+                                    x-data="shareArticle()"
+                                    x-on:click="share()">
+                                <i class="fas fa-share"></i>
+                                {_w('Share')}
+                            </button>
+                            
+                            <button class="waboot-helpdesk__button waboot-helpdesk__button--outline"
+                                    x-data="printArticle()"
+                                    x-on:click="print()">
+                                <i class="fas fa-print"></i>
+                                {_w('Print')}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    {* Related Articles *}
+                    {if !empty($related_articles)}
+                    <div class="waboot-helpdesk__article-content__related">
+                        <h3 class="waboot-helpdesk__article-content__related__title">
+                            {_w('Related Articles')}
+                        </h3>
+                        
+                        <div class="waboot-helpdesk__article-content__related__grid">
+                            {foreach $related_articles as $related}
+                            <article class="waboot-helpdesk__related-article">
+                                {if $related.image}
+                                <div class="waboot-helpdesk__related-article__image">
+                                    <a href="{$related.url}">
+                                        <img src="{$related.image}" 
+                                             alt="{$related.title|escape}"
+                                             loading="lazy">
+                                    </a>
+                                </div>
+                                {/if}
+                                
+                                <div class="waboot-helpdesk__related-article__content">
+                                    <h4 class="waboot-helpdesk__related-article__title">
+                                        <a href="{$related.url}">{$related.title|escape}</a>
+                                    </h4>
+                                    
+                                    <p class="waboot-helpdesk__related-article__excerpt">
+                                        {$related.excerpt|truncate:100}
+                                    </p>
+                                </div>
+                            </article>
+                            {/foreach}
+                        </div>
+                    </div>
+                    {/if}
+                </main>
+                
+                {* Sidebar *}
+                <aside class="waboot-helpdesk__article-content__sidebar">
+                    {* Table of Contents *}
+                    {if !empty($article.toc)}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Table of Contents')}
+                        </h3>
+                        <nav class="waboot-helpdesk__sidebar-section__nav">
+                            <ul class="waboot-helpdesk__sidebar-section__list">
+                                {foreach $article.toc as $toc_item}
+                                <li class="waboot-helpdesk__sidebar-section__item">
+                                    <a href="#{$toc_item.id}" 
+                                       class="waboot-helpdesk__sidebar-section__link">
+                                        {$toc_item.title|escape}
+                                    </a>
+                                </li>
+                                {/foreach}
+                            </ul>
+                        </nav>
+                    </div>
+                    {/if}
+                    
+                    {* Article Info *}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Article Info')}
+                        </h3>
+                        
+                        <div class="waboot-helpdesk__sidebar-section__info">
+                            <div class="waboot-helpdesk__sidebar-section__info__item">
+                                <span class="waboot-helpdesk__sidebar-section__info__label">
+                                    {_w('Last Updated')}:
+                                </span>
+                                <time datetime="{$article.update_datetime|date:'c'}">
+                                    {$article.update_datetime|wa_date:'humandate'}
+                                </time>
+                            </div>
+                            
+                            {if $article.read_time}
+                            <div class="waboot-helpdesk__sidebar-section__info__item">
+                                <span class="waboot-helpdesk__sidebar-section__info__label">
+                                    {_w('Read Time')}:
+                                </span>
+                                <span>{$article.read_time} {_w('minutes')}</span>
+                            </div>
+                            {/if}
+                            
+                            {if $article.views}
+                            <div class="waboot-helpdesk__sidebar-section__info__item">
+                                <span class="waboot-helpdesk__sidebar-section__info__label">
+                                    {_w('Views')}:
+                                </span>
+                                <span>{$article.views|number_format}</span>
+                            </div>
+                            {/if}
+                        </div>
+                    </div>
+                    
+                    {* Need Help *}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Need Help?')}
+                        </h3>
+                        <p class="waboot-helpdesk__sidebar-section__description">
+                            {_w('This article didn\'t solve your problem? Contact our support team.')}
+                        </p>
+                        <a href="{$wa->getUrl('helpdesk/frontend/ticket')}" 
+                           class="waboot-helpdesk__sidebar-section__button">
+                            {_w('Submit Ticket')}
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+</div>
+
+{* Article Schema JSON-LD *}
+<script type="application/ld+json">
+{$article_schema|json_encode}
+</script>
+
+{* HowTo Schema JSON-LD *}
+{if $howto_schema}
+<script type="application/ld+json">
+{$howto_schema|json_encode}
+</script>
+{/if}
+
+{* BreadcrumbList Schema *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{$wa->accountName()|escape:'javascript'}",
+            "item": "{$wa_domain}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{_w('Knowledge Base')|escape:'javascript'}",
+            "item": "{$wa->getUrl('helpdesk/frontend/kb')}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{$article.category.name|escape:'javascript'}",
+            "item": "{$article.category.url}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "{$article.title|escape:'javascript'}",
+            "item": "{$article.url}"
+        }
+    ]
+}
+</script> 

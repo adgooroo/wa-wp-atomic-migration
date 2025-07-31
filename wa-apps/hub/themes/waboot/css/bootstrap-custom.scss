@@ -1,0 +1,254 @@
+/* Bootstrap 5 Custom Variables for Hub Theme */
+/* Based on Bootscore methodology */
+
+// Import Bootstrap functions first
+@import "bootstrap/scss/functions";
+
+// Custom color palette for hub community
+$primary: #1e3a8a;
+$secondary: #64748b;
+$success: #059669;
+$info: #0891b2;
+$warning: #d97706;
+$danger: #dc2626;
+$light: #f8fafc;
+$dark: #1e293b;
+
+// Typography for hub content
+$font-family-sans-serif: "Fira Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-serif: "Georgia", "Times New Roman", serif;
+$font-family-monospace: "Fira Code", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-sm: 0.875rem;
+
+$line-height-base: 1.6;
+$line-height-lg: 1.8;
+$line-height-sm: 1.4;
+
+// Spacing
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 4,
+  7: $spacer * 5,
+  8: $spacer * 6,
+);
+
+// Border radius
+$border-radius: 0.375rem;
+$border-radius-sm: 0.25rem;
+$border-radius-lg: 0.5rem;
+
+// Shadows
+$box-shadow: 0 0.125rem 0.25rem rgba($black, 0.075);
+$box-shadow-sm: 0 0.0625rem 0.125rem rgba($black, 0.075);
+$box-shadow-lg: 0 1rem 3rem rgba($black, 0.175);
+
+// Import Bootstrap variables
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+
+// Custom component overrides for hub
+.btn {
+  border-radius: $border-radius;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.025em;
+  
+  &.btn-primary {
+    background-color: $primary;
+    border-color: $primary;
+    
+    &:hover {
+      background-color: darken($primary, 10%);
+      border-color: darken($primary, 10%);
+    }
+  }
+}
+
+.card {
+  border: none;
+  box-shadow: $box-shadow;
+  border-radius: $border-radius-lg;
+  
+  .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid $light;
+    font-weight: 600;
+  }
+}
+
+.form-control {
+  border-radius: $border-radius;
+  border: 1px solid $light;
+  
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+  }
+}
+
+.navbar {
+  box-shadow: $box-shadow-sm;
+  
+  .navbar-brand {
+    font-weight: 700;
+    color: $primary;
+  }
+  
+  .nav-link {
+    font-weight: 500;
+    color: $dark;
+    
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  
+  .breadcrumb-item {
+    font-size: $font-size-sm;
+    
+    &.active {
+      color: $secondary;
+    }
+  }
+}
+
+// Hub-specific components
+.hub-topic {
+  margin-bottom: 2rem;
+  
+  .hub-topic__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $dark;
+    margin-bottom: 0.5rem;
+  }
+  
+  .hub-topic__meta {
+    color: $secondary;
+    font-size: $font-size-sm;
+    margin-bottom: 1rem;
+  }
+  
+  .hub-topic__content {
+    line-height: $line-height-lg;
+    font-size: $font-size-lg;
+  }
+}
+
+.hub-comment {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: $light;
+  border-radius: $border-radius;
+  
+  .hub-comment__author {
+    font-weight: 600;
+    color: $primary;
+    margin-bottom: 0.5rem;
+  }
+  
+  .hub-comment__content {
+    line-height: $line-height-base;
+  }
+  
+  .hub-comment__meta {
+    color: $secondary;
+    font-size: $font-size-sm;
+    margin-top: 0.5rem;
+  }
+}
+
+.hub-sidebar {
+  .card {
+    margin-bottom: 2rem;
+  }
+  
+  .hub-sidebar__widget-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $dark;
+    margin-bottom: 1rem;
+  }
+}
+
+.hub-user-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: $light;
+  border-radius: $border-radius;
+  margin-bottom: 1rem;
+  
+  .hub-user-card__avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
+    object-fit: cover;
+  }
+  
+  .hub-user-card__info {
+    flex-grow: 1;
+  }
+  
+  .hub-user-card__name {
+    font-weight: 600;
+    color: $primary;
+    margin-bottom: 0.25rem;
+  }
+  
+  .hub-user-card__stats {
+    color: $secondary;
+    font-size: $font-size-sm;
+  }
+}
+
+// Import Bootstrap components
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/button-group";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/accordion";
+@import "bootstrap/scss/breadcrumb";
+@import "bootstrap/scss/pagination";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/alert";
+@import "bootstrap/scss/progress";
+@import "bootstrap/scss/list-group";
+@import "bootstrap/scss/close";
+@import "bootstrap/scss/toasts";
+@import "bootstrap/scss/modal";
+@import "bootstrap/scss/tooltip";
+@import "bootstrap/scss/popover";
+@import "bootstrap/scss/carousel";
+@import "bootstrap/scss/spinners";
+@import "bootstrap/scss/offcanvas";
+@import "bootstrap/scss/placeholders";
+@import "bootstrap/scss/helpers";
+@import "bootstrap/scss/utilities/api"; 

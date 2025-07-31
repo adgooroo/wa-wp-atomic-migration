@@ -1,0 +1,97 @@
+{strip}
+{* Blog Header Template *}
+
+<header class="waboot-blog__header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            {* Logo/Brand *}
+            <a class="navbar-brand" href="{$wa->blog->url()}">
+                {if $wa->blog->settings('logo')}
+                    <img src="{$wa->blog->settings('logo')}" alt="{$wa->blog->settings('name')|escape}" class="waboot-blog__logo">
+                {else}
+                    {$wa->blog->settings('name')|escape}
+                {/if}
+            </a>
+            
+            {* Mobile menu button *}
+            <button class="navbar-toggler" type="button" x-on:click="$store.blog.toggleMobileMenu()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            {* Navigation menu *}
+            <div class="collapse navbar-collapse" x-bind:class="{'show': $store.blog.ui.mobileMenuOpen}">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{$wa->blog->url()}">Главная</a>
+                    </li>
+                    
+                    {* Categories menu *}
+                    {$_categories = $wa->blog->categories()}
+                    {if !empty($_categories)}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                Категории
+                            </a>
+                            <ul class="dropdown-menu">
+                                {foreach $_categories as $_category}
+                                    <li>
+                                        <a class="dropdown-item" href="{$_category.url}">
+                                            {$_category.name|escape}
+                                        </a>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        </li>
+                    {/if}
+                    
+                    {* Pages menu *}
+                    {$_pages = $wa->blog->pages()}
+                    {if !empty($_pages)}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                Страницы
+                            </a>
+                            <ul class="dropdown-menu">
+                                {foreach $_pages as $_page}
+                                    <li>
+                                        <a class="dropdown-item" href="{$_page.url}">
+                                            {$_page.name|escape}
+                                        </a>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        </li>
+                    {/if}
+                </ul>
+                
+                {* Search form *}
+                <form class="d-flex" x-data="blogSearch()" @submit.prevent="search()">
+                    <input class="form-control me-2" 
+                           type="search" 
+                           placeholder="Поиск по блогу..." 
+                           x-model="query"
+                           @input="search()">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    
+                    {* Search results dropdown *}
+                    <div class="dropdown-menu w-100" x-show="showResults" x-transition>
+                        <template x-for="result in results" :key="result.id">
+                            <a class="dropdown-item" :href="result.url" x-text="result.title"></a>
+                        </template>
+                        <div x-show="results.length === 0 && query.length > 2" class="dropdown-item text-muted">
+                            Ничего не найдено
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+    
+    {* Breadcrumbs *}
+    {if !empty($breadcrumbs)}
+        {include file="breadcrumbs.html" breadcrumbs=$breadcrumbs inline}
+    {/if}
+</header>
+{/strip} 

@@ -1,0 +1,267 @@
+{* Mailer Campaign Template *}
+{extends file="layout.html"}
+
+{block name="content"}
+<div class="waboot-mailer__campaign-page" x-data="campaignPage()">
+    {* Campaign Header *}
+    <div class="waboot-mailer__page-header">
+        <div class="waboot-mailer__page-header__content">
+            <h1 class="waboot-mailer__page-header__title">{$campaign.name|escape}</h1>
+            <div class="waboot-mailer__page-header__meta">
+                <span class="waboot-mailer__status-badge waboot-mailer__status-badge--{$campaign.status}">{$campaign.status|escape}</span>
+                <span class="waboot-mailer__page-header__date">Created {$campaign.created_at|wa_date:'humandatetime'}</span>
+            </div>
+        </div>
+        
+        <div class="waboot-mailer__page-header__actions">
+            <button class="waboot-mailer__btn waboot-mailer__btn--secondary" data-action="campaign" data-campaign-action="preview" data-campaign-id="{$campaign.id}">
+                <i class="fas fa-eye"></i>
+                Preview
+            </button>
+            <button class="waboot-mailer__btn waboot-mailer__btn--secondary" data-action="campaign" data-campaign-action="duplicate" data-campaign-id="{$campaign.id}">
+                <i class="fas fa-copy"></i>
+                Duplicate
+            </button>
+            {if $campaign.status == 'draft'}
+                <button class="waboot-mailer__btn waboot-mailer__btn--primary" data-action="campaign" data-campaign-action="send" data-campaign-id="{$campaign.id}">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Campaign
+                </button>
+            {/if}
+        </div>
+    </div>
+    
+    {* Campaign Content *}
+    <div class="waboot-mailer__campaign-content">
+        <div class="waboot-mailer__campaign-main">
+            {* Campaign Details *}
+            <div class="waboot-mailer__campaign-details">
+                <div class="waboot-mailer__campaign-details__section">
+                    <h3>Campaign Information</h3>
+                    <div class="waboot-mailer__campaign-details__grid">
+                        <div class="waboot-mailer__campaign-details__item">
+                            <label>Subject Line</label>
+                            <div>{$campaign.subject|escape}</div>
+                        </div>
+                        <div class="waboot-mailer__campaign-details__item">
+                            <label>From Name</label>
+                            <div>{$campaign.from_name|escape}</div>
+                        </div>
+                        <div class="waboot-mailer__campaign-details__item">
+                            <label>From Email</label>
+                            <div>{$campaign.from_email|escape}</div>
+                        </div>
+                        <div class="waboot-mailer__campaign-details__item">
+                            <label>Reply To</label>
+                            <div>{$campaign.reply_to|escape}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="waboot-mailer__campaign-details__section">
+                    <h3>Campaign Statistics</h3>
+                    <div class="waboot-mailer__campaign-stats">
+                        <div class="waboot-mailer__stat-grid">
+                            <div class="waboot-mailer__stat">
+                                <div class="waboot-mailer__stat__number">{$campaign.recipients|number_format}</div>
+                                <div class="waboot-mailer__stat__label">Recipients</div>
+                            </div>
+                            <div class="waboot-mailer__stat">
+                                <div class="waboot-mailer__stat__number">{$campaign.sent|number_format}</div>
+                                <div class="waboot-mailer__stat__label">Sent</div>
+                            </div>
+                            <div class="waboot-mailer__stat">
+                                <div class="waboot-mailer__stat__number">{$campaign.opens|number_format}</div>
+                                <div class="waboot-mailer__stat__label">Opens</div>
+                                <div class="waboot-mailer__stat__percentage">
+                                    {if $campaign.sent > 0}{($campaign.opens / $campaign.sent * 100)|number_format:1}%{else}0%{/if}
+                                </div>
+                            </div>
+                            <div class="waboot-mailer__stat">
+                                <div class="waboot-mailer__stat__number">{$campaign.clicks|number_format}</div>
+                                <div class="waboot-mailer__stat__label">Clicks</div>
+                                <div class="waboot-mailer__stat__percentage">
+                                    {if $campaign.sent > 0}{($campaign.clicks / $campaign.sent * 100)|number_format:1}%{else}0%{/if}
+                                </div>
+                            </div>
+                            <div class="waboot-mailer__stat">
+                                <div class="waboot-mailer__stat__number">{$campaign.bounces|number_format}</div>
+                                <div class="waboot-mailer__stat__label">Bounces</div>
+                                <div class="waboot-mailer__stat__percentage">
+                                    {if $campaign.sent > 0}{($campaign.bounces / $campaign.sent * 100)|number_format:1}%{else}0%{/if}
+                                </div>
+                            </div>
+                            <div class="waboot-mailer__stat">
+                                <div class="waboot-mailer__stat__number">{$campaign.unsubscribes|number_format}</div>
+                                <div class="waboot-mailer__stat__label">Unsubscribes</div>
+                                <div class="waboot-mailer__stat__percentage">
+                                    {if $campaign.sent > 0}{($campaign.unsubscribes / $campaign.sent * 100)|number_format:1}%{else}0%{/if}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {if $campaign.description}
+                <div class="waboot-mailer__campaign-details__section">
+                    <h3>Description</h3>
+                    <p>{$campaign.description|escape|nl2br}</p>
+                </div>
+                {/if}
+            </div>
+            
+            {* Email Preview *}
+            <div class="waboot-mailer__campaign-preview">
+                <h3>Email Preview</h3>
+                <div class="waboot-mailer__email-preview">
+                    <div class="waboot-mailer__email-preview__header">
+                        <div class="waboot-mailer__email-preview__subject">{$campaign.subject|escape}</div>
+                        <div class="waboot-mailer__email-preview__from">{$campaign.from_name|escape} &lt;{$campaign.from_email|escape}&gt;</div>
+                    </div>
+                    <div class="waboot-mailer__email-preview__body">
+                        <iframe src="/mailer/campaigns/{$campaign.id}/preview/" 
+                                class="waboot-mailer__email-preview__iframe"
+                                title="Email preview"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {* Campaign Sidebar *}
+        <div class="waboot-mailer__campaign-sidebar">
+            {* Campaign Actions *}
+            <div class="waboot-mailer__campaign-widget">
+                <h3>Campaign Actions</h3>
+                <div class="waboot-mailer__campaign-widget__content">
+                    <a href="/mailer/campaigns/{$campaign.id}/edit/" class="waboot-mailer__btn waboot-mailer__btn--secondary waboot-mailer__w-100">
+                        <i class="fas fa-edit"></i>
+                        Edit Campaign
+                    </a>
+                    <button class="waboot-mailer__btn waboot-mailer__btn--secondary waboot-mailer__w-100" data-action="campaign" data-campaign-action="preview" data-campaign-id="{$campaign.id}">
+                        <i class="fas fa-eye"></i>
+                        Preview Email
+                    </button>
+                    <button class="waboot-mailer__btn waboot-mailer__btn--secondary waboot-mailer__w-100" data-action="campaign" data-campaign-action="duplicate" data-campaign-id="{$campaign.id}">
+                        <i class="fas fa-copy"></i>
+                        Duplicate Campaign
+                    </button>
+                    {if $campaign.status == 'draft'}
+                        <button class="waboot-mailer__btn waboot-mailer__btn--primary waboot-mailer__w-100" data-action="campaign" data-campaign-action="send" data-campaign-id="{$campaign.id}">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Campaign
+                        </button>
+                    {/if}
+                </div>
+            </div>
+            
+            {* Campaign Timeline *}
+            <div class="waboot-mailer__campaign-widget">
+                <h3>Campaign Timeline</h3>
+                <div class="waboot-mailer__campaign-widget__content">
+                    <div class="waboot-mailer__timeline">
+                        <div class="waboot-mailer__timeline__item">
+                            <div class="waboot-mailer__timeline__date">{$campaign.created_at|wa_date:'humandatetime'}</div>
+                            <div class="waboot-mailer__timeline__content">
+                                <strong>Campaign Created</strong>
+                                <p>Campaign was created</p>
+                            </div>
+                        </div>
+                        
+                        {if $campaign.scheduled_at}
+                        <div class="waboot-mailer__timeline__item">
+                            <div class="waboot-mailer__timeline__date">{$campaign.scheduled_at|wa_date:'humandatetime'}</div>
+                            <div class="waboot-mailer__timeline__content">
+                                <strong>Campaign Scheduled</strong>
+                                <p>Scheduled for sending</p>
+                            </div>
+                        </div>
+                        {/if}
+                        
+                        {if $campaign.sent_at}
+                        <div class="waboot-mailer__timeline__item">
+                            <div class="waboot-mailer__timeline__date">{$campaign.sent_at|wa_date:'humandatetime'}</div>
+                            <div class="waboot-mailer__timeline__content">
+                                <strong>Campaign Sent</strong>
+                                <p>Campaign was sent to {$campaign.sent|number_format} recipients</p>
+                            </div>
+                        </div>
+                        {/if}
+                        
+                        {if $campaign.completed_at}
+                        <div class="waboot-mailer__timeline__item">
+                            <div class="waboot-mailer__timeline__date">{$campaign.completed_at|wa_date:'humandatetime'}</div>
+                            <div class="waboot-mailer__timeline__content">
+                                <strong>Campaign Completed</strong>
+                                <p>Campaign delivery completed</p>
+                            </div>
+                        </div>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            
+            {* Campaign Settings *}
+            <div class="waboot-mailer__campaign-widget">
+                <h3>Campaign Settings</h3>
+                <div class="waboot-mailer__campaign-widget__content">
+                    <div class="waboot-mailer__settings-list">
+                        <div class="waboot-mailer__settings-item">
+                            <span class="waboot-mailer__settings-item__label">Template</span>
+                            <span class="waboot-mailer__settings-item__value">{$campaign.template_name|escape}</span>
+                        </div>
+                        <div class="waboot-mailer__settings-item">
+                            <span class="waboot-mailer__settings-item__label">List</span>
+                            <span class="waboot-mailer__settings-item__value">{$campaign.list_name|escape}</span>
+                        </div>
+                        <div class="waboot-mailer__settings-item">
+                            <span class="waboot-mailer__settings-item__label">Track Opens</span>
+                            <span class="waboot-mailer__settings-item__value">{if $campaign.track_opens}Yes{else}No{/if}</span>
+                        </div>
+                        <div class="waboot-mailer__settings-item">
+                            <span class="waboot-mailer__settings-item__label">Track Clicks</span>
+                            <span class="waboot-mailer__settings-item__value">{if $campaign.track_clicks}Yes{else}No{/if}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{* JSON-LD Schema for Campaign *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "EmailMessage",
+    "name": "{$campaign.name|escape}",
+    "description": "{$campaign.description|escape}",
+    "sender": {
+        "@type": "Organization",
+        "name": "{$campaign.from_name|escape}",
+        "email": "{$campaign.from_email|escape}"
+    },
+    "dateSent": "{$campaign.sent_at|date:'c'}",
+    "recipient": {
+        "@type": "Audience",
+        "audienceType": "Email Subscribers"
+    }
+}
+</script>
+{/block}
+
+{block name="scripts" append}
+<script>
+// Alpine.js component for campaign page
+Alpine.data('campaignPage', () => ({
+    init() {
+        // Initialize campaign page functionality
+        this.setupCampaignActions();
+    },
+    
+    setupCampaignActions() {
+        // Campaign action handlers are already set up in the main JS file
+        console.log('Campaign page initialized');
+    }
+}));
+</script>
+{/block} 

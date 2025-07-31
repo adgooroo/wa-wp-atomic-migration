@@ -1,0 +1,20 @@
+# Deny access to lib directory
+<RequireAll>
+    Require all denied
+</RequireAll>
+
+# Apache 2.2 fallback
+<IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+</IfModule>
+
+# Prevent access to PHP files
+<FilesMatch "\.(php|php3|php4|php5|phtml)$">
+    Require all denied
+</FilesMatch>
+
+# Prevent access to configuration files
+<FilesMatch "\.(ini|conf|config)$">
+    Require all denied
+</FilesMatch> 

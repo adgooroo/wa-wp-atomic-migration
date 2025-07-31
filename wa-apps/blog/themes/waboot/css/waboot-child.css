@@ -11,15 +11,16 @@
    ============================================ */
 
 /* Import parent theme styles */
-@import url('../../site/themes/waboot/css/atoms/atoms.css');
-@import url('../../site/themes/waboot/css/molecules/molecules.css');
-@import url('../../site/themes/waboot/css/organisms/organisms.css');
 @import url('../../site/themes/waboot/css/waboot.css');
 
+/* Import Bootstrap 5 custom styles */
+@import url('bootstrap-custom.scss');
+@import url('bootstrap-utilities.scss');
+
 /* Import child theme specific styles */
-@import url('blog-atoms.css');
-@import url('blog-molecules.css');
-@import url('blog-organisms.css');
+@import url('atoms.css');
+@import url('molecules.css');
+@import url('organisms.css');
 
 /* ============================================
    BLOG THEME VARIABLES

@@ -1,0 +1,25 @@
+{* Subscribe Button Atom Component *}
+{* @param text - Button text *}
+{* @param loading - Loading state *}
+{* @param disabled - Disabled state *}
+
+{$text = $text|default:'{_w("Subscribe")}'}
+{$loading = $loading|default:false}
+{$disabled = $disabled|default:false}
+
+<button class="waboot-mailer__subscribe-btn {if $loading}waboot-mailer__subscribe-btn--loading{/if} {if $disabled}waboot-mailer__subscribe-btn--disabled{/if}"
+        x-data="subscribeButton()"
+        x-on:click="subscribe()"
+        {if $disabled}disabled{/if}
+        aria-describedby="subscribe-description">
+    
+    <span class="waboot-mailer__subscribe-btn__text" x-text="buttonText">{$text}</span>
+    
+    <span class="waboot-mailer__subscribe-btn__loader" x-show="loading" aria-hidden="true">
+        <i class="fas fa-spinner fa-spin"></i>
+    </span>
+    
+    <span id="subscribe-description" class="sr-only">
+        {_w('Click to subscribe to our newsletter')}
+    </span>
+</button> 

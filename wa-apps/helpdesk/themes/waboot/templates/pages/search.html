@@ -1,0 +1,300 @@
+{*
+ * Helpdesk Search Page Template
+ * Search functionality with SearchAction schema
+ *}
+
+{* Set page-specific variables *}
+{$wa->globals('htmlClass', 'is-helpdesk-search')}
+{$wa->globals('hideCrumbs', false)}
+
+{* Search Schema Data *}
+{$search_schema = [
+    '@type' => 'SearchAction',
+    'target' => [
+        '@type' => 'EntryPoint',
+        'urlTemplate' => $wa_domain . '/helpdesk/search/?q={search_term_string}'
+    ],
+    'query-input' => 'required name=search_term_string'
+]}
+
+{* Include layout *}
+{include file="layout.html"}
+
+{* Main content *}
+<div class="waboot-helpdesk__search-page">
+    {* Search Header *}
+    <section class="waboot-helpdesk__search-header">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__search-header__content">
+                <h1 class="waboot-helpdesk__search-header__title">
+                    {_w('Search Results')}
+                </h1>
+                
+                {if $query}
+                <p class="waboot-helpdesk__search-header__description">
+                    {sprintf(_w('Search results for "%s"'), $query|escape)}
+                </p>
+                {/if}
+            </div>
+        </div>
+    </section>
+
+    {* Search Form *}
+    <section class="waboot-helpdesk__search-form">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__search-form__content" x-data="helpdeskSearch()">
+                <form class="waboot-helpdesk__search-form__form" 
+                      x-on:submit.prevent="search()"
+                      role="search">
+                    <div class="waboot-helpdesk__search-form__input-group">
+                        <input type="text" 
+                               class="waboot-helpdesk__search-form__input"
+                               x-model="query"
+                               value="{$query|escape}"
+                               placeholder="{_w('Search for answers...')}"
+                               aria-label="{_w('Search helpdesk')}">
+                        
+                        <button type="submit" 
+                                class="waboot-helpdesk__search-form__button"
+                                x-bind:disabled="loading">
+                            <span x-show="!loading">
+                                <i class="fas fa-search"></i>
+                                {_w('Search')}
+                            </span>
+                            <span x-show="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                {_w('Searching...')}
+                            </span>
+                        </button>
+                    </div>
+                    
+                    {* Search Filters *}
+                    <div class="waboot-helpdesk__search-form__filters">
+                        <div class="waboot-helpdesk__search-form__filter">
+                            <label for="search-category" class="waboot-helpdesk__search-form__filter__label">
+                                {_w('Category')}:
+                            </label>
+                            <select id="search-category" 
+                                    class="waboot-helpdesk__search-form__filter__select"
+                                    x-model="filters.category">
+                                <option value="">{_w('All Categories')}</option>
+                                {foreach $categories as $category}
+                                <option value="{$category.id}">{$category.name|escape}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        
+                        <div class="waboot-helpdesk__search-form__filter">
+                            <label for="search-type" class="waboot-helpdesk__search-form__filter__label">
+                                {_w('Type')}:
+                            </label>
+                            <select id="search-type" 
+                                    class="waboot-helpdesk__search-form__filter__select"
+                                    x-model="filters.type">
+                                <option value="">{_w('All Types')}</option>
+                                <option value="article">{_w('Articles')}</option>
+                                <option value="howto">{_w('How-To Guides')}</option>
+                                <option value="faq">{_w('FAQ')}</option>
+                            </select>
+                        </div>
+                        
+                        <div class="waboot-helpdesk__search-form__filter">
+                            <label for="search-sort" class="waboot-helpdesk__search-form__filter__label">
+                                {_w('Sort by')}:
+                            </label>
+                            <select id="search-sort" 
+                                    class="waboot-helpdesk__search-form__filter__select"
+                                    x-model="filters.sort">
+                                <option value="relevance">{_w('Relevance')}</option>
+                                <option value="date">{_w('Date')}</option>
+                                <option value="title">{_w('Title')}</option>
+                                <option value="views">{_w('Views')}</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    {* Search Results *}
+    <section class="waboot-helpdesk__search-results">
+        <div class="waboot-helpdesk__container">
+            {* Results Summary *}
+            <div class="waboot-helpdesk__search-results__summary">
+                {if $total_results > 0}
+                <p class="waboot-helpdesk__search-results__summary__text">
+                    {sprintf(_w('Found %d result', 'Found %d results', $total_results), $total_results)}
+                    {if $query} {_w('for')} "<strong>{$query|escape}</strong>"{/if}
+                </p>
+                {else}
+                <p class="waboot-helpdesk__search-results__summary__text">
+                    {_w('No results found')}
+                    {if $query} {_w('for')} "<strong>{$query|escape}</strong>"{/if}
+                </p>
+                {/if}
+            </div>
+            
+            {* Results List *}
+            {if !empty($results)}
+            <div class="waboot-helpdesk__search-results__list">
+                {foreach $results as $result}
+                <article class="waboot-helpdesk__search-result">
+                    <div class="waboot-helpdesk__search-result__content">
+                        <div class="waboot-helpdesk__search-result__meta">
+                            {if $result.type}
+                            <span class="waboot-helpdesk__search-result__type waboot-helpdesk__search-result__type--{$result.type}">
+                                {if $result.type == 'howto'}{_w('How-To')}
+                                {elseif $result.type == 'faq'}{_w('FAQ')}
+                                {else}{_w('Article')}{/if}
+                            </span>
+                            {/if}
+                            
+                            {if $result.category}
+                            <a href="{$result.category.url}" 
+                               class="waboot-helpdesk__search-result__category">
+                                {$result.category.name|escape}
+                            </a>
+                            {/if}
+                            
+                            <time datetime="{$result.datetime|date:'c'}" 
+                                  class="waboot-helpdesk__search-result__date">
+                                {$result.datetime|wa_date:'humandate'}
+                            </time>
+                        </div>
+                        
+                        <h2 class="waboot-helpdesk__search-result__title">
+                            <a href="{$result.url}">{$result.title|escape}</a>
+                        </h2>
+                        
+                        <div class="waboot-helpdesk__search-result__excerpt">
+                            {$result.excerpt|highlight:$query}
+                        </div>
+                        
+                        {if $result.tags}
+                        <div class="waboot-helpdesk__search-result__tags">
+                            {foreach $result.tags as $tag}
+                            <span class="waboot-helpdesk__tag">
+                                {$tag.name|escape}
+                            </span>
+                            {/foreach}
+                        </div>
+                        {/if}
+                        
+                        <div class="waboot-helpdesk__search-result__actions">
+                            <a href="{$result.url}" 
+                               class="waboot-helpdesk__search-result__read-more">
+                                {_w('Read More')} →
+                            </a>
+                            
+                            {if $result.helpful_count > 0}
+                            <span class="waboot-helpdesk__search-result__helpful">
+                                <i class="fas fa-thumbs-up"></i>
+                                {$result.helpful_count}
+                            </span>
+                            {/if}
+                        </div>
+                    </div>
+                    
+                    {if $result.image}
+                    <div class="waboot-helpdesk__search-result__image">
+                        <a href="{$result.url}">
+                            <img src="{$result.image}" 
+                                 alt="{$result.title|escape}"
+                                 loading="lazy">
+                        </a>
+                    </div>
+                    {/if}
+                </article>
+                {/foreach}
+            </div>
+            
+            {* Pagination *}
+            {if $pagination}
+            <div class="waboot-helpdesk__search-results__pagination">
+                {wa_pagination total=$pagination.total 
+                              attrs=["class" => "waboot-helpdesk__pagination__list"]}
+            </div>
+            {/if}
+            
+            {else}
+            <div class="waboot-helpdesk__search-results__empty">
+                <div class="waboot-helpdesk__search-results__empty__icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                
+                <h3 class="waboot-helpdesk__search-results__empty__title">
+                    {_w('No Results Found')}
+                </h3>
+                
+                <p class="waboot-helpdesk__search-results__empty__description">
+                    {_w('Try adjusting your search terms or browse our knowledge base.')}
+                </p>
+                
+                <div class="waboot-helpdesk__search-results__empty__actions">
+                    <a href="{$wa->getUrl('helpdesk/frontend/kb')}" 
+                       class="waboot-helpdesk__button">
+                        {_w('Browse Knowledge Base')}
+                    </a>
+                    
+                    <a href="{$wa->getUrl('helpdesk/frontend/ticket')}" 
+                       class="waboot-helpdesk__button waboot-helpdesk__button--outline">
+                        {_w('Submit Ticket')}
+                    </a>
+                </div>
+                
+                {* Popular Searches *}
+                {if !empty($popular_searches)}
+                <div class="waboot-helpdesk__search-results__empty__popular">
+                    <h4 class="waboot-helpdesk__search-results__empty__popular__title">
+                        {_w('Popular Searches')}
+                    </h4>
+                    
+                    <div class="waboot-helpdesk__search-results__empty__popular__list">
+                        {foreach $popular_searches as $popular}
+                        <a href="{$wa->getUrl('helpdesk/frontend/search')}?q={$popular.query|urlencode}" 
+                           class="waboot-helpdesk__search-results__empty__popular__item">
+                            {$popular.query|escape}
+                        </a>
+                        {/foreach}
+                    </div>
+                </div>
+                {/if}
+            </div>
+            {/if}
+        </div>
+    </section>
+</div>
+
+{* SearchAction Schema JSON-LD *}
+<script type="application/ld+json">
+{$search_schema|json_encode}
+</script>
+
+{* BreadcrumbList Schema *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{$wa->accountName()|escape:'javascript'}",
+            "item": "{$wa_domain}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{_w('Knowledge Base')|escape:'javascript'}",
+            "item": "{$wa->getUrl('helpdesk/frontend/kb')}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{_w('Search')|escape:'javascript'}",
+            "item": "{$wa->getUrl('helpdesk/frontend/search')}"
+        }
+    ]
+}
+</script> 

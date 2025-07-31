@@ -1,0 +1,128 @@
+{strip}
+{* Hub Header Template *}
+
+<header class="waboot-hub__header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            {* Logo/Brand *}
+            <a class="navbar-brand" href="{$wa->hub->url()}">
+                {if $wa->hub->settings('logo')}
+                    <img src="{$wa->hub->settings('logo')}" alt="{$wa->hub->settings('name')|escape}" class="waboot-hub__logo">
+                {else}
+                    {$wa->hub->settings('name')|escape}
+                {/if}
+            </a>
+            
+            {* Mobile menu button *}
+            <button class="navbar-toggler" type="button" x-on:click="$store.hub.toggleMobileMenu()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            {* Navigation menu *}
+            <div class="collapse navbar-collapse" x-bind:class="{'show': $store.hub.ui.mobileMenuOpen}">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{$wa->hub->url()}">Главная</a>
+                    </li>
+                    
+                    {* Categories menu *}
+                    {$_categories = $wa->hub->categories()}
+                    {if !empty($_categories)}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                Категории
+                            </a>
+                            <ul class="dropdown-menu">
+                                {foreach $_categories as $_category}
+                                    <li>
+                                        <a class="dropdown-item" href="{$_category.url}">
+                                            {$_category.name|escape}
+                                        </a>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        </li>
+                    {/if}
+                    
+                    {* Topics menu *}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{$wa->hub->url()}topics/">Темы</a>
+                    </li>
+                    
+                    {* Authors menu *}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{$wa->hub->url()}authors/">Авторы</a>
+                    </li>
+                    
+                    {* Community menu *}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Сообщество
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{$wa->hub->url()}members/">Участники</a></li>
+                            <li><a class="dropdown-item" href="{$wa->hub->url()}rules/">Правила</a></li>
+                            <li><a class="dropdown-item" href="{$wa->hub->url()}faq/">FAQ</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                {* Search form *}
+                <form class="d-flex" x-data="hubSearch()" @submit.prevent="search()">
+                    <input class="form-control me-2" 
+                           type="search" 
+                           placeholder="Поиск по сообществу..." 
+                           x-model="query"
+                           @input="search()">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    
+                    {* Search results dropdown *}
+                    <div class="dropdown-menu w-100" x-show="showResults" x-transition>
+                        <template x-for="result in results" :key="result.id">
+                            <a class="dropdown-item" :href="result.url" x-text="result.title"></a>
+                        </template>
+                        <div x-show="results.length === 0 && query.length > 2" class="dropdown-item text-muted">
+                            Ничего не найдено
+                        </div>
+                    </div>
+                </form>
+                
+                {* User menu *}
+                {if $wa->user()->isAuth()}
+                    <ul class="navbar-nav ms-3">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user"></i>
+                                {$wa->user('name')|escape}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{$wa->hub->url()}profile/">Профиль</a></li>
+                                <li><a class="dropdown-item" href="{$wa->hub->url()}my-topics/">Мои темы</a></li>
+                                <li><a class="dropdown-item" href="{$wa->hub->url()}my-comments/">Мои комментарии</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{$wa->url()}logout/">Выйти</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {else}
+                    <ul class="navbar-nav ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{$wa->url()}login/">Войти</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{$wa->url()}signup/">Регистрация</a>
+                        </li>
+                    </ul>
+                {/if}
+            </div>
+        </div>
+    </nav>
+    
+    {* Breadcrumbs *}
+    {if !empty($breadcrumbs)}
+        {include file="breadcrumbs.html" breadcrumbs=$breadcrumbs inline}
+    {/if}
+</header>
+{/strip} 

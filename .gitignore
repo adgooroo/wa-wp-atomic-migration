@@ -98,6 +98,7 @@ dist/
 build/
 node_modules/
 vendor/
+tmp/
 
 # ========================================
 # BACKUP AND TEMPORARY FILES

@@ -1,0 +1,32 @@
+{strip}
+{* Hub Breadcrumbs Template *}
+
+{if !empty($breadcrumbs)}
+    <nav aria-label="breadcrumb" class="waboot-hub__breadcrumbs">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{$wa->hub->url()}">
+                        <i class="fas fa-home"></i>
+                        Главная
+                    </a>
+                </li>
+                
+                {foreach $breadcrumbs as $_breadcrumb}
+                    {if $_breadcrumb@last}
+                        <li class="breadcrumb-item active" aria-current="page">
+                            {$_breadcrumb.name|escape}
+                        </li>
+                    {else}
+                        <li class="breadcrumb-item">
+                            <a href="{$_breadcrumb.url}">
+                                {$_breadcrumb.name|escape}
+                            </a>
+                        </li>
+                    {/if}
+                {/foreach}
+            </ol>
+        </div>
+    </nav>
+{/if}
+{/strip} 

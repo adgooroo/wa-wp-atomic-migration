@@ -1,0 +1,295 @@
+{strip}
+{* Helpdesk Sidebar Template *}
+
+<aside class="waboot-helpdesk__sidebar">
+    {* Search widget *}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-search"></i>
+                Поиск
+            </h5>
+        </div>
+        <div class="card-body">
+            <form x-data="helpdeskSearch()" @submit.prevent="search()">
+                <div class="input-group">
+                    <input type="search" 
+                           class="form-control" 
+                           placeholder="Поиск по базе знаний..."
+                           x-model="query"
+                           @input="search()">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    {* Categories widget *}
+    {$_categories = $wa->helpdesk->categories()}
+    {if !empty($_categories)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-folder"></i>
+                    Категории
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    {foreach $_categories as $_category}
+                        <li class="mb-2">
+                            <a href="{$_category.url}" class="text-decoration-none">
+                                {$_category.name|escape}
+                                <span class="badge bg-secondary float-end">
+                                    {$_category.count}
+                                </span>
+                            </a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
+    
+    {* Popular articles widget *}
+    {$_popular_articles = $wa->helpdesk->articles(['limit' => 5, 'sort' => 'popular'])}
+    {if !empty($_popular_articles)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-star"></i>
+                    Популярные статьи
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    {foreach $_popular_articles as $_article}
+                        <li class="mb-3">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">
+                                        <a href="{$_article.url}" class="text-decoration-none">
+                                            {$_article.title|escape}
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">
+                                        {$_article.views_count} просмотров
+                                    </small>
+                                </div>
+                            </div>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
+    
+    {* Recent tickets widget *}
+    {if $wa->user()->isAuth()}
+        {$_recent_tickets = $wa->helpdesk->tickets(['limit' => 5, 'user_id' => $wa->user('id')])}
+        {if !empty($_recent_tickets)}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-ticket-alt"></i>
+                        Мои тикеты
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        {foreach $_recent_tickets as $_ticket}
+                            <li class="mb-3">
+                                <div class="d-flex">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">
+                                            <a href="{$_ticket.url}" class="text-decoration-none">
+                                                {$_ticket.subject|escape}
+                                            </a>
+                                        </h6>
+                                        <small class="text-muted">
+                                            {$_ticket.status|escape} • {$_ticket.datetime|wa_date:'humandate'}
+                                        </small>
+                                    </div>
+                                </div>
+                            </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+        {/if}
+    {/if}
+    
+    {* Support stats widget *}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-chart-bar"></i>
+                Статистика
+            </h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mb-0">
+                <li class="mb-2">
+                    <i class="fas fa-clock me-2"></i>
+                    <span x-text="$store.helpdesk.stats.response_time">24ч</span> среднее время ответа
+                </li>
+                <li class="mb-2">
+                    <i class="fas fa-ticket-alt me-2"></i>
+                    <span x-text="$store.helpdesk.stats.open_tickets">0</span> открытых тикетов
+                </li>
+                <li class="mb-2">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <span x-text="$store.helpdesk.stats.resolved_tickets">0</span> решенных тикетов
+                </li>
+                <li class="mb-2">
+                    <i class="fas fa-file-alt me-2"></i>
+                    <span x-text="$store.helpdesk.stats.articles">0</span> статей в базе знаний
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    {* System status widget *}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-server"></i>
+                Статус системы
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-2">
+                <span class="badge bg-success me-2">
+                    <i class="fas fa-circle"></i>
+                </span>
+                <span>Все системы работают</span>
+            </div>
+            <small class="text-muted">
+                Последнее обновление: <span x-text="$store.helpdesk.stats.last_update">сейчас</span>
+            </small>
+        </div>
+    </div>
+    
+    {* Quick actions widget *}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-bolt"></i>
+                Быстрые действия
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="d-grid gap-2">
+                <a href="{$wa->helpdesk->url()}new-ticket/" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i>
+                    Создать тикет
+                </a>
+                <a href="{$wa->helpdesk->url()}faq/" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-question-circle"></i>
+                    FAQ
+                </a>
+                <a href="{$wa->helpdesk->url()}contact/" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-envelope"></i>
+                    Связаться с поддержкой
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    {* Tags cloud widget *}
+    {$_tags = $wa->helpdesk->tags()}
+    {if !empty($_tags)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-tags"></i>
+                    Популярные теги
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="waboot-helpdesk__tag-cloud">
+                    {foreach $_tags as $_tag}
+                        <a href="{$_tag.url}" 
+                           class="badge bg-light text-dark text-decoration-none me-1 mb-1"
+                           style="font-size: {$_tag.size}rem;">
+                            {$_tag.name|escape}
+                        </a>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    {/if}
+    
+    {* Newsletter subscription widget *}
+    {if $wa->helpdesk->settings('newsletter_enabled')}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-envelope"></i>
+                    Подписка на обновления
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Получайте уведомления о новых статьях и обновлениях
+                </p>
+                <form x-data="newsletterSubscription()" @submit.prevent="subscribe()">
+                    <div class="mb-3">
+                        <input type="email" 
+                               class="form-control" 
+                               placeholder="Ваш email"
+                               x-model="email"
+                               required>
+                    </div>
+                    <button class="btn btn-primary w-100" type="submit" x-bind:disabled="loading">
+                        <span x-show="!loading">Подписаться</span>
+                        <span x-show="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    {/if}
+    
+    {* Contact info widget *}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-phone"></i>
+                Контакты
+            </h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mb-0">
+                {if $wa->helpdesk->settings('support_email')}
+                    <li class="mb-2">
+                        <i class="fas fa-envelope me-2"></i>
+                        <a href="mailto:{$wa->helpdesk->settings('support_email')}">
+                            {$wa->helpdesk->settings('support_email')|escape}
+                        </a>
+                    </li>
+                {/if}
+                
+                {if $wa->helpdesk->settings('support_phone')}
+                    <li class="mb-2">
+                        <i class="fas fa-phone me-2"></i>
+                        <a href="tel:{$wa->helpdesk->settings('support_phone')}">
+                            {$wa->helpdesk->settings('support_phone')|escape}
+                        </a>
+                    </li>
+                {/if}
+                
+                {if $wa->helpdesk->settings('support_hours')}
+                    <li class="mb-2">
+                        <i class="fas fa-clock me-2"></i>
+                        {$wa->helpdesk->settings('support_hours')|escape}
+                    </li>
+                {/if}
+            </ul>
+        </div>
+    </div>
+</aside>
+{/strip} 

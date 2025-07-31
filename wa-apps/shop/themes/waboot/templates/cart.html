@@ -1,0 +1,16 @@
+{strip}
+{* Shopping Cart Template for Shop-Script *}
+{* Inherits from parent site:waboot theme *}
+
+{* Set global variables for cart page *}
+{$wa->globals("showBottomBanner", true)}
+{$_cart_data = [
+    "cart" => $cart,
+    "items" => $cart_items,
+    "total" => $cart_total
+]}
+{$wa->globals("cartPageData", $_cart_data)}
+
+{* Include parent theme layout *}
+{include file="`$wa_parent_theme_path`/page.html" inline}
+{/strip} 

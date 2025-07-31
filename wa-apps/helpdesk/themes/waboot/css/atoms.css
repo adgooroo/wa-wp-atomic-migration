@@ -1,0 +1,486 @@
+/* Helpdesk Theme - Atomic Design: Atoms */
+/* Basic building blocks for helpdesk interface */
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.helpdesk-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    transition: all 0.15s ease-in-out;
+}
+
+.helpdesk-btn--primary {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.helpdesk-btn--primary:hover {
+    color: #fff;
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.helpdesk-btn--secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.helpdesk-btn--secondary:hover {
+    color: #fff;
+    background-color: #5c636a;
+    border-color: #565e64;
+}
+
+.helpdesk-btn--success {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.helpdesk-btn--success:hover {
+    color: #fff;
+    background-color: #157347;
+    border-color: #146c43;
+}
+
+.helpdesk-btn--danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.helpdesk-btn--danger:hover {
+    color: #fff;
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+}
+
+.helpdesk-btn--warning {
+    color: #000;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.helpdesk-btn--warning:hover {
+    color: #000;
+    background-color: #ffca2c;
+    border-color: #ffc720;
+}
+
+.helpdesk-btn--info {
+    color: #000;
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+}
+
+.helpdesk-btn--info:hover {
+    color: #000;
+    background-color: #31d2f2;
+    border-color: #25cff2;
+}
+
+.helpdesk-btn--light {
+    color: #000;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.helpdesk-btn--light:hover {
+    color: #000;
+    background-color: #f9fafb;
+    border-color: #f9fafb;
+}
+
+.helpdesk-btn--dark {
+    color: #fff;
+    background-color: #212529;
+    border-color: #212529;
+}
+
+.helpdesk-btn--dark:hover {
+    color: #fff;
+    background-color: #1c1f23;
+    border-color: #1a1e21;
+}
+
+.helpdesk-btn--outline-primary {
+    color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.helpdesk-btn--outline-primary:hover {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.helpdesk-btn--outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+
+.helpdesk-btn--outline-secondary:hover {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.helpdesk-btn--sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.25rem;
+}
+
+.helpdesk-btn--lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.25rem;
+    border-radius: 0.5rem;
+}
+
+.helpdesk-btn--disabled,
+.helpdesk-btn:disabled {
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+/* ========================================
+   INPUTS
+   ======================================== */
+
+.helpdesk-input {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.helpdesk-input:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.helpdesk-input--sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.25rem;
+}
+
+.helpdesk-input--lg {
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 0.5rem;
+}
+
+.helpdesk-input--disabled,
+.helpdesk-input:disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+.helpdesk-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* ========================================
+   LABELS
+   ======================================== */
+
+.helpdesk-label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #212529;
+}
+
+.helpdesk-label--required::after {
+    content: " *";
+    color: #dc3545;
+}
+
+/* ========================================
+   BADGES
+   ======================================== */
+
+.helpdesk-badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.375rem;
+}
+
+.helpdesk-badge--primary {
+    background-color: #0d6efd;
+}
+
+.helpdesk-badge--secondary {
+    background-color: #6c757d;
+}
+
+.helpdesk-badge--success {
+    background-color: #198754;
+}
+
+.helpdesk-badge--danger {
+    background-color: #dc3545;
+}
+
+.helpdesk-badge--warning {
+    color: #000;
+    background-color: #ffc107;
+}
+
+.helpdesk-badge--info {
+    color: #000;
+    background-color: #0dcaf0;
+}
+
+.helpdesk-badge--light {
+    color: #000;
+    background-color: #f8f9fa;
+}
+
+.helpdesk-badge--dark {
+    background-color: #212529;
+}
+
+/* ========================================
+   ICONS
+   ======================================== */
+
+.helpdesk-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    fill: currentColor;
+}
+
+.helpdesk-icon--sm {
+    width: 0.875em;
+    height: 0.875em;
+}
+
+.helpdesk-icon--lg {
+    width: 1.33em;
+    height: 1.33em;
+}
+
+.helpdesk-icon--xl {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+/* ========================================
+   AVATARS
+   ======================================== */
+
+.helpdesk-avatar {
+    display: inline-block;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.helpdesk-avatar--sm {
+    width: 2rem;
+    height: 2rem;
+}
+
+.helpdesk-avatar--lg {
+    width: 3rem;
+    height: 3rem;
+}
+
+.helpdesk-avatar--xl {
+    width: 4rem;
+    height: 4rem;
+}
+
+/* ========================================
+   STATUS INDICATORS
+   ======================================== */
+
+.helpdesk-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 0.25rem;
+}
+
+.helpdesk-status--online {
+    color: #fff;
+    background-color: #198754;
+}
+
+.helpdesk-status--offline {
+    color: #fff;
+    background-color: #6c757d;
+}
+
+.helpdesk-status--busy {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.helpdesk-status--away {
+    color: #000;
+    background-color: #ffc107;
+}
+
+.helpdesk-status__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.25rem;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+/* ========================================
+   LOADING SPINNERS
+   ======================================== */
+
+.helpdesk-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 0.125em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: helpdesk-spin 0.75s linear infinite;
+}
+
+.helpdesk-spinner--sm {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+.helpdesk-spinner--lg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+@keyframes helpdesk-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.helpdesk-text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.helpdesk-text-break {
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.helpdesk-text-center {
+    text-align: center;
+}
+
+.helpdesk-text-left {
+    text-align: left;
+}
+
+.helpdesk-text-right {
+    text-align: right;
+}
+
+.helpdesk-text-justify {
+    text-align: justify;
+}
+
+.helpdesk-text-lowercase {
+    text-transform: lowercase;
+}
+
+.helpdesk-text-uppercase {
+    text-transform: uppercase;
+}
+
+.helpdesk-text-capitalize {
+    text-transform: capitalize;
+}
+
+.helpdesk-fw-bold {
+    font-weight: 700;
+}
+
+.helpdesk-fw-bolder {
+    font-weight: bolder;
+}
+
+.helpdesk-fw-normal {
+    font-weight: 400;
+}
+
+.helpdesk-fw-light {
+    font-weight: 300;
+}
+
+.helpdesk-fw-lighter {
+    font-weight: lighter;
+}
+
+.helpdesk-fst-italic {
+    font-style: italic;
+}
+
+.helpdesk-fst-normal {
+    font-style: normal;
+}
+
+.helpdesk-text-decoration-underline {
+    text-decoration: underline;
+}
+
+.helpdesk-text-decoration-line-through {
+    text-decoration: line-through;
+}
+
+.helpdesk-text-decoration-none {
+    text-decoration: none;
+} 

@@ -1,0 +1,229 @@
+/* Mailer Theme - Atomic Components */
+
+/* Email Preview Atom */
+.waboot-mailer__email-preview {
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: var(--waboot-mailer-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.waboot-mailer__email-preview__header {
+    padding: 1rem;
+    background: #f9fafb;
+    border-bottom: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+}
+
+.waboot-mailer__email-preview__subject {
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.25rem;
+}
+
+.waboot-mailer__email-preview__from {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.waboot-mailer__email-preview__body {
+    position: relative;
+}
+
+.waboot-mailer__email-preview__iframe {
+    width: 100%;
+    height: 400px;
+    border: none;
+    display: block;
+}
+
+/* Size variants */
+.waboot-mailer__email-preview--sm .waboot-mailer__email-preview__iframe {
+    height: 200px;
+}
+
+.waboot-mailer__email-preview--lg .waboot-mailer__email-preview__iframe {
+    height: 600px;
+}
+
+/* Subscribe Button Atom */
+.waboot-mailer__subscribe-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #ffffff;
+    background: var(--waboot-mailer-primary, #007bff);
+    border: 1px solid var(--waboot-mailer-primary, #007bff);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    cursor: pointer;
+    transition: var(--waboot-mailer-transition, all 0.2s ease-in-out);
+    text-decoration: none;
+    min-width: 120px;
+}
+
+.waboot-mailer__subscribe-btn:hover {
+    background: #0056b3;
+    border-color: #0056b3;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.waboot-mailer__subscribe-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.waboot-mailer__subscribe-btn--loading {
+    position: relative;
+    color: transparent;
+}
+
+.waboot-mailer__subscribe-btn--loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Status Badge Atom */
+.waboot-mailer__status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.waboot-mailer__status-badge--draft {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.waboot-mailer__status-badge--scheduled {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.waboot-mailer__status-badge--sent {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.waboot-mailer__status-badge--failed {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Progress Bar Atom */
+.waboot-mailer__progress {
+    width: 100%;
+    height: 0.5rem;
+    background: #e5e7eb;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.waboot-mailer__progress__bar {
+    height: 100%;
+    background: var(--waboot-mailer-primary, #007bff);
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+}
+
+.waboot-mailer__progress__bar--success {
+    background: var(--waboot-mailer-success, #28a745);
+}
+
+.waboot-mailer__progress__bar--warning {
+    background: var(--waboot-mailer-warning, #ffc107);
+}
+
+.waboot-mailer__progress__bar--danger {
+    background: var(--waboot-mailer-danger, #dc3545);
+}
+
+/* Input Atom */
+.waboot-mailer__input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    border: 1px solid var(--waboot-mailer-border-color, #e5e7eb);
+    border-radius: var(--waboot-mailer-border-radius, 0.375rem);
+    background: #ffffff;
+    transition: var(--waboot-mailer-transition, all 0.2s ease-in-out);
+}
+
+.waboot-mailer__input:focus {
+    outline: none;
+    border-color: var(--waboot-mailer-primary, #007bff);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.waboot-mailer__input--error {
+    border-color: var(--waboot-mailer-danger, #dc3545);
+}
+
+.waboot-mailer__input--success {
+    border-color: var(--waboot-mailer-success, #28a745);
+}
+
+/* Label Atom */
+.waboot-mailer__label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.waboot-mailer__label--required::after {
+    content: ' *';
+    color: var(--waboot-mailer-danger, #dc3545);
+}
+
+/* Icon Atom */
+.waboot-mailer__icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+}
+
+.waboot-mailer__icon--sm {
+    width: 0.875em;
+    height: 0.875em;
+}
+
+.waboot-mailer__icon--lg {
+    width: 1.25em;
+    height: 1.25em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .waboot-mailer__email-preview__iframe {
+        height: 300px;
+    }
+    
+    .waboot-mailer__subscribe-btn {
+        width: 100%;
+        justify-content: center;
+    }
+} 

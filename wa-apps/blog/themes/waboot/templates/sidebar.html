@@ -1,0 +1,202 @@
+{strip}
+{* Blog Sidebar Template *}
+
+<aside class="waboot-blog__sidebar">
+    {* Search widget *}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-search"></i>
+                Поиск
+            </h5>
+        </div>
+        <div class="card-body">
+            <form x-data="blogSearch()" @submit.prevent="search()">
+                <div class="input-group">
+                    <input type="search" 
+                           class="form-control" 
+                           placeholder="Поиск по блогу..."
+                           x-model="query"
+                           @input="search()">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    {* Categories widget *}
+    {$_categories = $wa->blog->categories()}
+    {if !empty($_categories)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-folder"></i>
+                    Категории
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    {foreach $_categories as $_category}
+                        <li class="mb-2">
+                            <a href="{$_category.url}" class="text-decoration-none">
+                                {$_category.name|escape}
+                                <span class="badge bg-secondary float-end">
+                                    {$_category.count}
+                                </span>
+                            </a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
+    
+    {* Recent posts widget *}
+    {$_recent_posts = $wa->blog->posts(['limit' => 5])}
+    {if !empty($_recent_posts)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-clock"></i>
+                    Последние посты
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    {foreach $_recent_posts as $_post}
+                        <li class="mb-3">
+                            <div class="d-flex">
+                                {if $_post.image}
+                                    <img src="{$_post.image}" 
+                                         alt="{$_post.title|escape}" 
+                                         class="waboot-blog__sidebar-thumb me-3"
+                                         style="width: 60px; height: 60px; object-fit: cover;">
+                                {/if}
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">
+                                        <a href="{$_post.url}" class="text-decoration-none">
+                                            {$_post.title|escape}
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">
+                                        {$_post.datetime|wa_date:'humandate'}
+                                    </small>
+                                </div>
+                            </div>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
+    
+    {* Tags cloud widget *}
+    {$_tags = $wa->blog->tags()}
+    {if !empty($_tags)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-tags"></i>
+                    Теги
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="waboot-blog__tag-cloud">
+                    {foreach $_tags as $_tag}
+                        <a href="{$_tag.url}" 
+                           class="badge bg-light text-dark text-decoration-none me-1 mb-1"
+                           style="font-size: {$_tag.size}rem;">
+                            {$_tag.name|escape}
+                        </a>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    {/if}
+    
+    {* Archive widget *}
+    {$_archive = $wa->blog->archive()}
+    {if !empty($_archive)}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-archive"></i>
+                    Архив
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    {foreach $_archive as $_month}
+                        <li class="mb-2">
+                            <a href="{$_month.url}" class="text-decoration-none">
+                                {$_month.name|escape}
+                                <span class="badge bg-secondary float-end">
+                                    {$_month.count}
+                                </span>
+                            </a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
+    
+    {* Newsletter subscription widget *}
+    {if $wa->blog->settings('newsletter_enabled')}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-envelope"></i>
+                    Подписка на новости
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Получайте уведомления о новых постах
+                </p>
+                <form x-data="newsletterSubscription()" @submit.prevent="subscribe()">
+                    <div class="mb-3">
+                        <input type="email" 
+                               class="form-control" 
+                               placeholder="Ваш email"
+                               x-model="email"
+                               required>
+                    </div>
+                    <button class="btn btn-primary w-100" type="submit" x-bind:disabled="loading">
+                        <span x-show="!loading">Подписаться</span>
+                        <span x-show="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    {/if}
+    
+    {* Social links widget *}
+    {if $wa->blog->settings('social_links')}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-share-alt"></i>
+                    Мы в соцсетях
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-2">
+                    {foreach $wa->blog->settings('social_links') as $_social}
+                        <a href="{$_social.url}" 
+                           class="btn btn-outline-primary btn-sm"
+                           target="_blank"
+                           title="{$_social.name|escape}">
+                            <i class="{$_social.icon}"></i>
+                        </a>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    {/if}
+</aside>
+{/strip} 

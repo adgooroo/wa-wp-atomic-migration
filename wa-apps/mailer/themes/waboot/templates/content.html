@@ -1,0 +1,27 @@
+{* Required content template for Mailer app when parenting from Site themes *}
+{* This file is required when parenting Mailer design theme from Site app themes *}
+
+{* Display breadcrumbs if available *}
+{if isset($breadcrumbs)}
+    <nav class="waboot-mailer__breadcrumbs" aria-label="Breadcrumb">
+        <ol class="waboot-mailer__breadcrumbs__list">
+            <li class="waboot-mailer__breadcrumbs__item">
+                <a href="{$wa_app_url|escape}" class="waboot-mailer__breadcrumbs__link">
+                    {$wa->appName()|escape}
+                </a>
+            </li>
+            {foreach $breadcrumbs as $breadcrumb}
+                <li class="waboot-mailer__breadcrumbs__item">
+                    <a href="{$breadcrumb.url|escape}" class="waboot-mailer__breadcrumbs__link">
+                        {$breadcrumb.name|escape}
+                    </a>
+                </li>
+            {/foreach}
+        </ol>
+    </nav>
+{/if}
+
+{* Main content area *}
+<main class="waboot-mailer__main" role="main">
+    {$content}
+</main> 

@@ -39,8 +39,9 @@ return array(
     // Asset management
     'assets' => array(
         'css' => array(
-            'vendor/bootstrap.min.css',
-            'vendor/aos.min.css',
+            'vendor/bootstrap-5.3.7.min.css',
+            'vendor/aos-2.3.4.css',
+            'vendor/fontawesome-7.0.0.all.min.css',
             'atoms/atoms.css',
             'molecules/molecules.css',
             'organisms/organisms.css',
@@ -49,9 +50,9 @@ return array(
             'site.css'
         ),
         'js' => array(
-            'vendor/bootstrap.bundle.min.js',
-            'vendor/alpine.min.js',
-            'vendor/aos.min.js',
+            'vendor/bootstrap-5.3.7.bundle.min.js',
+            'vendor/alpine-3.14.9.min.js',
+            'vendor/aos-2.3.4.js',
             'components/site-components.js',
             'site.js'
         )
@@ -73,8 +74,10 @@ return array(
     
     // Theme compatibility
     'theme_compatibility' => array(
-        'bootstrap_version' => '5.3.2',
-        'alpine_version' => '3.13.3',
+        'bootstrap_version' => '5.3.7',
+        'alpine_version' => '3.14.9',
+        'aos_version' => '2.3.4',
+        'fontawesome_version' => '7.0.0',
         'css_methodology' => 'BEM',
         'design_system' => 'Atomic Design'
     ),

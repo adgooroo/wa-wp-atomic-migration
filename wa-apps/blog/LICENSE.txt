@@ -1,0 +1,189 @@
+# Waboot Theme - Third Party Licenses
+
+This file contains the licenses and copyright information for all third-party libraries and frameworks used in the Waboot Theme project.
+
+## Core Technologies
+
+### Bootstrap 5.3.2
+**License:** MIT License  
+**Copyright:** 2011-2023 The Bootstrap Authors  
+**Authors:** The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)  
+**Website:** https://getbootstrap.com/  
+**Source:** https://github.com/twbs/bootstrap  
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+### Alpine.js 3.13.3
+**License:** MIT License  
+**Copyright:** 2019-2023 Caleb Porzio and contributors  
+**Author:** Caleb Porzio  
+**Website:** https://alpinejs.dev/  
+**Source:** https://github.com/alpinejs/alpine  
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+### AOS (Animate On Scroll) 2.3.4
+**License:** MIT License  
+**Copyright:** 2016-2023 Michał Sajnóg  
+**Author:** Michał Sajnóg  
+**Website:** https://michalsnik.github.io/aos/  
+**Source:** https://github.com/michalsnik/aos  
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+### Font Awesome 7.x
+**License:** Font Awesome Free License  
+**Copyright:** 2023-2024 Fonticons, Inc.  
+**Authors:** Fonticons, Inc.  
+**Website:** https://fontawesome.com/  
+**Source:** https://github.com/fortawesome/font-awesome  
+
+Font Awesome Free is licensed under the GPL friendly license, allowing its use in commercial, open source, and most other projects.
+
+**Icons License:** Creative Commons Attribution 4.0 International License  
+The icons packaged as SVG and JS file types within the Font Awesome Free download are licensed under the Creative Commons Attribution 4.0 International License.
+
+**Font License:** SIL OFL 1.1  
+The Font Awesome font is licensed under the SIL OFL 1.1.
+
+**CSS/LESS/Sass License:** MIT License  
+The CSS, LESS, and Sass files are licensed under the MIT License.
+
+**Documentation License:** CC BY 3.0  
+The documentation is under the CC BY 3.0 License.
+
+## Platform and Framework
+
+### Webasyst Framework
+**License:** Proprietary License  
+**Copyright:** Webasyst LLC  
+**Website:** https://www.webasyst.com/  
+**Source:** https://github.com/webasyst/webasyst-framework  
+
+Webasyst is a proprietary PHP framework. Please refer to the official Webasyst documentation for licensing terms and conditions.
+
+### Smarty Template Engine
+**License:** LGPL-3.0  
+**Copyright:** 2002-2023 New Digital Group, Inc.  
+**Authors:** Monte Ohrt, Andrei Zmievski, and contributors  
+**Website:** https://www.smarty.net/  
+**Source:** https://github.com/smarty-php/smarty  
+
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+
+## Design Methodologies
+
+### BEM (Block Element Modifier)
+**License:** Public Domain  
+**Authors:** Yandex  
+**Website:** https://en.bem.info/  
+
+BEM is a methodology for creating reusable components. The methodology itself is in the public domain and can be used freely.
+
+### Atomic Design
+**License:** Public Domain  
+**Author:** Brad Frost  
+**Website:** https://bradfrost.com/blog/post/atomic-web-design/  
+
+Atomic Design is a methodology for creating design systems. The methodology itself is in the public domain and can be used freely.
+
+## Additional Libraries
+
+### web-vitals
+**License:** Apache License 2.0  
+**Copyright:** 2019 Google LLC  
+**Authors:** Google LLC  
+**Website:** https://web.dev/vitals/  
+**Source:** https://github.com/GoogleChrome/web-vitals  
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at:
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+## Schema.org and JSON-LD
+
+### Schema.org
+**License:** Creative Commons Attribution-ShareAlike 3.0 Unported License  
+**Copyright:** 2011-2023 Schema.org  
+**Authors:** Schema.org contributors  
+**Website:** https://schema.org/  
+
+Schema.org is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License.
+
+### scssphp (SCSS Compiler)
+**License:** MIT License  
+**Copyright:** 2012-2025 Leaf Corcoran and contributors  
+**Authors:** Leaf Corcoran, Stof, and contributors  
+**Website:** https://scssphp.github.io/scssphp/  
+**Source:** https://github.com/scssphp/scssphp
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## Original Source Theme
+
+### Bootscore (WordPress Theme)
+**License:** MIT License  
+**Copyright:** 2019-2024 Bootscore  
+**Authors:** Bootscore Development Team  
+**Website:** https://bootscore.me/  
+**Source:** https://github.com/bootscore/bootscore  
+**Description:** Flexible Bootstrap WordPress starter theme with full WooCommerce support and built-in SCSS compiler
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+## Waboot Theme
+
+### Waboot Theme (This Project)
+**License:** MIT License  
+**Copyright:** 2024-2025 Waboot Theme Contributors  
+**Authors:** Waboot Theme Development Team  
+**Source:** https://github.com/adgooroo/wa-wp-atomic-migration  
+**Description:** Webasyst theme system migrated from WordPress Bootscore theme
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+## Disclaimer
+
+This project is a migration of the WordPress Bootscore theme to the Webasyst platform. The original Bootscore theme and its components may have their own licensing terms that should be respected.
+
+## License Compliance
+
+All third-party libraries used in this project are included in compliance with their respective licenses. If you believe there is a licensing issue, please contact the project maintainers.
+
+## Additional Information
+
+For more information about specific licenses, please refer to the official documentation and license files of each library:
+
+- Bootstrap: https://github.com/twbs/bootstrap/blob/main/LICENSE
+- Alpine.js: https://github.com/alpinejs/alpine/blob/main/LICENSE.md
+- AOS: https://github.com/michalsnik/aos/blob/next/LICENSE
+- Font Awesome: https://fontawesome.com/license/free
+- Webasyst: https://www.webasyst.com/
+- Smarty: https://github.com/smarty-php/smarty/blob/master/COPYING.lib
+- scssphp: https://github.com/scssphp/scssphp/blob/main/LICENSE.md
+- web-vitals: https://github.com/GoogleChrome/web-vitals/blob/main/LICENSE
+- Schema.org: https://schema.org/docs/license.html
+- Bootscore: https://github.com/bootscore/bootscore/blob/main/LICENSE
+- BEM: https://en.bem.info/
+- Atomic Design: https://bradfrost.com/blog/post/atomic-web-design/
+
+---
+
+**Last Updated:** January 16, 2025  
+**Version:** 1.0.0 

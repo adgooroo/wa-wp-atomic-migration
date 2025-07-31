@@ -1,0 +1,139 @@
+{* Main layout template for Mailer app *}
+{extends file="../../site/themes/waboot/templates/layout.html"}
+
+{* Override head block to add security headers and CSRF meta tag *}
+{block name="head" append}
+    {* Security Headers *}
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    {* CSRF Token for AJAX requests *}
+    <meta name="csrf-token" content="{$wa->csrf()}">
+    
+    {* Mailer-specific CSS *}
+    <link rel="stylesheet" href="{$theme_url}css/waboot-mailer.css">
+    
+    {* RTL Language Support *}
+    {if $wa->getLocale() == 'ar' || $wa->getLocale() == 'he' || $wa->getLocale() == 'fa'}
+        <link rel="stylesheet" href="{$theme_url}css/waboot-rtl.css">
+    {/if}
+    
+    {* Mailer-specific JavaScript *}
+    <script src="{$theme_url}js/waboot-mailer.js" defer></script>
+    
+    {* Alpine.js for reactive components *}
+    <script src="{$theme_url}js/mailer-components.js" defer></script>
+    <script src="{$theme_url}js/mailer-store.js" defer></script>
+{/block}
+
+{* Override content block for Mailer-specific content *}
+{block name="content"}
+    {* Mailer-specific content wrapper *}
+    <div class="waboot-mailer__content-wrapper">
+        {* Breadcrumbs for Mailer app *}
+        {if isset($breadcrumbs)}
+            <nav class="waboot-mailer__breadcrumbs" aria-label="Breadcrumb">
+                <ol class="waboot-mailer__breadcrumbs__list">
+                    <li class="waboot-mailer__breadcrumbs__item">
+                        <a href="{$wa_app_url|escape}" class="waboot-mailer__breadcrumbs__link">
+                            {$wa->appName()|escape}
+                        </a>
+                    </li>
+                    {foreach $breadcrumbs as $breadcrumb}
+                        <li class="waboot-mailer__breadcrumbs__item">
+                            <a href="{$breadcrumb.url|escape}" class="waboot-mailer__breadcrumbs__link">
+                                {$breadcrumb.name|escape}
+                            </a>
+                        </li>
+                    {/foreach}
+                </ol>
+            </nav>
+        {/if}
+        
+        {* Main content area *}
+        <main class="waboot-mailer__main" role="main">
+            {$content}
+        </main>
+    </div>
+{/block}
+
+{* JSON-LD Structured Data Block *}
+{block name="json_ld"}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "{$wa_domain|escape:'javascript'}/#website",
+                "url": "{$wa_domain|escape:'javascript'}/",
+                "name": "{$wa->accountName()|escape:'javascript'}",
+                "description": "{$wa->account()->description|default:'Modern email marketing platform powered by Webasyst'|escape:'javascript'}",
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "{$wa_domain|escape:'javascript'}/search/?q={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "@id": "{$wa_domain|escape:'javascript'}/#organization"
+                }
+            },
+            {
+                "@type": "Organization",
+                "@id": "{$wa_domain|escape:'javascript'}/#organization",
+                "name": "{$wa->accountName()|escape:'javascript'}",
+                "url": "{$wa_domain|escape:'javascript'}/",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{$wa_theme_url|escape:'javascript'}images/logo.png",
+                    "width": "200",
+                    "height": "60"
+                },
+                "sameAs": [
+                    "{if $social_facebook}https://www.facebook.com/{$social_facebook|escape:'javascript'}{/if}",
+                    "{if $social_instagram}https://www.instagram.com/{$social_instagram|escape:'javascript'}{/if}",
+                    "{if $social_twitter}https://twitter.com/{$social_twitter|escape:'javascript'}{/if}",
+                    "{if $social_linkedin}https://www.linkedin.com/company/{$social_linkedin|escape:'javascript'}{/if}"
+                ],
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "{$contact_phone|default:'+1-555-555-5555'|escape:'javascript'}",
+                    "contactType": "customer service",
+                    "areaServed": ["{$contact_country|default:'US'|escape:'javascript'}"],
+                    "availableLanguage": ["{$contact_language|default:'English'|escape:'javascript'}"]
+                }
+            },
+            {
+                "@type": "Service",
+                "@id": "{$wa_domain|escape:'javascript'}/#email-service",
+                "name": "Email Marketing Service",
+                "description": "Professional email marketing and newsletter management service",
+                "provider": {
+                    "@type": "Organization",
+                    "@id": "{$wa_domain|escape:'javascript'}/#organization"
+                },
+                "serviceType": "Email Marketing",
+                "areaServed": {
+                    "@type": "Place",
+                    "name": "{$service_area_served|default:'Worldwide'|escape:'javascript'}"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "availability": "https://schema.org/InStock"
+                },
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "{$service_rating|default:'4.5'|escape:'javascript'}",
+                    "reviewCount": "{$service_review_count|default:'25'|escape:'javascript'}"
+                }
+            }
+        ]
+    }
+    </script>
+{/block} 

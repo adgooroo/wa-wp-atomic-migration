@@ -1,0 +1,419 @@
+{*
+ * Helpdesk Contact Page Template
+ * Contact form and information with ContactPoint schema
+ *}
+
+{* Set page-specific variables *}
+{$wa->globals('htmlClass', 'is-helpdesk-contact')}
+{$wa->globals('hideCrumbs', false)}
+
+{* ContactPoint Schema Data *}
+{$contact_schema = [
+    '@type' => 'ContactPage',
+    'name' => 'Contact Support',
+    'description' => 'Get in touch with our support team',
+    'url' => $wa->getUrl('helpdesk/frontend/contact'),
+    'mainEntity' => [
+        '@type' => 'Organization',
+        'name' => $wa->accountName()|escape:'javascript',
+        'contactPoint' => [
+            '@type' => 'ContactPoint',
+            'telephone' => $contact_phone|default:'+1-555-555-5555'|escape:'javascript',
+            'contactType' => 'customer service',
+            'areaServed' => [$contact_country|default:'US'|escape:'javascript'],
+            'availableLanguage' => [$contact_language|default:'English'|escape:'javascript'],
+            'hoursAvailable' => [
+                '@type' => 'OpeningHoursSpecification',
+                'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                'opens' => '09:00',
+                'closes' => '18:00'
+            ]
+        ]
+    ]
+]}
+
+{* Include layout *}
+{include file="layout.html"}
+
+{* Main content *}
+<div class="waboot-helpdesk__contact">
+    {* Contact Header *}
+    <section class="waboot-helpdesk__contact-header">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__contact-header__content">
+                <h1 class="waboot-helpdesk__contact-header__title">
+                    {_w('Contact Support')}
+                </h1>
+                <p class="waboot-helpdesk__contact-header__description">
+                    {_w('Get in touch with our support team. We\'re here to help!')}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    {* Contact Content *}
+    <section class="waboot-helpdesk__contact-content">
+        <div class="waboot-helpdesk__container">
+            <div class="waboot-helpdesk__contact-content__layout">
+                {* Contact Form *}
+                <main class="waboot-helpdesk__contact-content__main">
+                    <div class="waboot-helpdesk__contact-form" x-data="contactForm()">
+                        <h2 class="waboot-helpdesk__contact-form__title">
+                            {_w('Send us a Message')}
+                        </h2>
+                        
+                        <form class="waboot-helpdesk__contact-form__form" 
+                              x-on:submit.prevent="submit()"
+                              novalidate>
+                            {* CSRF Token *}
+                            <input type="hidden" name="csrf_token" value="{$wa->csrf()}">
+                            
+                            {* Name Field *}
+                            <div class="waboot-helpdesk__form-group">
+                                <label for="contact-name" class="waboot-helpdesk__form-group__label">
+                                    {_w('Full Name')} *
+                                </label>
+                                <input type="text" 
+                                       id="contact-name"
+                                       name="name"
+                                       class="waboot-helpdesk__form-group__input"
+                                       x-model="form.name"
+                                       x-bind:class="{'is-invalid': errors.name}"
+                                       required
+                                       aria-describedby="contact-name-error">
+                                <div id="contact-name-error" 
+                                     class="waboot-helpdesk__form-group__error"
+                                     x-show="errors.name"
+                                     x-text="errors.name"></div>
+                            </div>
+                            
+                            {* Email Field *}
+                            <div class="waboot-helpdesk__form-group">
+                                <label for="contact-email" class="waboot-helpdesk__form-group__label">
+                                    {_w('Email Address')} *
+                                </label>
+                                <input type="email" 
+                                       id="contact-email"
+                                       name="email"
+                                       class="waboot-helpdesk__form-group__input"
+                                       x-model="form.email"
+                                       x-bind:class="{'is-invalid': errors.email}"
+                                       required
+                                       aria-describedby="contact-email-error">
+                                <div id="contact-email-error" 
+                                     class="waboot-helpdesk__form-group__error"
+                                     x-show="errors.email"
+                                     x-text="errors.email"></div>
+                            </div>
+                            
+                            {* Subject Field *}
+                            <div class="waboot-helpdesk__form-group">
+                                <label for="contact-subject" class="waboot-helpdesk__form-group__label">
+                                    {_w('Subject')} *
+                                </label>
+                                <input type="text" 
+                                       id="contact-subject"
+                                       name="subject"
+                                       class="waboot-helpdesk__form-group__input"
+                                       x-model="form.subject"
+                                       x-bind:class="{'is-invalid': errors.subject}"
+                                       required
+                                       aria-describedby="contact-subject-error">
+                                <div id="contact-subject-error" 
+                                     class="waboot-helpdesk__form-group__error"
+                                     x-show="errors.subject"
+                                     x-text="errors.subject"></div>
+                            </div>
+                            
+                            {* Category Field *}
+                            <div class="waboot-helpdesk__form-group">
+                                <label for="contact-category" class="waboot-helpdesk__form-group__label">
+                                    {_w('Category')} *
+                                </label>
+                                <select id="contact-category"
+                                        name="category"
+                                        class="waboot-helpdesk__form-group__select"
+                                        x-model="form.category"
+                                        x-bind:class="{'is-invalid': errors.category}"
+                                        required
+                                        aria-describedby="contact-category-error">
+                                    <option value="">{_w('Select a category')}</option>
+                                    <option value="general">{_w('General Inquiry')}</option>
+                                    <option value="technical">{_w('Technical Support')}</option>
+                                    <option value="billing">{_w('Billing Question')}</option>
+                                    <option value="feature">{_w('Feature Request')}</option>
+                                    <option value="bug">{_w('Bug Report')}</option>
+                                </select>
+                                <div id="contact-category-error" 
+                                     class="waboot-helpdesk__form-group__error"
+                                     x-show="errors.category"
+                                     x-text="errors.category"></div>
+                            </div>
+                            
+                            {* Priority Field *}
+                            <div class="waboot-helpdesk__form-group">
+                                <label for="contact-priority" class="waboot-helpdesk__form-group__label">
+                                    {_w('Priority')}
+                                </label>
+                                <select id="contact-priority"
+                                        name="priority"
+                                        class="waboot-helpdesk__form-group__select"
+                                        x-model="form.priority">
+                                    <option value="low">{_w('Low')}</option>
+                                    <option value="medium" selected>{_w('Medium')}</option>
+                                    <option value="high">{_w('High')}</option>
+                                    <option value="critical">{_w('Critical')}</option>
+                                </select>
+                            </div>
+                            
+                            {* Message Field *}
+                            <div class="waboot-helpdesk__form-group">
+                                <label for="contact-message" class="waboot-helpdesk__form-group__label">
+                                    {_w('Message')} *
+                                </label>
+                                <textarea id="contact-message"
+                                          name="message"
+                                          class="waboot-helpdesk__form-group__textarea"
+                                          x-model="form.message"
+                                          x-bind:class="{'is-invalid': errors.message}"
+                                          rows="6"
+                                          required
+                                          aria-describedby="contact-message-error"
+                                          placeholder="{_w('Please describe your issue or question in detail...')}"></textarea>
+                                <div id="contact-message-error" 
+                                     class="waboot-helpdesk__form-group__error"
+                                     x-show="errors.message"
+                                     x-text="errors.message"></div>
+                            </div>
+                            
+                            {* Attachments Field *}
+                            <div class="waboot-helpdesk__form-group">
+                                <label for="contact-attachments" class="waboot-helpdesk__form-group__label">
+                                    {_w('Attachments')}
+                                </label>
+                                <input type="file" 
+                                       id="contact-attachments"
+                                       name="attachments[]"
+                                       class="waboot-helpdesk__form-group__file"
+                                       multiple
+                                       accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt"
+                                       aria-describedby="contact-attachments-help">
+                                <div id="contact-attachments-help" 
+                                     class="waboot-helpdesk__form-group__help">
+                                    {_w('You can attach files (images, documents) to help us understand your issue better.')}
+                                </div>
+                            </div>
+                            
+                            {* Submit Button *}
+                            <div class="waboot-helpdesk__form-group">
+                                <button type="submit" 
+                                        class="waboot-helpdesk__button waboot-helpdesk__button--primary"
+                                        x-bind:disabled="loading">
+                                    <span x-show="!loading">
+                                        <i class="fas fa-paper-plane"></i>
+                                        {_w('Send Message')}
+                                    </span>
+                                    <span x-show="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        {_w('Sending...')}
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                        
+                        {* Success Message *}
+                        <div class="waboot-helpdesk__contact-form__success"
+                             x-show="success"
+                             x-transition>
+                            <div class="waboot-helpdesk__contact-form__success__icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3 class="waboot-helpdesk__contact-form__success__title">
+                                {_w('Message Sent Successfully!')}
+                            </h3>
+                            <p class="waboot-helpdesk__contact-form__success__description">
+                                {_w('Thank you for contacting us. We\'ll get back to you as soon as possible.')}
+                            </p>
+                        </div>
+                    </div>
+                </main>
+                
+                {* Contact Information *}
+                <aside class="waboot-helpdesk__contact-content__sidebar">
+                    {* Contact Methods *}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Contact Information')}
+                        </h3>
+                        
+                        <div class="waboot-helpdesk__contact-info">
+                            {* Phone *}
+                            {if $contact_phone}
+                            <div class="waboot-helpdesk__contact-info__item">
+                                <div class="waboot-helpdesk__contact-info__icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="waboot-helpdesk__contact-info__content">
+                                    <h4 class="waboot-helpdesk__contact-info__label">
+                                        {_w('Phone')}
+                                    </h4>
+                                    <a href="tel:{$contact_phone}" 
+                                       class="waboot-helpdesk__contact-info__value">
+                                        {$contact_phone|escape}
+                                    </a>
+                                </div>
+                            </div>
+                            {/if}
+                            
+                            {* Email *}
+                            {if $contact_email}
+                            <div class="waboot-helpdesk__contact-info__item">
+                                <div class="waboot-helpdesk__contact-info__icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="waboot-helpdesk__contact-info__content">
+                                    <h4 class="waboot-helpdesk__contact-info__label">
+                                        {_w('Email')}
+                                    </h4>
+                                    <a href="mailto:{$contact_email}" 
+                                       class="waboot-helpdesk__contact-info__value">
+                                        {$contact_email|escape}
+                                    </a>
+                                </div>
+                            </div>
+                            {/if}
+                            
+                            {* Address *}
+                            {if $contact_address}
+                            <div class="waboot-helpdesk__contact-info__item">
+                                <div class="waboot-helpdesk__contact-info__icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="waboot-helpdesk__contact-info__content">
+                                    <h4 class="waboot-helpdesk__contact-info__label">
+                                        {_w('Address')}
+                                    </h4>
+                                    <address class="waboot-helpdesk__contact-info__value">
+                                        {$contact_address|escape}
+                                    </address>
+                                </div>
+                            </div>
+                            {/if}
+                            
+                            {* Business Hours *}
+                            <div class="waboot-helpdesk__contact-info__item">
+                                <div class="waboot-helpdesk__contact-info__icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="waboot-helpdesk__contact-info__content">
+                                    <h4 class="waboot-helpdesk__contact-info__label">
+                                        {_w('Business Hours')}
+                                    </h4>
+                                    <div class="waboot-helpdesk__contact-info__value">
+                                        <p>{_w('Monday - Friday')}</p>
+                                        <p>9:00 AM - 6:00 PM</p>
+                                        <p>{_w('(Your local timezone)')}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {* Response Time *}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Response Times')}
+                        </h3>
+                        
+                        <div class="waboot-helpdesk__response-times">
+                            <div class="waboot-helpdesk__response-times__item">
+                                <span class="waboot-helpdesk__response-times__priority">
+                                    {_w('Critical')}
+                                </span>
+                                <span class="waboot-helpdesk__response-times__time">
+                                    {_w('2-4 hours')}
+                                </span>
+                            </div>
+                            
+                            <div class="waboot-helpdesk__response-times__item">
+                                <span class="waboot-helpdesk__response-times__priority">
+                                    {_w('High')}
+                                </span>
+                                <span class="waboot-helpdesk__response-times__time">
+                                    {_w('4-8 hours')}
+                                </span>
+                            </div>
+                            
+                            <div class="waboot-helpdesk__response-times__item">
+                                <span class="waboot-helpdesk__response-times__priority">
+                                    {_w('Medium')}
+                                </span>
+                                <span class="waboot-helpdesk__response-times__time">
+                                    {_w('24 hours')}
+                                </span>
+                            </div>
+                            
+                            <div class="waboot-helpdesk__response-times__item">
+                                <span class="waboot-helpdesk__response-times__priority">
+                                    {_w('Low')}
+                                </span>
+                                <span class="waboot-helpdesk__response-times__time">
+                                    {_w('48 hours')}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {* FAQ Link *}
+                    <div class="waboot-helpdesk__sidebar-section">
+                        <h3 class="waboot-helpdesk__sidebar-section__title">
+                            {_w('Before You Contact Us')}
+                        </h3>
+                        
+                        <p class="waboot-helpdesk__sidebar-section__description">
+                            {_w('Check our knowledge base first - you might find the answer you\'re looking for!')}
+                        </p>
+                        
+                        <a href="{$wa->getUrl('helpdesk/frontend/kb')}" 
+                           class="waboot-helpdesk__sidebar-section__button">
+                            {_w('Browse Knowledge Base')}
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+</div>
+
+{* ContactPoint Schema JSON-LD *}
+<script type="application/ld+json">
+{$contact_schema|json_encode}
+</script>
+
+{* BreadcrumbList Schema *}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{$wa->accountName()|escape:'javascript'}",
+            "item": "{$wa_domain}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{_w('Support')|escape:'javascript'}",
+            "item": "{$wa->getUrl('helpdesk/frontend/')}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{_w('Contact')|escape:'javascript'}",
+            "item": "{$wa->getUrl('helpdesk/frontend/contact')}"
+        }
+    ]
+}
+</script> 

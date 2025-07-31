@@ -1,0 +1,342 @@
+/* Mailer Theme - Utilities and Overrides */
+
+/* Import parent theme utilities */
+@import url('../../site/themes/waboot/css/utilities.css');
+
+/* Mailer-specific utility classes */
+
+/* Spacing utilities */
+.waboot-mailer__mt-0 { margin-top: 0 !important; }
+.waboot-mailer__mt-1 { margin-top: 0.25rem !important; }
+.waboot-mailer__mt-2 { margin-top: 0.5rem !important; }
+.waboot-mailer__mt-3 { margin-top: 1rem !important; }
+.waboot-mailer__mt-4 { margin-top: 1.5rem !important; }
+.waboot-mailer__mt-5 { margin-top: 3rem !important; }
+
+.waboot-mailer__mb-0 { margin-bottom: 0 !important; }
+.waboot-mailer__mb-1 { margin-bottom: 0.25rem !important; }
+.waboot-mailer__mb-2 { margin-bottom: 0.5rem !important; }
+.waboot-mailer__mb-3 { margin-bottom: 1rem !important; }
+.waboot-mailer__mb-4 { margin-bottom: 1.5rem !important; }
+.waboot-mailer__mb-5 { margin-bottom: 3rem !important; }
+
+.waboot-mailer__ml-0 { margin-left: 0 !important; }
+.waboot-mailer__ml-1 { margin-left: 0.25rem !important; }
+.waboot-mailer__ml-2 { margin-left: 0.5rem !important; }
+.waboot-mailer__ml-3 { margin-left: 1rem !important; }
+.waboot-mailer__ml-4 { margin-left: 1.5rem !important; }
+.waboot-mailer__ml-5 { margin-left: 3rem !important; }
+
+.waboot-mailer__mr-0 { margin-right: 0 !important; }
+.waboot-mailer__mr-1 { margin-right: 0.25rem !important; }
+.waboot-mailer__mr-2 { margin-right: 0.5rem !important; }
+.waboot-mailer__mr-3 { margin-right: 1rem !important; }
+.waboot-mailer__mr-4 { margin-right: 1.5rem !important; }
+.waboot-mailer__mr-5 { margin-right: 3rem !important; }
+
+.waboot-mailer__pt-0 { padding-top: 0 !important; }
+.waboot-mailer__pt-1 { padding-top: 0.25rem !important; }
+.waboot-mailer__pt-2 { padding-top: 0.5rem !important; }
+.waboot-mailer__pt-3 { padding-top: 1rem !important; }
+.waboot-mailer__pt-4 { padding-top: 1.5rem !important; }
+.waboot-mailer__pt-5 { padding-top: 3rem !important; }
+
+.waboot-mailer__pb-0 { padding-bottom: 0 !important; }
+.waboot-mailer__pb-1 { padding-bottom: 0.25rem !important; }
+.waboot-mailer__pb-2 { padding-bottom: 0.5rem !important; }
+.waboot-mailer__pb-3 { padding-bottom: 1rem !important; }
+.waboot-mailer__pb-4 { padding-bottom: 1.5rem !important; }
+.waboot-mailer__pb-5 { padding-bottom: 3rem !important; }
+
+.waboot-mailer__pl-0 { padding-left: 0 !important; }
+.waboot-mailer__pl-1 { padding-left: 0.25rem !important; }
+.waboot-mailer__pl-2 { padding-left: 0.5rem !important; }
+.waboot-mailer__pl-3 { padding-left: 1rem !important; }
+.waboot-mailer__pl-4 { padding-left: 1.5rem !important; }
+.waboot-mailer__pl-5 { padding-left: 3rem !important; }
+
+.waboot-mailer__pr-0 { padding-right: 0 !important; }
+.waboot-mailer__pr-1 { padding-right: 0.25rem !important; }
+.waboot-mailer__pr-2 { padding-right: 0.5rem !important; }
+.waboot-mailer__pr-3 { padding-right: 1rem !important; }
+.waboot-mailer__pr-4 { padding-right: 1.5rem !important; }
+.waboot-mailer__pr-5 { padding-right: 3rem !important; }
+
+/* Display utilities */
+.waboot-mailer__d-none { display: none !important; }
+.waboot-mailer__d-block { display: block !important; }
+.waboot-mailer__d-inline { display: inline !important; }
+.waboot-mailer__d-inline-block { display: inline-block !important; }
+.waboot-mailer__d-flex { display: flex !important; }
+.waboot-mailer__d-inline-flex { display: inline-flex !important; }
+.waboot-mailer__d-grid { display: grid !important; }
+.waboot-mailer__d-table { display: table !important; }
+.waboot-mailer__d-table-cell { display: table-cell !important; }
+
+/* Flex utilities */
+.waboot-mailer__flex-row { flex-direction: row !important; }
+.waboot-mailer__flex-column { flex-direction: column !important; }
+.waboot-mailer__flex-wrap { flex-wrap: wrap !important; }
+.waboot-mailer__flex-nowrap { flex-wrap: nowrap !important; }
+.waboot-mailer__justify-start { justify-content: flex-start !important; }
+.waboot-mailer__justify-end { justify-content: flex-end !important; }
+.waboot-mailer__justify-center { justify-content: center !important; }
+.waboot-mailer__justify-between { justify-content: space-between !important; }
+.waboot-mailer__justify-around { justify-content: space-around !important; }
+.waboot-mailer__align-start { align-items: flex-start !important; }
+.waboot-mailer__align-end { align-items: flex-end !important; }
+.waboot-mailer__align-center { align-items: center !important; }
+.waboot-mailer__align-baseline { align-items: baseline !important; }
+.waboot-mailer__align-stretch { align-items: stretch !important; }
+
+/* Text utilities */
+.waboot-mailer__text-left { text-align: left !important; }
+.waboot-mailer__text-center { text-align: center !important; }
+.waboot-mailer__text-right { text-align: right !important; }
+.waboot-mailer__text-justify { text-align: justify !important; }
+
+.waboot-mailer__text-uppercase { text-transform: uppercase !important; }
+.waboot-mailer__text-lowercase { text-transform: lowercase !important; }
+.waboot-mailer__text-capitalize { text-transform: capitalize !important; }
+
+.waboot-mailer__font-weight-light { font-weight: 300 !important; }
+.waboot-mailer__font-weight-normal { font-weight: 400 !important; }
+.waboot-mailer__font-weight-medium { font-weight: 500 !important; }
+.waboot-mailer__font-weight-semibold { font-weight: 600 !important; }
+.waboot-mailer__font-weight-bold { font-weight: 700 !important; }
+
+.waboot-mailer__font-size-xs { font-size: 0.75rem !important; }
+.waboot-mailer__font-size-sm { font-size: 0.875rem !important; }
+.waboot-mailer__font-size-base { font-size: 1rem !important; }
+.waboot-mailer__font-size-lg { font-size: 1.125rem !important; }
+.waboot-mailer__font-size-xl { font-size: 1.25rem !important; }
+.waboot-mailer__font-size-2xl { font-size: 1.5rem !important; }
+.waboot-mailer__font-size-3xl { font-size: 1.875rem !important; }
+
+/* Color utilities */
+.waboot-mailer__text-primary { color: var(--waboot-mailer-primary, #007bff) !important; }
+.waboot-mailer__text-secondary { color: var(--waboot-mailer-secondary, #6c757d) !important; }
+.waboot-mailer__text-success { color: var(--waboot-mailer-success, #28a745) !important; }
+.waboot-mailer__text-warning { color: var(--waboot-mailer-warning, #ffc107) !important; }
+.waboot-mailer__text-danger { color: var(--waboot-mailer-danger, #dc3545) !important; }
+.waboot-mailer__text-info { color: var(--waboot-mailer-info, #17a2b8) !important; }
+.waboot-mailer__text-light { color: #f8f9fa !important; }
+.waboot-mailer__text-dark { color: #343a40 !important; }
+.waboot-mailer__text-muted { color: #6c757d !important; }
+.waboot-mailer__text-white { color: #ffffff !important; }
+
+.waboot-mailer__bg-primary { background-color: var(--waboot-mailer-primary, #007bff) !important; }
+.waboot-mailer__bg-secondary { background-color: var(--waboot-mailer-secondary, #6c757d) !important; }
+.waboot-mailer__bg-success { background-color: var(--waboot-mailer-success, #28a745) !important; }
+.waboot-mailer__bg-warning { background-color: var(--waboot-mailer-warning, #ffc107) !important; }
+.waboot-mailer__bg-danger { background-color: var(--waboot-mailer-danger, #dc3545) !important; }
+.waboot-mailer__bg-info { background-color: var(--waboot-mailer-info, #17a2b8) !important; }
+.waboot-mailer__bg-light { background-color: #f8f9fa !important; }
+.waboot-mailer__bg-dark { background-color: #343a40 !important; }
+.waboot-mailer__bg-white { background-color: #ffffff !important; }
+.waboot-mailer__bg-transparent { background-color: transparent !important; }
+
+/* Border utilities */
+.waboot-mailer__border { border: 1px solid var(--waboot-mailer-border-color, #e5e7eb) !important; }
+.waboot-mailer__border-0 { border: 0 !important; }
+.waboot-mailer__border-top { border-top: 1px solid var(--waboot-mailer-border-color, #e5e7eb) !important; }
+.waboot-mailer__border-right { border-right: 1px solid var(--waboot-mailer-border-color, #e5e7eb) !important; }
+.waboot-mailer__border-bottom { border-bottom: 1px solid var(--waboot-mailer-border-color, #e5e7eb) !important; }
+.waboot-mailer__border-left { border-left: 1px solid var(--waboot-mailer-border-color, #e5e7eb) !important; }
+
+.waboot-mailer__border-primary { border-color: var(--waboot-mailer-primary, #007bff) !important; }
+.waboot-mailer__border-secondary { border-color: var(--waboot-mailer-secondary, #6c757d) !important; }
+.waboot-mailer__border-success { border-color: var(--waboot-mailer-success, #28a745) !important; }
+.waboot-mailer__border-warning { border-color: var(--waboot-mailer-warning, #ffc107) !important; }
+.waboot-mailer__border-danger { border-color: var(--waboot-mailer-danger, #dc3545) !important; }
+.waboot-mailer__border-info { border-color: var(--waboot-mailer-info, #17a2b8) !important; }
+
+.waboot-mailer__rounded { border-radius: var(--waboot-mailer-border-radius, 0.375rem) !important; }
+.waboot-mailer__rounded-0 { border-radius: 0 !important; }
+.waboot-mailer__rounded-sm { border-radius: 0.125rem !important; }
+.waboot-mailer__rounded-lg { border-radius: 0.5rem !important; }
+.waboot-mailer__rounded-xl { border-radius: 0.75rem !important; }
+.waboot-mailer__rounded-full { border-radius: 9999px !important; }
+
+/* Shadow utilities */
+.waboot-mailer__shadow-none { box-shadow: none !important; }
+.waboot-mailer__shadow-sm { box-shadow: var(--waboot-mailer-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05)) !important; }
+.waboot-mailer__shadow { box-shadow: var(--waboot-mailer-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1)) !important; }
+.waboot-mailer__shadow-md { box-shadow: var(--waboot-mailer-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1)) !important; }
+.waboot-mailer__shadow-lg { box-shadow: var(--waboot-mailer-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1)) !important; }
+.waboot-mailer__shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important; }
+
+/* Position utilities */
+.waboot-mailer__position-static { position: static !important; }
+.waboot-mailer__position-relative { position: relative !important; }
+.waboot-mailer__position-absolute { position: absolute !important; }
+.waboot-mailer__position-fixed { position: fixed !important; }
+.waboot-mailer__position-sticky { position: sticky !important; }
+
+.waboot-mailer__top-0 { top: 0 !important; }
+.waboot-mailer__right-0 { right: 0 !important; }
+.waboot-mailer__bottom-0 { bottom: 0 !important; }
+.waboot-mailer__left-0 { left: 0 !important; }
+
+/* Width and height utilities */
+.waboot-mailer__w-25 { width: 25% !important; }
+.waboot-mailer__w-50 { width: 50% !important; }
+.waboot-mailer__w-75 { width: 75% !important; }
+.waboot-mailer__w-100 { width: 100% !important; }
+.waboot-mailer__w-auto { width: auto !important; }
+
+.waboot-mailer__h-25 { height: 25% !important; }
+.waboot-mailer__h-50 { height: 50% !important; }
+.waboot-mailer__h-75 { height: 75% !important; }
+.waboot-mailer__h-100 { height: 100% !important; }
+.waboot-mailer__h-auto { height: auto !important; }
+
+/* Overflow utilities */
+.waboot-mailer__overflow-auto { overflow: auto !important; }
+.waboot-mailer__overflow-hidden { overflow: hidden !important; }
+.waboot-mailer__overflow-visible { overflow: visible !important; }
+.waboot-mailer__overflow-scroll { overflow: scroll !important; }
+
+/* Cursor utilities */
+.waboot-mailer__cursor-pointer { cursor: pointer !important; }
+.waboot-mailer__cursor-default { cursor: default !important; }
+.waboot-mailer__cursor-not-allowed { cursor: not-allowed !important; }
+
+/* User select utilities */
+.waboot-mailer__user-select-none { user-select: none !important; }
+.waboot-mailer__user-select-auto { user-select: auto !important; }
+.waboot-mailer__user-select-all { user-select: all !important; }
+
+/* Visibility utilities */
+.waboot-mailer__visible { visibility: visible !important; }
+.waboot-mailer__invisible { visibility: hidden !important; }
+
+/* Opacity utilities */
+.waboot-mailer__opacity-0 { opacity: 0 !important; }
+.waboot-mailer__opacity-25 { opacity: 0.25 !important; }
+.waboot-mailer__opacity-50 { opacity: 0.5 !important; }
+.waboot-mailer__opacity-75 { opacity: 0.75 !important; }
+.waboot-mailer__opacity-100 { opacity: 1 !important; }
+
+/* Z-index utilities */
+.waboot-mailer__z-0 { z-index: 0 !important; }
+.waboot-mailer__z-10 { z-index: 10 !important; }
+.waboot-mailer__z-20 { z-index: 20 !important; }
+.waboot-mailer__z-30 { z-index: 30 !important; }
+.waboot-mailer__z-40 { z-index: 40 !important; }
+.waboot-mailer__z-50 { z-index: 50 !important; }
+
+/* Responsive utilities */
+@media (min-width: 576px) {
+    .waboot-mailer__d-sm-none { display: none !important; }
+    .waboot-mailer__d-sm-block { display: block !important; }
+    .waboot-mailer__d-sm-flex { display: flex !important; }
+    .waboot-mailer__d-sm-inline-flex { display: inline-flex !important; }
+}
+
+@media (min-width: 768px) {
+    .waboot-mailer__d-md-none { display: none !important; }
+    .waboot-mailer__d-md-block { display: block !important; }
+    .waboot-mailer__d-md-flex { display: flex !important; }
+    .waboot-mailer__d-md-inline-flex { display: inline-flex !important; }
+}
+
+@media (min-width: 992px) {
+    .waboot-mailer__d-lg-none { display: none !important; }
+    .waboot-mailer__d-lg-block { display: block !important; }
+    .waboot-mailer__d-lg-flex { display: flex !important; }
+    .waboot-mailer__d-lg-inline-flex { display: inline-flex !important; }
+}
+
+@media (min-width: 1200px) {
+    .waboot-mailer__d-xl-none { display: none !important; }
+    .waboot-mailer__d-xl-block { display: block !important; }
+    .waboot-mailer__d-xl-flex { display: flex !important; }
+    .waboot-mailer__d-xl-inline-flex { display: inline-flex !important; }
+}
+
+/* Print utilities */
+@media print {
+    .waboot-mailer__d-print-none { display: none !important; }
+    .waboot-mailer__d-print-block { display: block !important; }
+    .waboot-mailer__d-print-flex { display: flex !important; }
+    .waboot-mailer__d-print-inline-flex { display: inline-flex !important; }
+}
+
+/* Focus utilities */
+.waboot-mailer__focus\:outline-none:focus { outline: none !important; }
+.waboot-mailer__focus\:ring:focus { box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1) !important; }
+.waboot-mailer__focus\:ring-2:focus { box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1) !important; }
+.waboot-mailer__focus\:ring-4:focus { box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1) !important; }
+
+/* Hover utilities */
+.waboot-mailer__hover\:bg-gray-100:hover { background-color: #f3f4f6 !important; }
+.waboot-mailer__hover\:bg-gray-200:hover { background-color: #e5e7eb !important; }
+.waboot-mailer__hover\:text-gray-900:hover { color: #111827 !important; }
+.waboot-mailer__hover\:text-gray-700:hover { color: #374151 !important; }
+.waboot-mailer__hover\:border-gray-300:hover { border-color: #d1d5db !important; }
+.waboot-mailer__hover\:shadow-md:hover { box-shadow: var(--waboot-mailer-shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1)) !important; }
+.waboot-mailer__hover\:shadow-lg:hover { box-shadow: var(--waboot-mailer-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1)) !important; }
+
+/* Active utilities */
+.waboot-mailer__active\:bg-gray-200:active { background-color: #e5e7eb !important; }
+.waboot-mailer__active\:text-gray-900:active { color: #111827 !important; }
+
+/* Disabled utilities */
+.waboot-mailer__disabled\:opacity-50:disabled { opacity: 0.5 !important; }
+.waboot-mailer__disabled\:cursor-not-allowed:disabled { cursor: not-allowed !important; }
+.waboot-mailer__disabled\:pointer-events-none:disabled { pointer-events: none !important; }
+
+/* Mailer-specific utility overrides */
+.waboot-mailer__email-safe {
+    /* Email-safe styles that work across email clients */
+    font-family: Arial, sans-serif !important;
+    line-height: 1.4 !important;
+    color: #333333 !important;
+}
+
+.waboot-mailer__email-container {
+    /* Standard email container width */
+    max-width: 600px !important;
+    margin: 0 auto !important;
+}
+
+.waboot-mailer__email-table {
+    /* Email table layout */
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+}
+
+.waboot-mailer__email-cell {
+    /* Email table cell */
+    padding: 0 !important;
+    vertical-align: top !important;
+}
+
+.waboot-mailer__email-img {
+    /* Email image */
+    display: block !important;
+    border: 0 !important;
+    outline: none !important;
+    text-decoration: none !important;
+    -ms-interpolation-mode: bicubic !important;
+}
+
+.waboot-mailer__email-link {
+    /* Email link */
+    color: var(--waboot-mailer-primary, #007bff) !important;
+    text-decoration: underline !important;
+}
+
+.waboot-mailer__email-button {
+    /* Email button */
+    display: inline-block !important;
+    padding: 12px 24px !important;
+    background-color: var(--waboot-mailer-primary, #007bff) !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+} 

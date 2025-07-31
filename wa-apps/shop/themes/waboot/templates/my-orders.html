@@ -1,0 +1,16 @@
+{strip}
+{* My Orders Page Template for Shop-Script *}
+{* Inherits from parent site:waboot theme *}
+
+{* Set global variables for my orders page *}
+{$wa->globals("showBottomBanner", true)}
+{$_orders_data = [
+    "orders" => $orders,
+    "pagination" => $pagination,
+    "total_orders" => $total_orders
+]}
+{$wa->globals("myOrdersPageData", $_orders_data)}
+
+{* Include parent theme layout *}
+{include file="`$wa_parent_theme_path`/page.html" inline}
+{/strip} 
